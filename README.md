@@ -31,7 +31,7 @@ Use the collections as SwitchColor's candidates. The term '**awesome**' is
 defined by:
 
 1. Github stars &ge; 400.
-2. Last commit in 2 years(365 days).
+2. Last commit in 2 years(365 days/year).
 3. For multiple ports/variants, keep the one with more stars, git commits and
    plugins support.
 
