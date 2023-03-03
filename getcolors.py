@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+import pathlib
 import sys
 
 from selenium.webdriver import Chrome, ChromeOptions, DesiredCapabilities
@@ -14,6 +15,17 @@ LASTCOMMIT = 2 * 365 * 24 * 3600  # 2 years * 365 days * 24 hours * 3600 seconds
 INDENT_SIZE = 4
 INDENT = " " * INDENT_SIZE
 HEADLESS = True
+
+COLORS_LUA = "colors.lua"
+
+
+def backup_file(src):
+    """backup file"""
+    assert isinstance(src, pathlib.Path)
+    if src.is_symlink() or src.exists():
+        dest = f"{src}.{datetime.datetime.now().strftime('%Y-%m-%d.%H-%M-%S.%f')}"
+        src.rename(dest)
+        logging.info(f"backup '{src}' to '{dest}'")
 
 
 def parse_numbers(s):
@@ -394,4 +406,4 @@ if __name__ == "__main__":
                     vimfp.writelines(format_vim(repo))
                     cs.append(repo)
         luafp.writelines("}\n")
-        vimfp.writelines(f"{INDENT*3}\]\n")
+        vimfp.writelines(f"{INDENT*3}\\]\n")
