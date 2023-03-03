@@ -16,7 +16,8 @@ INDENT_SIZE = 4
 INDENT = " " * INDENT_SIZE
 HEADLESS = True
 
-COLORS_LUA = "colors.lua"
+REPORT = "fetch-report.txt"
+CANDIDATES = "lua/colorswitch/candidates.lua"
 
 
 def backup_file(src):
@@ -59,16 +60,8 @@ def parse_numbers(s):
     assert False
 
 
-def repo_exist(repos, r):
-    for repo in repos:
-        logging.debug(f"repo({repo}) == r({r}):{repo == r}")
-        if r == repo:
-            return True
-    return False
-
-
 def duplicate_color(repos, r):
-    def position(url):
+    def delimiter_position(url):
         assert isinstance(url, str)
         if url.endswith(".vim"):
             return url.find(".vim")
@@ -80,7 +73,7 @@ def duplicate_color(repos, r):
             return url.find("-nvim")
         return -1
 
-    def same(r1, r2):
+    def same_color(r1, r2):
         r1 = r1.url.split("/")[-1]
         r2 = r2.url.split("/")[-1]
         if r1 == r2 and (
@@ -92,8 +85,8 @@ def duplicate_color(repos, r):
             and r2 != "neovim"
         ):
             return True
-        pos1 = position(r1)
-        pos2 = position(r2)
+        pos1 = delimiter_position(r1)
+        pos2 = delimiter_position(r2)
         if pos1 <= 0 or pos2 <= 0:
             return False
         base1 = r1[:pos1]
@@ -101,12 +94,12 @@ def duplicate_color(repos, r):
         return base1 == base2
 
     for repo in repos:
-        if same(repo, r):
+        if repo == r or same_color(repo, r):
             return repo
     return None
 
 
-def blacklist(repo):
+def plugin_blacklist(repo):
     if repo.url.find("rafi/awesome-vim-colorschemes") >= 0:
         return True
     if repo.url.find("sonph/onehalf") >= 0:
@@ -153,7 +146,7 @@ def make_driver():
     return Chrome(options=options, desired_capabilities=desired_capabilities)
 
 
-class PluginData:
+class ColorPlugin:
     def __init__(self, url, stars, last_update):
         assert isinstance(url, str)
         assert isinstance(stars, int) or isinstance(stars, float)
@@ -174,12 +167,12 @@ class PluginData:
         return hash(self.url.lower())
 
     def __eq__(self, other):
-        return isinstance(other, PluginData) and self.url.lower() == other.url.lower()
+        return isinstance(other, ColorPlugin) and self.url.lower() == other.url.lower()
 
     def github_url(self):
         return f"https://github.com/{self.url}"
 
-    def lazy_branch(self):
+    def fetch_branches(self):
         try:
             with make_driver() as driver:
                 driver.get(self.github_url() + "/branches")
@@ -199,16 +192,6 @@ class PluginData:
 
         def name_in_blacklist(n):
             return n == "vim" or n == "nvim" or n == "neovim"
-
-        def preprocess(name):
-            if name.find("-") > 0:
-                name_splits = name.split("-")
-                return [n for n in name_splits if not name_in_blacklist(n)]
-            elif name.find(".") > 0:
-                name_splits = name.split(".")
-                return [n for n in name_splits if not name_in_blacklist(n)]
-            else:
-                return [name]
 
         return org if name_in_blacklist(repo) else None
 
@@ -267,7 +250,7 @@ class Vcs:
             .find_element(By.XPATH, "./b/time")
             .get_attribute("datetime")
         )
-        return PluginData(repo, stars, last_update)
+        return ColorPlugin(repo, stars, last_update)
 
     def parse(self):
         repositories = []
@@ -303,7 +286,7 @@ class Acs:
         a_splits = a.split("(")
         repo = a_splits[0]
         stars = parse_numbers(a_splits[1])
-        return PluginData(repo, stars, None)
+        return ColorPlugin(repo, stars, None)
 
     def parse_color(self, driver, tag_id):
         repositories = []
@@ -337,25 +320,25 @@ class Acs:
         return repositories
 
 
-def format_lua(repo):
-    name = repo.lazy_name()
+def format_report(plugin: ColorPlugin):
+    name = plugin.lazy_name()
     optional_name = f"{INDENT * 2}name = '{name}',\n" if name else ""
-    branch = repo.lazy_branch()
+    branch = plugin.fetch_branches()
     optional_branch = (
         f"{INDENT * 2}branch = '{branch}',\n" if branch != "master" else ""
     )
     return f"""{INDENT}{{
-{INDENT*2}-- stars:{int(repo.stars)}, repo:{repo.github_url()}
-{INDENT*2}'{repo.url}',
+{INDENT*2}-- stars:{int(plugin.stars)}, repo:{plugin.github_url()}
+{INDENT*2}'{plugin.url}',
 {INDENT*2}lazy = true,
 {INDENT*2}priority = 1000,
 {optional_name}{optional_branch}{INDENT}}},
 """
 
 
-def format_vim(repo):
-    color_names = ", ".join(repo.color_names())
-    return f"{INDENT*3}\\ '{color_names}',\n"
+def format_candidate(plugin: ColorPlugin):
+    color_names = ", ".join(plugin.color_names())
+    return f"{INDENT}'{color_names}',\n"
 
 
 if __name__ == "__main__":
@@ -369,41 +352,33 @@ if __name__ == "__main__":
         level=log_level,
     )
 
-    vcs = Vcs().parse()
     acs = Acs().parse()
-    cs = []
-    with open("get-colors-list.lua", "w") as luafp, open(
-        "get-colors-list.vim", "w"
-    ) as vimfp:
-        luafp.writelines("return {\n")
-        luafp.writelines(
-            f"{INDENT}-- https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme\n"
-        )
-        vimfp.writelines("let s:colors=[\n")
+    vcs = Vcs().parse()
+    existed_cs: list[ColorPlugin] = []
+    with open(REPORT, "w") as rfp, open(CANDIDATES, "w") as cfp:
+        rfp.writelines(f"# awesome-neovim#colorscheme\n")
+        cfp.writelines("{\n")
         for repo in sorted(acs, key=lambda r: r.stars, reverse=True):
-            if blacklist(repo):
+            if plugin_blacklist(repo):
                 logging.debug(f"acs repo:{repo} in blacklist, skip")
                 continue
-            dup = duplicate_color(cs, repo)
+            dup = duplicate_color(existed_cs, repo)
             if dup:
-                logging.warning(f"acs repo:{repo} is duplicated, skip")
+                logging.warning(f"acs repo:{repo} is duplicated with {dup}, skip")
                 continue
-            luafp.writelines(format_lua(repo))
-            vimfp.writelines(format_vim(repo))
-            cs.append(repo)
-        luafp.writelines(f"\n{INDENT}-- https://vimcolorschemes.com/\n")
+            rfp.writelines(format_report(repo))
+            cfp.writelines(format_candidate(repo))
+            existed_cs.append(repo)
+        rfp.writelines(f"\n# vimcolorschemes.com\n")
         for repo in sorted(vcs, key=lambda r: r.stars, reverse=True):
-            if repo_exist(acs, repo):
-                logging.debug(f"vcs repo:{repo} already exist in acs, skip")
-            elif blacklist(repo):
+            if plugin_blacklist(repo):
                 logging.debug(f"vcs repo:{repo} in blacklist, skip")
-            else:
-                dup = duplicate_color(cs, repo)
-                if dup:
-                    logging.warning(f"acs repo:{repo} is duplicated, skip")
-                else:
-                    luafp.writelines(format_lua(repo))
-                    vimfp.writelines(format_vim(repo))
-                    cs.append(repo)
-        luafp.writelines("}\n")
-        vimfp.writelines(f"{INDENT*3}\\]\n")
+                continue
+            dup = duplicate_color(existed_cs, repo)
+            if dup:
+                logging.warning(f"vcs repo:{repo} is duplicated with {dup}, skip")
+                continue
+            rfp.writelines(format_report(repo))
+            cfp.writelines(format_candidate(repo))
+            existed_cs.append(repo)
+        cfp.writelines("}\n")

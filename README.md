@@ -6,20 +6,20 @@ A colorscheme switch and collection plugin for Neovim.
 
 Want more colorschemes for your Neovim? This is it.
 
-This plugin contains the vim command `SwitchColor` to switch colorscheme for you.
+This plugin provides a vim command `SwitchColor` to switch colorscheme.
 The difference from vim builtin command `colorscheme` is that you could
 configure how and when to switch your color:
 
-- Choose policy:
+- How:
 
   - Random
   - Ordered
 
-- Time policy:
+- When:
 
   - Startup
-  - Fixed time interval
-  - Fixed time point
+  - Cronjob
+  - Fixed time interval: weekly, daily, hour, etc.
 
 While the real power comes with a webpage crawler that collects **awesome**
 colorschemes from:
