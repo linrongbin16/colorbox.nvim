@@ -32,8 +32,8 @@ defined by:
 
 1. Github stars &ge; 400.
 2. Last commit in 2 years(365 days/year).
-3. For multiple ports/variants, keep the one with more stars, git commits and
-   plugins support.
+3. For multiple ports/variants, keep the one with more plugins support, stars or
+   git commits.
 
 ## Requirement
 
