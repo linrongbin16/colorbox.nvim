@@ -3,15 +3,13 @@
 import datetime
 import logging
 import pathlib
+import sqlite3
+import sys
 
 from selenium.webdriver import Chrome, ChromeOptions, DesiredCapabilities
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import import_cdp
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
-
-import util
 
 STARS = 400
 LASTCOMMIT = 2 * 365 * 24 * 3600  # 2 years * 365 days * 24 hours * 3600 seconds
@@ -21,6 +19,46 @@ HEADLESS = True
 
 RESULT = "fetch-repo.txt"
 CANDIDATES = "lua/colorswitch/candidates.lua"
+
+
+def backup_file(src):
+    """backup file"""
+    assert isinstance(src, pathlib.Path)
+    if src.is_symlink() or src.exists():
+        dest = f"{src}.{datetime.datetime.now().strftime('%Y-%m-%d.%H-%M-%S.%f')}"
+        src.rename(dest)
+        logging.info(f"backup '{src}' to '{dest}'")
+
+
+def parse_numbers(s):
+    def impl(v):
+        assert isinstance(v, str)
+        v = v.lower()
+        suffix_map = {"k": 1000, "m": 1000000, "b": 1000000000}
+        if v[-1] in suffix_map.keys():
+            suffix = v[-1]
+            v = float(v[:-1]) * suffix_map[suffix]
+        else:
+            v = float(v)
+        return v
+
+    i = 0
+    result = None
+    while i < len(s):
+        c = s[i]
+        assert isinstance(c, str)
+        i += 1
+        if c.isdigit() or c == "." or c.lower() in ["k", "m", "b"]:
+            if result is None:
+                result = c
+            else:
+                result = result + c
+        else:
+            if result is None:
+                continue
+            else:
+                return impl(result)
+    assert False
 
 
 def duplicate_color(repos, r):
@@ -182,7 +220,7 @@ class ColorPlugin:
             return preprocess(repo)
 
 
-class Vimcolorscheme:
+class Vcs:
     def pages(self):
         i = 0
         while True:
@@ -192,8 +230,8 @@ class Vimcolorscheme:
                 yield f"https://vimcolorschemes.com/top/page/{i+1}"
             i += 1
 
-    def parse_repo(self, element: WebElement) -> util.Repo:
-        url = "/".join(
+    def parse_repo(self, element):
+        repo = "/".join(
             element.find_element(By.XPATH, "./a[@class='card__link']")
             .get_attribute("href")
             .split("/")[-2:]
@@ -213,9 +251,10 @@ class Vimcolorscheme:
             .find_element(By.XPATH, "./b/time")
             .get_attribute("datetime")
         )
-        return util.Repo(url, stars, last_update)
+        return ColorPlugin(repo, stars, last_update)
 
-    def fetch(self) -> None:
+    def parse(self):
+        repositories = []
         with make_driver() as driver:
             for page_url in self.pages():
                 driver.get(page_url)
@@ -234,22 +273,23 @@ class Vimcolorscheme:
                         logging.debug(f"vsc skip for last_update - repo:{repo}")
                         continue
                     logging.debug(f"vsc get - repo:{repo}")
-                    repo.save()
+                    repositories.append(repo)
                     any_valid_stars = True
                 if not any_valid_stars:
                     logging.debug(f"vsc no valid stars, exit")
                     break
+            return repositories
 
 
-class AwesomeNeovim:
-    def parse_repo(self, element: WebElement) -> util.Repo:
+class Acs:
+    def parse_repo(self, element):
         a = element.find_element(By.XPATH, "./a").text
         a_splits = a.split("(")
         repo = a_splits[0]
-        stars = util.parse_number(a_splits[1])
-        return util.Repo(repo, stars, None, priority=100)
+        stars = parse_numbers(a_splits[1])
+        return ColorPlugin(repo, stars, None)
 
-    def parse_color(self, driver: Chrome, tag_id: str) -> list[util.Repo]:
+    def parse_color(self, driver, tag_id):
         repositories = []
         colors_group = find_element(
             driver,
@@ -261,22 +301,24 @@ class AwesomeNeovim:
             repositories.append(repo)
         return repositories
 
-    def fetch(self) -> None:
+    def parse(self):
+        repositories = []
         with make_driver() as driver:
             driver.get(
                 "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme"
             )
-            treesitter_repos = self.parse_color(
+            treesitter_colors = self.parse_color(
                 driver, "tree-sitter-supported-colorscheme"
             )
-            lua_repos = self.parse_color(driver, "lua-colorscheme")
-            repos = treesitter_repos + lua_repos
-            for repo in repos:
+            lua_colors = self.parse_color(driver, "lua-colorscheme")
+            treesitter_colors.extend(lua_colors)
+            for repo in treesitter_colors:
                 if repo.stars < STARS:
                     logging.debug(f"asc skip for stars - repo:{repo}")
                     continue
                 logging.debug(f"acs get - repo:{repo}")
-                repo.save()
+                repositories.append(repo)
+        return repositories
 
 
 def format_report(plugin: ColorPlugin):
@@ -301,7 +343,43 @@ def format_candidate(plugin: ColorPlugin):
 
 
 if __name__ == "__main__":
-    options = util.parse_options()
-    util.init_logging(options)
-    AwesomeNeovim().fetch()
-    Vimcolorscheme().fetch()
+    log_level = logging.WARNING
+    if "--debug" in sys.argv:
+        log_level = logging.DEBUG
+    if "--info" in sys.argv:
+        log_level = logging.INFO
+    logging.basicConfig(
+        format="%(asctime)s %(levelname)s [%(filename)s:%(lineno)d](%(funcName)s) %(message)s",
+        level=log_level,
+    )
+
+    acs = Acs().parse()
+    vcs = Vcs().parse()
+    existed_cs: list[ColorPlugin] = []
+    with open(RESULT, "w") as rfp, open(CANDIDATES, "w") as cfp:
+        rfp.writelines(f"# awesome-neovim#colorscheme\n")
+        cfp.writelines("{\n")
+        for repo in sorted(acs, key=lambda r: r.stars, reverse=True):
+            if plugin_blacklist(repo):
+                logging.debug(f"acs repo:{repo} in blacklist, skip")
+                continue
+            dup = duplicate_color(existed_cs, repo)
+            if dup:
+                logging.warning(f"acs repo:{repo} is duplicated with {dup}, skip")
+                continue
+            rfp.writelines(format_report(repo))
+            cfp.writelines(format_candidate(repo))
+            existed_cs.append(repo)
+        rfp.writelines(f"\n# vimcolorschemes.com\n")
+        for repo in sorted(vcs, key=lambda r: r.stars, reverse=True):
+            if plugin_blacklist(repo):
+                logging.debug(f"vcs repo:{repo} in blacklist, skip")
+                continue
+            dup = duplicate_color(existed_cs, repo)
+            if dup:
+                logging.warning(f"vcs repo:{repo} is duplicated with {dup}, skip")
+                continue
+            rfp.writelines(format_report(repo))
+            cfp.writelines(format_candidate(repo))
+            existed_cs.append(repo)
+        cfp.writelines("}\n")
