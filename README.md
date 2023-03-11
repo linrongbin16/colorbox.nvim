@@ -104,4 +104,4 @@ They will do following steps:
 
 1. Start a web crawler on [vimcolorscheme.com/top](https://vimcolorschemes.com/top) and [awesome-neovim#colorscheme](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme),
    collect all the **awesome** colors.
-2. Clone all these git repositores, copy and merge all the source code files into this git repository.
+2. Add all these repositores as git submodules. While setup this plugin, it will append all submodules to vim's runtimepath(same as most plugin managers do).

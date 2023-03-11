@@ -65,7 +65,7 @@ def dump_submodule(fp, repo: util.Repo) -> None:
     else:
         logging.info(f"submodule:{submodule_path} already exist, skip...")
     submodule_path = str(submodule_path)
-    if submodule_path.contains("\\"):
+    if submodule_path.find("\\") >= 0:
         submodule_path = submodule_path.replace("\\", "/")
     fp.writelines(f"{INDENT}'{submodule_path}',\n")
 
