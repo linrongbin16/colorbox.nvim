@@ -110,7 +110,7 @@ class DataStore:
 CANDIDATE_OBJECT_DIR = "candidate"
 
 
-class CandidateObject:
+class GitObject:
     def __init__(self, repo) -> None:
         assert isinstance(repo, Repo)
         self.root = pathlib.Path(CANDIDATE_OBJECT_DIR)
