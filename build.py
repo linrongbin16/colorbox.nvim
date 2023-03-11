@@ -56,9 +56,9 @@ def dump_submodule(fp, repo: util.Repo) -> None:
     submodule_path = pathlib.Path(f"submodule/{repo.url}")
     if not submodule_path.exists() or not submodule_path.is_dir():
         submodule_cmd = (
-            f"git submodule add -b {repo.config.branch} https://github.com/{repo.url} {submodule_path}\n"
+            f"git submodule add -b {repo.config.branch} --force https://github.com/{repo.url} {submodule_path}\n"
             if repo.config and repo.config.branch
-            else f"git submodule add https://github.com/{repo.url} {submodule_path}\n"
+            else f"git submodule add --force https://github.com/{repo.url} {submodule_path}\n"
         )
         logging.info(submodule_cmd)
         os.system(submodule_cmd)

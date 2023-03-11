@@ -1,0 +1,109 @@
+[submodule "submodule/nlknguyen/papercolor-theme"]
+	path = submodule/nlknguyen/papercolor-theme
+	url = https://github.com/nlknguyen/papercolor-theme
+[submodule "submodule/jnurmine/zenburn"]
+	path = submodule/jnurmine/zenburn
+	url = https://github.com/jnurmine/zenburn
+[submodule "submodule/nyoom-engineering/oxocarbon.nvim"]
+	path = submodule/nyoom-engineering/oxocarbon.nvim
+	url = https://github.com/nyoom-engineering/oxocarbon.nvim
+[submodule "submodule/marko-cerovac/material.nvim"]
+	path = submodule/marko-cerovac/material.nvim
+	url = https://github.com/marko-cerovac/material.nvim
+[submodule "submodule/fenetikm/falcon"]
+	path = submodule/fenetikm/falcon
+	url = https://github.com/fenetikm/falcon
+[submodule "submodule/lifepillar/vim-solarized8"]
+	path = submodule/lifepillar/vim-solarized8
+	url = https://github.com/lifepillar/vim-solarized8
+[submodule "submodule/ajmwagar/vim-deus"]
+	path = submodule/ajmwagar/vim-deus
+	url = https://github.com/ajmwagar/vim-deus
+[submodule "submodule/ellisonleao/gruvbox.nvim"]
+	path = submodule/ellisonleao/gruvbox.nvim
+	url = https://github.com/ellisonleao/gruvbox.nvim
+[submodule "submodule/challenger-deep-theme/vim"]
+	path = submodule/challenger-deep-theme/vim
+	url = https://github.com/challenger-deep-theme/vim
+[submodule "submodule/folke/tokyonight.nvim"]
+	path = submodule/folke/tokyonight.nvim
+	url = https://github.com/folke/tokyonight.nvim
+[submodule "submodule/EdenEast/nightfox.nvim"]
+	path = submodule/EdenEast/nightfox.nvim
+	url = https://github.com/EdenEast/nightfox.nvim
+[submodule "submodule/navarasu/onedark.nvim"]
+	path = submodule/navarasu/onedark.nvim
+	url = https://github.com/navarasu/onedark.nvim
+[submodule "submodule/cocopon/iceberg.vim"]
+	path = submodule/cocopon/iceberg.vim
+	url = https://github.com/cocopon/iceberg.vim
+[submodule "submodule/sainnhe/edge"]
+	path = submodule/sainnhe/edge
+	url = https://github.com/sainnhe/edge
+[submodule "submodule/tomasiser/vim-code-dark"]
+	path = submodule/tomasiser/vim-code-dark
+	url = https://github.com/tomasiser/vim-code-dark
+[submodule "submodule/raphamorim/lucario"]
+	path = submodule/raphamorim/lucario
+	url = https://github.com/raphamorim/lucario
+[submodule "submodule/sainnhe/sonokai"]
+	path = submodule/sainnhe/sonokai
+	url = https://github.com/sainnhe/sonokai
+[submodule "submodule/embark-theme/vim"]
+	path = submodule/embark-theme/vim
+	url = https://github.com/embark-theme/vim
+[submodule "submodule/shaunsingh/nord.nvim"]
+	path = submodule/shaunsingh/nord.nvim
+	url = https://github.com/shaunsingh/nord.nvim
+[submodule "submodule/bluz71/vim-nightfly-colors"]
+	path = submodule/bluz71/vim-nightfly-colors
+	url = https://github.com/bluz71/vim-nightfly-colors
+[submodule "submodule/rebelot/kanagawa.nvim"]
+	path = submodule/rebelot/kanagawa.nvim
+	url = https://github.com/rebelot/kanagawa.nvim
+[submodule "submodule/bluz71/vim-moonfly-colors"]
+	path = submodule/bluz71/vim-moonfly-colors
+	url = https://github.com/bluz71/vim-moonfly-colors
+[submodule "submodule/srcery-colors/srcery-vim"]
+	path = submodule/srcery-colors/srcery-vim
+	url = https://github.com/srcery-colors/srcery-vim
+[submodule "submodule/preservim/vim-colors-pencil"]
+	path = submodule/preservim/vim-colors-pencil
+	url = https://github.com/preservim/vim-colors-pencil
+[submodule "submodule/sainnhe/everforest"]
+	path = submodule/sainnhe/everforest
+	url = https://github.com/sainnhe/everforest
+[submodule "submodule/jacoborus/tender.vim"]
+	path = submodule/jacoborus/tender.vim
+	url = https://github.com/jacoborus/tender.vim
+[submodule "submodule/mhartington/oceanic-next"]
+	path = submodule/mhartington/oceanic-next
+	url = https://github.com/mhartington/oceanic-next
+[submodule "submodule/sickill/vim-monokai"]
+	path = submodule/sickill/vim-monokai
+	url = https://github.com/sickill/vim-monokai
+[submodule "submodule/sainnhe/gruvbox-material"]
+	path = submodule/sainnhe/gruvbox-material
+	url = https://github.com/sainnhe/gruvbox-material
+[submodule "submodule/junegunn/seoul256.vim"]
+	path = submodule/junegunn/seoul256.vim
+	url = https://github.com/junegunn/seoul256.vim
+[submodule "submodule/rose-pine/neovim"]
+	path = submodule/rose-pine/neovim
+	url = https://github.com/rose-pine/neovim
+[submodule "submodule/pineapplegiant/spaceduck"]
+	path = submodule/pineapplegiant/spaceduck
+	url = https://github.com/pineapplegiant/spaceduck
+[submodule "submodule/projekt0n/github-nvim-theme"]
+	path = submodule/projekt0n/github-nvim-theme
+	url = https://github.com/projekt0n/github-nvim-theme
+	branch = 0.0.x
+[submodule "submodule/catppuccin/nvim"]
+	path = submodule/catppuccin/nvim
+	url = https://github.com/catppuccin/nvim
+[submodule "submodule/romainl/apprentice"]
+	path = submodule/romainl/apprentice
+	url = https://github.com/romainl/apprentice
+[submodule "submodule/dracula/vim"]
+	path = submodule/dracula/vim
+	url = https://github.com/dracula/vim
