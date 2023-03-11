@@ -20,18 +20,6 @@ INDENT = " " * INDENT_SIZE
 HEADLESS = True
 
 
-def blacklist(repo: util.Repo) -> bool:
-    if repo.url.find("rafi/awesome-vim-colorschemes") >= 0:
-        return True
-    if repo.url.find("sonph/onehalf") >= 0:
-        return True
-    if repo.url.find("mini.nvim#minischeme") >= 0:
-        return True
-    if repo.url.find("olimorris/onedarkpro.nvim") >= 0:
-        return True
-    return False
-
-
 def find_element(driver: Chrome, xpath: str) -> WebElement:
     WebDriverWait(driver, 30).until(
         expected_conditions.presence_of_element_located((By.XPATH, xpath))
@@ -108,25 +96,25 @@ class Vimcolorscheme:
                 any_valid_stars = False
                 for element in find_elements(driver, "//article[@class='card']"):
                     repo = self.parse_repo(element)
-                    logging.debug(f"vsc repo:{repo}")
-                    if blacklist(repo):
-                        logging.debug(f"asc skip for blacklist - repo:{repo}")
+                    logging.info(f"vsc repo:{repo}")
+                    if util.blacklist(repo):
+                        logging.info(f"asc skip for blacklist - repo:{repo}")
                         continue
                     if repo.stars < STARS:
-                        logging.debug(f"vsc skip for stars - repo:{repo}")
+                        logging.info(f"vsc skip for stars - repo:{repo}")
                         continue
                     assert isinstance(repo.last_update, datetime.datetime)
                     if (
                         repo.last_update.timestamp() + LASTCOMMIT
                         < datetime.datetime.now().timestamp()
                     ):
-                        logging.debug(f"vsc skip for last_update - repo:{repo}")
+                        logging.info(f"vsc skip for last_update - repo:{repo}")
                         continue
-                    logging.debug(f"vsc get - repo:{repo}")
+                    logging.info(f"vsc get - repo:{repo}")
                     repo.save()
                     any_valid_stars = True
                 if not any_valid_stars:
-                    logging.debug(f"vsc no valid stars, exit")
+                    logging.info(f"vsc no valid stars, exit")
                     break
 
 
@@ -146,7 +134,7 @@ class AwesomeNeovim:
         )
         for e in colors_group.find_elements(By.XPATH, "./li"):
             repo = self.parse_repo(e)
-            logging.debug(f"acs repo:{repo}")
+            logging.info(f"acs repo:{repo}")
             repositories.append(repo)
         return repositories
 
@@ -161,18 +149,19 @@ class AwesomeNeovim:
             lua_repos = self.parse_color(driver, "lua-colorscheme")
             repos = treesitter_repos + lua_repos
             for repo in repos:
-                if blacklist(repo):
-                    logging.debug(f"asc skip for blacklist - repo:{repo}")
+                if util.blacklist(repo):
+                    logging.info(f"asc skip for blacklist - repo:{repo}")
                     continue
                 if repo.stars < STARS:
-                    logging.debug(f"asc skip for stars - repo:{repo}")
+                    logging.info(f"asc skip for stars - repo:{repo}")
                     continue
-                logging.debug(f"acs get - repo:{repo}")
+                logging.info(f"acs get - repo:{repo}")
                 repo.save()
 
 
 if __name__ == "__main__":
     options = util.parse_options()
     util.init_logging(options)
+    util.DataStore.reset()
     AwesomeNeovim().fetch()
     Vimcolorscheme().fetch()

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import datetime
+import json
 import logging
 import os
 import pathlib
@@ -17,11 +18,11 @@ class CliOptions:
 
 
 def parse_options():
-    log_level = logging.WARNING
+    log_level = logging.INFO
     if "--debug" in sys.argv:
         log_level = logging.DEBUG
-    if "--info" in sys.argv:
-        log_level = logging.INFO
+    if "--warn" in sys.argv:
+        log_level = logging.WARNING
     headless = "--headless" in sys.argv
     return CliOptions(log_level=log_level, headless=headless)
 
@@ -34,6 +35,17 @@ def init_logging(options: CliOptions) -> None:
         format="%(asctime)s %(levelname)s [%(filename)s:%(lineno)d](%(funcName)s) %(message)s",
         level=log_level,
     )
+
+
+def blacklist(repo) -> bool:
+    assert isinstance(repo, Repo)
+    blacklists = [
+        "rafi/awesome-vim-colorschemes",
+        "sonph/onehalf",
+        "mini.nvim#minischeme",
+        "olimorris/onedarkpro.nvim",
+    ]
+    return any([True for b in blacklists if repo.url.find(b) >= 0])
 
 
 def backup_file(src: pathlib.Path):
@@ -76,35 +88,51 @@ def parse_number(payload: str) -> int:
     assert False
 
 
+DATA_FILE = "repo.data"
+
+
 class DataStore:
-    def __init__(self) -> None:
-        DATA_FILE = "repo.db"
-        self.db = sqlite3.connect(DATA_FILE)
-        self._init_repo()
+    @staticmethod
+    def reset() -> None:
+        pathlib.Path(DATA_FILE).unlink(missing_ok=True)
 
-    def _init_repo(self) -> None:
-        cur = self.cursor()
-        cur.execute(
-            """create table if not exists repo (
-                url text not null primary key,
-                stars integer not null,
-                last_update datetime
-            )"""
-        )
-        self.commit()
+    @staticmethod
+    def count(repo) -> int:
+        assert isinstance(repo, Repo)
+        try:
+            with open(DATA_FILE, "r") as fp:
+                return repo.url.lower() in [
+                    line.split(",")[0].lower() for line in fp.readlines()
+                ]
+        except:
+            return 0
 
-    def __enter__(self):
-        return self
+    @staticmethod
+    def append(repo) -> None:
+        assert isinstance(repo, Repo)
+        with open(DATA_FILE, "a") as fp:
+            fp.writelines(
+                f"{repo.url},{repo.stars},{repo.last_update.isoformat() if repo.last_update else None}\n"
+            )
 
-    def __exit__(self, exception_type, exception_value, traceback):
-        if self.db:
-            self.db.close()
-
-    def cursor(self) -> sqlite3.Cursor:
-        return self.db.cursor()
-
-    def commit(self) -> None:
-        self.db.commit()
+    @staticmethod
+    def get_all() -> list:
+        try:
+            with open(DATA_FILE, "r") as fp:
+                repos: list = []
+                for line in fp.readlines():
+                    line_splits = line.split(",")
+                    url = line_splits[0]
+                    stars = int(line_splits[1])
+                    last_update = (
+                        datetime.datetime.fromisoformat(line_splits[2])
+                        if line_splits[2] != "None"
+                        else None
+                    )
+                    repos.append(Repo(url, stars, last_update))
+                return repos
+        except:
+            return []
 
 
 CANDIDATE_OBJECT_DIR = "candidate"
@@ -210,31 +238,10 @@ class Repo:
         return f"https://github.com/{self.url}"
 
     def save(self) -> None:
-        with DataStore() as data:
-            cur = data.cursor()
-            count = cur.execute(
-                f"select count(*) from repo where url='{self.url}'"
-            ).fetchall()
-            count = count[0][0]
-            if count <= 0:
-                # insert
-                cur.execute(
-                    f"insert into repo (url, stars, last_update) values ('{self.url}', {self.stars}, '{self.last_update.isoformat()}')"
-                    if self.last_update
-                    else f"insert into repo (url, stars) values ('{self.url}', {self.stars})"
-                )
-            else:
-                # update
-                cur.execute(
-                    f"update repo set stars={self.stars}, last_update='{self.last_update.isoformat()}'"
-                    if self.last_update
-                    else f"update repo set stars={self.stars}"
-                )
-            data.commit()
+        count = DataStore.count(self)
+        if count <= 0:
+            DataStore.append(self)
 
     @staticmethod
     def get_all() -> list:
-        with DataStore() as data:
-            cur = data.cursor()
-            records = cur.execute(f"select * from repo").fetchall()
-            return [Repo(r[0], r[1], r[2]) for r in records]
+        return DataStore.get_all()
