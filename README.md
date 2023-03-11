@@ -15,7 +15,7 @@ Want more colorschemes for your Neovim? This is it.
 
 Here '**awesome**' is defined with:
 
-1. Github stars &ge; 400.
+1. Github stars &ge; 500.
 2. Last commit in 2 years(365 days/year).
 3. For multiple ports/variants, keep the one with more plugins support, stars or
    git commits.

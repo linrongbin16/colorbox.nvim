@@ -52,7 +52,25 @@ def dedup() -> set[util.Repo]:
     return repos
 
 
-def dump_colors(fp, repo: util.Repo) -> None:
+def dump_submodule(fp, repo: util.Repo) -> None:
+    submodule_path = pathlib.Path(f"submodule/{repo.url}")
+    if not submodule_path.exists() or not submodule_path.is_dir():
+        submodule_cmd = (
+            f"git submodule add -b {repo.config.branch} https://github.com/{repo.url} {submodule_path}\n"
+            if repo.config and repo.config.branch
+            else f"git submodule add https://github.com/{repo.url} {submodule_path}\n"
+        )
+        logging.info(submodule_cmd)
+        os.system(submodule_cmd)
+    else:
+        logging.info(f"submodule:{submodule_path} already exist, skip...")
+    submodule_path = str(submodule_path)
+    if submodule_path.contains("\\"):
+        submodule_path = submodule_path.replace("\\", "/")
+    fp.writelines(f"{INDENT}'{submodule_path}',\n")
+
+
+def dump_color(fp, repo: util.Repo) -> None:
     colors_dir = pathlib.Path(f"submodule/{repo.url}/colors")
     colors_files = [
         f
@@ -61,33 +79,29 @@ def dump_colors(fp, repo: util.Repo) -> None:
     ]
     colors = [str(c.name)[:-4] for c in colors_files]
     for c in colors:
-        fp.writelines(f"{INDENT*2}{c},\n")
+        fp.writelines(f"{INDENT}'{c}',\n")
 
 
 def build() -> None:
     for repo in util.Repo.get_all():
         with util.GitObject(repo) as candidate:
             candidate.clone()
-    deduped_repos = dedup()
-    for repo in deduped_repos:
-        submodule_path = pathlib.Path(f"submodule/{repo.url}")
-        if not submodule_path.exists() or not submodule_path.is_dir():
-            submodule_cmd = (
-                f"git submodule add -b {repo.config.branch} https://github.com/{repo.url} {submodule_path}\n"
-                if repo.config and repo.config.branch
-                else f"git submodule add https://github.com/{repo.url} {submodule_path}\n"
-            )
-            logging.info(submodule_cmd)
-            os.system(submodule_cmd)
-    update_submodule_cmd = "git submodule update --remote"
-    logging.info(update_submodule_cmd)
-    os.system(update_submodule_cmd)
-    with open("lua/colorswitch/candidates.lua") as fp:
-        fp.writelines(f"-- Colorscheme Collections\n")
-        fp.writelines(f"{INDENT}return {{\n")
+    with open("lua/colorswitch/submodules.lua", "w") as fp:
+        fp.writelines(f"-- Git Submodules\n")
+        fp.writelines(f"return {{\n")
+        deduped_repos = dedup()
         for repo in deduped_repos:
-            dump_colors(fp, repo)
-        fp.writelines(f"{INDENT}}}\n")
+            dump_submodule(fp, repo)
+        fp.writelines(f"}}\n")
+        update_submodule_cmd = "git submodule update --remote"
+        logging.info(update_submodule_cmd)
+        os.system(update_submodule_cmd)
+    with open("lua/colorswitch/candidates.lua", "w") as fp:
+        fp.writelines(f"-- Colorscheme Collections\n")
+        fp.writelines(f"return {{\n")
+        for repo in deduped_repos:
+            dump_color(fp, repo)
+        fp.writelines(f"}}\n")
 
 
 if __name__ == "__main__":
