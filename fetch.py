@@ -19,50 +19,8 @@ INDENT_SIZE = 4
 INDENT = " " * INDENT_SIZE
 HEADLESS = True
 
-RESULT = "fetch-repo.txt"
-CANDIDATES = "lua/colorswitch/candidates.lua"
 
-
-def duplicate_color(repos, r):
-    def delimiter_position(url):
-        assert isinstance(url, str)
-        if url.endswith(".vim"):
-            return url.find(".vim")
-        if url.endswith(".nvim"):
-            return url.find(".nvim")
-        if url.endswith("-vim"):
-            return url.find("-vim")
-        if url.endswith("-nvim"):
-            return url.find("-nvim")
-        return -1
-
-    def same_color(r1, r2):
-        r1 = r1.url.split("/")[-1]
-        r2 = r2.url.split("/")[-1]
-        if r1 == r2 and (
-            r1 != "vim"
-            and r1 != "nvim"
-            and r1 != "neovim"
-            and r2 != "vim"
-            and r2 != "nvim"
-            and r2 != "neovim"
-        ):
-            return True
-        pos1 = delimiter_position(r1)
-        pos2 = delimiter_position(r2)
-        if pos1 <= 0 or pos2 <= 0:
-            return False
-        base1 = r1[:pos1]
-        base2 = r2[:pos2]
-        return base1 == base2
-
-    for repo in repos:
-        if repo == r or same_color(repo, r):
-            return repo
-    return None
-
-
-def plugin_blacklist(repo):
+def blacklist(repo: util.Repo) -> bool:
     if repo.url.find("rafi/awesome-vim-colorschemes") >= 0:
         return True
     if repo.url.find("sonph/onehalf") >= 0:
@@ -74,14 +32,14 @@ def plugin_blacklist(repo):
     return False
 
 
-def find_element(driver, xpath):
+def find_element(driver: Chrome, xpath: str) -> WebElement:
     WebDriverWait(driver, 30).until(
         expected_conditions.presence_of_element_located((By.XPATH, xpath))
     )
     return driver.find_element(By.XPATH, xpath)
 
 
-def find_elements(driver, xpath):
+def find_elements(driver: Chrome, xpath: str) -> list[WebElement]:
     WebDriverWait(driver, 30).until(
         expected_conditions.presence_of_element_located((By.XPATH, xpath))
     )
@@ -107,79 +65,6 @@ def make_driver():
     desired_capabilities["acceptInsecureCerts"] = True
 
     return Chrome(options=options, desired_capabilities=desired_capabilities)
-
-
-class ColorPlugin:
-    def __init__(self, url, stars, last_update):
-        assert isinstance(url, str)
-        assert isinstance(stars, int) or isinstance(stars, float)
-        assert isinstance(last_update, datetime.datetime) or last_update is None
-        url = url.strip()
-        while url.startswith("/"):
-            url = url[1:]
-        while url.endswith("/"):
-            url = url[:-1]
-        self.url = url
-        self.stars = int(stars)
-        self.last_update = last_update
-
-    def __str__(self):
-        return f"<PluginData url:{self.url}, stars:{self.stars}, last_update:{self.last_update.isoformat() if isinstance(self.last_update, datetime.datetime) else None}>"
-
-    def __hash__(self):
-        return hash(self.url.lower())
-
-    def __eq__(self, other):
-        return isinstance(other, ColorPlugin) and self.url.lower() == other.url.lower()
-
-    def github_url(self):
-        return f"https://github.com/{self.url}"
-
-    def fetch_branches(self):
-        try:
-            with make_driver() as driver:
-                driver.get(self.github_url() + "/branches")
-                branches = find_elements(driver, "//branch-filter-item")
-                for b in branches:
-                    if b.get_attribute("branch") == "main":
-                        return "main"
-            return "master"
-        except Exception as e:
-            logging.error(e)
-            return "master"
-
-    def lazy_name(self):
-        url_splits = self.url.split("/")
-        org = url_splits[0]
-        repo = url_splits[1]
-
-        def name_in_blacklist(n):
-            return n == "vim" or n == "nvim" or n == "neovim"
-
-        return org if name_in_blacklist(repo) else None
-
-    def color_names(self):
-        url_splits = self.url.split("/")
-        org = url_splits[0]
-        repo = url_splits[1]
-
-        def name_in_blacklist(n):
-            return n == "vim" or n == "nvim" or n == "neovim"
-
-        def preprocess(name):
-            if name.find("-") > 0:
-                name_splits = name.split("-")
-                return [n for n in name_splits if not name_in_blacklist(n)]
-            elif name.find(".") > 0:
-                name_splits = name.split(".")
-                return [n for n in name_splits if not name_in_blacklist(n)]
-            else:
-                return [name]
-
-        if name_in_blacklist(repo):
-            return preprocess(org)
-        else:
-            return preprocess(repo)
 
 
 class Vimcolorscheme:
@@ -223,6 +108,9 @@ class Vimcolorscheme:
                 for element in find_elements(driver, "//article[@class='card']"):
                     repo = self.parse_repo(element)
                     logging.debug(f"vsc repo:{repo}")
+                    if blacklist(repo):
+                        logging.debug(f"asc skip for blacklist - repo:{repo}")
+                        continue
                     if repo.stars < STARS:
                         logging.debug(f"vsc skip for stars - repo:{repo}")
                         continue
@@ -272,32 +160,14 @@ class AwesomeNeovim:
             lua_repos = self.parse_color(driver, "lua-colorscheme")
             repos = treesitter_repos + lua_repos
             for repo in repos:
+                if blacklist(repo):
+                    logging.debug(f"asc skip for blacklist - repo:{repo}")
+                    continue
                 if repo.stars < STARS:
                     logging.debug(f"asc skip for stars - repo:{repo}")
                     continue
                 logging.debug(f"acs get - repo:{repo}")
                 repo.save()
-
-
-def format_report(plugin: ColorPlugin):
-    name = plugin.lazy_name()
-    optional_name = f"{INDENT * 2}name = '{name}',\n" if name else ""
-    branch = plugin.fetch_branches()
-    optional_branch = (
-        f"{INDENT * 2}branch = '{branch}',\n" if branch != "master" else ""
-    )
-    return f"""{INDENT}{{
-{INDENT*2}-- stars:{int(plugin.stars)}, repo:{plugin.github_url()}
-{INDENT*2}'{plugin.url}',
-{INDENT*2}lazy = true,
-{INDENT*2}priority = 1000,
-{optional_name}{optional_branch}{INDENT}}},
-"""
-
-
-def format_candidate(plugin: ColorPlugin):
-    color_names = ", ".join(plugin.color_names())
-    return f"{INDENT}'{color_names}',\n"
 
 
 if __name__ == "__main__":

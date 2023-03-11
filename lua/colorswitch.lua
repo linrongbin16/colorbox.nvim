@@ -7,9 +7,6 @@ local config = {}
 local function setup(option)
     config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), option or {})
     math.randomseed(os.clock() * 100000000000)
-    vim.cmd([[
-        command! -bang -nargs=? SwitchColor lua require('colorswitch').switch(<f-args>, <bang>0)
-    ]])
 end
 
 -- random integer in [0, n)
@@ -17,10 +14,10 @@ local function randint(n)
     return math.random(0, n - 1)
 end
 
-local function switch(name, force)
+local function switch(option)
     local function impl(color)
-        vim.cmd(stirng.format("colorscheme %s", color))
-        if force then
+        vim.cmd(string.format("colorscheme %s", color))
+        if option and option["force"] then
             vim.cmd([[
                 diffupdate
                 syntax sync fromstart
@@ -28,8 +25,8 @@ local function switch(name, force)
         end
     end
 
-    if name and string.len(name) > 0 then
-        impl(name)
+    if option and option["color"] and string.len(option["color"]) > 0 then
+        impl(option["color"])
     else
         local index = randint(#config.candidates)
         impl(#config.candidates[index])
