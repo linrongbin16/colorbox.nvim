@@ -13,7 +13,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 import util
 
-STARS = 400
+STARS = 500
 LASTCOMMIT = 2 * 365 * 24 * 3600  # 2 years * 365 days * 24 hours * 3600 seconds
 INDENT_SIZE = 4
 INDENT = " " * INDENT_SIZE
