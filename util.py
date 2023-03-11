@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
 import datetime
-import json
 import logging
 import os
 import pathlib
-import sqlite3
+import shutil
 import sys
 from dataclasses import dataclass
 from typing import Optional
@@ -102,7 +101,7 @@ class DataStore:
         try:
             with open(DATA_FILE, "r") as fp:
                 return repo.url.lower() in [
-                    line.split(",")[0].lower() for line in fp.readlines()
+                    line.split(",")[0].strip().lower() for line in fp.readlines()
                 ]
         except:
             return 0
@@ -112,7 +111,7 @@ class DataStore:
         assert isinstance(repo, Repo)
         with open(DATA_FILE, "a") as fp:
             fp.writelines(
-                f"{repo.url},{repo.stars},{repo.last_update.isoformat() if repo.last_update else None}\n"
+                f"{repo.url},{repo.stars},{repo.last_update.isoformat() if repo.last_update else None},{repo.priority}\n"
             )
 
     @staticmethod
@@ -122,14 +121,15 @@ class DataStore:
                 repos: list = []
                 for line in fp.readlines():
                     line_splits = line.split(",")
-                    url = line_splits[0]
-                    stars = int(line_splits[1])
+                    url = line_splits[0].strip()
+                    stars = int(line_splits[1].strip())
                     last_update = (
-                        datetime.datetime.fromisoformat(line_splits[2])
-                        if line_splits[2] != "None"
+                        datetime.datetime.fromisoformat(line_splits[2].strip())
+                        if line_splits[2].strip() != "None"
                         else None
                     )
-                    repos.append(Repo(url, stars, last_update))
+                    priority = int(line_splits[3].strip())
+                    repos.append(Repo(url, stars, last_update, priority))
                 return repos
         except:
             return []
@@ -145,7 +145,7 @@ class GitObject:
         self.root.mkdir(parents=True, exist_ok=True)
         self.repo = repo
         self.path = pathlib.Path(f"{self.root}/{self.repo.url}")
-        self.colors: list[str] = []
+        self.colors = self._init_colors()
 
     def __enter__(self):
         return self
@@ -167,28 +167,33 @@ class GitObject:
                 if specific_branch
                 else f"git clone --depth=1 {self.repo.get_github_url()} {self.path}"
             )
-            logging.debug(clone_cmd)
+            logging.info(clone_cmd)
+            if self.path.exists() and self.path.is_dir():
+                shutil.rmtree(self.path)
             os.system(clone_cmd)
-            # init data after clone git repo
-            self.colors = self._init_colors()
         except Exception as e:
             logging.exception(f"failed to git clone:{self.repo.get_github_url()}", e)
 
     def _init_colors(self) -> list[str]:
         color_dir = pathlib.Path(f"{self.path}/colors")
+        if not color_dir.exists() or not color_dir.is_dir():
+            return []
         color_files = [f for f in color_dir.iterdir() if f.is_file()]
         colors = [
-            str(c)[:-4]
+            str(c.name)[:-4]
             for c in color_files
             if str(c).endswith(".vim") or str(c).endswith(".lua")
         ]
-        logging.debug(f"repo ({self.repo.url}) collect colors:{colors}")
+        logging.info(f"repo ({self.repo.url}) collect colors:{colors}")
         return colors
 
 
 @dataclass
 class RepoConfig:
     branch: Optional[str] = None
+
+    def __str__(self) -> str:
+        return f"<RepoConfig branch:{self.branch}>"
 
 
 REPO_CONFIG = {"projekt0n/github-nvim-theme": RepoConfig(branch="0.0.x")}
@@ -226,7 +231,7 @@ class Repo:
         return REPO_CONFIG[url]
 
     def __str__(self):
-        return f"<Repo url:{self.url}, stars:{self.stars}, last_update:{self.last_update.isoformat() if self.last_update else None}>"
+        return f"<Repo url:{self.url}, stars:{self.stars}, last_update:{self.last_update.isoformat() if self.last_update else None}, priority:{self.priority}, config:{self.config}>"
 
     def __hash__(self):
         return hash(self.url.lower())

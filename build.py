@@ -8,15 +8,16 @@ import shutil
 
 import util
 
-INDENT_SIZE=4
-INDENT=' ' * INDENT_SIZE
+INDENT_SIZE = 4
+INDENT = " " * INDENT_SIZE
+
 
 def dedup() -> set[util.Repo]:
     def greater_than(r1: util.Repo, r2: util.Repo) -> bool:
         if r1.priority != r2.priority:
-            return r1.priority > r2.priority:
+            return r1.priority > r2.priority
         if r1.stars != r2.stars:
-            return r1.stars > r2.stars:
+            return r1.stars > r2.stars
         # for duplicated colors, we suppose neovim/lua plugins are better
         # and we don't fetch last commit datetime in awesome-neovim's plugins
         # so the repo don't have last_update has higher priority
@@ -32,8 +33,14 @@ def dedup() -> set[util.Repo]:
                 # detect duplicated color
                 if color in colors:
                     old_repo = colors[color]
+                    logging.info(
+                        f"detect duplicated color on new repo:{repo} and old repo:{old_repo}"
+                    )
                     # replace old repo if new repo has higher priority
                     if greater_than(repo, old_repo):
+                        logging.info(
+                            f"replace old repo:{old_repo} with new repo:{repo}"
+                        )
                         colors[color] = repo
                         repos.add(repo)
                         repos.remove(old_repo)
@@ -45,23 +52,32 @@ def dedup() -> set[util.Repo]:
 
 
 def copy(obj: util.GitObject) -> None:
+    logging.info(f"merge repo:{obj.repo}")
     # autoload, plugins, doc, colors, lua, etc
-    obj_dirs = [d for d in obj.path.iterdir() if d.is_dir()]
+    obj_dirs = [
+        d for d in obj.path.iterdir() if d.is_dir() and not d.name.startswith(".")
+    ]
     for d in obj_dirs:
         target_dir = pathlib.Path(d.name)
-        target_dir.mkdir(parents=True, exist_ok=True)
-        shutil.copy(d, target_dir)
+        logging.info(f"merge {d.absolute()} into {target_dir.absolute()}")
+        shutil.copytree(d, target_dir, dirs_exist_ok=True)
+
 
 def dump_colors() -> None:
-    colors_dir = pathlib.Path('colors')
-    colors_files = [f for f in colors_dir.iterdir() if f.is_file() and (str(f).endswith('.vim') or str(f).endswith('.lua'))]
-    colorschemes = [str(c)[:-4] for c in colors_files]
-    with open('lua/colorswitch/colorschemes.lua') as fp:
+    colors_dir = pathlib.Path("colors")
+    colors_files = [
+        f
+        for f in colors_dir.iterdir()
+        if f.is_file() and (str(f).endswith(".vim") or str(f).endswith(".lua"))
+    ]
+    colors = [str(c)[:-4] for c in colors_files]
+    with open("lua/colorswitch/candidates.lua") as fp:
         fp.writelines(f"-- Colorscheme Collections\n")
         fp.writelines(f"{INDENT}return {{\n")
-        for c in colorschemes:
+        for c in colors:
             fp.writelines(f"{INDENT*2}{c},\n")
         fp.writelines(f"{INDENT}}}\n")
+
 
 def build() -> None:
     for repo in util.Repo.get_all():
@@ -69,7 +85,8 @@ def build() -> None:
             candidate.clone()
     deduped_repos = dedup()
     for repo in deduped_repos:
-        copy(repo)
+        copy(util.GitObject(repo))
+    dump_colors()
 
 
 if __name__ == "__main__":

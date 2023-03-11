@@ -133,3 +133,6 @@ dmypy.json
 
 # Sqlit3
 *.db
+
+# Candidates
+/candidate
