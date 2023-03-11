@@ -4,6 +4,16 @@ local defaults = {
 
 local config = {}
 
+local function append_rtp()
+    local submodules = require("colorswitch.submodules")
+    local runtimepaths = vim.api.nvim_list_runtime_paths()
+    for i, rtp in ipairs(runtimepaths) do
+        if rtp:gmatch("colorswitch.nvim") then
+            print(vim.inspect(rtp))
+        end
+    end
+end
+
 local function setup(option)
     config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), option or {})
     math.randomseed(os.clock() * 100000000000)
