@@ -5,6 +5,7 @@ import logging
 import os
 import pathlib
 import shutil
+from re import sub
 
 import util
 
@@ -51,32 +52,16 @@ def dedup() -> set[util.Repo]:
     return repos
 
 
-def copy(obj: util.GitObject) -> None:
-    logging.info(f"merge repo:{obj.repo}")
-    # autoload, plugins, doc, colors, lua, etc
-    obj_dirs = [
-        d for d in obj.path.iterdir() if d.is_dir() and not d.name.startswith(".")
-    ]
-    for d in obj_dirs:
-        target_dir = pathlib.Path(d.name)
-        logging.info(f"merge {d.absolute()} into {target_dir.absolute()}")
-        shutil.copytree(d, target_dir, dirs_exist_ok=True)
-
-
-def dump_colors() -> None:
-    colors_dir = pathlib.Path("colors")
+def dump_colors(fp, repo: util.Repo) -> None:
+    colors_dir = pathlib.Path(f"submodule/{repo.url}/colors")
     colors_files = [
         f
         for f in colors_dir.iterdir()
         if f.is_file() and (str(f).endswith(".vim") or str(f).endswith(".lua"))
     ]
-    colors = [str(c)[:-4] for c in colors_files]
-    with open("lua/colorswitch/candidates.lua") as fp:
-        fp.writelines(f"-- Colorscheme Collections\n")
-        fp.writelines(f"{INDENT}return {{\n")
-        for c in colors:
-            fp.writelines(f"{INDENT*2}{c},\n")
-        fp.writelines(f"{INDENT}}}\n")
+    colors = [str(c.name)[:-4] for c in colors_files]
+    for c in colors:
+        fp.writelines(f"{INDENT*2}{c},\n")
 
 
 def build() -> None:
@@ -85,8 +70,24 @@ def build() -> None:
             candidate.clone()
     deduped_repos = dedup()
     for repo in deduped_repos:
-        copy(util.GitObject(repo))
-    dump_colors()
+        submodule_path = pathlib.Path(f"submodule/{repo.url}")
+        if not submodule_path.exists() or not submodule_path.is_dir():
+            submodule_cmd = (
+                f"git submodule add -b {repo.config.branch} https://github.com/{repo.url} {submodule_path}\n"
+                if repo.config and repo.config.branch
+                else f"git submodule add https://github.com/{repo.url} {submodule_path}\n"
+            )
+            logging.info(submodule_cmd)
+            os.system(submodule_cmd)
+    update_submodule_cmd = "git submodule update --remote"
+    logging.info(update_submodule_cmd)
+    os.system(update_submodule_cmd)
+    with open("lua/colorswitch/candidates.lua") as fp:
+        fp.writelines(f"-- Colorscheme Collections\n")
+        fp.writelines(f"{INDENT}return {{\n")
+        for repo in deduped_repos:
+            dump_colors(fp, repo)
+        fp.writelines(f"{INDENT}}}\n")
 
 
 if __name__ == "__main__":
