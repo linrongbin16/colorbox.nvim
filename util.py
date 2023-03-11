@@ -86,9 +86,9 @@ class DataStore:
         cur = self.cursor()
         cur.execute(
             """create table if not exists repo (
-            url text primary key not null,
-            stars integer not null,
-            last_update datetime,
+                url text not null primary key,
+                stars integer not null,
+                last_update datetime
             )"""
         )
         self.commit()
@@ -219,16 +219,16 @@ class Repo:
             if count <= 0:
                 # insert
                 cur.execute(
-                    f"insert into repo values ('{self.url}', {self.stars}, '{self.last_update.isoformat()}')"
+                    f"insert into repo (url, stars, last_update) values ('{self.url}', {self.stars}, '{self.last_update.isoformat()}')"
                     if self.last_update
-                    else f"insert into repo values ('{self.url}', {self.stars})"
+                    else f"insert into repo (url, stars) values ('{self.url}', {self.stars})"
                 )
             else:
                 # update
                 cur.execute(
-                    f"update repo set url='{self.url}', stars={self.stars}, last_update='{self.last_update.isoformat()}'"
+                    f"update repo set stars={self.stars}, last_update='{self.last_update.isoformat()}'"
                     if self.last_update
-                    else f"update repo set url='{self.url}', stars={self.stars}"
+                    else f"update repo set stars={self.stars}"
                 )
             data.commit()
 
