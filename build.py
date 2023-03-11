@@ -86,10 +86,10 @@ def build() -> None:
     for repo in util.Repo.get_all():
         with util.GitObject(repo) as candidate:
             candidate.clone()
+    deduped_repos = dedup()
     with open("lua/colorswitch/submodules.lua", "w") as fp:
         fp.writelines(f"-- Git Submodules\n")
         fp.writelines(f"return {{\n")
-        deduped_repos = dedup()
         for repo in deduped_repos:
             dump_submodule(fp, repo)
         fp.writelines(f"}}\n")
