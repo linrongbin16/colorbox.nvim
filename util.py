@@ -9,6 +9,13 @@ import sys
 from dataclasses import dataclass
 from typing import Optional
 
+STARS = 500
+LASTCOMMIT = 2 * 365 * 24 * 3600  # 2 years * 365 days * 24 hours * 3600 seconds
+INDENT_SIZE = 4
+INDENT = " " * INDENT_SIZE
+HEADLESS = True
+TIMEOUT = 30
+
 
 @dataclass
 class CliOptions:

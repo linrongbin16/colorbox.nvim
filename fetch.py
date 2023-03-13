@@ -2,41 +2,34 @@
 
 import datetime
 import logging
-import pathlib
+from typing import Iterable
 
 from selenium.webdriver import Chrome, ChromeOptions, DesiredCapabilities
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import import_cdp
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
 
 import util
 
-STARS = 500
-LASTCOMMIT = 2 * 365 * 24 * 3600  # 2 years * 365 days * 24 hours * 3600 seconds
-INDENT_SIZE = 4
-INDENT = " " * INDENT_SIZE
-HEADLESS = True
-
 
 def find_element(driver: Chrome, xpath: str) -> WebElement:
-    WebDriverWait(driver, 30).until(
+    WebDriverWait(driver, util.TIMEOUT).until(
         expected_conditions.presence_of_element_located((By.XPATH, xpath))
     )
     return driver.find_element(By.XPATH, xpath)
 
 
 def find_elements(driver: Chrome, xpath: str) -> list[WebElement]:
-    WebDriverWait(driver, 30).until(
+    WebDriverWait(driver, util.TIMEOUT).until(
         expected_conditions.presence_of_element_located((By.XPATH, xpath))
     )
     return driver.find_elements(By.XPATH, xpath)
 
 
-def make_driver():
+def make_driver() -> Chrome:
     options = ChromeOptions()
-    if HEADLESS:
+    if util.HEADLESS:
         options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--single-process")
@@ -56,7 +49,7 @@ def make_driver():
 
 
 class Vimcolorscheme:
-    def pages(self):
+    def pages(self) -> Iterable[str]:
         i = 0
         while True:
             if i == 0:
@@ -100,12 +93,12 @@ class Vimcolorscheme:
                     if util.blacklist(repo):
                         logging.info(f"asc skip for blacklist - repo:{repo}")
                         continue
-                    if repo.stars < STARS:
+                    if repo.stars < util.STARS:
                         logging.info(f"vsc skip for stars - repo:{repo}")
                         continue
                     assert isinstance(repo.last_update, datetime.datetime)
                     if (
-                        repo.last_update.timestamp() + LASTCOMMIT
+                        repo.last_update.timestamp() + util.LASTCOMMIT
                         < datetime.datetime.now().timestamp()
                     ):
                         logging.info(f"vsc skip for last_update - repo:{repo}")
@@ -152,7 +145,7 @@ class AwesomeNeovim:
                 if util.blacklist(repo):
                     logging.info(f"asc skip for blacklist - repo:{repo}")
                     continue
-                if repo.stars < STARS:
+                if repo.stars < util.STARS:
                     logging.info(f"asc skip for stars - repo:{repo}")
                     continue
                 logging.info(f"acs get - repo:{repo}")

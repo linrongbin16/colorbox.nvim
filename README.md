@@ -102,6 +102,9 @@ require('colorswitch').setup({
     --   '30 8 * * *' - 8:30 every day
     --   '* * * * *' - every minute
     cronjob = nil,
+
+    -- enable debug
+    debug = false,
 })
 ```
 

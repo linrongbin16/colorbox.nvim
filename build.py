@@ -5,29 +5,26 @@ import logging
 import os
 import pathlib
 import shutil
-from re import sub
 
 import util
 
-INDENT_SIZE = 4
-INDENT = " " * INDENT_SIZE
-
 
 def dedup() -> set[util.Repo]:
-    def greater_than(r1: util.Repo, r2: util.Repo) -> bool:
-        if r1.priority != r2.priority:
-            return r1.priority > r2.priority
-        if r1.stars != r2.stars:
-            return r1.stars > r2.stars
+    def greater_than(a: util.Repo, b: util.Repo) -> bool:
+        if a.priority != b.priority:
+            return a.priority > b.priority
+        if a.stars != b.stars:
+            return a.stars > b.stars
         # for duplicated colors, we suppose neovim/lua plugins are better
         # and we don't fetch last commit datetime in awesome-neovim's plugins
         # so the repo don't have last_update has higher priority
-        if r1.last_update is None or r2.last_update is None:
-            return True if r1.last_update is None else False
-        return r1.last_update.timestamp() > r2.last_update.timestamp()
+        if a.last_update is None or b.last_update is None:
+            return True if a.last_update is None else False
+        return a.last_update.timestamp() > b.last_update.timestamp()
 
     colors: dict[str, util.Repo] = dict()
     repos: set[util.Repo] = set()
+
     for repo in util.Repo.get_all():
         with util.GitObject(repo) as candidate:
             for color in candidate.colors:
@@ -52,22 +49,18 @@ def dedup() -> set[util.Repo]:
     return repos
 
 
-def dump_submodule(fp, repo: util.Repo) -> None:
+def dump_submodule(repo: util.Repo) -> None:
     submodule_path = pathlib.Path(f"submodule/{repo.url}")
     if not submodule_path.exists() or not submodule_path.is_dir():
         submodule_cmd = (
-            f"git submodule add -b {repo.config.branch} --force https://github.com/{repo.url} {submodule_path}\n"
+            f"git submodule add -b {repo.config.branch} --force https://github.com/{repo.url} {submodule_path}"
             if repo.config and repo.config.branch
-            else f"git submodule add --force https://github.com/{repo.url} {submodule_path}\n"
+            else f"git submodule add --force https://github.com/{repo.url} {submodule_path}"
         )
         logging.info(submodule_cmd)
         os.system(submodule_cmd)
     else:
         logging.info(f"submodule:{submodule_path} already exist, skip...")
-    submodule_path = str(submodule_path)
-    if submodule_path.find("\\") >= 0:
-        submodule_path = submodule_path.replace("\\", "/")
-    fp.writelines(f"{INDENT}'{submodule_path}',\n")
 
 
 def dump_color(fp, repo: util.Repo) -> None:
@@ -78,24 +71,36 @@ def dump_color(fp, repo: util.Repo) -> None:
         if f.is_file() and (str(f).endswith(".vim") or str(f).endswith(".lua"))
     ]
     colors = [str(c.name)[:-4] for c in colors_files]
+    submodule_path = pathlib.Path(f"submodule/{repo.url}")
+    submodule = str(submodule_path)
+    if submodule.find("\\") >= 0:
+        submodule = submodule.replace("\\", "/")
     for c in colors:
-        fp.writelines(f"{INDENT}'{c}',\n")
+        fp.writelines(f"{util.INDENT}['{c}']='{submodule}',\n")
 
 
 def build() -> None:
+    # clean candidate dir
+    candidate_path = pathlib.Path("candidate")
+    if candidate_path.exists() and candidate_path.is_dir():
+        shutil.rmtree(candidate_path)
+
+    # clone candidates
     for repo in util.Repo.get_all():
         with util.GitObject(repo) as candidate:
             candidate.clone()
+
+    # dedup candidates
     deduped_repos = dedup()
-    with open("lua/colorswitch/submodules.lua", "w") as fp:
-        fp.writelines(f"-- Git Submodules\n")
-        fp.writelines(f"return {{\n")
-        for repo in deduped_repos:
-            dump_submodule(fp, repo)
-        fp.writelines(f"}}\n")
-        update_submodule_cmd = "git submodule update --remote"
-        logging.info(update_submodule_cmd)
-        os.system(update_submodule_cmd)
+
+    # dump submodule
+    for repo in deduped_repos:
+        dump_submodule(repo)
+    update_submodule_cmd = "git submodule update --init --remote"
+    logging.info(update_submodule_cmd)
+    os.system(update_submodule_cmd)
+
+    # dump colors
     with open("lua/colorswitch/candidates.lua", "w") as fp:
         fp.writelines(f"-- Colorscheme Collections\n")
         fp.writelines(f"return {{\n")
