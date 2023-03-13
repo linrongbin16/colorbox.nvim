@@ -5,6 +5,8 @@ import logging
 import os
 import pathlib
 import shutil
+from dataclasses import is_dataclass
+from os.path import exists
 
 import util
 
@@ -63,7 +65,14 @@ def dump_submodule(repo: util.Repo) -> None:
         logging.info(f"submodule:{submodule_path} already exist, skip...")
 
 
-def dump_color(fp, repo: util.Repo) -> None:
+def path2str(p: pathlib.Path) -> str:
+    result = str(p)
+    if result.find("\\") >= 0:
+        result = result.replace("\\", "/")
+    return result
+
+
+def dump_color(sfp, cfp, repo: util.Repo) -> None:
     colors_dir = pathlib.Path(f"submodule/{repo.url}/colors")
     colors_files = [
         f
@@ -72,11 +81,14 @@ def dump_color(fp, repo: util.Repo) -> None:
     ]
     colors = [str(c.name)[:-4] for c in colors_files]
     submodule_path = pathlib.Path(f"submodule/{repo.url}")
-    submodule = str(submodule_path)
-    if submodule.find("\\") >= 0:
-        submodule = submodule.replace("\\", "/")
+    submodule_subpaths = [
+        p for p in submodule_path.iterdir() if p.is_dir() and not p.name.startswith(".")
+    ]
+    submodule_subpaths.append(submodule_path)
+    submodule_subpaths_str = ",".join([f"'{path2str(p)}'" for p in submodule_subpaths])
     for c in colors:
-        fp.writelines(f"{util.INDENT}['{c}']='{submodule}',\n")
+        sfp.writelines(f"{util.INDENT}['{c}']={{{submodule_subpaths_str}}},\n")
+        cfp.writelines(f"{util.INDENT}'{c}',\n")
 
 
 def build() -> None:
@@ -101,12 +113,17 @@ def build() -> None:
     os.system(update_submodule_cmd)
 
     # dump colors
-    with open("lua/colorswitch/candidates.lua", "w") as fp:
-        fp.writelines(f"-- Colorscheme Collections\n")
-        fp.writelines(f"return {{\n")
+    with open("lua/colorswitch/submodules.lua", "w") as sfp, open(
+        "lua/colorswitch/candidates.lua", "w"
+    ) as cfp:
+        cfp.writelines(f"-- Candidates\n")
+        cfp.writelines(f"return {{\n")
+        sfp.writelines(f"-- Submodules\n")
+        sfp.writelines(f"return {{\n")
         for repo in deduped_repos:
-            dump_color(fp, repo)
-        fp.writelines(f"}}\n")
+            dump_color(sfp, cfp, repo)
+        cfp.writelines(f"}}\n")
+        sfp.writelines(f"}}\n")
 
 
 if __name__ == "__main__":
