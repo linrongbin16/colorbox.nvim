@@ -50,6 +50,7 @@ Neovim &ge; 0.8.
     'linrongbin16/colorswitch.nvim',
     lazy = true,
     priority = 1000,
+    dependencies = { 'linrongbin16/logger.nvim' },
     config = function()
         require('colorswitch').setup()
     end
@@ -58,17 +59,31 @@ Neovim &ge; 0.8.
 
 ## Usage
 
-There's only one API: `require('colorswitch').switch(option)`, the `option` is an optional lua table for arguments.
+There's only one API: `require('colorswitch').switch(option)`, the `option` is
+an optional lua table for arguments.
 
-1. To load color on startup, add `lua require('colorswitch').switch()` to the `init.vim`.
-2. To switch to a new color, use (the same) `lua require('colorswitch').switch()`.
-3. To switch to a specific color, use `lua require('colorswitch').switch({color='your_color_name'})`.
-4. To forcibly switch to a color, use `lua require('colorswitch').switch({force=true})`.
-   It will refresh the syntax since sometimes there're highlighting issues after change a colorscheme.
+### To load color on startup
+
+Add `lua require('colorswitch').switch()` to the `init.vim`.
+
+### To switch to a new color
+
+Use (the same) `lua require('colorswitch').switch()`.
+
+### To switch to a specific color
+
+Use `lua require('colorswitch').switch({color='your_color_name'})`.
+
+### To forcibly switch to a color
+
+Use `lua require('colorswitch').switch({force=true})`.
+
+It will refresh the syntax since sometimes there're highlighting issues after
+change a colorscheme.
 
 ## Configuration
 
-```
+```lua
 require('colorswitch').setup({
     -- shuffle/repeat/fixed
     policy = 'shuffle',
@@ -90,10 +105,13 @@ require('colorswitch').setup({
 })
 ```
 
-## Collection Maintainance
+## Notes
 
 I found a few color collections never update their collections, which is a sad thing.
-To fix this issue, I use python scripts to update colors automatically, but for now I still need to manually run them:
+Also this is the original reason why I create this plugin.
+
+To fix this issue, I use python scripts to update colors automatically, but for
+now I still need to manually run them:
 
 ```bash
 python3 fetch.py
@@ -102,6 +120,8 @@ python3 build.py
 
 They will do following steps:
 
-1. Start a web crawler on [vimcolorscheme.com/top](https://vimcolorschemes.com/top) and [awesome-neovim#colorscheme](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme),
+1. Start a web crawler on [vimcolorscheme.com/top](https://vimcolorschemes.com/top)
+   and [awesome-neovim#colorscheme](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme),
    collect all the **awesome** colors.
-2. Add all these repositores as git submodules. While setup this plugin, it will append all submodules to vim's runtimepath(same as most plugin managers do).
+2. Add all these repositores as git submodules. While setup this plugin, it
+   will append all submodules to vim's runtimepath(same as plugin managers do).

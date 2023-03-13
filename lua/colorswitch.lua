@@ -3,8 +3,8 @@ local defaults = {
     submodules = require("colorswitch.submodules"),
     plugin_path = nil,
 }
-
 local config = {}
+local loaded_rtp = {}
 
 local function exists(file)
     local ok, err, code = os.rename(file, file)
@@ -24,20 +24,12 @@ local function isdir(path)
 end
 
 local function append_rtp(submodule)
-    if config.plugin_path and string.len(config.plugin_path) > 0 then
-        local submodule_path = config.plugin_path
-            .. "/colowswitch.nvim/"
-            .. submodule
-        local submodule_dirs = 
-    end
-
-    local stdpath_data = vim.fn.stdpath("data")
-    local runtimepaths = vim.api.nvim_list_runtime_paths()
-    for i, rtp in ipairs(runtimepaths) do
-        if rtp:gmatch("colorswitch.nvim") then
-            print(vim.inspect(rtp))
+    local submodule_path = config.plugin_path
+        .. "/colowswitch.nvim/"
+        .. submodule
+        if loaded_rtp[submodule_path] then
+            return
         end
-    end
 end
 
 local function setup(option)
