@@ -51,6 +51,23 @@ def dedup() -> set[util.Repo]:
     return repos
 
 
+class StashSourceCode:
+    def __init__(self) -> None:
+        for folder in util.CANDIDATE_SOURCE_FOLDERS:
+            shutil.rmtree(folder, ignore_errors=True)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exception_type, exception_value, traceback):
+        shutil.copytree(
+            pathlib.Path(".build/doc"), pathlib.Path("doc"), dirs_exist_ok=True
+        )
+        shutil.copytree(
+            pathlib.Path(".build/lua"), pathlib.Path("lua"), dirs_exist_ok=True
+        )
+
+
 def merge(repo: util.Repo) -> None:
     candidate = util.GitObject(repo)
     merge_folders = ["autoload", "colors", "doc", "lua", "after", "src", "tests"]
@@ -103,13 +120,9 @@ def build() -> None:
     deduped_repos = dedup()
 
     # merge candidates source code
-    for folder in util.CANDIDATE_SOURCE_FOLDERS:
-        shutil.rmtree(folder, ignore_errors=True)
-    for repo in deduped_repos:
-        merge(repo)
-    update_submodule_cmd = "git submodule update --init --remote"
-    logging.info(update_submodule_cmd)
-    os.system(update_submodule_cmd)
+    with StashSourceCode() as stash:
+        for repo in deduped_repos:
+            merge(repo)
 
     # dump colors
     with open("lua/colorswitch/submodules.lua", "w") as sfp, open(
