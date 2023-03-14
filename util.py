@@ -94,54 +94,6 @@ def parse_number(payload: str) -> int:
     assert False
 
 
-DATA_FILE = "repo.data"
-
-
-class DataStore:
-    @staticmethod
-    def reset() -> None:
-        pathlib.Path(DATA_FILE).unlink(missing_ok=True)
-
-    @staticmethod
-    def count(repo) -> int:
-        assert isinstance(repo, Repo)
-        try:
-            with open(DATA_FILE, "r") as fp:
-                return repo.url.lower() in [
-                    line.split(",")[0].strip().lower() for line in fp.readlines()
-                ]
-        except:
-            return 0
-
-    @staticmethod
-    def append(repo) -> None:
-        assert isinstance(repo, Repo)
-        with open(DATA_FILE, "a") as fp:
-            fp.writelines(
-                f"{repo.url},{repo.stars},{repo.last_update.isoformat() if repo.last_update else None},{repo.priority}\n"
-            )
-
-    @staticmethod
-    def get_all() -> list:
-        try:
-            with open(DATA_FILE, "r") as fp:
-                repos: list = []
-                for line in fp.readlines():
-                    line_splits = line.split(",")
-                    url = line_splits[0].strip()
-                    stars = int(line_splits[1].strip())
-                    last_update = (
-                        datetime.datetime.fromisoformat(line_splits[2].strip())
-                        if line_splits[2].strip() != "None"
-                        else None
-                    )
-                    priority = int(line_splits[3].strip())
-                    repos.append(Repo(url, stars, last_update, priority))
-                return repos
-        except:
-            return []
-
-
 CANDIDATE_OBJECT_DIR = "candidate"
 CANDIDATE_SOURCE_FOLDERS = ["autoload", "colors", "doc", "lua", "after", "src", "tests"]
 
@@ -206,6 +158,8 @@ class RepoConfig:
 
 REPO_CONFIG = {"projekt0n/github-nvim-theme": RepoConfig(branch="0.0.x")}
 
+DATA_FILE = "repo.data"
+
 
 class Repo:
     def __init__(
@@ -251,10 +205,45 @@ class Repo:
         return f"https://github.com/{self.url}"
 
     def save(self) -> None:
-        count = DataStore.count(self)
+        count = self.count()
         if count <= 0:
-            DataStore.append(self)
+            self.append()
+
+    @staticmethod
+    def reset() -> None:
+        pathlib.Path(DATA_FILE).unlink(missing_ok=True)
+
+    def count(self) -> int:
+        try:
+            with open(DATA_FILE, "r") as fp:
+                return self.url.lower() in [
+                    line.split(",")[0].strip().lower() for line in fp.readlines()
+                ]
+        except:
+            return 0
+
+    def append(self) -> None:
+        with open(DATA_FILE, "a") as fp:
+            fp.writelines(
+                f"{self.url},{self.stars},{self.last_update.isoformat() if self.last_update else None},{self.priority}\n"
+            )
 
     @staticmethod
     def get_all() -> list:
-        return DataStore.get_all()
+        try:
+            with open(DATA_FILE, "r") as fp:
+                repos: list = []
+                for line in fp.readlines():
+                    line_splits = line.split(",")
+                    url = line_splits[0].strip()
+                    stars = int(line_splits[1].strip())
+                    last_update = (
+                        datetime.datetime.fromisoformat(line_splits[2].strip())
+                        if line_splits[2].strip() != "None"
+                        else None
+                    )
+                    priority = int(line_splits[3].strip())
+                    repos.append(Repo(url, stars, last_update, priority))
+                return repos
+        except:
+            return []

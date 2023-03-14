@@ -6,14 +6,14 @@ A colorscheme switch and collection plugin for Neovim.
 
 Want more colorschemes for your Neovim? This is it.
 
-### **Awesome** collection
+### Awesome collection
 
-**Awesome** colorschemes are collected from:
+Awesome colorschemes collected from:
 
 - [vimcolorscheme.com/top](https://vimcolorschemes.com/top).
 - [awesome-neovim#colorscheme](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme).
 
-Here '**awesome**' is defined with:
+Here 'awesome' is defined with:
 
 1. Github stars &ge; 500.
 2. Last commit in 2 years(365 days/year).
