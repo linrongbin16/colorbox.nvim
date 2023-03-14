@@ -4,9 +4,6 @@
 [submodule "submodule/nyoom-engineering/oxocarbon.nvim"]
 	path = submodule/nyoom-engineering/oxocarbon.nvim
 	url = https://github.com/nyoom-engineering/oxocarbon.nvim
-[submodule "submodule/marko-cerovac/material.nvim"]
-	path = submodule/marko-cerovac/material.nvim
-	url = https://github.com/marko-cerovac/material.nvim
 [submodule "submodule/navarasu/onedark.nvim"]
 	path = submodule/navarasu/onedark.nvim
 	url = https://github.com/navarasu/onedark.nvim
