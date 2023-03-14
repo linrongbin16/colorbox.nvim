@@ -87,9 +87,9 @@ def path2str(p: pathlib.Path) -> str:
 
 
 def dump_color() -> None:
-    with open("lua/colorswitch/candidates.lua", "w") as fp:
-        fp.writelines(f"-- Candidates\n")
-        fp.writelines(f"return {{\n")
+    with open("lua/colorswitch/candidates.lua", "w") as cfp:
+        cfp.writelines(f"-- Candidates\n")
+        cfp.writelines(f"return {{\n")
         colors_dir = pathlib.Path(f"colors")
         colors_files = [
             f
@@ -98,8 +98,8 @@ def dump_color() -> None:
         ]
         colors = [str(c.name)[:-4] for c in colors_files]
         for c in colors:
-            fp.writelines(f"{util.INDENT}'{c}',\n")
-        fp.writelines(f"}}\n")
+            cfp.writelines(f"{util.INDENT}'{c}',\n")
+        cfp.writelines(f"}}\n")
 
 
 def build() -> None:
@@ -117,9 +117,13 @@ def build() -> None:
     deduped_repos = dedup()
 
     # merge candidates source code
-    with StashSourceCode() as stash:
+    with StashSourceCode() as stash, open("lua/colorswitch/submodules.lua", "w") as sfp:
+        sfp.writelines(f"-- Submodules\n")
+        sfp.writelines(f"return {{\n")
         for repo in deduped_repos:
             merge(repo)
+            sfp.writelines(f"{util.INDENT}'{repo.url}',\n")
+        sfp.writelines(f"}}\n")
 
     # dump colors
     dump_color()

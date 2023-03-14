@@ -1,6 +1,5 @@
 local logger = require("logger")
 local candidates = require("colorswitch.candidates")
-local submodules = require("colorswitch.submodules")
 
 local defaults = {
     plugin_path = nil,
