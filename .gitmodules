@@ -43,9 +43,6 @@
 [submodule "submodule/sainnhe/everforest"]
 	path = submodule/sainnhe/everforest
 	url = https://github.com/sainnhe/everforest
-[submodule "submodule/jacoborus/tender.vim"]
-	path = submodule/jacoborus/tender.vim
-	url = https://github.com/jacoborus/tender.vim
 [submodule "submodule/mhartington/oceanic-next"]
 	path = submodule/mhartington/oceanic-next
 	url = https://github.com/mhartington/oceanic-next
