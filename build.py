@@ -86,23 +86,20 @@ def path2str(p: pathlib.Path) -> str:
     return result
 
 
-def dump_color(sfp, cfp, repo: util.Repo) -> None:
-    colors_dir = pathlib.Path(f"submodule/{repo.url}/colors")
-    colors_files = [
-        f
-        for f in colors_dir.iterdir()
-        if f.is_file() and (str(f).endswith(".vim") or str(f).endswith(".lua"))
-    ]
-    colors = [str(c.name)[:-4] for c in colors_files]
-    submodule_path = pathlib.Path(f"submodule/{repo.url}")
-    submodule_subpaths = [
-        p for p in submodule_path.iterdir() if p.is_dir() and not p.name.startswith(".")
-    ]
-    submodule_subpaths.append(submodule_path)
-    submodule_subpaths_str = ",".join([f"'{path2str(p)}'" for p in submodule_subpaths])
-    for c in colors:
-        sfp.writelines(f"{util.INDENT}['{c}']={{{submodule_subpaths_str}}},\n")
-        cfp.writelines(f"{util.INDENT}'{c}',\n")
+def dump_color() -> None:
+    with open("lua/colorswitch/candidates.lua", "w") as fp:
+        fp.writelines(f"-- Candidates\n")
+        fp.writelines(f"return {{\n")
+        colors_dir = pathlib.Path(f"colors")
+        colors_files = [
+            f
+            for f in colors_dir.iterdir()
+            if f.is_file() and (str(f).endswith(".vim") or str(f).endswith(".lua"))
+        ]
+        colors = [str(c.name)[:-4] for c in colors_files]
+        for c in colors:
+            fp.writelines(f"{util.INDENT}'{c}',\n")
+        fp.writelines(f"}}\n")
 
 
 def build() -> None:
@@ -125,17 +122,7 @@ def build() -> None:
             merge(repo)
 
     # dump colors
-    with open("lua/colorswitch/submodules.lua", "w") as sfp, open(
-        "lua/colorswitch/candidates.lua", "w"
-    ) as cfp:
-        cfp.writelines(f"-- Candidates\n")
-        cfp.writelines(f"return {{\n")
-        sfp.writelines(f"-- Submodules\n")
-        sfp.writelines(f"return {{\n")
-        for repo in deduped_repos:
-            dump_color(sfp, cfp, repo)
-        cfp.writelines(f"}}\n")
-        sfp.writelines(f"}}\n")
+    dump_color()
 
 
 if __name__ == "__main__":
