@@ -143,6 +143,7 @@ class DataStore:
 
 
 CANDIDATE_OBJECT_DIR = "candidate"
+CANDIDATE_SOURCE_FOLDERS = ["autoload", "colors", "doc", "lua", "after", "src", "tests"]
 
 
 class GitObject:

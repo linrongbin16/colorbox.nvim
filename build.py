@@ -51,18 +51,15 @@ def dedup() -> set[util.Repo]:
     return repos
 
 
-def dump_submodule(repo: util.Repo) -> None:
-    submodule_path = pathlib.Path(f"submodule/{repo.url}")
-    if not submodule_path.exists() or not submodule_path.is_dir():
-        submodule_cmd = (
-            f"git submodule add -b {repo.config.branch} --force https://github.com/{repo.url} {submodule_path}"
-            if repo.config and repo.config.branch
-            else f"git submodule add --force https://github.com/{repo.url} {submodule_path}"
-        )
-        logging.info(submodule_cmd)
-        os.system(submodule_cmd)
-    else:
-        logging.info(f"submodule:{submodule_path} already exist, skip...")
+def merge(repo: util.Repo) -> None:
+    candidate = util.GitObject(repo)
+    merge_folders = ["autoload", "colors", "doc", "lua", "after", "src", "tests"]
+    target_merge_paths = [pathlib.Path(f"{candidate.path}/{d}") for d in merge_folders]
+    merge_paths = [p for p in target_merge_paths if p.exists() and p.is_dir()]
+    for source_dir in merge_paths:
+        target_dir = pathlib.Path(source_dir.name)
+        logging.info(f"merge {source_dir.absolute()} into {target_dir.absolute()}")
+        shutil.copytree(source_dir, target_dir, dirs_exist_ok=True)
 
 
 def path2str(p: pathlib.Path) -> str:
@@ -105,9 +102,11 @@ def build() -> None:
     # dedup candidates
     deduped_repos = dedup()
 
-    # dump submodule
+    # merge candidates source code
+    for folder in util.CANDIDATE_SOURCE_FOLDERS:
+        shutil.rmtree(folder, ignore_errors=True)
     for repo in deduped_repos:
-        dump_submodule(repo)
+        merge(repo)
     update_submodule_cmd = "git submodule update --init --remote"
     logging.info(update_submodule_cmd)
     os.system(update_submodule_cmd)

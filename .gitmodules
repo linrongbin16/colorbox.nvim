@@ -28,9 +28,6 @@
 [submodule "submodule/folke/tokyonight.nvim"]
 	path = submodule/folke/tokyonight.nvim
 	url = https://github.com/folke/tokyonight.nvim
-[submodule "submodule/EdenEast/nightfox.nvim"]
-	path = submodule/EdenEast/nightfox.nvim
-	url = https://github.com/EdenEast/nightfox.nvim
 [submodule "submodule/navarasu/onedark.nvim"]
 	path = submodule/navarasu/onedark.nvim
 	url = https://github.com/navarasu/onedark.nvim
