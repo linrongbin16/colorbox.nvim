@@ -34,9 +34,6 @@
 [submodule "submodule/rose-pine/neovim"]
 	path = submodule/rose-pine/neovim
 	url = https://github.com/rose-pine/neovim
-[submodule "submodule/pineapplegiant/spaceduck"]
-	path = submodule/pineapplegiant/spaceduck
-	url = https://github.com/pineapplegiant/spaceduck
 [submodule "submodule/projekt0n/github-nvim-theme"]
 	path = submodule/projekt0n/github-nvim-theme
 	url = https://github.com/projekt0n/github-nvim-theme
