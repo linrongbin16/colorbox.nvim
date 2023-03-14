@@ -10,9 +10,6 @@
 [submodule "submodule/srcery-colors/srcery-vim"]
 	path = submodule/srcery-colors/srcery-vim
 	url = https://github.com/srcery-colors/srcery-vim
-[submodule "submodule/sainnhe/everforest"]
-	path = submodule/sainnhe/everforest
-	url = https://github.com/sainnhe/everforest
 [submodule "submodule/sickill/vim-monokai"]
 	path = submodule/sickill/vim-monokai
 	url = https://github.com/sickill/vim-monokai
