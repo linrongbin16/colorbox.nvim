@@ -4,9 +4,6 @@
 [submodule "submodule/tomasiser/vim-code-dark"]
 	path = submodule/tomasiser/vim-code-dark
 	url = https://github.com/tomasiser/vim-code-dark
-[submodule "submodule/raphamorim/lucario"]
-	path = submodule/raphamorim/lucario
-	url = https://github.com/raphamorim/lucario
 [submodule "submodule/sainnhe/sonokai"]
 	path = submodule/sainnhe/sonokai
 	url = https://github.com/sainnhe/sonokai
