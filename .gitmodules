@@ -83,6 +83,3 @@
 [submodule "submodule/romainl/apprentice"]
 	path = submodule/romainl/apprentice
 	url = https://github.com/romainl/apprentice
-[submodule "submodule/dracula/vim"]
-	path = submodule/dracula/vim
-	url = https://github.com/dracula/vim
