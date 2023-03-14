@@ -34,9 +34,6 @@
 [submodule "submodule/sainnhe/everforest"]
 	path = submodule/sainnhe/everforest
 	url = https://github.com/sainnhe/everforest
-[submodule "submodule/mhartington/oceanic-next"]
-	path = submodule/mhartington/oceanic-next
-	url = https://github.com/mhartington/oceanic-next
 [submodule "submodule/sickill/vim-monokai"]
 	path = submodule/sickill/vim-monokai
 	url = https://github.com/sickill/vim-monokai
