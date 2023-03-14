@@ -25,9 +25,6 @@
 [submodule "submodule/navarasu/onedark.nvim"]
 	path = submodule/navarasu/onedark.nvim
 	url = https://github.com/navarasu/onedark.nvim
-[submodule "submodule/cocopon/iceberg.vim"]
-	path = submodule/cocopon/iceberg.vim
-	url = https://github.com/cocopon/iceberg.vim
 [submodule "submodule/sainnhe/edge"]
 	path = submodule/sainnhe/edge
 	url = https://github.com/sainnhe/edge
