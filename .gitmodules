@@ -22,6 +22,3 @@
 [submodule "submodule/sainnhe/gruvbox-material"]
 	path = submodule/sainnhe/gruvbox-material
 	url = https://github.com/sainnhe/gruvbox-material
-[submodule "submodule/rose-pine/neovim"]
-	path = submodule/rose-pine/neovim
-	url = https://github.com/rose-pine/neovim
