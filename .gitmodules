@@ -13,9 +13,6 @@
 [submodule "submodule/lifepillar/vim-solarized8"]
 	path = submodule/lifepillar/vim-solarized8
 	url = https://github.com/lifepillar/vim-solarized8
-[submodule "submodule/folke/tokyonight.nvim"]
-	path = submodule/folke/tokyonight.nvim
-	url = https://github.com/folke/tokyonight.nvim
 [submodule "submodule/navarasu/onedark.nvim"]
 	path = submodule/navarasu/onedark.nvim
 	url = https://github.com/navarasu/onedark.nvim
