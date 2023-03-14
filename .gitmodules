@@ -1,6 +1,3 @@
-[submodule "submodule/sainnhe/edge"]
-	path = submodule/sainnhe/edge
-	url = https://github.com/sainnhe/edge
 [submodule "submodule/tomasiser/vim-code-dark"]
 	path = submodule/tomasiser/vim-code-dark
 	url = https://github.com/tomasiser/vim-code-dark
