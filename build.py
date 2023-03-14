@@ -86,20 +86,19 @@ def path2str(p: pathlib.Path) -> str:
     return result
 
 
-def dump_color() -> None:
-    with open("lua/colorswitch/candidates.lua", "w") as cfp:
-        cfp.writelines(f"-- Candidates\n")
-        cfp.writelines(f"return {{\n")
-        colors_dir = pathlib.Path(f"colors")
-        colors_files = [
-            f
-            for f in colors_dir.iterdir()
-            if f.is_file() and (str(f).endswith(".vim") or str(f).endswith(".lua"))
-        ]
-        colors = [str(c.name)[:-4] for c in colors_files]
-        for c in colors:
-            cfp.writelines(f"{util.INDENT}'{c}',\n")
-        cfp.writelines(f"}}\n")
+def dump_color(cfp, sfp, repo: util.Repo) -> None:
+    candidate = util.GitObject(repo)
+    colors_dir = pathlib.Path(f"{candidate.path}/colors")
+    colors_files = [
+        f
+        for f in colors_dir.iterdir()
+        if f.is_file() and (str(f).endswith(".vim") or str(f).endswith(".lua"))
+    ]
+    colors = [str(c.name)[:-4] for c in colors_files]
+    for c in colors:
+        cfp.writelines(f"{util.INDENT}'{c}',\n")
+    lua_colors = ",".join([f"'{c}'" for c in colors])
+    sfp.writelines(f"{util.INDENT}['{repo.url}']={{{lua_colors}}},\n")
 
 
 def build() -> None:
@@ -117,16 +116,22 @@ def build() -> None:
     deduped_repos = dedup()
 
     # merge candidates source code
-    with StashSourceCode() as stash, open("lua/colorswitch/submodules.lua", "w") as sfp:
-        sfp.writelines(f"-- Submodules\n")
-        sfp.writelines(f"return {{\n")
+    with StashSourceCode() as stash:
         for repo in deduped_repos:
             merge(repo)
-            sfp.writelines(f"{util.INDENT}'{repo.url}',\n")
-        sfp.writelines(f"}}\n")
 
     # dump colors
-    dump_color()
+    with open("lua/colorswitch/submodules.lua", "w") as sfp, open(
+        "lua/colorswitch/candidates.lua", "w"
+    ) as cfp:
+        sfp.writelines(f"-- Submodules\n")
+        sfp.writelines(f"return {{\n")
+        cfp.writelines(f"-- Candidates\n")
+        cfp.writelines(f"return {{\n")
+        for repo in deduped_repos:
+            dump_color(cfp, sfp, repo)
+        sfp.writelines(f"}}\n")
+        cfp.writelines(f"}}\n")
 
 
 if __name__ == "__main__":

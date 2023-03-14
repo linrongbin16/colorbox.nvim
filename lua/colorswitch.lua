@@ -1,28 +1,97 @@
 local logger = require("logger")
 local candidates = require("colorswitch.candidates")
+local submodules = require("colorswitch.submodules")
 
 local defaults = {
-    plugin_path = nil,
+    include = nil,
+    exclude = nil,
+    no_variants = true,
+    no_dark = false,
+    no_light = true,
 }
 local config = {}
-local loaded_colors = {}
 
 local function setup(option)
     config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), option or {})
     math.randomseed(os.clock() * 100000000000)
     logger.setup({
-        log_level = option.debug and "DEBUG" or "INFO",
+        level = option.debug and "DEBUG" or "INFO",
         name = "colorswitch",
     })
-    for color, submodule_paths in pairs(submodules) do
-        for _, s in ipairs(submodule_paths) do
-            local subpath = config.plugin_path .. "/colowswitch.nvim/" .. s
-            logger.debug("submodule runtimepath: %s", subpath)
-            vim.opt.runtimepath:append(subpath)
-            logger.debug("load submodule rtp %s for color %s", subpath, color)
+
+    -- no variants(primary only)
+    if config.no_variants then
+        local new_candidates = {}
+        for submod, colors in pairs(submodules) do
+            local primary_color = nil
+            for _, color in ipairs(colors) do
+                if
+                    (submod == "EdenEast/nightfox.nvim" and color == "nightfox")
+                    or (
+                        submod == "projekt0n/github-nvim-theme"
+                        and color == "github_dark"
+                    )
+                then
+                    primary_color = color
+                elseif
+                    primary_color == nil
+                    or string.len(color) < string.len(primary_color)
+                then
+                    primary_color = color
+                end
+            end
+            table.insert(new_candidates, primary_color)
         end
+        candidates = new_candidates
+        logger.debug("no variants candidates:%s", vim.inspect(candidates))
     end
-    logger.debug("setup rtp:%s", vim.inspect(vim.api.nvim_list_runtime_paths()))
+    -- no dark or no light
+    if config.no_dark or config.no_light then
+        local new_candidates = {}
+        for _, can in ipairs(candidates) do
+            local lower_can = string.lower(can)
+            local is_light = not lower_can:match("day")
+                and not lower_can:match("light")
+                and not lower_can:match("dawn")
+            if config.no_dark and is_light then
+                table.insert(new_candidates, can)
+            end
+            if config.no_light and not is_light then
+                table.insert(new_candidates, can)
+            end
+        end
+        candidates = new_candidates
+        logger.debug("no dark/light candidates:%s", vim.inspect(candidates))
+    end
+    -- include colors
+    if type(config.include) == "table" and #config.include > 0 then
+        for _, inc in ipairs(config.include) do
+            logger.debug("include color:%s", vim.inspect(inc))
+            assert(type(inc) == "string" and string.len(inc) > 0)
+            table.insert(candidates, inc)
+        end
+        logger.debug("include candidates:%s", vim.inspect(candidates))
+    end
+    -- exclude colors
+    if type(config.exclude) == "table" then
+        local new_candidates = {}
+        for _, can in ipairs(candidates) do
+            assert(type(can) == "string" and string.len(can) > 0)
+            if config.exclude[can] then
+                logger.debug("exclude color:%s", vim.inspect(can))
+            else
+                table.insert(new_candidates, can)
+            end
+        end
+        candidates = new_candidates
+        logger.debug("exclude candidates:%s", vim.inspect(candidates))
+    end
+    logger.debug("final candidates:%s", vim.inspect(candidates))
+    if #candidates <= 0 then
+        logger.warn(
+            "Warning! No candidate colorschemes, please check your config."
+        )
+    end
 end
 
 -- random integer in [0, n)
@@ -30,31 +99,9 @@ local function randint(n)
     return math.random(0, n - 1)
 end
 
-local function load_color(color, submodule)
-    if loaded_colors[color] then
-        logger.debug("color %s already loaded on rtp", color)
-        return
-    end
-    for _, s in ipairs(submodule) do
-        local submodule_path = config.plugin_path .. "/colowswitch.nvim/" .. s
-        logger.debug("submodule runtimepath: %s", submodule_path)
-        vim.opt.runtimepath:append(submodule_path)
-        logger.debug(
-            "load submodule rtp %s for color %s",
-            submodule_path,
-            color
-        )
-    end
-    loaded_colors[color] = true
-    logger.debug("rtp:%s", vim.inspect(vim.api.nvim_list_runtime_paths()))
-end
-
+-- option: color:string, force:boolean
 local function switch(option)
     logger.debug("switch with option: %s", vim.inspect(option))
-    logger.debug(
-        "switch rtp:%s",
-        vim.inspect(vim.api.nvim_list_runtime_paths())
-    )
     local function impl(color)
         vim.cmd(string.format("colorscheme %s", color))
         if option and option["force"] then
@@ -62,9 +109,11 @@ local function switch(option)
                 diffupdate
                 syntax sync fromstart
             ]])
-            logger.info(string.format("switched to %s forcibly!", color))
+            logger.info(
+                string.format("Switch to colorscheme %s forcibly!", color)
+            )
         else
-            logger.info(string.format("switched to %s", color))
+            logger.info(string.format("Switch to colorscheme %s", color))
         end
     end
 

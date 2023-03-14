@@ -1,10 +1,13 @@
 local logger = require("logger")
 local candidates = require("colorswitch.candidates")
+local submodules = require("colorswitch.submodules")
 
 local defaults = {
     include = nil,
     exclude = nil,
-    primary = true,
+    no_variants = true,
+    no_dark = false,
+    no_light = true,
 }
 local config = {}
 
@@ -16,6 +19,50 @@ local function setup(option)
         name = "colorswitch",
     })
 
+    -- no variants(primary only)
+    if config.no_variants then
+        local new_candidates = {}
+        for submod, colors in pairs(submodules) do
+            local primary_color = nil
+            for _, color in ipairs(colors) do
+                if
+                    (submod == "EdenEast/nightfox.nvim" and color == "nightfox")
+                    or (
+                        submod == "projekt0n/github-nvim-theme"
+                        and color == "github_dark"
+                    )
+                then
+                    primary_color = color
+                elseif
+                    primary_color == nil
+                    or string.len(color) < string.len(primary_color)
+                then
+                    primary_color = color
+                end
+            end
+            table.insert(new_candidates, primary_color)
+        end
+        candidates = new_candidates
+        logger.debug("no variants candidates:%s", vim.inspect(candidates))
+    end
+    -- no dark or no light
+    if config.no_dark or config.no_light then
+        local new_candidates = {}
+        for _, can in ipairs(candidates) do
+            local lower_can = string.lower(can)
+            local is_light = not lower_can:match("day")
+                and not lower_can:match("light")
+                and not lower_can:match("dawn")
+            if config.no_dark and is_light then
+                table.insert(new_candidates, can)
+            end
+            if config.no_light and not is_light then
+                table.insert(new_candidates, can)
+            end
+        end
+        candidates = new_candidates
+        logger.debug("no dark/light candidates:%s", vim.inspect(candidates))
+    end
     -- include colors
     if type(config.include) == "table" and #config.include > 0 then
         for _, inc in ipairs(config.include) do
@@ -23,10 +70,11 @@ local function setup(option)
             assert(type(inc) == "string" and string.len(inc) > 0)
             table.insert(candidates, inc)
         end
+        logger.debug("include candidates:%s", vim.inspect(candidates))
     end
     -- exclude colors
-    local new_candidates = {}
     if type(config.exclude) == "table" then
+        local new_candidates = {}
         for _, can in ipairs(candidates) do
             assert(type(can) == "string" and string.len(can) > 0)
             if config.exclude[can] then
@@ -35,8 +83,15 @@ local function setup(option)
                 table.insert(new_candidates, can)
             end
         end
+        candidates = new_candidates
+        logger.debug("exclude candidates:%s", vim.inspect(candidates))
     end
-    candidates = new_candidates
+    logger.debug("final candidates:%s", vim.inspect(candidates))
+    if #candidates <= 0 then
+        logger.warn(
+            "Warning! No candidate colorschemes, please check your config."
+        )
+    end
 end
 
 -- random integer in [0, n)
@@ -55,10 +110,10 @@ local function switch(option)
                 syntax sync fromstart
             ]])
             logger.info(
-                string.format("switched to colorscheme %s forcibly!", color)
+                string.format("Switch to colorscheme %s forcibly!", color)
             )
         else
-            logger.info(string.format("switched to colorscheme %s", color))
+            logger.info(string.format("Switch to colorscheme %s", color))
         end
     end
 
