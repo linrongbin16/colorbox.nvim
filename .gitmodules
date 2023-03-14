@@ -1,6 +1,3 @@
-[submodule "submodule/nlknguyen/papercolor-theme"]
-	path = submodule/nlknguyen/papercolor-theme
-	url = https://github.com/nlknguyen/papercolor-theme
 [submodule "submodule/nyoom-engineering/oxocarbon.nvim"]
 	path = submodule/nyoom-engineering/oxocarbon.nvim
 	url = https://github.com/nyoom-engineering/oxocarbon.nvim
