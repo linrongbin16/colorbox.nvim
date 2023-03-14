@@ -55,9 +55,6 @@
 [submodule "submodule/rebelot/kanagawa.nvim"]
 	path = submodule/rebelot/kanagawa.nvim
 	url = https://github.com/rebelot/kanagawa.nvim
-[submodule "submodule/bluz71/vim-moonfly-colors"]
-	path = submodule/bluz71/vim-moonfly-colors
-	url = https://github.com/bluz71/vim-moonfly-colors
 [submodule "submodule/srcery-colors/srcery-vim"]
 	path = submodule/srcery-colors/srcery-vim
 	url = https://github.com/srcery-colors/srcery-vim
