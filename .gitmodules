@@ -1,6 +1,3 @@
 [submodule "submodule/tomasiser/vim-code-dark"]
 	path = submodule/tomasiser/vim-code-dark
 	url = https://github.com/tomasiser/vim-code-dark
-[submodule "submodule/srcery-colors/srcery-vim"]
-	path = submodule/srcery-colors/srcery-vim
-	url = https://github.com/srcery-colors/srcery-vim
