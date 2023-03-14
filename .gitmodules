@@ -19,9 +19,6 @@
 [submodule "submodule/ellisonleao/gruvbox.nvim"]
 	path = submodule/ellisonleao/gruvbox.nvim
 	url = https://github.com/ellisonleao/gruvbox.nvim
-[submodule "submodule/challenger-deep-theme/vim"]
-	path = submodule/challenger-deep-theme/vim
-	url = https://github.com/challenger-deep-theme/vim
 [submodule "submodule/folke/tokyonight.nvim"]
 	path = submodule/folke/tokyonight.nvim
 	url = https://github.com/folke/tokyonight.nvim
