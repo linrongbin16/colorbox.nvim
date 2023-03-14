@@ -1,9 +1,6 @@
 [submodule "submodule/tomasiser/vim-code-dark"]
 	path = submodule/tomasiser/vim-code-dark
 	url = https://github.com/tomasiser/vim-code-dark
-[submodule "submodule/sainnhe/sonokai"]
-	path = submodule/sainnhe/sonokai
-	url = https://github.com/sainnhe/sonokai
 [submodule "submodule/shaunsingh/nord.nvim"]
 	path = submodule/shaunsingh/nord.nvim
 	url = https://github.com/shaunsingh/nord.nvim
