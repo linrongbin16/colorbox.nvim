@@ -49,9 +49,6 @@
 [submodule "submodule/shaunsingh/nord.nvim"]
 	path = submodule/shaunsingh/nord.nvim
 	url = https://github.com/shaunsingh/nord.nvim
-[submodule "submodule/bluz71/vim-nightfly-colors"]
-	path = submodule/bluz71/vim-nightfly-colors
-	url = https://github.com/bluz71/vim-nightfly-colors
 [submodule "submodule/rebelot/kanagawa.nvim"]
 	path = submodule/rebelot/kanagawa.nvim
 	url = https://github.com/rebelot/kanagawa.nvim
