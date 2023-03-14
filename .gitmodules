@@ -19,9 +19,6 @@
 [submodule "submodule/srcery-colors/srcery-vim"]
 	path = submodule/srcery-colors/srcery-vim
 	url = https://github.com/srcery-colors/srcery-vim
-[submodule "submodule/preservim/vim-colors-pencil"]
-	path = submodule/preservim/vim-colors-pencil
-	url = https://github.com/preservim/vim-colors-pencil
 [submodule "submodule/sainnhe/everforest"]
 	path = submodule/sainnhe/everforest
 	url = https://github.com/sainnhe/everforest
