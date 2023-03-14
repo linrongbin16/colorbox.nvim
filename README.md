@@ -27,15 +27,10 @@ Switch on such an awesome collection, using configured policies:
 1. How to choose the next color:
 
    - Shuffle
-   - Alphabetical Order
 
 2. When to choose the next color:
    - Startup
-   - Cronjob
-
-### Custom Configuration
-
-More custom configurations are coming...
+   - Cronjob (todo)
 
 ## Requirement
 
@@ -83,38 +78,29 @@ change a colorscheme.
 
 ## Configuration
 
+By default, the color candidates list provide primary dark colors.
+
 ```lua
 require('colorswitch').setup({
-    -- shuffle/repeat/fixed
-    policy = 'shuffle',
-
-    -- specify your fixed colorscheme here, working with `policy='fixed'`.
-    fixed_color = nil,
-
-    -- blacklist, disable colors here.
-    blacklist = {},
-
-    -- appendlist, add more colors here.
-    appendlist = {},
-
-    -- cronjob, schedule a background job to switch to next color
-    -- for example:
-    --   '30 8 * * *' - 8:30 every day
-    --   '* * * * *' - every minute
-    cronjob = nil,
-
-    -- enable debug
-    debug = false,
+    -- include colors, a nil|table value.
+    include = nil,
+    -- exclude colors, a nil|table value.
+    exclude = nil,
+    -- exclude variants, keep primary only
+    no_variants = true,
+    -- exclude dark
+    no_dark = false,
+    -- exclude light
+    no_light = true,
 })
 ```
 
 ## Notes
 
-I found a few color collections never update their collections, which is a sad thing.
-Also this is the original reason why I create this plugin.
+I found a few color collections never update their collections, which is the
+original reason why I create this plugin.
 
-To fix this issue, I use python scripts to update colors automatically, but for
-now I still need to manually run them:
+To fix this issue, I use python scripts to update colors automatically:
 
 ```bash
 python3 fetch.py
@@ -125,6 +111,8 @@ They will do following steps:
 
 1. Start a web crawler on [vimcolorscheme.com/top](https://vimcolorschemes.com/top)
    and [awesome-neovim#colorscheme](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme),
-   collect all the **awesome** colors.
-2. Add all these repositores as git submodules. While setup this plugin, it
-   will append all submodules to vim's runtimepath(same as plugin managers do).
+   collect all the awesome colors.
+2. Download all these repositores, and copy the source code to this plugin.
+
+For now I run these scripts every day, so users could get daily updates.
+But I'm not sure how long I can last, this thing could be fully automatic if using a cloud machine, which is not free.
