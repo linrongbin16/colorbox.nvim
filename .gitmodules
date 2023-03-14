@@ -10,9 +10,6 @@
 [submodule "submodule/shaunsingh/nord.nvim"]
 	path = submodule/shaunsingh/nord.nvim
 	url = https://github.com/shaunsingh/nord.nvim
-[submodule "submodule/rebelot/kanagawa.nvim"]
-	path = submodule/rebelot/kanagawa.nvim
-	url = https://github.com/rebelot/kanagawa.nvim
 [submodule "submodule/srcery-colors/srcery-vim"]
 	path = submodule/srcery-colors/srcery-vim
 	url = https://github.com/srcery-colors/srcery-vim
