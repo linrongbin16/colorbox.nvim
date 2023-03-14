@@ -31,10 +31,6 @@
 [submodule "submodule/rose-pine/neovim"]
 	path = submodule/rose-pine/neovim
 	url = https://github.com/rose-pine/neovim
-[submodule "submodule/projekt0n/github-nvim-theme"]
-	path = submodule/projekt0n/github-nvim-theme
-	url = https://github.com/projekt0n/github-nvim-theme
-	branch = 0.0.x
 [submodule "submodule/romainl/apprentice"]
 	path = submodule/romainl/apprentice
 	url = https://github.com/romainl/apprentice
