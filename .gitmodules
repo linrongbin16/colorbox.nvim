@@ -13,6 +13,3 @@
 [submodule "submodule/sickill/vim-monokai"]
 	path = submodule/sickill/vim-monokai
 	url = https://github.com/sickill/vim-monokai
-[submodule "submodule/sainnhe/gruvbox-material"]
-	path = submodule/sainnhe/gruvbox-material
-	url = https://github.com/sainnhe/gruvbox-material
