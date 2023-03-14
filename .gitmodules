@@ -4,6 +4,3 @@
 [submodule "submodule/srcery-colors/srcery-vim"]
 	path = submodule/srcery-colors/srcery-vim
 	url = https://github.com/srcery-colors/srcery-vim
-[submodule "submodule/sickill/vim-monokai"]
-	path = submodule/sickill/vim-monokai
-	url = https://github.com/sickill/vim-monokai
