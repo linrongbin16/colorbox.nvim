@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Jetbrains
+.idea
+
+# Sqlit3
+*.db
+
+# Candidates
+/candidate
