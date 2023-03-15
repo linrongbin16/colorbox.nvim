@@ -14,7 +14,7 @@ local function setup(option)
     config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), option or {})
     math.randomseed(os.clock() * 100000000000)
     logger.setup({
-        level = config.debug and "DEBUG" or "INFO",
+        level = option.debug and "DEBUG" or "INFO",
         name = "colorswitch",
     })
     logger.debug("config:%s", vim.inspect(config))

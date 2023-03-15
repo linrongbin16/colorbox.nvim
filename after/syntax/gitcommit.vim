@@ -1,12 +1,10 @@
-if dracula#should_abort('gitcommit')
-    finish
+if srcery#helper#ShouldAbort('gitcommit')
+  finish
 endif
 
-" The following two are misnomers. Colors are correct.
-hi! link diffFile    DraculaGreen
-hi! link diffNewFile DraculaRed
+" GitCommit: "{{{
 
-hi! link diffAdded   DraculaGreen
-hi! link diffLine    DraculaCyanItalic
-hi! link diffRemoved DraculaRed
+hi! link gitcommitSelectedFile SrceryGreen
+hi! link gitcommitDiscardedFile SrceryRed
 
+" }}}

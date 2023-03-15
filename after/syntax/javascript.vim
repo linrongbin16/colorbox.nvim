@@ -1,45 +1,44 @@
-if dracula#should_abort('javascript', 'javascriptreact', 'javascript.jsx')
+if srcery#helper#ShouldAbort('javascript')
   finish
 endif
 
-hi! link javaScriptBraces   Delimiter
-hi! link javaScriptNumber   Constant
-hi! link javaScriptNull     Constant
-hi! link javaScriptFunction Keyword
+" JavaScript: {{{
 
-" pangloss/vim-javascript {{{
+hi! link javascriptMember SrceryBlue
+hi! link javascriptNull SrceryMagenta
 
-hi! link jsArrowFunction           Operator
-hi! link jsBuiltins                DraculaCyan
-hi! link jsClassDefinition         DraculaCyan
-hi! link jsClassMethodType         Keyword
-hi! link jsDestructuringAssignment DraculaOrangeItalic
-hi! link jsDocParam                DraculaOrangeItalic
-hi! link jsDocTags                 Keyword
-hi! link jsDocType                 Type
-hi! link jsDocTypeBrackets         DraculaCyan
-hi! link jsFuncArgOperator         Operator
-hi! link jsFuncArgs                DraculaOrangeItalic
-hi! link jsFunction                Keyword
-hi! link jsNull                    Constant
-hi! link jsObjectColon             DraculaPink
-hi! link jsSuper                   DraculaPurpleItalic
-hi! link jsTemplateBraces          Special
-hi! link jsThis                    DraculaPurpleItalic
-hi! link jsUndefined               Constant
+hi! link javascriptParens SrceryWhite
+hi! link javascriptBraces SrceryWhite
+hi! link javascriptReserved SrceryOrange
+hi! link javascriptIdentifier SrceryRed
 
-"}}}
+hi! link javascriptFuncArg Normal
+hi! link javascriptDocComment SrceryGreen
+hi! link javascriptArrayMethod Function
+hi! link javascriptReflectMethod Function
+hi! link javascriptStringMethod Function
+hi! link javascriptObjectMethod Function
+hi! link javascriptObjectStaticMethod Function
+hi! link javascriptObjectLabel SrceryBlue
+hi! link javascriptFunction SrceryRed
 
-" maxmellon/vim-jsx-pretty {{{
+hi! link javascriptProp SrceryBlue
 
-hi! link jsxTag             Keyword
-hi! link jsxTagName         Keyword
-hi! link jsxComponentName   Type
-hi! link jsxCloseTag        Type
-hi! link jsxAttrib          DraculaGreenItalic
-hi! link jsxCloseString     Identifier
-hi! link jsxOpenPunct       Identifier
+hi! link javascriptVariable SrceryBrightBlue
+hi! link javascriptOperator SrceryBrightCyan
+hi! link javascriptFuncKeyword SrceryBrightRed
+hi! link javascriptFunctionMethod SrceryYellow
+hi! link javascriptReturn SrceryBrightRed
+hi! link javascriptEndColons SrceryWhite
+
+" vim-javascript
+hi! link jsFunction SrceryRed
+hi! link jsImport SrceryRed
+hi! link jsObjectSeparator SrceryWhite
+hi! link jsParens SrceryWhite
+hi! link jsFuncParens SrceryWhite
+hi! link jsNoise SrceryWhite
+hi! link jsEnvComment SrceryBrightBlack
+hi! link jsOperator SrceryBrightCyan
 
 " }}}
-
-" vim: fdm=marker ts=2 sts=2 sw=2 fdl=0:

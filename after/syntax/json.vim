@@ -1,6 +1,12 @@
-if dracula#should_abort('json')
-    finish
+if srcery#helper#ShouldAbort('json')
+  finish
 endif
 
-hi! link jsonKeyword      DraculaCyan
-hi! link jsonKeywordMatch DraculaPink
+" JSON: {{{
+
+hi! link jsonKeyword SrceryGreen
+hi! link jsonQuote SrceryGreen
+hi! link jsonBraces SrceryBlue
+hi! link jsonString SrceryBlue
+
+" }}}

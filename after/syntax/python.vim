@@ -1,11 +1,21 @@
-if dracula#should_abort('python')
-    finish
+if srcery#helper#ShouldAbort('python')
+  finish
 endif
 
-hi! link pythonBuiltinObj    Type
-hi! link pythonBuiltinObject Type
-hi! link pythonBuiltinType   Type
-hi! link pythonClassVar      DraculaPurpleItalic
-hi! link pythonExClass       Type
-hi! link pythonNone          Type
-hi! link pythonRun           Comment
+" Python: {{{
+
+hi! link pythonBuiltin SrceryYellow
+hi! link pythonBuiltinObj SrceryYellow
+hi! link pythonBuiltinFunc SrceryYellow
+hi! link pythonFunction SrceryCyan
+hi! link pythonDecorator SrceryRed
+hi! link pythonInclude SrceryBlue
+hi! link pythonImport SrceryBlue
+hi! link pythonRun SrceryBlue
+hi! link pythonCoding SrceryBlue
+hi! link pythonOperator SrceryRed
+hi! link pythonExceptions SrceryMagenta
+hi! link pythonBoolean SrceryMagenta
+hi! link pythonDot SrceryBrightWhite
+
+" }}}

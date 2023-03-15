@@ -1,22 +1,11 @@
-if dracula#should_abort('lua')
-    finish
+if srcery#helper#ShouldAbort('lua')
+  finish
 endif
 
-hi! link luaFunc  DraculaCyan
-hi! link luaTable DraculaFg
+" Lua: {{{
 
-" tbastos/vim-lua {{{
-
-hi! link luaBraces       DraculaFg
-hi! link luaBuiltIn      Constant
-hi! link luaDocTag       Keyword
-hi! link luaErrHand      DraculaCyan
-hi! link luaFuncArgName  DraculaOrangeItalic
-hi! link luaFuncCall     Function
-hi! link luaLocal        Keyword
-hi! link luaSpecialTable Constant
-hi! link luaSpecialValue DraculaCyan
+hi! link luaIn SrceryRed
+hi! link luaFunction SrceryCyan
+hi! link luaTable SrceryYellow
 
 " }}}
-
-" vim: fdm=marker ts=2 sts=2 sw=2 fdl=0:

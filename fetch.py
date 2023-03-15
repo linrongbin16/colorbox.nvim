@@ -120,9 +120,7 @@ class AwesomeNeovim:
         a_splits = a.split("(")
         repo = a_splits[0]
         stars = util.parse_number(a_splits[1])
-        # here set last_update=now because I'm lazy to fetch github stars by other methods
-        # I just simply assume awesome-neovim's plugins always have more updates
-        return util.Repo(repo, stars, datetime.datetime.now(), priority=100)
+        return util.Repo(repo, stars, None, priority=100)
 
     def parse_color(self, driver: Chrome, tag_id: str) -> list[util.Repo]:
         repositories = []

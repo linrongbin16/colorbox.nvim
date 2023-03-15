@@ -1,5 +1,11 @@
-if dracula#should_abort('rust')
-    finish
+if srcery#helper#ShouldAbort('rust')
+  finish
 endif
 
-hi! link rustCommentLineDoc Comment
+" Rust: {{{
+
+"https://github.com/rust-lang/rust.vim/blob/master/syntax/rust.vim
+hi! link rustCommentLineDoc SrceryGreen
+hi! link rustModPathSep SrceryBrightBlack
+
+" }}}
