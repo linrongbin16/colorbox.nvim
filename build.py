@@ -7,6 +7,7 @@ import pathlib
 import shutil
 from dataclasses import is_dataclass
 from os.path import exists
+from typing import is_typeddict
 
 import util
 
@@ -53,8 +54,14 @@ def dedup() -> set[util.Repo]:
 
 class StashSourceCode:
     def __init__(self) -> None:
-        for folder in util.CANDIDATE_SOURCE_FOLDERS:
-            shutil.rmtree(folder, ignore_errors=True)
+        root = pathlib.Path(".")
+        for folder in root.iterdir():
+            if (
+                folder.is_dir()
+                and not folder.name.startswith(".")
+                and folder.name != "__pycache__"
+            ):
+                shutil.rmtree(folder, ignore_errors=True)
 
     def __enter__(self):
         return self
@@ -70,9 +77,9 @@ class StashSourceCode:
 
 def merge(repo: util.Repo) -> None:
     candidate = util.GitObject(repo)
-    merge_folders = ["autoload", "colors", "doc", "lua", "after", "src", "tests"]
-    target_merge_paths = [pathlib.Path(f"{candidate.path}/{d}") for d in merge_folders]
-    merge_paths = [p for p in target_merge_paths if p.exists() and p.is_dir()]
+    merge_paths = [
+        d for d in candidate.path.iterdir() if d.is_dir() and not d.name.startswith(".")
+    ]
     for source_dir in merge_paths:
         target_dir = pathlib.Path(source_dir.name)
         logging.info(f"merge {source_dir.absolute()} into {target_dir.absolute()}")
