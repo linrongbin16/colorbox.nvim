@@ -97,9 +97,12 @@ class Vimcolorscheme:
                         logging.info(f"vsc skip for stars - repo:{repo}")
                         continue
                     assert isinstance(repo.last_update, datetime.datetime)
+                    now = datetime.datetime.now()
                     if (
                         repo.last_update.timestamp() + util.LASTCOMMIT
-                        < datetime.datetime.now().timestamp()
+                        < datetime.datetime(
+                            now.year, now.month, now.day, 0, 0, 0, 0
+                        ).timestamp()
                     ):
                         logging.info(f"vsc skip for last_update - repo:{repo}")
                         continue

@@ -1,6 +1,4 @@
 local logger = require("logger")
-local candidates = require("colorswitch.candidates")
-local submodules = require("colorswitch.submodules")
 
 local defaults = {
     include = nil,
@@ -10,6 +8,7 @@ local defaults = {
     no_light = true,
 }
 local config = {}
+local candidates = {}
 
 local function setup(option)
     config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), option or {})
@@ -18,73 +17,46 @@ local function setup(option)
         level = option.debug and "DEBUG" or "INFO",
         name = "colorswitch",
     })
+    logger.debug("config:%s", vim.inspect(config))
 
-    -- no variants(primary only)
-    if config.no_variants then
-        local new_candidates = {}
-        for submod, colors in pairs(submodules) do
-            local primary_color = nil
-            for _, color in ipairs(colors) do
-                if
-                    (submod == "EdenEast/nightfox.nvim" and color == "nightfox")
-                    or (
-                        submod == "projekt0n/github-nvim-theme"
-                        and color == "github_dark"
-                    )
-                then
-                    primary_color = color
-                elseif
-                    primary_color == nil
-                    or string.len(color) < string.len(primary_color)
-                then
-                    primary_color = color
-                end
-            end
-            table.insert(new_candidates, primary_color)
+    -- no variants, no dark, no light
+    candidates = require("colorswitch.candidates")
+    local filter1 = {}
+    for _, cand in ipairs(candidates) do
+        if
+            (config.no_variants and not cand.primary)
+            or (config.no_dark and cand.dark)
+            or (config.no_light and cand.light)
+        then
+            logger.debug("filtered candidate:%s", vim.inspect(cand))
+        else
+            table.insert(filter1, cand)
         end
-        candidates = new_candidates
-        logger.debug("no variants candidates:%s", vim.inspect(candidates))
     end
-    -- no dark or no light
-    if config.no_dark or config.no_light then
-        local new_candidates = {}
-        for _, can in ipairs(candidates) do
-            local lower_can = string.lower(can)
-            local is_light = not lower_can:match("day")
-                and not lower_can:match("light")
-                and not lower_can:match("dawn")
-            if config.no_dark and is_light then
-                table.insert(new_candidates, can)
-            end
-            if config.no_light and not is_light then
-                table.insert(new_candidates, can)
-            end
-        end
-        candidates = new_candidates
-        logger.debug("no dark/light candidates:%s", vim.inspect(candidates))
-    end
+    candidates = filter1
+    logger.debug("filter1 candidates:%s", vim.inspect(candidates))
+
     -- include colors
     if type(config.include) == "table" and #config.include > 0 then
         for _, inc in ipairs(config.include) do
             logger.debug("include color:%s", vim.inspect(inc))
             assert(type(inc) == "string" and string.len(inc) > 0)
-            table.insert(candidates, inc)
+            table.insert(candidates, { inc })
         end
-        logger.debug("include candidates:%s", vim.inspect(candidates))
+        logger.debug("included candidates:%s", vim.inspect(candidates))
     end
     -- exclude colors
     if type(config.exclude) == "table" then
-        local new_candidates = {}
-        for _, can in ipairs(candidates) do
-            assert(type(can) == "string" and string.len(can) > 0)
-            if config.exclude[can] then
-                logger.debug("exclude color:%s", vim.inspect(can))
+        local filter2 = {}
+        for _, cand in ipairs(candidates) do
+            if config.exclude[cand[1]] then
+                logger.debug("exclude color:%s", vim.inspect(cand))
             else
-                table.insert(new_candidates, can)
+                table.insert(filter2, cand)
             end
         end
-        candidates = new_candidates
-        logger.debug("exclude candidates:%s", vim.inspect(candidates))
+        candidates = filter2
+        logger.debug("excluded candidates:%s", vim.inspect(candidates))
     end
     logger.debug("final candidates:%s", vim.inspect(candidates))
     if #candidates <= 0 then
@@ -121,7 +93,7 @@ local function switch(option)
         impl(option["color"])
     else
         local index = randint(#candidates)
-        impl(candidates[index])
+        impl(candidates[index][1])
     end
 end
 

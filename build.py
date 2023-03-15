@@ -86,7 +86,7 @@ def path2str(p: pathlib.Path) -> str:
     return result
 
 
-def dump_color(cfp, sfp, repo: util.Repo) -> None:
+def dump_color(cfp, repo: util.Repo) -> None:
     candidate = util.GitObject(repo)
     colors_dir = pathlib.Path(f"{candidate.path}/colors")
     colors_files = [
@@ -95,10 +95,33 @@ def dump_color(cfp, sfp, repo: util.Repo) -> None:
         if f.is_file() and (str(f).endswith(".vim") or str(f).endswith(".lua"))
     ]
     colors = [str(c.name)[:-4] for c in colors_files]
+    primary_color = None
     for c in colors:
-        cfp.writelines(f"{util.INDENT}'{c}',\n")
-    lua_colors = ",".join([f"'{c}'" for c in colors])
-    sfp.writelines(f"{util.INDENT}['{repo.url}']={{{lua_colors}}},\n")
+        if (
+            repo.url == "EdenEast/nightfox.nvim"
+            and c == "nightfox"
+            or repo.url == "projekt0n/github-nvim-theme"
+            and c == "github_dark"
+        ):
+            primary_color = c
+        elif primary_color is None or len(c) < len(primary_color):
+            primary_color = c
+    for c in colors:
+        is_light = (
+            "true"
+            if (
+                c.lower().find("light") >= 0
+                or c.lower().find("day") >= 0
+                or c.lower().find("dawn") >= 0
+            )
+            else "false"
+        )
+        is_dark = "true" if is_light == "false" else "false"
+        is_primary = "true" if c == primary_color else "false"
+        # color, is_primary, is_light, is_dark
+        cfp.writelines(
+            f"{util.INDENT}{{'{c}', ['primary']={is_primary},['light']={is_light},['dark']={is_dark},}},\n"
+        )
 
 
 def build() -> None:
@@ -121,16 +144,11 @@ def build() -> None:
             merge(repo)
 
     # dump colors
-    with open("lua/colorswitch/submodules.lua", "w") as sfp, open(
-        "lua/colorswitch/candidates.lua", "w"
-    ) as cfp:
-        sfp.writelines(f"-- Submodules\n")
-        sfp.writelines(f"return {{\n")
+    with open("lua/colorswitch/candidates.lua", "w") as cfp:
         cfp.writelines(f"-- Candidates\n")
         cfp.writelines(f"return {{\n")
         for repo in deduped_repos:
-            dump_color(cfp, sfp, repo)
-        sfp.writelines(f"}}\n")
+            dump_color(cfp, repo)
         cfp.writelines(f"}}\n")
 
 
