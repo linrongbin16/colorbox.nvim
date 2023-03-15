@@ -1,42 +1,50 @@
-if srcery#helper#ShouldAbort('markdown')
-  finish
+if dracula#should_abort('markdown', 'mkd')
+    finish
 endif
 
-let s:none = g:srcery#palette.none
-let s:bright_white = g:srcery#palette.bright_white
-let s:italic = g:srcery#palette.italic
-let s:underline = g:srcery#palette.underline
+if b:current_syntax ==# 'mkd'
+" plasticboy/vim-markdown {{{1
+  hi! link htmlBold       DraculaOrangeBold
+  hi! link htmlBoldItalic DraculaOrangeBoldItalic
+  hi! link htmlH1         DraculaPurpleBold
+  hi! link htmlItalic     DraculaYellowItalic
+  hi! link mkdBlockquote  DraculaYellowItalic
+  hi! link mkdBold        DraculaOrangeBold
+  hi! link mkdBoldItalic  DraculaOrangeBoldItalic
+  hi! link mkdCode        DraculaGreen
+  hi! link mkdCodeEnd     DraculaGreen
+  hi! link mkdCodeStart   DraculaGreen
+  hi! link mkdHeading     DraculaPurpleBold
+  hi! link mkdInlineUrl   DraculaLink
+  hi! link mkdItalic      DraculaYellowItalic
+  hi! link mkdLink        DraculaPink
+  hi! link mkdListItem    DraculaCyan
+  hi! link mkdRule        DraculaComment
+  hi! link mkdUrl         DraculaLink
+"}}}1
+elseif b:current_syntax ==# 'markdown'
+" Builtin: {{{1
+  hi! link markdownBlockquote        DraculaCyan
+  hi! link markdownBold              DraculaOrangeBold
+  hi! link markdownBoldItalic        DraculaOrangeBoldItalic
+  hi! link markdownCodeBlock         DraculaGreen
+  hi! link markdownCode              DraculaGreen
+  hi! link markdownCodeDelimiter     DraculaGreen
+  hi! link markdownH1                DraculaPurpleBold
+  hi! link markdownH2                markdownH1
+  hi! link markdownH3                markdownH1
+  hi! link markdownH4                markdownH1
+  hi! link markdownH5                markdownH1
+  hi! link markdownH6                markdownH1
+  hi! link markdownHeadingDelimiter  markdownH1
+  hi! link markdownHeadingRule       markdownH1
+  hi! link markdownItalic            DraculaYellowItalic
+  hi! link markdownLinkText          DraculaPink
+  hi! link markdownListMarker        DraculaCyan
+  hi! link markdownOrderedListMarker DraculaCyan
+  hi! link markdownRule              DraculaComment
+  hi! link markdownUrl               DraculaLink
+"}}}
+endif
 
-" Markdown: {{{
-
-call srcery#helper#Highlight('markdownItalic', s:bright_white, s:none, s:italic)
-
-hi! link markdownH1 SrceryBrightBlueBold
-hi! link markdownH2 SrceryBrightBlueBold
-hi! link markdownH3 SrceryBrightYellowBold
-hi! link markdownH4 SrceryBrightYellowBold
-hi! link markdownH5 SrceryYellowBold
-hi! link markdownH6 SrceryYellowBold
-
-hi! link markdownCode SrceryWhite
-hi! link markdownCodeBlock SrceryWhite
-hi! link markdownCodeDelimiter SrceryWhite
-
-hi! link markdownBlockquote SrceryBrightBlack
-hi! link markdownListMarker SrceryBrightBlack
-hi! link markdownOrderedListMarker SrceryBrightBlack
-hi! link markdownRule SrceryBrightBlack
-hi! link markdownHeadingRule SrceryBrightBlack
-
-hi! link markdownUrlDelimiter SrceryBrightBlack
-hi! link markdownLinkDelimiter SrceryBrightBlack
-hi! link markdownLinkTextDelimiter SrceryBrightBlack
-
-hi! link markdownHeadingDelimiter SrceryBrightBlack
-hi! link markdownUrl SrceryBrightGreen
-hi! link markdownUrlTitleDelimiter SrceryGreen
-
-call srcery#helper#Highlight('markdownLinkText', s:bright_white, s:none, s:underline)
-hi! link markdownIdDeclaration markdownLinkText
-
-" }}}
+" vim: fdm=marker ts=2 sts=2 sw=2 fdl=0:
