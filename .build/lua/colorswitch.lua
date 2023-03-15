@@ -6,6 +6,8 @@ local defaults = {
     no_variants = true,
     no_dark = false,
     no_light = true,
+    -- DEBUG/INFO/WARN/ERROR
+    log_level = "INFO",
 }
 local config = {}
 local candidates = {}
@@ -14,7 +16,7 @@ local function setup(option)
     config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), option or {})
     math.randomseed(os.clock() * 100000000000)
     logger.setup({
-        level = config.debug and "DEBUG" or "INFO",
+        level = config.log_level,
         name = "colorswitch",
     })
     logger.debug("config:%s", vim.inspect(config))

@@ -96,6 +96,9 @@ require('colorswitch').setup({
 
     -- no light
     no_light = true,
+
+    -- log level: DEBUG/INFO/WARN/ERROR
+    log_level = "WARN",
 })
 ```
 
