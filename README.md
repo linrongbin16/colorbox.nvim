@@ -102,8 +102,8 @@ require('colorswitch').setup({
 
 ## Notes
 
-I found a few color collections never update their collections, which is the
-original reason why I create this plugin.
+I found a few color collections never update their colors, which is the origin
+reason I create this plugin.
 
 To solve this issue, I use python scripts to update colors automatically.
 
