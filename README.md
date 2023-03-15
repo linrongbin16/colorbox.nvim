@@ -20,9 +20,13 @@ Here 'awesome' is defined with:
 3. For multiple ports/variants, keep the one with more plugins support, stars or
    git commits.
 
+Please check [repo.data](https://github.com/linrongbin16/colorswitch.nvim/blob/main/repo.data)
+for full git repositories list, and check [colors](https://github.com/linrongbin16/colorswitch.nvim/tree/main/colors)
+for full colors list.
+
 ### Switch Policy
 
-Switch on such an awesome collection, using configured policies:
+Choose one in the collection, using configured policies:
 
 1. How to choose the next color:
 
@@ -106,9 +110,9 @@ To solve this issue, I use python scripts to update colors automatically.
 1. `fetch.py` starts a web crawler on [vimcolorscheme.com/top](https://vimcolorschemes.com/top)
    and [awesome-neovim#colorscheme](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme),
    collect all the awesome colors.
-2. `build.py` downloads all git repositores, copy the source code to this plugin,
-   and generate runtime colorscheme candidates for this plugin.
+2. `build.py` downloads all git repositores, copy the source code, and generate
+   runtime colorscheme candidates.
 
 For now I run these scripts every day, so users could get daily updates.
 This thing could be fully automatic if using a cloud machine, which is not free.
-I'm not sure how long I can maintain this plugin :).
+I'm not sure how long I can maintain this :).
