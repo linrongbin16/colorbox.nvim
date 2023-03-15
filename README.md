@@ -84,13 +84,17 @@ By default, the color candidates list provide primary dark colors.
 require('colorswitch').setup({
     -- include colors, a nil|table value.
     include = nil,
+
     -- exclude colors, a nil|table value.
     exclude = nil,
-    -- exclude variants, keep primary only
+
+    -- no variants, primary only
     no_variants = true,
-    -- exclude dark
+
+    -- dark only
     no_dark = false,
-    -- exclude light
+
+    -- no light
     no_light = true,
 })
 ```
@@ -115,4 +119,5 @@ They will do following steps:
 2. Download all these repositores, and copy the source code to this plugin.
 
 For now I run these scripts every day, so users could get daily updates.
-But I'm not sure how long I can last, this thing could be fully automatic if using a cloud machine, which is not free.
+This thing could be fully automatic if using a cloud machine, which is not free.
+I'm not sure how long I can maintain this plugin :).
