@@ -53,11 +53,7 @@ def make_driver() -> Chrome:
     options.add_experimental_option("useAutomationExtension", False)
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
-    desired_capabilities = DesiredCapabilities().CHROME.copy()
-    # desired_capabilities["pageLoadStrategy"] = "eager"
-    desired_capabilities["acceptInsecureCerts"] = True
-
-    return Chrome(options=options, desired_capabilities=desired_capabilities)
+    return Chrome(options=options)
 
 
 class Vimcolorscheme:
