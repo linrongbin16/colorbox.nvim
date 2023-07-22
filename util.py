@@ -5,16 +5,20 @@ import logging
 import os
 import pathlib
 import shutil
+import subprocess
 import sys
 from dataclasses import dataclass
 from typing import Optional
 
+from tinydb import Query, TinyDB
+
 STARS = 500
-LASTCOMMIT = 2 * 365 * 24 * 3600  # 2 years * 365 days * 24 hours * 3600 seconds
+LASTCOMMIT = 3 * 365 * 24 * 3600  # 3 years * 365 days * 24 hours * 3600 seconds
 INDENT_SIZE = 4
 INDENT = " " * INDENT_SIZE
 HEADLESS = True
 TIMEOUT = 30
+CANDIDATE_DIR = "candidate"
 
 
 @dataclass
@@ -23,7 +27,7 @@ class CliOptions:
     headless: bool = False
 
 
-def parse_options():
+def parse_options() -> CliOptions:
     log_level = logging.INFO
     if "--debug" in sys.argv:
         log_level = logging.DEBUG
@@ -38,17 +42,19 @@ def init_logging(options: CliOptions) -> None:
     assert isinstance(log_level, int) or log_level is None
     log_level = logging.WARNING if log_level is None else log_level
     logging.basicConfig(
-        format="%(asctime)s %(levelname)s [%(filename)s:%(lineno)d](%(funcName)s) %(message)s",
+        format="%(asctime)s %(levelname)s [%(filename)s:%(lineno)d]%(funcName)s - %(message)s",
         level=log_level,
+        handlers=[logging.StreamHandler(), logging.FileHandler(f"{sys.argv[0]}.log")],
     )
 
 
 def blacklist(repo) -> bool:
-    assert isinstance(repo, Repo)
+    assert isinstance(repo, RepoObject)
     blacklists = [
         "rafi/awesome-vim-colorschemes",
         "sonph/onehalf",
         "mini.nvim#minischeme",
+        "mini.nvim#colorschemes",
         "olimorris/onedarkpro.nvim",
     ]
     return any([True for b in blacklists if repo.url.find(b) >= 0])
@@ -60,7 +66,7 @@ def backup_file(src: pathlib.Path):
     if src.is_symlink() or src.exists():
         dest = f"{src}.{datetime.datetime.now().strftime('%Y-%m-%d.%H-%M-%S.%f')}"
         src.rename(dest)
-        logging.info(f"backup '{src}' to '{dest}'")
+        logging.debug(f"backup '{src}' to '{dest}'")
 
 
 def parse_number(payload: str) -> int:
@@ -94,14 +100,18 @@ def parse_number(payload: str) -> int:
     assert False
 
 
-CANDIDATE_OBJECT_DIR = "candidate"
-CANDIDATE_SOURCE_FOLDERS = ["autoload", "colors", "doc", "lua", "after", "src", "tests"]
+def trim_quotes(s: str) -> str:
+    if s.startswith('"') or s.startswith("'"):
+        s = s[1:]
+    if s.endswith('"') or s.endswith("'"):
+        s = s[:-1]
+    return s
 
 
 class GitObject:
     def __init__(self, repo) -> None:
-        assert isinstance(repo, Repo)
-        self.root = pathlib.Path(CANDIDATE_OBJECT_DIR)
+        assert isinstance(repo, RepoObject)
+        self.root = pathlib.Path(CANDIDATE_DIR)
         self.root.mkdir(parents=True, exist_ok=True)
         self.repo = repo
         self.path = pathlib.Path(f"{self.root}/{self.repo.url}")
@@ -127,24 +137,38 @@ class GitObject:
                 if specific_branch
                 else f"git clone --depth=1 {self.repo.get_github_url()} {self.path}"
             )
-            logging.info(clone_cmd)
+            logging.debug(clone_cmd)
             if self.path.exists() and self.path.is_dir():
                 shutil.rmtree(self.path)
             os.system(clone_cmd)
         except Exception as e:
-            logging.exception(f"failed to git clone:{self.repo.get_github_url()}", e)
+            logging.exception(
+                f"failed to git clone candidate:{self.repo.get_github_url()}", e
+            )
+
+    def last_commit_datetime(self) -> datetime.datetime:
+        cwd = os.getcwd()
+        os.chdir(self.path)
+        last_commit_time = subprocess.check_output(
+            ["git", "log", "-1", '--format="%at"'], encoding="UTF-8"
+        ).strip()
+        last_commit_time = trim_quotes(last_commit_time)
+        dt = datetime.datetime.fromtimestamp(int(last_commit_time))
+        logging.debug(f"repo ({self.repo}) last git commit time:{dt}")
+        os.chdir(cwd)
+        return dt
 
     def _init_colors(self) -> list[str]:
-        color_dir = pathlib.Path(f"{self.path}/colors")
-        if not color_dir.exists() or not color_dir.is_dir():
+        colors_dir = pathlib.Path(f"{self.path}/colors")
+        if not colors_dir.exists() or not colors_dir.is_dir():
             return []
-        color_files = [f for f in color_dir.iterdir() if f.is_file()]
+        colors_files = [f for f in colors_dir.iterdir() if f.is_file()]
         colors = [
             str(c.name)[:-4]
-            for c in color_files
+            for c in colors_files
             if str(c).endswith(".vim") or str(c).endswith(".lua")
         ]
-        logging.info(f"repo ({self.repo.url}) collect colors:{colors}")
+        logging.debug(f"repo ({self.repo}) contains colors:{colors}")
         return colors
 
 
@@ -156,28 +180,39 @@ class RepoConfig:
         return f"<RepoConfig branch:{self.branch}>"
 
 
-REPO_CONFIG = {"projekt0n/github-nvim-theme": RepoConfig(branch="0.0.x")}
+REPO_CONFIG = {
+    "projekt0n/github-nvim-theme": RepoConfig(branch="0.0.x"),
+}
 
-DATA_FILE = "repo.data"
 
+class RepoObject:
+    DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S"
+    DB = TinyDB("repo.json")
+    URL = "url"
+    STARS = "stars"
+    LAST_UPDATE = "last_update"
+    PRIORITY = "priority"
+    SOURCE = "source"
 
-class Repo:
     def __init__(
         self,
         url: str,
         stars: int,
         last_update: Optional[datetime.datetime] = None,
         priority: int = 0,
+        source: Optional[str] = None,
     ) -> None:
         assert isinstance(url, str)
         assert isinstance(stars, int) and stars >= 0
         assert isinstance(last_update, datetime.datetime) or last_update is None
         assert isinstance(priority, int)
+        assert isinstance(source, str) or source is None
         self.url = self._init_url(url)
         self.stars = stars
         self.last_update = last_update
         self.priority = priority
         self.config = self._init_config(url)
+        self.source = source
 
     def _init_url(self, url: str) -> str:
         url = url.strip()
@@ -188,62 +223,107 @@ class Repo:
         return url
 
     def _init_config(self, url: str) -> Optional[RepoConfig]:
-        if url not in REPO_CONFIG:
-            return None
-        return REPO_CONFIG[url]
+        return REPO_CONFIG[url] if url in REPO_CONFIG else None
 
     def __str__(self):
-        return f"<Repo url:{self.url}, stars:{self.stars}, last_update:{self.last_update.isoformat() if self.last_update else None}, priority:{self.priority}, config:{self.config}>"
+        return f"<RepoObject url:{self.url}, stars:{self.stars}, last_update:{RepoObject.datetime_tostring(self.last_update)}, priority:{self.priority}, config:{self.config}>"
 
     def __hash__(self):
         return hash(self.url.lower())
 
     def __eq__(self, other):
-        return isinstance(other, Repo) and self.url.lower() == other.url.lower()
+        return isinstance(other, RepoObject) and self.url.lower() == other.url.lower()
 
     def get_github_url(self):
         return f"https://github.com/{self.url}"
 
-    def save(self) -> None:
-        count = self.count()
-        if count <= 0:
-            self.append()
+    def altered_name(self) -> Optional[str]:
+        url_splits = self.url.split("/")
+        org = url_splits[0]
+        repo = url_splits[1]
+
+        def invalid(name: str) -> bool:
+            return name in ["vim", "nvim", "neovim"]
+
+        return org if invalid(repo) else None
+
+    def altered_branch(self) -> Optional[str]:
+        return (
+            self.config.branch
+            if self.config
+            and isinstance(self.config.branch, str)
+            and len(self.config.branch.strip()) > 0
+            else None
+        )
+
+    def add(self) -> None:
+        query = Query()
+        count = RepoObject.DB.search(query.url == self.url)
+        if len(count) <= 0:
+            RepoObject.DB.insert(
+                {
+                    RepoObject.URL: self.url,
+                    RepoObject.STARS: self.stars,
+                    RepoObject.LAST_UPDATE: RepoObject.datetime_tostring(
+                        self.last_update
+                    ),
+                    RepoObject.PRIORITY: self.priority,
+                    RepoObject.SOURCE: self.source,
+                }
+            )
+        else:
+            logging.debug(f"failed to add repo ({self}), it's already exist!")
+
+    def update_last_update(self) -> None:
+        query = Query()
+        count = RepoObject.DB.search(query.url == self.url)
+        assert len(count) == 1
+        assert isinstance(self.last_update, datetime.datetime)
+        RepoObject.DB.update(
+            {
+                RepoObject.LAST_UPDATE: RepoObject.datetime_tostring(self.last_update),
+            },
+            query.url == self.url,
+        )
+
+    def remove(self) -> None:
+        query = Query()
+        RepoObject.DB.remove(query.url == self.url)
 
     @staticmethod
     def reset() -> None:
-        pathlib.Path(DATA_FILE).unlink(missing_ok=True)
-
-    def count(self) -> int:
-        try:
-            with open(DATA_FILE, "r") as fp:
-                return self.url.lower() in [
-                    line.split(",")[0].strip().lower() for line in fp.readlines()
-                ]
-        except:
-            return 0
-
-    def append(self) -> None:
-        with open(DATA_FILE, "a") as fp:
-            fp.writelines(
-                f"{self.url},{self.stars},{self.last_update.isoformat() if self.last_update else None},{self.priority}\n"
-            )
+        RepoObject.DB.truncate()
 
     @staticmethod
     def get_all() -> list:
         try:
-            with open(DATA_FILE, "r") as fp:
-                repos: list = []
-                for line in fp.readlines():
-                    line_splits = line.split(",")
-                    url = line_splits[0].strip()
-                    stars = int(line_splits[1].strip())
-                    last_update = (
-                        datetime.datetime.fromisoformat(line_splits[2].strip())
-                        if line_splits[2].strip() != "None"
-                        else None
-                    )
-                    priority = int(line_splits[3].strip())
-                    repos.append(Repo(url, stars, last_update, priority))
-                return repos
+            records = RepoObject.DB.all()
+            return [
+                RepoObject(
+                    url=j[RepoObject.URL],
+                    stars=j[RepoObject.STARS],
+                    last_update=RepoObject.datetime_fromstring(
+                        j[RepoObject.LAST_UPDATE]
+                    ),
+                    priority=j[RepoObject.PRIORITY],
+                )
+                for j in records
+            ]
         except:
             return []
+
+    @staticmethod
+    def datetime_tostring(value: Optional[datetime.datetime]) -> Optional[str]:
+        return (
+            value.strftime(RepoObject.DATETIME_FORMAT)
+            if isinstance(value, datetime.datetime)
+            else None
+        )
+
+    @staticmethod
+    def datetime_fromstring(value: Optional[str]) -> Optional[datetime.datetime]:
+        return (
+            datetime.datetime.strptime(value, RepoObject.DATETIME_FORMAT)
+            if isinstance(value, str) and len(value.strip()) > 0
+            else None
+        )

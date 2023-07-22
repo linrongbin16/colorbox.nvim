@@ -2,26 +2,38 @@
 
 import datetime
 import logging
-from typing import Iterable
+from typing import Iterable, Optional
 
 from selenium.webdriver import Chrome, ChromeOptions, DesiredCapabilities
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.wait import WebDriverWait
+from util import (
+    HEADLESS,
+    LASTCOMMIT,
+    STARS,
+    TIMEOUT,
+    CliOptions,
+    RepoObject,
+    blacklist,
+    init_logging,
+    parse_number,
+    parse_options,
+)
 
-import util
+OPTIONS = Optional[CliOptions]
 
 
 def find_element(driver: Chrome, xpath: str) -> WebElement:
-    WebDriverWait(driver, util.TIMEOUT).until(
+    WebDriverWait(driver, TIMEOUT).until(
         expected_conditions.presence_of_element_located((By.XPATH, xpath))
     )
     return driver.find_element(By.XPATH, xpath)
 
 
 def find_elements(driver: Chrome, xpath: str) -> list[WebElement]:
-    WebDriverWait(driver, util.TIMEOUT).until(
+    WebDriverWait(driver, TIMEOUT).until(
         expected_conditions.presence_of_element_located((By.XPATH, xpath))
     )
     return driver.find_elements(By.XPATH, xpath)
@@ -29,7 +41,7 @@ def find_elements(driver: Chrome, xpath: str) -> list[WebElement]:
 
 def make_driver() -> Chrome:
     options = ChromeOptions()
-    if util.HEADLESS:
+    if HEADLESS:
         options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--single-process")
@@ -58,7 +70,7 @@ class Vimcolorscheme:
                 yield f"https://vimcolorschemes.com/top/page/{i+1}"
             i += 1
 
-    def parse_repo(self, element: WebElement) -> util.Repo:
+    def parse_repo(self, element: WebElement) -> RepoObject:
         url = "/".join(
             element.find_element(By.XPATH, "./a[@class='card__link']")
             .get_attribute("href")
@@ -80,7 +92,7 @@ class Vimcolorscheme:
             .get_attribute("datetime"),
             "%Y-%m-%dT%H:%M:%S.%fZ",
         )
-        return util.Repo(url, stars, last_update)
+        return RepoObject(url, stars, last_update, source="vimcolorschemes.com/top")
 
     def fetch(self) -> None:
         with make_driver() as driver:
@@ -90,24 +102,21 @@ class Vimcolorscheme:
                 for element in find_elements(driver, "//article[@class='card']"):
                     repo = self.parse_repo(element)
                     logging.info(f"vsc repo:{repo}")
-                    if util.blacklist(repo):
+                    if blacklist(repo):
                         logging.info(f"asc skip for blacklist - repo:{repo}")
                         continue
-                    if repo.stars < util.STARS:
+                    if repo.stars < STARS:
                         logging.info(f"vsc skip for stars - repo:{repo}")
                         continue
                     assert isinstance(repo.last_update, datetime.datetime)
-                    now = datetime.datetime.now()
                     if (
-                        repo.last_update.timestamp() + util.LASTCOMMIT
-                        < datetime.datetime(
-                            now.year, now.month, now.day, 0, 0, 0, 0
-                        ).timestamp()
+                        repo.last_update.timestamp() + LASTCOMMIT
+                        < datetime.datetime.now().timestamp()
                     ):
                         logging.info(f"vsc skip for last_update - repo:{repo}")
                         continue
                     logging.info(f"vsc get - repo:{repo}")
-                    repo.save()
+                    repo.add()
                     any_valid_stars = True
                 if not any_valid_stars:
                     logging.info(f"vsc no valid stars, exit")
@@ -115,14 +124,16 @@ class Vimcolorscheme:
 
 
 class AwesomeNeovim:
-    def parse_repo(self, element: WebElement) -> util.Repo:
+    def parse_repo(self, element: WebElement) -> RepoObject:
         a = element.find_element(By.XPATH, "./a").text
         a_splits = a.split("(")
         repo = a_splits[0]
-        stars = util.parse_number(a_splits[1])
-        return util.Repo(repo, stars, None, priority=100)
+        stars = parse_number(a_splits[1])
+        return RepoObject(
+            repo, stars, None, priority=100, source="awesome-neovim#colorscheme"
+        )
 
-    def parse_color(self, driver: Chrome, tag_id: str) -> list[util.Repo]:
+    def parse_color(self, driver: Chrome, tag_id: str) -> list[RepoObject]:
         repositories = []
         colors_group = find_element(
             driver,
@@ -145,19 +156,19 @@ class AwesomeNeovim:
             lua_repos = self.parse_color(driver, "lua-colorscheme")
             repos = treesitter_repos + lua_repos
             for repo in repos:
-                if util.blacklist(repo):
+                if blacklist(repo):
                     logging.info(f"asc skip for blacklist - repo:{repo}")
                     continue
-                if repo.stars < util.STARS:
+                if repo.stars < STARS:
                     logging.info(f"asc skip for stars - repo:{repo}")
                     continue
                 logging.info(f"acs get - repo:{repo}")
-                repo.save()
+                repo.add()
 
 
-if __name__ == "__main__":
-    options = util.parse_options()
-    util.init_logging(options)
-    util.Repo.reset()
-    AwesomeNeovim().fetch()
-    Vimcolorscheme().fetch()
+# main
+OPTIONS = parse_options()
+init_logging(OPTIONS)
+RepoObject.reset()
+AwesomeNeovim().fetch()
+Vimcolorscheme().fetch()
