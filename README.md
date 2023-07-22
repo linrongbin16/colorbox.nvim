@@ -1,5 +1,7 @@
 # colorscollector.nvim
 
+WIP: Please don't use this tool for now, it's not finished yet.
+
 I'm greedy that I want the **most popular** Neovim colorschemes than just one,
 so I write this colorscheme collect tool for Neovim, that auto-generate plugins
 list for [lazy.nvim](https://github.com/folke/lazy.nvim),
