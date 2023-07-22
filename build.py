@@ -3,6 +3,7 @@
 import datetime
 import logging
 import pathlib
+import os
 from typing import Optional, Union
 
 from util import (
@@ -63,6 +64,8 @@ def path2str(p: pathlib.Path) -> str:
 
 class Writer:
     def __init__(self, path: str) -> None:
+        parent_folder = os.path.dirname(path)
+        os.makedirs(parent_folder, exist_ok=True)
         self.fp = open(path, "w")
 
     def __enter__(self):
