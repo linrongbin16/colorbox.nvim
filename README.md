@@ -1,4 +1,4 @@
-# colorscollector.nvim
+# all-in-one-color.nvim
 
 WIP: Please don't use this tool for now, it's not finished yet.
 
