@@ -1,4 +1,4 @@
-name: Collector
+name: Color Collector
 on:
   pull_request:
     branches:
