@@ -12,8 +12,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Start
-        shell: bash
+      - shell: bash
         run: |
           echo " start at"
           echo $PWD
