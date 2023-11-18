@@ -6,14 +6,10 @@ I'm greedy that I want the **most popular** Neovim colorschemes than only one, I
 
 This is it!
 
-* Auto-generate collect the most colorschemes from below websites:
-
-
-
-* Install them as git submodules of this plugin.
+* Auto-generate collect the most colorschemes and install for you.
 * Multiple switches on these colors:
   * Policy: suffle playback, play in order, single cycle.
-  * Timing: on startup, 
+  * Timing: on startup, fixed interval, etc.
 
 > Note: **most popular** colorschemes are picked from below websites:
 > - [vimcolorscheme.com/top](https://vimcolorschemes.com/top)
