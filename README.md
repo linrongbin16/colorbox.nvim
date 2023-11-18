@@ -6,8 +6,9 @@ I'm greedy that I want the **most popular** Neovim colorschemes than only one, I
 
 This is it!
 
-* Auto-generate collect the most colorschemes and install for you.
-* Multiple switches on these colors:
+It auto-collect the most colorschemes and install for you.
+
+It allow you do any switches on these colors:
   * Policy: suffle playback, play in order, single cycle.
   * Timing: on startup, fixed interval, etc.
 
