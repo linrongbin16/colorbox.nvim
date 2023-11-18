@@ -22,7 +22,7 @@ It allow you do any switches on these colors:
 >
 > 1. Github stars &ge; 900.
 > 2. Last git commit in 3 years.
-> 3. For multiple variants, keep the one with modern Neovim features (lsp, treesitter), third-party plugins support, stars or git commits.
+> 3. For multiple variants, keep the one with modern Neovim features (lsp, treesitter), third-party plugins support, more stars or git commits.
 
 ## Requirement
 
