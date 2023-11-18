@@ -12,7 +12,9 @@ It allow you do any switches on these colors:
   * Multiple policies: suffle playback, play in order, single cycle.
   * Multiple timing: on startup, fixed interval, etc.
 
-> Note: **most popular** colorschemes are picked from below websites:
+> Note:
+>
+> The **most popular** colorschemes are picked from below websites:
 > - [vimcolorscheme.com/top](https://vimcolorschemes.com/top)
 > - [awesome-neovim#colorscheme](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
 >
