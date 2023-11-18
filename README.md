@@ -8,7 +8,7 @@ This is it!
 
 It auto-collect the most popular Vim/Neovim colorschemes and install for you.
 
-It allow you do any switches on these colors:
+It allow you do any switches with:
   * Multiple policies: suffle playback, play in order, single cycle.
   * Multiple timing: on startup, fixed interval, etc.
 
