@@ -20,7 +20,7 @@ It allow you do any switches on these colors:
 >
 > With below conditions:
 >
-> 1. Github stars &ge; 500.
+> 1. Github stars &ge; 900.
 > 2. Last git commit in 3 years.
 > 3. For multiple variants, keep the one with more plugins
    support, stars or git commits.
