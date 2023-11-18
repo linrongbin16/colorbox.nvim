@@ -2,21 +2,28 @@
 
 **WIP: Please don't use this tool for now, it's still not done yet.**
 
-I'm greedy that I want the **most popular** Neovim colorschemes than just one,
-so I write this colorscheme collect tool for Neovim, that auto-generate plugins
-list for [lazy.nvim](https://github.com/folke/lazy.nvim),
-[packer.nvim](https://github.com/wbthomason/packer.nvim) and [vim-plug](https://github.com/junegunn/vim-plug).
+I'm greedy that I want the **most popular** Neovim colorschemes than just one, I'm playful that I want to change colorscheme from time to time. Are you like me?
 
-**Most popular** colorschemes are picked from
+This is it!
 
-- [vimcolorscheme.com/top](https://vimcolorschemes.com/top)
-- [awesome-neovim#colorscheme](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
+* Auto-generate collect the most colorschemes from below websites:
 
-with below conditions:
 
-1. Github stars &ge; 500.
-2. Last git commit in 3 years.
-3. For multiple variants of a colorscheme, keep the one with more plugins
+
+* Install them as git submodules of this plugin.
+* Multiple switches on these colors:
+  * Policy: suffle playback, play in order, single cycle.
+  * Timing: on startup, 
+
+> Note: **most popular** colorschemes are picked from below websites:
+> - [vimcolorscheme.com/top](https://vimcolorschemes.com/top)
+> - [awesome-neovim#colorscheme](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
+>
+> With below conditions:
+>
+> 1. Github stars &ge; 500.
+> 2. Last git commit in 3 years.
+> 3. For multiple variants of a colorscheme, keep the one with more plugins
    support, stars or git commits.
 
 ## Requirement
