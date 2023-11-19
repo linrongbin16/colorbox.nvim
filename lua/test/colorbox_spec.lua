@@ -1,6 +1,6 @@
 local cwd = vim.fn.getcwd()
 
-describe("color-all-in-one", function()
+describe("colorbox", function()
   local assert_eq = assert.is_equal
   local assert_true = assert.is_true
   local assert_false = assert.is_false
@@ -9,7 +9,7 @@ describe("color-all-in-one", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
-  local caio = require("color-all-in-one")
+  local caio = require("colorbox")
   describe("[setup]", function()
     it("setup", function()
       caio.setup()
