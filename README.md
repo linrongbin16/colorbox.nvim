@@ -24,7 +24,10 @@ It allow you do any switches with:
 >
 > 1. Github stars &ge; 900.
 > 2. Last git commit in 3 years.
-> 3. For multiple variants, keep the one with modern Neovim features (lsp, treesitter), third-party plugins support, more github stars or newer git commits.
+> 3. For multiple variants, keep the one in following order:
+>    1. The awesome-neovim wins vimcolorsheme, since they usually has modern Neovim features (lua, lsp, treesitter) and support more third-party plugins.
+>    2. Moe github stars.
+>    3. Newer git commits.
 
 ## Requirement
 
