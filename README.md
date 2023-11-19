@@ -10,7 +10,7 @@ It use offline github actions to weekly collect and update the most popular Vim/
 
 > The **most popular** colorschemes are picked from below websites:
 > - [vimcolorscheme.com/top](https://vimcolorschemes.com/top)
-> - [awesome-neovim#colorscheme](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
+> - [www.trackawesomelist.com/rockerBOO/awesome-neovim](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
 >
 > With below conditions:
 >
