@@ -6,7 +6,9 @@ I'm greedy that I want all the **most popular** Neovim colorschemes than only on
 
 This is it!
 
-It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list and install for you.
+It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
+
+It install those color plugins via git submodules instead of embeding the source code, so you get continuously updates from those original authors instead of me, e.g. this plugin only transport/manage colors, not produce them.
 
 It allow you do any switches with:
   * Multiple policies: suffle playback, play in order, single cycle.
