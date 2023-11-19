@@ -6,7 +6,7 @@ I'm greedy that I want all the **most popular** Neovim colorschemes than only on
 
 This is it!
 
-It auto-collect the most popular Vim/Neovim colorschemes and install for you.
+It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list and install for you.
 
 It allow you do any switches with:
   * Multiple policies: suffle playback, play in order, single cycle.
