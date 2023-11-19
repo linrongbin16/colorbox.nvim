@@ -8,8 +8,6 @@ This is it!
 
 It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
 
-> Note:
->
 > The **most popular** colorschemes are picked from below websites:
 > - [vimcolorscheme.com/top](https://vimcolorschemes.com/top)
 > - [awesome-neovim#colorscheme](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
