@@ -8,7 +8,7 @@ This is it!
 
 It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
 
-It install those color plugins via git submodules instead of copy-paste source code, so you get continuously updates from those original authors instead of me, e.g. this plugin only transport and manage, not produce.
+It install color plugins via git submodules instead of copy-paste source code, so you get continuously updates from original authors instead of me, e.g. it only transport and manage, not produce.
 
 It allow you do any switches with:
   * Multiple policies: suffle playback, play in order, single cycle.
