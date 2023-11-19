@@ -1,0 +1,129 @@
+name: CI
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  pr_conventional_commit:
+    name: PR Conventional Commit
+    if: ${{ github.ref != 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # - uses: webiny/action-conventional-commits@v1.1.0
+      - uses: ytanikin/PRConventionalCommits@1.1.0
+        with:
+          task_types: '["feat","fix","docs","test","ci","refactor","perf","chore","revert","break"]'
+  luacheck:
+    name: Lua check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: LuaLs Annotation Typecheck
+        uses: stevearc/nvim-typecheck-action@v1
+        with:
+          path: lua
+          level: Information
+          configpath: ".luarc.json"
+          neodev-version: stable
+      - name: Luacheck
+        uses: lunarmodules/luacheck@v1
+        with:
+          args: lua --config .luacheckrc
+      - name: Stylua
+        uses: JohnnyMorganz/stylua-action@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: --config-path .stylua.toml ./lua ./test
+      - name: Add rxi/json.lua
+        if: ${{ github.ref != 'refs/heads/main' }}
+        shell: bash
+        run: |
+          echo "pwd"
+          echo $PWD
+          git clone --depth 1 https://github.com/rxi/json.lua.git ~/.json.lua
+          cp ~/.json.lua/json.lua ./lua/fzfx/rxi_json.lua
+      - name: Auto Commit
+        if: ${{ github.ref != 'refs/heads/main' }}
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore(pr): auto-commit"
+  unit_test:
+    name: Unit Test
+    strategy:
+      matrix:
+        nvim_version: [stable, nightly, v0.8.0]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install neovim
+        uses: rhysd/action-setup-vim@v1
+        id: vim
+        with:
+          neovim: true
+          version: ${{ matrix.nvim_version }}
+      - name: Install luajit
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "luajit-2.1.0-beta3"
+      - name: Install luarocks
+        uses: leafo/gh-actions-luarocks@v4
+      - name: Run test cases
+        shell: bash
+        run: |
+          luarocks install luacheck
+          luarocks install luacov
+          luarocks install cluacov
+          luarocks install vusted
+          git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+          ~/.fzf/install
+          export PATH="$HOME/.fzf/bin:$PATH"
+          vusted --coverage --shuffle ./test
+      - name: Generate coverage reports
+        shell: bash
+        run: |
+          echo "ls ."
+          ls -l .
+          echo "run luacov"
+          luacov
+          echo "ls ."
+          ls -l .
+          echo "cat ./luacov.report.out"
+          cat ./luacov.report.out
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: luacov.report.out
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  release:
+    name: Release
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs:
+      - luacheck
+      - unit_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: simple
+          package-name: color-all-in-one.nvim
+      - uses: actions/checkout@v4
+      - uses: rickstaa/action-create-tag@v1
+        if: ${{ steps.release.outputs.release_created }}
+        with:
+          tag: stable
+          message: "Current stable release: ${{ steps.release.outputs.tag_name }}"
+          tag_exists_error: false
+          force_push_tag: true
