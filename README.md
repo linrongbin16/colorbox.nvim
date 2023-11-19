@@ -33,44 +33,6 @@ It allow you do any switches with:
 
 Neovim &ge; 0.8.
 
-## Usage
+## Install
 
-### Collect colorschemes
-
-The collector is implemented by selenium based crawler, depends on
-python3 and [chromedriver](https://chromedriver.chromium.org/downloads).
-
-1. Install pip libraries:
-
-   ```bash
-   pip3 install selenium
-   pip3 install tinydb
-   ```
-
-2. Run python scripst:
-
-   ```bash
-   python3 ./fetch.py
-   python3 ./clone.py
-   python3 ./build.py
-   ```
-
-### Import to nvim config
-
-For lazy.nvim:
-
-```lua
-{
-    'linrongbin16/colorswitch.nvim',
-    lazy = true,
-    priority = 1000,
-    dependencies = { 'linrongbin16/logger.nvim' },
-    config = function()
-        require('colorswitch').setup()
-    end
-}
-```
-
-For packer.nvim:
-
-For vim-plug:
+TODO
