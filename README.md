@@ -8,12 +8,6 @@ This is it!
 
 It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
 
-It install color plugins via git submodules instead of copy-paste source code, so you get continuously updates from original authors instead of me, e.g. it only transport and manage, not produce.
-
-It allow you do any switches with:
-  * Multiple policies: suffle playback, play in order, single cycle.
-  * Multiple timing: on startup, fixed interval, by filetype, etc.
-
 > Note:
 >
 > The **most popular** colorschemes are picked from below websites:
@@ -28,6 +22,12 @@ It allow you do any switches with:
 >    1. The awesome-neovim wins vimcolorsheme, since they usually has modern Neovim features (lua, lsp, treesitter) and support more third-party plugins.
 >    2. Moe github stars.
 >    3. Newer git commits.
+
+It install color plugins via git submodules instead of copy-paste source code, so you get continuously updates from original authors instead of me, e.g. it only transport and manage, not produce.
+
+It allow you do any switches with:
+  * Multiple policies: suffle playback, play in order, single cycle.
+  * Multiple timing: on startup, fixed interval, by filetype, etc.
 
 ## Requirement
 
