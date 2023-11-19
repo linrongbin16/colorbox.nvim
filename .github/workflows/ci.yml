@@ -43,7 +43,7 @@ jobs:
           echo "pwd"
           echo $PWD
           git clone --depth 1 https://github.com/rxi/json.lua.git ~/.json.lua
-          cp ~/.json.lua/json.lua ./lua/color-all-in-one/rxi_json.lua
+          cp ~/.json.lua/json.lua ./lua/colorbox/rxi_json.lua
       - name: Auto Commit
         if: ${{ github.ref != 'refs/heads/main' }}
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -107,7 +107,7 @@ jobs:
         id: release
         with:
           release-type: simple
-          package-name: color-all-in-one.nvim
+          package-name: colorbox.nvim
       - uses: actions/checkout@v4
       - uses: rickstaa/action-create-tag@v1
         if: ${{ steps.release.outputs.release_created }}

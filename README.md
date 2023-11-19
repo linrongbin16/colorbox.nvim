@@ -1,4 +1,4 @@
-# color-all-in-one.nvim
+# colorbox.nvim
 
 **WIP: Don't use this tool for now, it's still not done yet.**
 
