@@ -42,7 +42,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --config-path .stylua.toml ./lua ./test
+          args: --config-path .stylua.toml ./lua
       - name: Add rxi/json.lua
         if: ${{ github.ref != 'refs/heads/main' }}
         shell: bash
@@ -84,7 +84,7 @@ jobs:
           luarocks install luacov
           luarocks install cluacov
           luarocks install vusted
-          vusted --coverage --shuffle ./test
+          vusted --coverage --shuffle ./lua/test
       - name: Generate coverage reports
         shell: bash
         run: |
