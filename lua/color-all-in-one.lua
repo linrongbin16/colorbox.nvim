@@ -1,6 +1,5 @@
-local function setup(opts)
-end
+local function setup(opts) end
 
-local M = { setup = setup}
+local M = { setup = setup }
 
 return M
