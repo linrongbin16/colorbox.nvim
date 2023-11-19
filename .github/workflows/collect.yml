@@ -48,6 +48,7 @@ jobs:
       - name: Collect Colors
         shell: bash
         run: |
+          export PYTHONPATH="$PWD:$PYTHONPATH"
           python3 fetch.py
           python3 clone.py
           python3 build.py
