@@ -28,12 +28,12 @@ jobs:
           python-version: '3.10' 
       - shell: bash
         run: |
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo dpkg -i google-chrome-stable_current_amd64.deb
           echo 'which google-chrome'
           which google-chrome
-          which chrome
-          which google-chrome-stable
+          echo 'google-chrome --version'
+          google-chrome --version
       - uses: nanasess/setup-chromedriver@v2
           # with:
           # Optional: do not specify to match Chrome's version
