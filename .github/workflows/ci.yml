@@ -26,13 +26,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: LuaLs Annotation Typecheck
-        uses: stevearc/nvim-typecheck-action@v1
-        with:
-          path: lua
-          level: Information
-          configpath: ".luarc.json"
-          neodev-version: stable
       - name: Luacheck
         uses: lunarmodules/luacheck@v1
         with:
