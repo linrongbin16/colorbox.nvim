@@ -1,7 +1,7 @@
-if exists('g:loaded_color_all_in_one')
+if exists('g:loaded_colorbox')
     finish
 endif
-let g:loaded_color_all_in_one=1
+let g:loaded_colorbox=1
 
 let s:is_win = has('win32') || has('win64')
 
@@ -13,6 +13,6 @@ else
     let s:caio_base = expand('<sfile>:p:h:h:h')
 endif
 
-function! colorallinone#base_dir() abort
+function! colorbox#base_dir() abort
     return s:caio_base
   endfunction
