@@ -1,6 +1,6 @@
 # color-all-in-one.nvim
 
-**WIP: Please don't use this tool for now, it's still not done yet.**
+**WIP: Don't use this tool for now, it's still not done yet.**
 
 I'm greedy that I want all the **most popular** Neovim colorschemes than only one, I'm playful that I want to change colorscheme from time to time. Are you like me?
 
