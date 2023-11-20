@@ -54,6 +54,7 @@ local function build()
         "|colorbox.scan_modules| modules_path:%s",
         vim.inspect(modules_path)
     )
+    vim.opt.runtimepath:append(modules_dir)
     for _, p in ipairs(modules_path) do
         vim.opt.runtimepath:append(p)
     end
