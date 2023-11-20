@@ -525,6 +525,9 @@ class GitSubmodule:
     def __init__(self) -> None:
         pass
 
+    def _module_name(self, url: str) -> str:
+        return url.replace("/", "-")
+
     def _submodules(self) -> list[str]:
         old_modules = subprocess.check_output(
             ["git", "submodule", "foreach"], encoding="UTF-8"
@@ -532,47 +535,68 @@ class GitSubmodule:
         return old_modules
 
     def update_submodules(self):
-        old_modules = self._submodules()
+        old_modules = [
+            sub.strip() for sub in self._submodules() if len(sub.strip()) > 0
+        ]
+        ENTERING = "Entering "
+        MODULES = "modules/"
+        old_modules = [
+            old[len(ENTERING) :] for old in old_modules if old.startswith(ENTERING)
+        ]
+        old_modules = [trim_quotes(old) for old in old_modules]
+        old_modules = [
+            old[len(MODULES) :] for old in old_modules if old.startswith(MODULES)
+        ]
         logging.debug(f"old modules:{old_modules}")
-        repo_names = [repo.url for repo in RepoMeta.all()]
+        repo_names = [self._module_name(repo.url) for repo in RepoMeta.all()]
         for o in old_modules:
             # remove
             if o not in repo_names:
-                logging.warning(subprocess.check_output(["git", "submodule", "rm", o]))
+                logging.debug(f"remove old submodule:{o}")
+                logging.warning(
+                    subprocess.check_output(
+                        ["git", "submodule", "deinit", "-f", f"modules/{o}"]
+                    )
+                )
                 logging.warning(
                     subprocess.check_output(["rm", "-rf", f".git/modules/{o}"])
                 )
-                logging.warning(
-                    subprocess.check_output(
-                        [
-                            "git",
-                            "config",
-                            "-f",
-                            ".gitmodules",
-                            "--remove-section",
-                            f"submodule.{o}",
-                        ]
+                try:
+                    logging.warning(
+                        subprocess.check_output(
+                            [
+                                "git",
+                                "config",
+                                "-f",
+                                ".gitmodules",
+                                "--remove-section",
+                                f"submodule.{o}",
+                            ]
+                        )
                     )
-                )
-                logging.warning(
-                    subprocess.check_output(
-                        [
-                            "git",
-                            "config",
-                            "-f",
-                            ".git/config",
-                            "--remove-section",
-                            f"submodule.{o}",
-                        ]
+                except Exception as e:
+                    logging.warning(e)
+                try:
+                    logging.warning(
+                        subprocess.check_output(
+                            [
+                                "git",
+                                "config",
+                                "-f",
+                                ".git/config",
+                                "--remove-section",
+                                f"submodule.{o}",
+                            ]
+                        )
                     )
-                )
+                except Exception as e:
+                    logging.warning(e)
                 logging.warning(subprocess.check_output(["git", "rm", "--cached", o]))
         current_modules = self._submodules()
         for repo in RepoMeta.all():
             if repo.url in current_modules:
                 logging.info("{repo} already exist in git submodules")
             else:
-                module_name = repo.url.replace("/", "-")
                 logging.info(
                     subprocess.check_output(
                         [
@@ -580,9 +604,8 @@ class GitSubmodule:
                             "submodule",
                             "add",
                             "--name",
-                            module_name,
+                            self._module_name(repo.url),
                             repo.github_url(),
-                            repo.url,
                         ]
                     )
                 )
@@ -598,9 +621,13 @@ class GitSubmodule:
 )
 @click.option("--no-headless", "no_headless_opt", is_flag=True, help="disable headless")
 @click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetching")
-def main(debug_opt, no_headless_opt, skip_fetch_opt):
+@click.option("--skip-build", "skip_build_opt", is_flag=True, help="skip build")
+def main(debug_opt, no_headless_opt, skip_fetch_opt, skip_build_opt):
     global HEADLESS
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
+    logging.debug(
+        f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}, skip_fetch_opt:{skip_fetch_opt}"
+    )
     if no_headless_opt:
         HEADLESS = False
     if not skip_fetch_opt:
@@ -610,8 +637,9 @@ def main(debug_opt, no_headless_opt, skip_fetch_opt):
         asn = AwesomeNeovimColorScheme()
         fetched_repos.extend(asn.fetch())
         filter_repo_meta(fetched_repos)
-    builder = Builder(True if debug_opt else False)
-    builder.build()
+    if not skip_build_opt:
+        builder = Builder(False if debug_opt else True)
+        builder.build()
     submodule = GitSubmodule()
     submodule.update_submodules()
 
