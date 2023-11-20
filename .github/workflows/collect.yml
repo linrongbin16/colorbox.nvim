@@ -1,11 +1,5 @@
 name: Color Collector
 on:
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron: "53 14 * * *"
