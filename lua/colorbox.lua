@@ -173,8 +173,6 @@ local function _init()
                             break
                         end
                     end
-                    logger.debug("|colorbox.init| spec:%s", vim.inspect(spec))
-                    -- vim.cmd(string.format([[packadd %s]], spec.name))
                 end
             end
         else
