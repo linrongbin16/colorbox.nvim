@@ -26,8 +26,8 @@ It install color plugins via git submodules instead of copy-paste source code, s
 
 It allow you do any switches with:
 
-- Multiple policies: suffle playback, play in order, single cycle.
-- Multiple timing: on startup, fixed interval, by filetype, etc.
+- Multiple policies: suffle playback, play in order(todo), single cycle(todo).
+- Multiple timing: on startup, fixed interval(todo), by filetype(todo), etc.
 
 ## Requirement
 

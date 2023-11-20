@@ -40,9 +40,29 @@ local function string_find(s, t, start)
     return nil
 end
 
+--- @enum colorbox.PolicyConfigEnum
+local PolicyConfigEnum = {
+    SHUFFLE = "shuffle",
+    INORDER = "inorder",
+    SINGLE = "single",
+}
+
+--- @enum colorbox.TimingConfigEnum
+local TimingConfigEnum = {
+    STARTUP = "startup",
+    INTERVAL = "interval",
+    FILETYPE = "filetype",
+}
+
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
 local Defaults = {
+    policy = PolicyConfigEnum.SHUFFLE,
+
+    timing = TimingConfigEnum.STARTUP,
+
+    filter = function() end,
+
     -- enable debug
     debug = false,
     -- print log to console (command line)
@@ -189,15 +209,6 @@ local function setup(opts)
     _init()
 end
 
---- @return colorbox.ColorSpec[]
-local function list()
-    local results = {}
-    for _, spec in pairs(ColorSpecs) do
-        table.insert(results, spec)
-    end
-    return results
-end
-
-local M = { setup = setup, list = list }
+local M = { setup = setup }
 
 return M
