@@ -20,7 +20,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from tinydb import Query, TinyDB
 
 # github
-STARS = 800
+STARS = 900
 LASTCOMMIT = 3 * 365 * 24 * 3600  # 3 years * 365 days * 24 hours * 3600 seconds
 BACKLIST = [
     "rafi/awesome-vim-colorschemes",
@@ -446,7 +446,7 @@ def filter_repo_meta(repos: list[RepoMeta]) -> list[RepoMeta]:
             logging.info(f"skip for blacklist - repo:{repo}")
             continue
         if repo.stars < STARS:
-            logging.info(f"skip for stars (< 800) - repo:{repo}")
+            logging.info(f"skip for lower stars - repo:{repo}")
             continue
         repo.save()
     return filtered_repos
@@ -474,9 +474,7 @@ class Builder:
                 repo.last_update.timestamp() + LASTCOMMIT
                 < datetime.datetime.now().timestamp()
             ):
-                logging.info(
-                    f"clone skip for too old last_update (>= 3 years) - repo:{repo}"
-                )
+                logging.info(f"clone skip for too old last_update - repo:{repo}")
                 repo.remove()
 
     def _dedup(self) -> list[RepoMeta]:
@@ -554,7 +552,7 @@ def main(debug_opt, no_headless_opt, skip_fetch_opt):
         fetched_repos.extend(vcs.fetch())
         asn = AwesomeNeovimColorScheme()
         fetched_repos.extend(asn.fetch())
-        filtered_repos = filter_repo_meta(fetched_repos)
+        filter_repo_meta(fetched_repos)
     builder = Builder(True if debug_opt else False)
     builder.build()
 

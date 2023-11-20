@@ -111,6 +111,97 @@
       "last_update": "2023-11-12T02:05:45",
       "priority": 100,
       "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"
+    },
+    "17": {
+      "url": "morhetz/gruvbox",
+      "stars": 12614,
+      "last_update": "2023-08-14T22:04:06",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "19": {
+      "url": "joshdick/onedark.vim",
+      "stars": 3785,
+      "last_update": "2023-07-19T13:35:43",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "21": {
+      "url": "nlknguyen/papercolor-theme",
+      "stars": 2562,
+      "last_update": "2022-06-09T03:55:49",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "22": {
+      "url": "nordtheme/vim",
+      "stars": 2448,
+      "last_update": "2023-05-04T04:43:25",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "23": {
+      "url": "edeneast/nightfox.nvim",
+      "stars": 2444,
+      "last_update": "2023-10-16T10:34:18",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "24": {
+      "url": "cocopon/iceberg.vim",
+      "stars": 2072,
+      "last_update": "2022-11-23T09:48:02",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "25": {
+      "url": "rakr/vim-one",
+      "stars": 1969,
+      "last_update": "2020-12-15T07:40:35",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "27": {
+      "url": "junegunn/seoul256.vim",
+      "stars": 1605,
+      "last_update": "2023-05-03T08:09:09",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "30": {
+      "url": "ku1ik/vim-monokai",
+      "stars": 1422,
+      "last_update": "2022-02-09T16:03:39",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "32": {
+      "url": "jacoborus/tender.vim",
+      "stars": 1071,
+      "last_update": "2021-05-24T23:38:00",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "33": {
+      "url": "lifepillar/vim-solarized8",
+      "stars": 948,
+      "last_update": "2023-08-13T17:40:20",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "34": {
+      "url": "jnurmine/zenburn",
+      "stars": 864,
+      "last_update": "2022-08-09T04:44:24",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
+    },
+    "35": {
+      "url": "romainl/apprentice",
+      "stars": 854,
+      "last_update": "2023-02-15T14:48:37",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top"
     }
   }
 }
