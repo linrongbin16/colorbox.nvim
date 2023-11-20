@@ -179,20 +179,20 @@ class RepoMeta:
             else None
         )
 
-    def add(self) -> None:
+    def save(self) -> None:
         q = Query()
         count = RepoMeta.DB.search(q.url == self.url)
+        obj = {
+            RepoMeta.URL: self.url,
+            RepoMeta.STARS: self.stars,
+            RepoMeta.LAST_UPDATE: datetime_tostring(self.last_update),
+            RepoMeta.PRIORITY: self.priority,
+            RepoMeta.SOURCE: self.source,
+        }
         if len(count) <= 0:
-            RepoMeta.DB.insert(
-                {
-                    RepoMeta.URL: self.url,
-                    RepoMeta.STARS: self.stars,
-                    RepoMeta.LAST_UPDATE: datetime_tostring(self.last_update),
-                    RepoMeta.PRIORITY: self.priority,
-                    RepoMeta.SOURCE: self.source,
-                }
-            )
+            RepoMeta.DB.insert(obj)
         else:
+            RepoMeta.DB.update(obj, q.url == self.url)
             logging.error(f"failed to add repo ({self}), it's already exist!")
 
     def update_last_update(self) -> None:
@@ -400,7 +400,7 @@ class AwesomeNeovimColorScheme:
         repos = []
         colors_group = find_element(
             driver,
-            f"///h3[@id='{tag_id}']/following-sibling::ul",
+            f"//h3[@id='{tag_id}']/following-sibling::p/following-sibling::ul",
         )
         for e in colors_group.find_elements(By.XPATH, "./li"):
             repo = self._parse_repo(e)
@@ -434,6 +434,7 @@ def filter_repo_meta(repos: list[RepoMeta]) -> list[RepoMeta]:
         if repo.stars < STARS:
             logging.info(f"asc skip for stars - repo:{repo}")
             continue
+        repo.save()
     return filtered_repos
 
 
@@ -456,6 +457,7 @@ def main(debug_opt, no_headless_opt):
     fetched_repos.extend(vcs.fetch())
     asn = AwesomeNeovimColorScheme()
     fetched_repos.extend(asn.fetch())
+    filtered_repos = filter_repo_meta(fetched_repos)
 
 
 if __name__ == "__main__":
