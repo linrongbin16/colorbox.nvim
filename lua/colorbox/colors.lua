@@ -50,7 +50,6 @@ local function setup(opts)
         "|colorbox.colors.setup| modules_path:%s",
         vim.inspect(modules_path)
     )
-
     for _, p in ipairs(modules_path) do
         vim.opt.runtimepath:append(p)
     end
