@@ -223,6 +223,10 @@ local function _timing_startup()
     })
 end
 
+local function _timing()
+    _timing_startup()
+end
+
 --- @param opts colorbox.Options?
 local function setup(opts)
     Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
@@ -248,7 +252,7 @@ local function setup(opts)
         end,
     })
 
-    _timing_startup()
+    _timing()
 end
 
 local M = { setup = setup }
