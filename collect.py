@@ -545,10 +545,27 @@ class GitSubmodule:
                             "submodule",
                             "add",
                             "--force",
+                            "--depth",
+                            "1",
                             "--name",
                             self._module_name(repo.url),
                             repo.github_url(),
                             f"modules/{self._module_name(repo.url)}",
+                        ]
+                    )
+                )
+            except Exception as e:
+                logging.warning(e)
+            try:
+                logging.info(
+                    subprocess.check_output(
+                        [
+                            "git",
+                            "config",
+                            "-f",
+                            ".gitmodules",
+                            f"submodule.{self._module_name(repo.url)}.shallow",
+                            "true",
                         ]
                     )
                 )
