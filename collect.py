@@ -533,6 +533,7 @@ class GitSubmodule:
 
     def update_submodules(self):
         old_modules = self._submodules()
+        logging.debug(f"old modules:{old_modules}")
         repo_names = [repo.url for repo in RepoMeta.all()]
         for o in old_modules:
             # remove
