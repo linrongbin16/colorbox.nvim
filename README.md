@@ -13,7 +13,7 @@ It use offline github actions to weekly collect and update the most popular Vim/
 > - [vimcolorscheme.com/top](https://vimcolorschemes.com/top)
 > - [www.trackawesomelist.com/rockerBOO/awesome-neovim](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
 >
-> With below conditions:
+> with below conditions:
 >
 > 1. Github stars &ge; 900.
 > 2. Last git commit in 3 years.
