@@ -1,0 +1,80 @@
+[submodule "folke-tokyonight.nvim"]
+	path = pack/colorbox/opt/folke-tokyonight.nvim
+	url = https://github.com/folke/tokyonight.nvim
+	shallow = true
+[submodule "catppuccin-nvim"]
+	path = pack/colorbox/opt/catppuccin-nvim
+	url = https://github.com/catppuccin/nvim
+	shallow = true
+[submodule "rebelot-kanagawa.nvim"]
+	path = pack/colorbox/opt/rebelot-kanagawa.nvim
+	url = https://github.com/rebelot/kanagawa.nvim
+	shallow = true
+[submodule "nlknguyen-papercolor-theme"]
+	path = pack/colorbox/opt/nlknguyen-papercolor-theme
+	url = https://github.com/nlknguyen/papercolor-theme
+	shallow = true
+[submodule "nordtheme-vim"]
+	path = pack/colorbox/opt/nordtheme-vim
+	url = https://github.com/nordtheme/vim
+	shallow = true
+[submodule "sainnhe-everforest"]
+	path = pack/colorbox/opt/sainnhe-everforest
+	url = https://github.com/sainnhe/everforest
+	shallow = true
+[submodule "cocopon-iceberg.vim"]
+	path = pack/colorbox/opt/cocopon-iceberg.vim
+	url = https://github.com/cocopon/iceberg.vim
+	shallow = true
+[submodule "rakr-vim-one"]
+	path = pack/colorbox/opt/rakr-vim-one
+	url = https://github.com/rakr/vim-one
+	shallow = true
+[submodule "junegunn-seoul256.vim"]
+	path = pack/colorbox/opt/junegunn-seoul256.vim
+	url = https://github.com/junegunn/seoul256.vim
+	shallow = true
+[submodule "sainnhe-gruvbox-material"]
+	path = pack/colorbox/opt/sainnhe-gruvbox-material
+	url = https://github.com/sainnhe/gruvbox-material
+	shallow = true
+[submodule "rose-pine-neovim"]
+	path = pack/colorbox/opt/rose-pine-neovim
+	url = https://github.com/rose-pine/neovim
+	shallow = true
+[submodule "ku1ik-vim-monokai"]
+	path = pack/colorbox/opt/ku1ik-vim-monokai
+	url = https://github.com/ku1ik/vim-monokai
+	shallow = true
+[submodule "sainnhe-sonokai"]
+	path = pack/colorbox/opt/sainnhe-sonokai
+	url = https://github.com/sainnhe/sonokai
+	shallow = true
+[submodule "dracula-vim"]
+	path = pack/colorbox/opt/dracula-vim
+	url = https://github.com/dracula/vim
+	shallow = true
+[submodule "navarasu-onedark.nvim"]
+	path = pack/colorbox/opt/navarasu-onedark.nvim
+	url = https://github.com/navarasu/onedark.nvim
+	shallow = true
+[submodule "jacoborus-tender.vim"]
+	path = pack/colorbox/opt/jacoborus-tender.vim
+	url = https://github.com/jacoborus/tender.vim
+	shallow = true
+[submodule "lifepillar-vim-solarized8"]
+	path = pack/colorbox/opt/lifepillar-vim-solarized8
+	url = https://github.com/lifepillar/vim-solarized8
+	shallow = true
+[submodule "mhartington-oceanic-next"]
+	path = pack/colorbox/opt/mhartington-oceanic-next
+	url = https://github.com/mhartington/oceanic-next
+	shallow = true
+[submodule "projekt0n-github-nvim-theme"]
+	path = pack/colorbox/opt/projekt0n-github-nvim-theme
+	url = https://github.com/projekt0n/github-nvim-theme
+	shallow = true
+[submodule "ellisonleao-gruvbox.nvim"]
+	path = pack/colorbox/opt/ellisonleao-gruvbox.nvim
+	url = https://github.com/ellisonleao/gruvbox.nvim
+	shallow = true
