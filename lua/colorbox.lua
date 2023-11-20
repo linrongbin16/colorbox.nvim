@@ -1,5 +1,6 @@
 local logger = require("colorbox.logger")
 local LogLevels = require("colorbox.logger").LogLevels
+local colors = require("colorbox.colors")
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
@@ -26,6 +27,8 @@ local function setup(opts)
         file_log = Configs.file_log,
         file_log_name = "colorbox.log",
     })
+
+    colors.setup()
 end
 
 local M = { setup = setup }

@@ -7,10 +7,10 @@ let s:is_win = has('win32') || has('win64')
 
 if s:is_win && &shellslash
     set noshellslash
-    let s:cb_base = expand('<sfile>:p:h:h:h')
+    let s:cb_base = expand('<sfile>:p:h:h')
     set shellslash
 else
-    let s:cb_base = expand('<sfile>:p:h:h:h')
+    let s:cb_base = expand('<sfile>:p:h:h')
 endif
 
 function! colorbox#base_dir() abort
