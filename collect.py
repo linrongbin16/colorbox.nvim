@@ -537,20 +537,23 @@ class GitSubmodule:
     def update_submodules(self):
         # add all submodules
         for repo in RepoMeta.all():
-            logging.info(
-                subprocess.check_output(
-                    [
-                        "git",
-                        "submodule",
-                        "add",
-                        "--force",
-                        "--name",
-                        self._module_name(repo.url),
-                        repo.github_url(),
-                        f"modules/{self._module_name(repo.url)}",
-                    ]
+            try:
+                logging.info(
+                    subprocess.check_output(
+                        [
+                            "git",
+                            "submodule",
+                            "add",
+                            "--force",
+                            "--name",
+                            self._module_name(repo.url),
+                            repo.github_url(),
+                            f"modules/{self._module_name(repo.url)}",
+                        ]
+                    )
                 )
-            )
+            except Exception as e:
+                logging.warning(e)
         # clean the removed
         old_modules = [
             sub.strip() for sub in self._submodules() if len(sub.strip()) > 0
