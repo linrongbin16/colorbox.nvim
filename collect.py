@@ -525,11 +525,66 @@ class GitSubmodule:
     def __init__(self) -> None:
         pass
 
-    def get_old_submodules(self) -> list[str]:
+    def _submodules(self) -> list[str]:
         old_modules = subprocess.check_output(
             ["git", "submodule", "foreach"], encoding="UTF-8"
         ).split("\n")
         return old_modules
+
+    def update_submodules(self):
+        old_modules = self._submodules()
+        repo_names = [repo.url for repo in RepoMeta.all()]
+        for o in old_modules:
+            # remove
+            if o not in repo_names:
+                logging.warning(subprocess.check_output(["git", "submodule", "rm", o]))
+                logging.warning(
+                    subprocess.check_output(["rm", "-rf", f".git/modules/{o}"])
+                )
+                logging.warning(
+                    subprocess.check_output(
+                        [
+                            "git",
+                            "config",
+                            "-f",
+                            ".gitmodules",
+                            "--remove-section",
+                            f"submodule.{o}",
+                        ]
+                    )
+                )
+                logging.warning(
+                    subprocess.check_output(
+                        [
+                            "git",
+                            "config",
+                            "-f",
+                            ".git/config",
+                            "--remove-section",
+                            f"submodule.{o}",
+                        ]
+                    )
+                )
+                logging.warning(subprocess.check_output(["git", "rm", "--cached", o]))
+        current_modules = self._submodules()
+        for repo in RepoMeta.all():
+            if repo.url in current_modules:
+                logging.info("{repo} already exist in git submodules")
+            else:
+                module_name = repo.url.replace("/", "-")
+                logging.info(
+                    subprocess.check_output(
+                        [
+                            "git",
+                            "submodule",
+                            "add",
+                            "--name",
+                            module_name,
+                            repo.github_url(),
+                            repo.url,
+                        ]
+                    )
+                )
 
 
 @click.command()
@@ -556,6 +611,8 @@ def main(debug_opt, no_headless_opt, skip_fetch_opt):
         filter_repo_meta(fetched_repos)
     builder = Builder(True if debug_opt else False)
     builder.build()
+    submodule = GitSubmodule()
+    submodule.update_submodules()
 
 
 if __name__ == "__main__":
