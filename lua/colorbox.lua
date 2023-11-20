@@ -36,8 +36,6 @@ local function setup(opts)
     build()
 end
 
-local function install() end
-
 local M = { setup = setup }
 
 return M
