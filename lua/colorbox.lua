@@ -19,6 +19,11 @@ local Configs = {}
 local function build()
     local cwd = vim.fn["colorbox#base_dir"]()
     logger.debug("|colorbox.build| cwd:%s", vim.inspect(cwd))
+    vim.opt.packpath:append(cwd)
+    -- vim.opt.packpath:append(cwd .. "/pack")
+    -- vim.opt.packpath:append(cwd .. "/pack/colorbox")
+    -- vim.opt.packpath:append(cwd .. "/pack/colorbox/opt")
+    -- vim.cmd([[packadd catppuccin-nvim]])
 end
 
 --- @param opts colorbox.Options?
