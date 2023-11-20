@@ -214,7 +214,7 @@ class RepoMeta:
             RepoMeta.DB.insert(obj)
         else:
             RepoMeta.DB.update(obj, q.url == self.url)
-            logging.error(f"failed to add repo ({self}), it's already exist!")
+            logging.info(f"failed to add repo ({self}), it's already exist!")
 
     def update_last_update(self) -> None:
         q = Query()
