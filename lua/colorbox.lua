@@ -74,14 +74,17 @@ function ColorSpec:new(name, path, colors)
     return o
 end
 
+-- plugin name => spec
 local ColorSpecs = {}
-local ColorSpecsMap = {}
 
-local function build_specs()
+-- color name => spec
+local ColorNameSpecs = {}
+
+local function init()
     local cwd = vim.fn["colorbox#base_dir"]()
     local packopt = string.format("%s/pack/colorbox/opt", cwd)
     logger.debug(
-        "|colorbox.build| cwd:%s, pack:%s",
+        "|colorbox.init| cwd:%s, pack:%s",
         vim.inspect(cwd),
         vim.inspect(packopt)
     )
@@ -105,8 +108,7 @@ local function build_specs()
                         pack_ttmp.name,
                         string.format("%s/%s", packopt, pack_ttmp.name)
                     )
-                    table.insert(ColorSpecs, spec)
-                    ColorSpecsMap[spec.name] = spec
+                    ColorSpecs[spec.name] = spec
                     local color_dir, err =
                         vim.loop.fs_opendir(spec.path .. "/colors") --[[@as luv_dir_t]]
                     if not color_dir then
@@ -121,7 +123,7 @@ local function build_specs()
                         if type(color_tmp) == "table" and #color_tmp > 0 then
                             for j, color_ttmp in ipairs(color_tmp) do
                                 -- logger.debug(
-                                --     "|colorbox.build_specs| colors_ttmp %d:%s",
+                                --     "|colorbox.init| colors_ttmp %d:%s",
                                 --     j,
                                 --     vim.inspect(color_ttmp)
                                 -- )
@@ -138,15 +140,17 @@ local function build_specs()
                                                 ".lua"
                                             )
                                     )
-                                    local color_name =
+                                    local color =
                                         color_file:sub(1, #color_file - 4)
-                                    table.insert(spec.colors, color_name)
+                                    table.insert(spec.colors, color)
+                                    ColorNameSpecs[color] = spec
                                 end
                             end
                         else
                             break
                         end
                     end
+                    logger.debug("|colorbox.init| spec:%s", vim.inspect(spec))
                     -- vim.cmd(string.format([[packadd %s]], spec.name))
                 end
             end
@@ -154,6 +158,17 @@ local function build_specs()
             break
         end
     end
+
+    vim.api.nvim_create_autocmd("ColorSchemePre", {
+        callback = function(event)
+            logger.debug("|colorbox.init| event:%s", vim.inspect(event))
+            if type(event) ~= "table" or ColorNameSpecs[event.match] == nil then
+                return
+            end
+            local spec = ColorNameSpecs[event.match]
+            vim.cmd(string.format([[packadd %s]], spec.name))
+        end,
+    })
 end
 
 --- @param opts colorbox.Options?
@@ -168,7 +183,7 @@ local function setup(opts)
         file_log_name = "colorbox.log",
     })
 
-    build_specs()
+    init()
 end
 
 local M = { setup = setup }
