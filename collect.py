@@ -10,15 +10,32 @@ import sys
 import typing
 from dataclasses import dataclass
 
+import click
+from selenium.webdriver import Chrome, ChromeOptions, DesiredCapabilities
+from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 from tinydb import Query, TinyDB
 
+# github
 STARS = 900
 LASTCOMMIT = 3 * 365 * 24 * 3600  # 3 years * 365 days * 24 hours * 3600 seconds
+BACKLIST = [
+    "rafi/awesome-vim-colorschemes",
+    "sonph/onehalf",
+    "mini.nvim#minischeme",
+    "mini.nvim#colorschemes",
+    "olimorris/onedarkpro.nvim",
+]
+
+
+# chrome webdriver
+HEADLESS = True
+TIMEOUT = 30
+
+# git object
 DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S"
-
-
-WEBDRIVER = {"HEADLESS": True, "TIMEOUT": 30}
-
 CANDIDATE_DIR = "candidate"
 
 
@@ -30,18 +47,6 @@ def init_logging(log_level: typing.Optional[int]) -> None:
         level=log_level,
         handlers=[logging.StreamHandler(), logging.FileHandler(f"{sys.argv[0]}.log")],
     )
-
-
-def in_blacklist(repo) -> bool:
-    assert isinstance(repo, RepoMeta)
-    blacklists = [
-        "rafi/awesome-vim-colorschemes",
-        "sonph/onehalf",
-        "mini.nvim#minischeme",
-        "mini.nvim#colorschemes",
-        "olimorris/onedarkpro.nvim",
-    ]
-    return any([True for b in blacklists if repo.url.find(b) >= 0])
 
 
 def parse_number(v: str) -> int:
@@ -292,3 +297,166 @@ class GitObj:
         ]
         logging.debug(f"repo ({self.repo}) contains colors:{colors}")
         return colors
+
+
+def find_element(driver: Chrome, xpath: str) -> WebElement:
+    WebDriverWait(driver, TIMEOUT).until(
+        expected_conditions.presence_of_element_located((By.XPATH, xpath))
+    )
+    return driver.find_element(By.XPATH, xpath)
+
+
+def find_elements(driver: Chrome, xpath: str) -> list[WebElement]:
+    WebDriverWait(driver, TIMEOUT).until(
+        expected_conditions.presence_of_element_located((By.XPATH, xpath))
+    )
+    return driver.find_elements(By.XPATH, xpath)
+
+
+def make_driver() -> Chrome:
+    options = ChromeOptions()
+    if HEADLESS:
+        options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--single-process")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--allow-running-insecure-content")
+    options.add_argument("--ignore-certificate-errors")
+    options.add_argument("--allow-insecure-localhost")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_experimental_option("useAutomationExtension", False)
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+
+    return Chrome(options=options)
+
+
+# https://vimcolorschemes.com/top
+class VimColorSchemes:
+    def _pages(self) -> typing.Iterable[str]:
+        i = 0
+        while True:
+            if i == 0:
+                yield "https://vimcolorschemes.com/top"
+            else:
+                yield f"https://vimcolorschemes.com/top/page/{i+1}"
+            i += 1
+
+    def _parse_repo(self, element: WebElement) -> RepoMeta:
+        url = "/".join(
+            element.find_element(By.XPATH, "./a[@class='card__link']")
+            .get_attribute("href")
+            .split("/")[-2:]
+        )
+        stars = int(
+            element.find_element(
+                By.XPATH,
+                "./a/section/header[@class='meta-header']//div[@class='meta-header__statistic']//b",
+            ).text
+        )
+        creates_updates = element.find_elements(
+            By.XPATH,
+            "./a/section/footer[@class='meta-footer']//div[@class='meta-footer__column']//p[@class='meta-footer__row']",
+        )
+        last_update = datetime.datetime.strptime(
+            creates_updates[1]
+            .find_element(By.XPATH, "./b/time")
+            .get_attribute("datetime"),
+            "%Y-%m-%dT%H:%M:%S.%fZ",
+        )
+        return RepoMeta(url, stars, last_update, source="vimcolorschemes.com/top")
+
+    def fetch(self) -> list[RepoMeta]:
+        repos = []
+        with make_driver() as driver:
+            for page_url in self._pages():
+                driver.get(page_url)
+                need_more_scan = False
+                for element in find_elements(driver, "//article[@class='card']"):
+                    repo = self._parse_repo(element)
+                    logging.info(f"vsc repo:{repo}")
+                    if repo.stars < STARS:
+                        logging.info(f"vsc skip for stars - repo:{repo}")
+                        continue
+                    logging.info(f"vsc get - repo:{repo}")
+                    need_more_scan = True
+                if not need_more_scan:
+                    logging.info(f"vsc no valid stars, exit")
+                    break
+        return repos
+
+
+# https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme
+class AwesomeNeovimColorScheme:
+    def _parse_repo(self, element: WebElement) -> RepoMeta:
+        a = element.find_element(By.XPATH, "./a").text
+        a_splits = a.split("(")
+        repo = a_splits[0]
+        stars = parse_number(a_splits[1])
+        return RepoMeta(
+            repo, stars, None, priority=100, source="awesome-neovim#colorscheme"
+        )
+
+    def _parse_color(self, driver: Chrome, tag_id: str) -> list[RepoMeta]:
+        repos = []
+        colors_group = find_element(
+            driver,
+            f"///h3[@id='{tag_id}']/following-sibling::ul",
+        )
+        for e in colors_group.find_elements(By.XPATH, "./li"):
+            repo = self._parse_repo(e)
+            logging.info(f"acs repo:{repo}")
+            repos.append(repo)
+        return repos
+
+    def fetch(self) -> list[RepoMeta]:
+        repos = []
+        with make_driver() as driver:
+            driver.get(
+                "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme"
+            )
+            treesitter_repos = self._parse_color(
+                driver, "tree-sitter-supported-colorscheme"
+            )
+            lua_repos = self._parse_color(driver, "lua-colorscheme")
+            repos = treesitter_repos + lua_repos
+        return repos
+
+
+def filter_repo_meta(repos: list[RepoMeta]) -> list[RepoMeta]:
+    def blacklist(repo) -> bool:
+        return any([True for b in BACKLIST if repo.url.find(b) >= 0])
+
+    filtered_repos = []
+    for repo in repos:
+        if blacklist(repo):
+            logging.info(f"asc skip for blacklist - repo:{repo}")
+            continue
+        if repo.stars < STARS:
+            logging.info(f"asc skip for stars - repo:{repo}")
+            continue
+    return filtered_repos
+
+
+@click.command()
+@click.option(
+    "-d",
+    "--debug",
+    "debug_opt",
+    is_flag=True,
+    help="enable debug",
+)
+@click.option("--no-headless", "no_headless_opt", is_flag=True, help="disable headless")
+def main(debug_opt, no_headless_opt):
+    global HEADLESS
+    init_logging(logging.DEBUG if debug_opt else logging.INFO)
+    if no_headless_opt:
+        HEADLESS = False
+    fetched_repos = []
+    vcs = VimColorSchemes()
+    fetched_repos.extend(vcs.fetch())
+    asn = AwesomeNeovimColorScheme()
+    fetched_repos.extend(asn.fetch())
+
+
+if __name__ == "__main__":
+    main()
