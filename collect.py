@@ -375,7 +375,7 @@ class VimColorSchemes:
         )
 
     def fetch(self) -> list[RepoMeta]:
-        repos = []
+        repos: list[RepoMeta] = []
         with make_driver() as driver:
             for page_url in self._pages():
                 driver.get(page_url)
@@ -388,6 +388,7 @@ class VimColorSchemes:
                         continue
                     logging.info(f"vsc get - repo:{repo}")
                     need_more_scan = True
+                    repos.append(repo)
                 if not need_more_scan:
                     logging.info(f"vsc no valid stars, exit")
                     break
