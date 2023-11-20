@@ -52,7 +52,6 @@ jobs:
           export PYTHONPATH="$PWD:$PYTHONPATH"
           python3 collect.py
       - name: Auto Commit
-        if: ${{ github.ref != 'refs/heads/main' }}
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore(colors): auto update colorschemes list"
