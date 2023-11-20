@@ -120,11 +120,11 @@ local function build_specs()
                         local color_tmp = color_dir:readdir()
                         if type(color_tmp) == "table" and #color_tmp > 0 then
                             for j, color_ttmp in ipairs(color_tmp) do
-                                logger.debug(
-                                    "|colorbox.build_specs| colors_ttmp %d:%s",
-                                    j,
-                                    vim.inspect(color_ttmp)
-                                )
+                                -- logger.debug(
+                                --     "|colorbox.build_specs| colors_ttmp %d:%s",
+                                --     j,
+                                --     vim.inspect(color_ttmp)
+                                -- )
                                 if
                                     type(color_ttmp) == "table"
                                     and type(color_ttmp.name) == "string"
@@ -147,7 +147,7 @@ local function build_specs()
                             break
                         end
                     end
-                    vim.cmd(string.format([[packadd %s]], spec.name))
+                    -- vim.cmd(string.format([[packadd %s]], spec.name))
                 end
             end
         else
