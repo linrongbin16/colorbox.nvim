@@ -1,5 +1,6 @@
 local logger = require("colorbox.logger")
 local LogLevels = require("colorbox.logger").LogLevels
+local json = require("colorbox.json")
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
@@ -34,6 +35,8 @@ local function setup(opts)
 
     build()
 end
+
+local function install() end
 
 local M = { setup = setup }
 
