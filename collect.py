@@ -214,7 +214,7 @@ class RepoMeta:
             RepoMeta.DB.insert(obj)
         else:
             RepoMeta.DB.update(obj, q.url == self.url)
-            logging.info(f"failed to add repo ({self}), it's already exist!")
+            logging.debug(f"failed to add repo ({self}), it's already exist!")
 
     def update_last_update(self) -> None:
         q = Query()
@@ -535,6 +535,23 @@ class GitSubmodule:
         return old_modules
 
     def update_submodules(self):
+        # add all submodules
+        for repo in RepoMeta.all():
+            logging.info(
+                subprocess.check_output(
+                    [
+                        "git",
+                        "submodule",
+                        "add",
+                        "--force",
+                        "--name",
+                        self._module_name(repo.url),
+                        repo.github_url(),
+                        f"modules/{self._module_name(repo.url)}",
+                    ]
+                )
+            )
+        # clean the removed
         old_modules = [
             sub.strip() for sub in self._submodules() if len(sub.strip()) > 0
         ]
@@ -561,54 +578,37 @@ class GitSubmodule:
                 logging.warning(
                     subprocess.check_output(["rm", "-rf", f".git/modules/{o}"])
                 )
-                try:
-                    logging.warning(
-                        subprocess.check_output(
-                            [
-                                "git",
-                                "config",
-                                "-f",
-                                ".gitmodules",
-                                "--remove-section",
-                                f"submodule.{o}",
-                            ]
-                        )
-                    )
-                except Exception as e:
-                    logging.warning(e)
-                try:
-                    logging.warning(
-                        subprocess.check_output(
-                            [
-                                "git",
-                                "config",
-                                "-f",
-                                ".git/config",
-                                "--remove-section",
-                                f"submodule.{o}",
-                            ]
-                        )
-                    )
-                except Exception as e:
-                    logging.warning(e)
+                # try:
+                #     logging.warning(
+                #         subprocess.check_output(
+                #             [
+                #                 "git",
+                #                 "config",
+                #                 "-f",
+                #                 ".gitmodules",
+                #                 "--remove-section",
+                #                 f"submodule.{o}",
+                #             ]
+                #         )
+                #     )
+                # except Exception as e:
+                #     logging.warning(e)
+                # try:
+                #     logging.warning(
+                #         subprocess.check_output(
+                #             [
+                #                 "git",
+                #                 "config",
+                #                 "-f",
+                #                 ".git/config",
+                #                 "--remove-section",
+                #                 f"submodule.{o}",
+                #             ]
+                #         )
+                #     )
+                # except Exception as e:
+                #     logging.warning(e)
                 logging.warning(subprocess.check_output(["git", "rm", "--cached", o]))
-        current_modules = self._submodules()
-        for repo in RepoMeta.all():
-            if repo.url in current_modules:
-                logging.info("{repo} already exist in git submodules")
-            else:
-                logging.info(
-                    subprocess.check_output(
-                        [
-                            "git",
-                            "submodule",
-                            "add",
-                            "--name",
-                            self._module_name(repo.url),
-                            repo.github_url(),
-                        ]
-                    )
-                )
 
 
 @click.command()
