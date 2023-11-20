@@ -660,8 +660,8 @@ def main(debug_opt, no_headless_opt, skip_fetch_opt, skip_build_opt):
     if not skip_build_opt:
         builder = Builder(False if debug_opt else True)
         builder.build()
-    submodule = GitSubmodule()
-    submodule.update_submodules()
+    # submodule = GitSubmodule()
+    # submodule.update_submodules()
 
 
 if __name__ == "__main__":
