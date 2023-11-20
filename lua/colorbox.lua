@@ -54,15 +54,16 @@ local Defaults = {
 --- @type colorbox.Options
 local Configs = {}
 
---- @class ColorSpec
---- @field name string
---- @field path string
---- @field colors string[]
+--- @class colorbox.ColorSpec
+--- @field name string pack name
+--- @field path string path full path
+--- @field colors string[] color file base name
 local ColorSpec = {}
 
 --- @param name string
 --- @param path string
 --- @param colors string[]|nil
+--- @return colorbox.ColorSpec
 function ColorSpec:new(name, path, colors)
     local o = {
         name = name,
@@ -75,12 +76,14 @@ function ColorSpec:new(name, path, colors)
 end
 
 -- plugin name => spec
+--- @type table<string, colorbox.ColorSpec>
 local ColorSpecs = {}
 
 -- color name => spec
+--- @type table<string, colorbox.ColorSpec>
 local ColorNameSpecs = {}
 
-local function init()
+local function _init()
     local cwd = vim.fn["colorbox#base_dir"]()
     local packopt = string.format("%s/pack/colorbox/opt", cwd)
     logger.debug(
@@ -183,9 +186,18 @@ local function setup(opts)
         file_log_name = "colorbox.log",
     })
 
-    init()
+    _init()
 end
 
-local M = { setup = setup }
+--- @return colorbox.ColorSpec[]
+local function list()
+    local results = {}
+    for _, spec in pairs(ColorSpecs) do
+        table.insert(results, spec)
+    end
+    return results
+end
+
+local M = { setup = setup, list = list }
 
 return M
