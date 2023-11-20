@@ -1,4 +1,0 @@
-selenium
-tinydb
-mypy
-click
