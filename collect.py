@@ -228,14 +228,13 @@ class RepoMeta:
             return []
 
 
-class GitObject:
-    def __init__(self, repo) -> None:
+class GitObj:
+    def __init__(self, repo: RepoMeta) -> None:
         assert isinstance(repo, RepoMeta)
+        self.repo = repo
         self.root = pathlib.Path(CANDIDATE_DIR)
         self.root.mkdir(parents=True, exist_ok=True)
-        self.repo = repo
         self.path = pathlib.Path(f"{self.root}/{self.repo.url}")
-        self.colors = self._init_colors()
 
     def __enter__(self):
         return self
@@ -266,8 +265,8 @@ class GitObject:
                 f"failed to git clone candidate:{self.repo.github_url()}", e
             )
 
-    def last_commit_datetime(self) -> datetime.datetime:
-        cwd = os.getcwd()
+    def get_last_commit_datetime(self) -> datetime.datetime:
+        saved = os.getcwd()
         os.chdir(self.path)
         last_commit_time = subprocess.check_output(
             ["git", "log", "-1", '--format="%at"'], encoding="UTF-8"
@@ -275,17 +274,20 @@ class GitObject:
         last_commit_time = trim_quotes(last_commit_time)
         dt = datetime.datetime.fromtimestamp(int(last_commit_time))
         logging.debug(f"repo ({self.repo}) last git commit time:{dt}")
-        os.chdir(cwd)
+        os.chdir(saved)
         return dt
 
-    def _init_colors(self) -> list[str]:
+    def get_color_files(self) -> list[pathlib.Path]:
         colors_dir = pathlib.Path(f"{self.path}/colors")
         if not colors_dir.exists() or not colors_dir.is_dir():
             return []
-        colors_files = [f for f in colors_dir.iterdir() if f.is_file()]
+        return [f for f in colors_dir.iterdir() if f.is_file()]
+
+    def get_colors(self) -> list[str]:
+        color_files = self.get_color_files()
         colors = [
             str(c.name)[:-4]
-            for c in colors_files
+            for c in color_files
             if str(c).endswith(".vim") or str(c).endswith(".lua")
         ]
         logging.debug(f"repo ({self.repo}) contains colors:{colors}")
