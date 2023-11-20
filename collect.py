@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import datetime
+import json
 import logging
 import os
 import pathlib
@@ -11,7 +12,7 @@ import typing
 from dataclasses import dataclass
 
 import click
-from selenium.webdriver import Chrome, ChromeOptions, DesiredCapabilities
+from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions
@@ -140,7 +141,7 @@ REPO_META_CONFIG = {}
 
 
 class RepoMeta:
-    DB = TinyDB("db.json")
+    DB = TinyDB("pipeline.json")
     URL = "url"
     STARS = "stars"
     LAST_UPDATE = "last_update"
@@ -438,7 +439,7 @@ def filter_repo_meta(repos: list[RepoMeta]) -> list[RepoMeta]:
     def blacklist(repo) -> bool:
         return any([True for b in BACKLIST if repo.url.find(b) >= 0])
 
-    filtered_repos = []
+    filtered_repos: list[RepoMeta] = []
     for repo in repos:
         if blacklist(repo):
             logging.info(f"asc skip for blacklist - repo:{repo}")
@@ -450,66 +451,13 @@ def filter_repo_meta(repos: list[RepoMeta]) -> list[RepoMeta]:
     return filtered_repos
 
 
-class Writer:
-    def __init__(self, path: str) -> None:
-        parent_folder = os.path.dirname(path)
-        os.makedirs(parent_folder, exist_ok=True)
-        self.fp = open(path, "w")
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        if self.fp:
-            self.fp.close()
-        self.fp = None
-
-
-class ColorPluginWriter(Writer):
-    def __init__(self, path: str) -> None:
-        super().__init__(path)
-        self.fp.writelines("return {\n")
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        self.fp.writelines("}\n")
-        super().__exit__(exception_type, exception_value, traceback)
-
-    def append(self, repo: RepoObject):
-        name = repo.altered_name()
-        optional_name = f"{INDENT * 2}name = '{name}',\n" if name else ""
-        branch = repo.altered_branch()
-        optional_branch = f"{INDENT * 2}branch = '{branch}',\n" if branch else ""
-        self.fp.writelines(
-            f"""{INDENT}{{
-{INDENT*2}"{repo.url}",
-{INDENT*2}lazy = true,
-{INDENT*2}priority = 1000,
-{optional_name}{optional_branch}{INDENT}}},\n"""
-        )
-
-
-class ColorNameWriter(Writer):
-    def __init__(self, path: str) -> None:
-        super().__init__(path)
-        self.fp.writelines("let s:colors=[\n")
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        self.fp.writelines(f"{INDENT*3}\\]\n")
-        super().__exit__(exception_type, exception_value, traceback)
-
-    def append(self, color: Union[str, list]):
-        if isinstance(color, list):
-            for c in color:
-                self.fp.writelines(f"{INDENT*3}\\ '{c}',\n")
-        else:
-            assert isinstance(color, str)
-            self.fp.writelines(f"{INDENT*3}\\ '{color}',\n")
-
-
 class Builder:
-    def _download(self, clean_old: bool) -> None:
+    def __init__(self, clean_old: bool) -> None:
+        self.clean_old = clean_old
+
+    def _download(self) -> None:
         # clean
-        if clean_old:
+        if self.clean_old:
             candidate_path = pathlib.Path("candidate")
             if candidate_path.exists() and candidate_path.is_dir():
                 shutil.rmtree(candidate_path)
@@ -564,72 +512,24 @@ class Builder:
                     repos.add(repo)
         return sorted(list(repos), key=lambda r: (r.url.lower(), r.stars))
 
-    def list_colors(self, repo: RepoMeta) -> list[str]:
-        colors_dir = pathlib.Path(f"{CANDIDATE_DIR}/{repo.url}/colors")
-        colors_files = [
-            f
-            for f in colors_dir.iterdir()
-            if f.is_file() and (str(f).endswith(".vim") or str(f).endswith(".lua"))
-        ]
-        colors = [str(c.name)[:-4] for c in colors_files]
-        return colors
-
-    def list_primary_color(repo: RepoMeta) -> str:
-        colors = list_colors(repo)
-        primary_color = None
-        if repo.url.lower() in [
-            "EdenEast/nightfox.nvim".lower(),
-            "projekt0n/github-nvim-theme".lower,
-        ]:
-            for c in colors:
-                if c in ["nightfox", "github_dark"]:
-                    primary_color = c
-        else:
-            for c in colors:
-                if primary_color is None or len(c) < len(primary_color):
-                    primary_color = c
-        assert isinstance(primary_color, str)
-        return primary_color
-
-    def list_dark_colors(repo: RepoObject) -> list[str]:
-        colors = list_colors(repo)
-        dark_colors = [
-            c
-            for c in colors
-            if c.lower().find("light") < 0
-            and c.lower().find("day") < 0
-            and c.lower().find("dawn") < 0
-        ]
-        return dark_colors
-
-    def dump_color(
-        plugin_writer: ColorPluginWriter,
-        primary_writer: ColorNameWriter,
-        dark_writer: ColorNameWriter,
-        repo: RepoObject,
-    ) -> None:
-        primary_color = list_primary_color(repo)
-        primary_writer.append(primary_color)
-        dark_colors = list_dark_colors(repo)
-        dark_writer.append(dark_colors)
-        plugin_writer.append(repo)
-
     def build(self) -> None:
+        self._download()
         # dedup candidates
         deduped_repos = self._dedup()
 
+        data: dict[str, list[typing.Any]] = {"data": []}
         for repo in deduped_repos:
-
-        # dump colors
-        with ColorPluginWriter(
-            "output/color-plugins.lua"
-        ) as plugin_writer, ColorNameWriter(
-            "output/primary-color-names.vim"
-        ) as primary_writer, ColorNameWriter(
-            "output/dark-color-names.vim"
-        ) as dark_writer:
-            for repo in deduped_repos:
-                dump_color(plugin_writer, primary_writer, dark_writer, repo)
+            data["data"].append(
+                {
+                    "url": repo.url,
+                    "starts": repo.stars,
+                    "last_update": datetime_tostring(repo.last_update),
+                    "priority": repo.priority,
+                    "source": repo.source,
+                }
+            )
+        with open("db.json", "w") as fp:
+            fp.write(json.dumps(data))
 
 
 @click.command()
@@ -654,7 +554,7 @@ def main(debug_opt, no_headless_opt, skip_fetch_opt):
         asn = AwesomeNeovimColorScheme()
         fetched_repos.extend(asn.fetch())
         filtered_repos = filter_repo_meta(fetched_repos)
-    builder = Builder()
+    builder = Builder(True if debug_opt else False)
     builder.build()
 
 
