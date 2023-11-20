@@ -1,3 +1,4 @@
 selenium
 tinydb
+mypy
 click

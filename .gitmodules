@@ -1,0 +1,60 @@
+[submodule "folke-tokyonight.nvim"]
+	path = modules/folke-tokyonight.nvim
+	url = https://github.com/folke/tokyonight.nvim
+[submodule "catppuccin-nvim"]
+	path = modules/catppuccin-nvim
+	url = https://github.com/catppuccin/nvim
+[submodule "rebelot-kanagawa.nvim"]
+	path = modules/rebelot-kanagawa.nvim
+	url = https://github.com/rebelot/kanagawa.nvim
+[submodule "nlknguyen-papercolor-theme"]
+	path = modules/nlknguyen-papercolor-theme
+	url = https://github.com/nlknguyen/papercolor-theme
+[submodule "nordtheme-vim"]
+	path = modules/nordtheme-vim
+	url = https://github.com/nordtheme/vim
+[submodule "sainnhe-everforest"]
+	path = modules/sainnhe-everforest
+	url = https://github.com/sainnhe/everforest
+[submodule "cocopon-iceberg.vim"]
+	path = modules/cocopon-iceberg.vim
+	url = https://github.com/cocopon/iceberg.vim
+[submodule "rakr-vim-one"]
+	path = modules/rakr-vim-one
+	url = https://github.com/rakr/vim-one
+[submodule "junegunn-seoul256.vim"]
+	path = modules/junegunn-seoul256.vim
+	url = https://github.com/junegunn/seoul256.vim
+[submodule "sainnhe-gruvbox-material"]
+	path = modules/sainnhe-gruvbox-material
+	url = https://github.com/sainnhe/gruvbox-material
+[submodule "rose-pine-neovim"]
+	path = modules/rose-pine-neovim
+	url = https://github.com/rose-pine/neovim
+[submodule "ku1ik-vim-monokai"]
+	path = modules/ku1ik-vim-monokai
+	url = https://github.com/ku1ik/vim-monokai
+[submodule "sainnhe-sonokai"]
+	path = modules/sainnhe-sonokai
+	url = https://github.com/sainnhe/sonokai
+[submodule "dracula-vim"]
+	path = modules/dracula-vim
+	url = https://github.com/dracula/vim
+[submodule "navarasu-onedark.nvim"]
+	path = modules/navarasu-onedark.nvim
+	url = https://github.com/navarasu/onedark.nvim
+[submodule "jacoborus-tender.vim"]
+	path = modules/jacoborus-tender.vim
+	url = https://github.com/jacoborus/tender.vim
+[submodule "lifepillar-vim-solarized8"]
+	path = modules/lifepillar-vim-solarized8
+	url = https://github.com/lifepillar/vim-solarized8
+[submodule "mhartington-oceanic-next"]
+	path = modules/mhartington-oceanic-next
+	url = https://github.com/mhartington/oceanic-next
+[submodule "projekt0n-github-nvim-theme"]
+	path = modules/projekt0n-github-nvim-theme
+	url = https://github.com/projekt0n/github-nvim-theme
+[submodule "ellisonleao-gruvbox.nvim"]
+	path = modules/ellisonleao-gruvbox.nvim
+	url = https://github.com/ellisonleao/gruvbox.nvim
