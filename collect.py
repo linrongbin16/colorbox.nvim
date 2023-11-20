@@ -19,7 +19,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from tinydb import Query, TinyDB
 
 # github
-STARS = 900
+STARS = 800
 LASTCOMMIT = 3 * 365 * 24 * 3600  # 3 years * 365 days * 24 hours * 3600 seconds
 BACKLIST = [
     "rafi/awesome-vim-colorschemes",
