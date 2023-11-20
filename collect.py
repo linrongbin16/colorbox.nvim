@@ -261,12 +261,6 @@ class GitObject:
         self.root.mkdir(parents=True, exist_ok=True)
         self.path = pathlib.Path(f"{self.root}/{self.repo.url}")
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        pass
-
     def clone(self) -> None:
         try:
             specific_branch = (
@@ -522,19 +516,19 @@ class Builder:
 
         # clone candidates
         for repo in RepoMeta.all():
-            with GitObject(repo) as obj:
-                obj.clone()
-                last_update = retrieve_last_git_commit_datetime(obj.path)
-                repo.last_update = last_update
-                repo.update_last_update()
-                if (
-                    repo.last_update.timestamp() + LASTCOMMIT
-                    < datetime.datetime.now().timestamp()
-                ):
-                    logging.info(
-                        f"clone skip for too old last_update (>= 3 years) - repo:{repo}"
-                    )
-                    repo.remove()
+            gobj = GitObject(repo)
+            gobj.clone()
+            last_update = retrieve_last_git_commit_datetime(gobj.path)
+            repo.last_update = last_update
+            repo.update_last_update()
+            if (
+                repo.last_update.timestamp() + LASTCOMMIT
+                < datetime.datetime.now().timestamp()
+            ):
+                logging.info(
+                    f"clone skip for too old last_update (>= 3 years) - repo:{repo}"
+                )
+                repo.remove()
 
     def _dedup(self) -> list[RepoMeta]:
         def greater_than(a: RepoMeta, b: RepoMeta) -> bool:
@@ -550,29 +544,27 @@ class Builder:
         repos: set[RepoMeta] = set()
 
         for repo in RepoMeta.all():
-            with GitObject(repo) as candidate:
-                for color in candidate.get_colors():
-                    # detect duplicated color
-                    if color in colors:
-                        old_repo = colors[color]
-                        logging.info(
-                            f"detect duplicated color({color}), new:{repo}, old:{old_repo}"
-                        )
-                        # replace old repo if new repo has higher priority
-                        if greater_than(repo, old_repo):
-                            logging.info(
-                                f"replace old repo({old_repo}) with new({repo})"
-                            )
-                            colors[color] = repo
-                            repos.add(repo)
-                            repos.remove(old_repo)
-                    else:
-                        # add new color
+            candidate = GitObject(repo)
+            for color in candidate.get_colors():
+                # detect duplicated color
+                if color in colors:
+                    old_repo = colors[color]
+                    logging.info(
+                        f"detect duplicated color({color}), new:{repo}, old:{old_repo}"
+                    )
+                    # replace old repo if new repo has higher priority
+                    if greater_than(repo, old_repo):
+                        logging.info(f"replace old repo({old_repo}) with new({repo})")
                         colors[color] = repo
                         repos.add(repo)
+                        repos.remove(old_repo)
+                else:
+                    # add new color
+                    colors[color] = repo
+                    repos.add(repo)
         return sorted(list(repos), key=lambda r: (r.url.lower(), r.stars))
 
-    def list_colors(repo: RepoMeta) -> list[str]:
+    def list_colors(self, repo: RepoMeta) -> list[str]:
         colors_dir = pathlib.Path(f"{CANDIDATE_DIR}/{repo.url}/colors")
         colors_files = [
             f
@@ -622,9 +614,11 @@ class Builder:
         dark_writer.append(dark_colors)
         plugin_writer.append(repo)
 
-    def build() -> None:
+    def build(self) -> None:
         # dedup candidates
-        deduped_repos = dedup()
+        deduped_repos = self._dedup()
+
+        for repo in deduped_repos:
 
         # dump colors
         with ColorPluginWriter(
@@ -660,7 +654,8 @@ def main(debug_opt, no_headless_opt, skip_fetch_opt):
         asn = AwesomeNeovimColorScheme()
         fetched_repos.extend(asn.fetch())
         filtered_repos = filter_repo_meta(fetched_repos)
-    download_git_objects(not debug_opt)
+    builder = Builder()
+    builder.build()
 
 
 if __name__ == "__main__":
