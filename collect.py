@@ -550,7 +550,7 @@ class GitSubmodule:
                             "--name",
                             self._module_name(repo.url),
                             repo.github_url(),
-                            f"modules/{self._module_name(repo.url)}",
+                            f"pack/{self._module_name(repo.url)}",
                         ]
                     )
                 )
@@ -576,7 +576,7 @@ class GitSubmodule:
             sub.strip() for sub in self._submodules() if len(sub.strip()) > 0
         ]
         ENTERING = "Entering "
-        MODULES = "modules/"
+        MODULES = "pack/"
         old_modules = [
             old[len(ENTERING) :] for old in old_modules if old.startswith(ENTERING)
         ]
