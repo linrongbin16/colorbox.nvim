@@ -442,10 +442,10 @@ def filter_repo_meta(repos: list[RepoMeta]) -> list[RepoMeta]:
     filtered_repos: list[RepoMeta] = []
     for repo in repos:
         if blacklist(repo):
-            logging.info(f"asc skip for blacklist - repo:{repo}")
+            logging.info(f"skip for blacklist - repo:{repo}")
             continue
         if repo.stars < STARS:
-            logging.info(f"asc skip for stars - repo:{repo}")
+            logging.info(f"skip for stars (< 800) - repo:{repo}")
             continue
         repo.save()
     return filtered_repos
