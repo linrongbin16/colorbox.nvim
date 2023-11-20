@@ -2,6 +2,18 @@ local logger = require("colorbox.logger")
 local LogLevels = require("colorbox.logger").LogLevels
 local json = require("colorbox.json")
 
+local function randint()
+    local s1 = vim.loop.getpid()
+    local s2, s3 = vim.loop.gettimeofday()
+    local s4 = math.random()
+    local int32_max = 2 ^ 31 - 1
+    local r = math.min(s1, int32_max)
+    r = math.min(r + s2, int32_max)
+    r = math.min(r + s3, int32_max)
+    r = math.min(r + s4, int32_max)
+    return math.floor(r)
+end
+
 --- @param s string
 --- @param t string
 --- @return boolean
@@ -95,13 +107,21 @@ function ColorSpec:new(name, path, colors)
     return o
 end
 
+-- specs
+--- @type colorbox.ColorSpec[]
+local ColorSpecs = {}
+
 -- plugin name => spec
 --- @type table<string, colorbox.ColorSpec>
-local ColorSpecs = {}
+local ColorSpecsMap = {}
+
+-- color names
+--- @type string[]
+local ColorNames = {}
 
 -- color name => spec
 --- @type table<string, colorbox.ColorSpec>
-local ColorNameSpecs = {}
+local ColorNamesMap = {}
 
 local function _init()
     local cwd = vim.fn["colorbox#base_dir"]()
@@ -131,7 +151,8 @@ local function _init()
                         pack_ttmp.name,
                         string.format("%s/%s", packopt, pack_ttmp.name)
                     )
-                    ColorSpecs[spec.name] = spec
+                    table.insert(ColorSpecs, spec)
+                    ColorSpecsMap[spec.name] = spec
                     local color_dir, err =
                         vim.loop.fs_opendir(spec.path .. "/colors") --[[@as luv_dir_t]]
                     if not color_dir then
@@ -166,7 +187,8 @@ local function _init()
                                     local color =
                                         color_file:sub(1, #color_file - 4)
                                     table.insert(spec.colors, color)
-                                    ColorNameSpecs[color] = spec
+                                    ColorNamesMap[color] = spec
+                                    table.insert(ColorNames, color)
                                 end
                             end
                         else
@@ -179,16 +201,25 @@ local function _init()
             break
         end
     end
+end
 
-    vim.api.nvim_create_autocmd("ColorSchemePre", {
-        callback = function(event)
-            logger.debug("|colorbox.init| event:%s", vim.inspect(event))
-            if type(event) ~= "table" or ColorNameSpecs[event.match] == nil then
-                return
-            end
-            local spec = ColorNameSpecs[event.match]
-            vim.cmd(string.format([[packadd %s]], spec.name))
-        end,
+local function _policy_shuffle()
+    local n = 0
+    for _, spec in pairs(ColorSpecs) do
+        n = n + #spec.colors
+    end
+    local r = math.floor(math.fmod(randint(), n))
+    local color = ColorNames[r]
+    vim.cmd(string.format([[color %s]], color))
+end
+
+local function _policy()
+    _policy_shuffle()
+end
+
+local function _timing_startup()
+    vim.api.nvim_create_autocmd("VimEnter", {
+        callback = _policy,
     })
 end
 
@@ -205,6 +236,19 @@ local function setup(opts)
     })
 
     _init()
+
+    vim.api.nvim_create_autocmd("ColorSchemePre", {
+        callback = function(event)
+            logger.debug("|colorbox.init| event:%s", vim.inspect(event))
+            if type(event) ~= "table" or ColorNamesMap[event.match] == nil then
+                return
+            end
+            local spec = ColorNamesMap[event.match]
+            vim.cmd(string.format([[packadd %s]], spec.name))
+        end,
+    })
+
+    _timing_startup()
 end
 
 local M = { setup = setup }
