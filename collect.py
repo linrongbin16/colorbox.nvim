@@ -516,19 +516,20 @@ class Builder:
         # dedup candidates
         deduped_repos = self._dedup()
 
-        data: dict[str, list[typing.Any]] = {"data": []}
-        for repo in deduped_repos:
-            data["data"].append(
-                {
-                    "url": repo.url,
-                    "starts": repo.stars,
-                    "last_update": datetime_tostring(repo.last_update),
-                    "priority": repo.priority,
-                    "source": repo.source,
-                }
-            )
-        with open("db.json", "w") as fp:
-            fp.write(json.dumps(data))
+        for repo in RepoMeta.all():
+            if not repo in deduped_repos:
+                repo.remove()
+
+
+class GitSubmodule:
+    def __init__(self) -> None:
+        pass
+
+    def get_old_submodules(self) -> list[str]:
+        old_modules = subprocess.check_output(
+            ["git", "submodule", "foreach"], encoding="UTF-8"
+        ).split("\n")
+        return old_modules
 
 
 @click.command()
