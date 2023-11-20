@@ -8,7 +8,7 @@ on:
       - main
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '53 14 * * *'
+    - cron: "53 14 * * *"
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
@@ -37,7 +37,8 @@ jobs:
           which google-chrome
           echo 'google-chrome --version'
           google-chrome --version
-      - uses: nanasess/setup-chromedriver@v2
+      - uses:
+          nanasess/setup-chromedriver@v2
           # with:
           # Optional: do not specify to match Chrome's version
           # chromedriver-version: '88.0.4324.96'
@@ -49,6 +50,4 @@ jobs:
         shell: bash
         run: |
           export PYTHONPATH="$PWD:$PYTHONPATH"
-          python3 fetch.py
-          python3 clone.py
-          python3 build.py
+          python3 collect.py
