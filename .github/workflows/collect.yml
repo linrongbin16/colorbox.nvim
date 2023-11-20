@@ -37,6 +37,7 @@ jobs:
           which google-chrome
           echo 'google-chrome --version'
           google-chrome --version
+          rm google-chrome-stable_current_amd64.deb
       - uses:
           nanasess/setup-chromedriver@v2
           # with:
