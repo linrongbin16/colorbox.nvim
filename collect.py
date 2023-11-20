@@ -363,7 +363,9 @@ class VimColorSchemes:
             .get_attribute("datetime"),
             "%Y-%m-%dT%H:%M:%S.%fZ",
         )
-        return RepoMeta(url, stars, last_update, source="vimcolorschemes.com/top")
+        return RepoMeta(
+            url, stars, last_update, source="https://vimcolorschemes.com/top"
+        )
 
     def fetch(self) -> list[RepoMeta]:
         repos = []
@@ -393,7 +395,11 @@ class AwesomeNeovimColorScheme:
         repo = a_splits[0]
         stars = parse_number(a_splits[1])
         return RepoMeta(
-            repo, stars, None, priority=100, source="awesome-neovim#colorscheme"
+            repo,
+            stars,
+            None,
+            priority=100,
+            source="https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
         )
 
     def _parse_color(self, driver: Chrome, tag_id: str) -> list[RepoMeta]:

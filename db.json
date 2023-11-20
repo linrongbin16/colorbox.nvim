@@ -1,0 +1,96 @@
+{
+  "_default": {
+    "1": {
+      "url": "folke/tokyonight.nvim",
+      "stars": 4300,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "2": {
+      "url": "sainnhe/sonokai",
+      "stars": 1300,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "3": {
+      "url": "mhartington/oceanic-next",
+      "stars": 1100,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "4": {
+      "url": "navarasu/onedark.nvim",
+      "stars": 1200,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "5": {
+      "url": "sainnhe/gruvbox-material",
+      "stars": 1500,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "6": {
+      "url": "sainnhe/everforest",
+      "stars": 2200,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "7": {
+      "url": "dracula/vim",
+      "stars": 1300,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "8": {
+      "url": "projekt0n/github-nvim-theme",
+      "stars": 1800,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "9": {
+      "url": "rose-pine/neovim",
+      "stars": 1400,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "10": {
+      "url": "catppuccin/nvim",
+      "stars": 3600,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "11": {
+      "url": "EdenEast/nightfox.nvim",
+      "stars": 2400,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "12": {
+      "url": "rebelot/kanagawa.nvim",
+      "stars": 2900,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    },
+    "13": {
+      "url": "ellisonleao/gruvbox.nvim",
+      "stars": 1300,
+      "last_update": null,
+      "priority": 100,
+      "source": "awesome-neovim#colorscheme"
+    }
+  }
+}
+
