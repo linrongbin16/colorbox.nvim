@@ -382,7 +382,7 @@ class VimColorSchemes:
                 need_more_scan = False
                 for element in find_elements(driver, "//article[@class='card']"):
                     repo = self._parse_repo(element)
-                    logging.info(f"vsc repo:{repo}")
+                    logging.debug(f"vsc repo:{repo}")
                     if repo.stars < STARS:
                         logging.info(f"vsc skip for stars - repo:{repo}")
                         continue
