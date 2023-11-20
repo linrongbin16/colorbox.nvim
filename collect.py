@@ -141,7 +141,7 @@ REPO_META_CONFIG = {}
 
 
 class RepoMeta:
-    DB = TinyDB("pipeline.json")
+    DB = TinyDB("db.json")
     URL = "url"
     STARS = "stars"
     LAST_UPDATE = "last_update"
