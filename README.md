@@ -1,4 +1,4 @@
-# colorbox.nvim
+# 🌈 colorbox.nvim
 
 I'm greedy that I want all the **most popular** Neovim colorschemes than only one, I'm playful that I want to change colorscheme from time to time. Are you like me?
 
@@ -35,12 +35,21 @@ It allow you do any switches with:
 
 Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorschemes list.
 
-## Requirement
+## 📖 Table of contents
+
+- [Requirement](#requirement)
+- [Install](#install)
+  - [lazy.nvim](#lazynvim)
+- [Configuration](#configuration)
+- [Development](#development)
+- [Contribute](#contribute)
+
+## ✅ Requirement
 
 - neovim &ge; 0.8.
 - [git](https://git-scm.com/).
 
-## Install
+## 📦 Install
 
 ### [lazy.nvim](https://github.com/folke/lazy.nvim)
 
@@ -48,12 +57,16 @@ Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blo
 require('lazy').setup({
     {
         'linrongbin16/colorbox.nvim',
+        lazy = false,
         build = function() require('colorbox').update() end,
+        config = function() require('colorbox').setup() end,
     }
 })
 ```
 
-## Configuratoin
+> Note: don't lazy this plugin since you usually need set `colorscheme` right after start nvim (it costs 3~ ms to start).
+
+## 🔧 Configuration
 
 ```lua
 require('colorbox').setup({
@@ -79,3 +92,28 @@ require('colorbox').setup({
     file_log = false,
 })
 ```
+
+## ✏️ Development
+
+To develop the project and make PR, please setup with:
+
+- [lua_ls](https://github.com/LuaLS/lua-language-server).
+- [stylua](https://github.com/JohnnyMorganz/StyLua).
+- [luarocks](https://luarocks.org/).
+- [luacheck](https://github.com/mpeterv/luacheck).
+
+To run unit tests, please install below dependencies:
+
+- [vusted](https://github.com/notomo/vusted).
+
+Then test with `vusted ./test`.
+
+## 🎁 Contribute
+
+Please open [issue](https://github.com/linrongbin16/fzfx.nvim/issues)/[PR](https://github.com/linrongbin16/fzfx.nvim/pulls) for anything about fzfx.nvim.
+
+Like fzfx.nvim? Consider
+
+[![Github Sponsor](https://img.shields.io/badge/-Sponsor%20Me%20on%20Github-magenta?logo=github&logoColor=white)](https://github.com/sponsors/linrongbin16)
+[![Wechat Pay](https://img.shields.io/badge/-Tip%20Me%20on%20WeChat-brightgreen?logo=wechat&logoColor=white)](https://github.com/linrongbin16/lin.nvim/wiki/Sponsor)
+[![Alipay](https://img.shields.io/badge/-Tip%20Me%20on%20Alipay-blue?logo=alipay&logoColor=white)](https://github.com/linrongbin16/lin.nvim/wiki/Sponsor)
