@@ -314,13 +314,11 @@ local function update()
             logger.info("updating %s", vim.inspect(url))
             table.insert(jobs, jobid)
         else
-            local cmd = {
-                "git",
-                "clone",
-                "--depth=1",
+            local cmd = string.format(
+                "git clone --depth=1 %s %s",
                 github_url,
-                install_path,
-            }
+                install_path
+            )
             logger.debug("install command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 stdout_buffered = true,
