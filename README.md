@@ -17,7 +17,7 @@ It use offline github actions to weekly collect and update the most popular Vim/
 > 2. Last git commit in 3 years.
 > 3. For multiple variants, choose the one in following rules:
 >    1. **Awesome-neovim** wins **vimcolorsheme**, since they usually has modern Neovim features (lua, lsp, treesitter) and support more third-party plugins.
->    2. Moe github stars.
+>    2. More github stars.
 >    3. Newer git commits.
 
 It install color plugins via git submodules instead of copy-paste source code, so you get continuously updates from original authors instead of me, e.g. it only transport and manage, not produce.
