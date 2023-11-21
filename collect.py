@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import datetime
-import json
 import logging
 import os
 import pathlib
@@ -21,9 +20,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 from tinydb import Query, TinyDB
 
 # github
-STARS = 900
-LASTCOMMIT = 3 * 365 * 24 * 3600  # 3 years * 365 days * 24 hours * 3600 seconds
-BACKLIST = [
+GITHUB_STARS = 800
+LAST_GIT_COMMIT = 3 * 365 * 24 * 3600  # 3 years * 365 days * 24 hours * 3600 seconds
+BLACKLIST = [
     "rafi/awesome-vim-colorschemes",
     "sonph/onehalf",
     "mini.nvim#minischeme",
@@ -33,20 +32,20 @@ BACKLIST = [
 
 
 # chrome webdriver
-HEADLESS = True
-TIMEOUT = 30
+WEBDRIVER_HEADLESS = True
+WEBDRIVER_TIMEOUT = 30
 
 # git object
 DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S"
 CANDIDATE_DIR = "candidate"
 
 
-def init_logging(log_level: typing.Optional[int]) -> None:
-    assert isinstance(log_level, int) or log_level is None
-    log_level = logging.WARNING if log_level is None else log_level
+def init_logging(level: typing.Optional[int]) -> None:
+    assert isinstance(level, int) or level is None
+    level = logging.WARNING if level is None else level
     logging.basicConfig(
         format="%(asctime)s %(levelname)s [%(filename)s:%(lineno)d](%(funcName)s) - %(message)s",
-        level=log_level,
+        level=level,
         handlers=[
             logging.StreamHandler(),
             logging.FileHandler(f"{sys.argv[0]}.log", mode="w"),
@@ -120,210 +119,190 @@ def path2str(p: pathlib.Path) -> str:
     return result
 
 
-def retrieve_last_git_commit_datetime(repo_path: pathlib.Path) -> datetime.datetime:
-    saved = os.getcwd()
-    os.chdir(repo_path)
+def retrieve_last_git_commit_datetime(git_path: pathlib.Path) -> datetime.datetime:
+    saved_cwd = os.getcwd()
+    os.chdir(git_path)
     last_commit_time = subprocess.check_output(
         ["git", "log", "-1", '--format="%at"'], encoding="UTF-8"
     ).strip()
     last_commit_time = trim_quotes(last_commit_time)
     dt = datetime.datetime.fromtimestamp(int(last_commit_time))
-    logging.debug(f"repo ({repo_path}) last git commit time:{dt}")
-    os.chdir(saved)
+    logging.debug(f"repo ({git_path}) last git commit time:{dt}")
+    os.chdir(saved_cwd)
     return dt
 
 
 @dataclass
-class RepoMetaConfig:
-    branch: typing.Optional[str] = None
+class ColorSpecConfig:
+    git_branch: typing.Optional[str] = None
 
     def __str__(self) -> str:
-        return f"<RepoMetaConfig branch:{self.branch}>"
+        return f"<ColorSpecConfig git_branch:{self.git_branch if isinstance(self.git_branch, str) else 'None'}>"
 
 
-REPO_META_CONFIG = {}
+REPO_META_CONFIG = {"lifepillar/vim-solarized8": ColorSpecConfig(git_branch="neovim")}
 
 
-class RepoMeta:
+class ColorSpec:
     DB = TinyDB("db.json")
+    HANDLE = "handle"
     URL = "url"
-    STARS = "stars"
-    LAST_UPDATE = "last_update"
+    GITHUB_STARS = "github_stars"
     PRIORITY = "priority"
     SOURCE = "source"
-    OBJ_NAME = "obj_name"
+    LAST_GIT_COMMIT = "last_git_commit"
+    GIT_PATH = "git_path"
+    GIT_BRANCH = "git_branch"
 
     def __init__(
         self,
-        url: str,
-        stars: int,
-        last_update: typing.Optional[datetime.datetime] = None,
+        handle: str,
+        github_stars: int,
+        last_git_commit: typing.Optional[datetime.datetime] = None,
         priority: int = 0,
         source: typing.Optional[str] = None,
-        obj_name: typing.Optional[str] = None,
     ) -> None:
-        assert isinstance(url, str)
-        assert isinstance(stars, int) and stars >= 0
-        assert isinstance(last_update, datetime.datetime) or last_update is None
+        assert isinstance(handle, str)
+        assert isinstance(github_stars, int) and github_stars >= 0
+        assert isinstance(last_git_commit, datetime.datetime) or last_git_commit is None
         assert isinstance(priority, int)
         assert isinstance(source, str) or source is None
-        self.url = self._init_url(url)
-        self.stars = stars
-        self.last_update = last_update
+        self.handle = self._init_url(handle)
+        self.url = f"https://github.com/{self.handle}"
+        self.github_stars = github_stars
         self.priority = priority
         self.source = source
-        self.obj_name = self.url.replace("/", "-")
-        self.config = self._init_config(url)
+        self.last_git_commit = last_git_commit
+        self.git_path = self.handle.replace("/", "-")
+        self.candidate_path = f"{CANDIDATE_DIR}/{self.git_path}"
+        config = self._init_config(handle)
+        self.git_branch = None
+        if isinstance(config, ColorSpecConfig):
+            if isinstance(config.git_branch, str):
+                self.git_branch = config.git_branch
 
-    def _init_url(self, url: str) -> str:
-        url = url.strip()
-        while url.startswith("/"):
-            url = url[1:]
-        while url.endswith("/"):
-            url = url[:-1]
-        return url
+    def _init_url(self, handle: str) -> str:
+        handle = handle.strip()
+        while handle.startswith("/"):
+            handle = handle[1:]
+        while handle.endswith("/"):
+            handle = handle[:-1]
+        return handle
 
-    def _init_config(self, url: str) -> typing.Optional[RepoMetaConfig]:
-        return REPO_META_CONFIG[url] if url in REPO_META_CONFIG else None
+    def _init_config(self, handle: str) -> typing.Optional[ColorSpecConfig]:
+        return REPO_META_CONFIG[handle] if handle in REPO_META_CONFIG else None
 
     def __str__(self):
-        return f"<RepoMeta url:{self.url}, stars:{self.stars}, last_update:{datetime_tostring(self.last_update)}, priority:{self.priority}, config:{self.config}>"
+        return f"<ColorSpec handle:{self.handle}, url:{self.url}, github_stars:{self.github_stars}, priority:{self.priority}, last_git_commit:{datetime_tostring(self.last_git_commit)}, git_branch:{self.git_branch if isinstance(self.git_branch, str) else 'None'}>"
 
     def __hash__(self):
-        return hash(self.url.lower())
+        return hash(self.handle.lower())
 
     def __eq__(self, other):
-        return isinstance(other, RepoMeta) and self.url.lower() == other.url.lower()
-
-    def github_url(self):
-        return f"https://github.com/{self.url}"
-
-    def configured_branch(self) -> typing.Optional[str]:
         return (
-            self.config.branch
-            if self.config
-            and isinstance(self.config.branch, str)
-            and len(self.config.branch.strip()) > 0
-            else None
+            isinstance(other, ColorSpec) and self.handle.lower() == other.handle.lower()
         )
 
     def save(self) -> None:
         q = Query()
-        count = RepoMeta.DB.search(q.url == self.url)
+        count = ColorSpec.DB.search(q.handle == self.handle)
         obj = {
-            RepoMeta.URL: self.url,
-            RepoMeta.STARS: self.stars,
-            RepoMeta.LAST_UPDATE: datetime_tostring(self.last_update),
-            RepoMeta.PRIORITY: self.priority,
-            RepoMeta.SOURCE: self.source,
-            RepoMeta.OBJ_NAME: self.obj_name,
+            ColorSpec.HANDLE: self.handle,
+            ColorSpec.URL: self.url,
+            ColorSpec.GITHUB_STARS: self.github_stars,
+            ColorSpec.LAST_GIT_COMMIT: datetime_tostring(self.last_git_commit),
+            ColorSpec.PRIORITY: self.priority,
+            ColorSpec.SOURCE: self.source,
+            ColorSpec.GIT_PATH: self.git_path,
+            ColorSpec.GIT_BRANCH: self.git_branch,
         }
         if len(count) <= 0:
-            RepoMeta.DB.insert(obj)
+            ColorSpec.DB.insert(obj)
+            logging.debug(f"add new repo: {self}")
         else:
-            RepoMeta.DB.update(obj, q.url == self.url)
-            logging.debug(f"failed to add repo ({self}), it's already exist!")
+            ColorSpec.DB.update(obj, q.handle == self.handle)
+            logging.debug(f"add(udpate) existed repo: {self}")
 
-    def update_last_update(self) -> None:
+    def update_last_git_commit(self, last_git_commit: datetime.datetime) -> None:
         q = Query()
-        count = RepoMeta.DB.search(q.url == self.url)
+        count = ColorSpec.DB.search(q.handle == self.handle)
         assert len(count) == 1
-        assert isinstance(self.last_update, datetime.datetime)
-        RepoMeta.DB.update(
+        assert isinstance(last_git_commit, datetime.datetime)
+        self.last_git_commit = last_git_commit
+        ColorSpec.DB.update(
             {
-                RepoMeta.LAST_UPDATE: datetime_tostring(self.last_update),
+                ColorSpec.LAST_GIT_COMMIT: datetime_tostring(self.last_git_commit),
             },
-            q.url == self.url,
+            q.handle == self.handle,
         )
 
     def remove(self) -> None:
         query = Query()
-        RepoMeta.DB.remove(query.url == self.url)
+        ColorSpec.DB.remove(query.handle == self.handle)
 
     @staticmethod
     def truncate() -> None:
-        RepoMeta.DB.truncate()
+        ColorSpec.DB.truncate()
 
     @staticmethod
     def all() -> list:
         try:
-            records = RepoMeta.DB.all()
+            records = ColorSpec.DB.all()
             return [
-                RepoMeta(
-                    url=j[RepoMeta.URL],
-                    stars=j[RepoMeta.STARS],
-                    last_update=datetime_fromstring(j[RepoMeta.LAST_UPDATE]),
-                    priority=j[RepoMeta.PRIORITY],
-                    source=j[RepoMeta.SOURCE],
-                    obj_name=j[RepoMeta.OBJ_NAME],
+                ColorSpec(
+                    handle=j[ColorSpec.HANDLE],
+                    github_stars=j[ColorSpec.GITHUB_STARS],
+                    last_git_commit=datetime_fromstring(j[ColorSpec.LAST_GIT_COMMIT]),
+                    priority=j[ColorSpec.PRIORITY],
+                    source=j[ColorSpec.SOURCE],
                 )
                 for j in records
             ]
         except:
             return []
 
-
-class GitObject:
-    def __init__(self, repo: RepoMeta) -> None:
-        assert isinstance(repo, RepoMeta)
-        self.repo = repo
-        self.root = pathlib.Path(CANDIDATE_DIR)
-        self.root.mkdir(parents=True, exist_ok=True)
-        self.path = pathlib.Path(f"{self.root}/{self.repo.url}")
-
-    def clone(self) -> None:
+    def download_git_object(self) -> None:
         try:
-            specific_branch = (
-                self.repo.config.branch
-                if (
-                    self.repo.config is not None and self.repo.config.branch is not None
-                )
-                else None
-            )
-            logging.debug(
-                f"{self.path} exist: {self.path.exists()}, isdir: {self.path.is_dir()}"
-            )
-            if self.path.exists() and self.path.is_dir():
-                logging.info(f"{self.path} already exist, skip...")
+            clone_cmd = None
+            if isinstance(self.git_branch, str):
+                clone_cmd = f"git clone --depth=1 --single-branch --branch {self.git_branch} {self.url} {self.candidate_path}"
             else:
-                clone_cmd = (
-                    f"git clone --depth=1 --single-branch --branch {specific_branch} {self.repo.github_url()} {self.path}"
-                    if specific_branch
-                    else f"git clone --depth=1 {self.repo.github_url()} {self.path}"
-                )
+                clone_cmd = f"git clone --depth=1 {self.url} {self.candidate_path}"
+            candidate_dir = pathlib.Path(f"{self.candidate_path}")
+            logging.debug(
+                f"{candidate_dir} exist: {candidate_dir.exists()}, isdir: {candidate_dir.is_dir()}"
+            )
+            if candidate_dir.exists() and candidate_dir.is_dir():
+                logging.info(f"{candidate_dir} already exist, skip...")
+            else:
                 logging.debug(clone_cmd)
                 os.system(clone_cmd)
         except Exception as e:
-            logging.exception(
-                f"failed to git clone candidate:{self.repo.github_url()}", e
-            )
+            logging.exception(f"failed to download git object: {self.url}", e)
 
-    def get_color_files(self) -> list[pathlib.Path]:
-        colors_dir = pathlib.Path(f"{self.path}/colors")
+    def get_vim_color_names(self) -> list[str]:
+        colors_dir = pathlib.Path(f"{self.candidate_path}/colors")
         if not colors_dir.exists() or not colors_dir.is_dir():
             return []
-        return [f for f in colors_dir.iterdir() if f.is_file()]
-
-    def get_colors(self) -> list[str]:
-        color_files = self.get_color_files()
+        color_files = [f for f in colors_dir.iterdir() if f.is_file()]
         colors = [
             str(c.name)[:-4]
             for c in color_files
             if str(c).endswith(".vim") or str(c).endswith(".lua")
         ]
-        logging.debug(f"repo ({self.repo}) contains colors:{colors}")
+        logging.debug(f"retrieve colors from spec ({self}): {colors}")
         return colors
 
 
 def find_element(driver: Chrome, xpath: str) -> WebElement:
-    WebDriverWait(driver, TIMEOUT).until(
+    WebDriverWait(driver, WEBDRIVER_TIMEOUT).until(
         expected_conditions.presence_of_element_located((By.XPATH, xpath))
     )
     return driver.find_element(By.XPATH, xpath)
 
 
 def find_elements(driver: Chrome, xpath: str) -> list[WebElement]:
-    WebDriverWait(driver, TIMEOUT).until(
+    WebDriverWait(driver, WEBDRIVER_TIMEOUT).until(
         expected_conditions.presence_of_element_located((By.XPATH, xpath))
     )
     return driver.find_elements(By.XPATH, xpath)
@@ -331,7 +310,7 @@ def find_elements(driver: Chrome, xpath: str) -> list[WebElement]:
 
 def make_driver() -> Chrome:
     options = ChromeOptions()
-    if HEADLESS:
+    if WEBDRIVER_HEADLESS:
         options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--single-process")
@@ -357,13 +336,13 @@ class VimColorSchemes:
                 yield f"https://vimcolorschemes.com/top/page/{i+1}"
             i += 1
 
-    def _parse_repo(self, element: WebElement) -> RepoMeta:
-        url = "/".join(
+    def _parse_spec(self, element: WebElement) -> ColorSpec:
+        handle = "/".join(
             element.find_element(By.XPATH, "./a[@class='card__link']")
             .get_attribute("href")
             .split("/")[-2:]
         )
-        stars = int(
+        github_stars = int(
             element.find_element(
                 By.XPATH,
                 "./a/section/header[@class='meta-header']//div[@class='meta-header__statistic']//b",
@@ -373,96 +352,107 @@ class VimColorSchemes:
             By.XPATH,
             "./a/section/footer[@class='meta-footer']//div[@class='meta-footer__column']//p[@class='meta-footer__row']",
         )
-        last_update = datetime.datetime.strptime(
+        last_git_commit = datetime.datetime.strptime(
             creates_updates[1]
             .find_element(By.XPATH, "./b/time")
             .get_attribute("datetime"),
             "%Y-%m-%dT%H:%M:%S.%fZ",
         )
-        return RepoMeta(
-            url,
-            stars,
-            last_update,
+        return ColorSpec(
+            handle,
+            github_stars,
+            last_git_commit=last_git_commit,
             priority=0,
             source="https://vimcolorschemes.com/top",
         )
 
-    def fetch(self) -> list[RepoMeta]:
-        repos: list[RepoMeta] = []
+    def fetch(self) -> list[ColorSpec]:
+        repos: list[ColorSpec] = []
         with make_driver() as driver:
             for page_url in self._pages():
                 driver.get(page_url)
                 need_more_scan = False
                 for element in find_elements(driver, "//article[@class='card']"):
-                    repo = self._parse_repo(element)
-                    logging.debug(f"vsc repo:{repo}")
-                    if repo.stars < STARS:
-                        logging.info(f"vsc skip for stars - repo:{repo}")
+                    spec = self._parse_spec(element)
+                    logging.debug(f"vsc repo:{spec}")
+                    if spec.github_stars < GITHUB_STARS:
+                        logging.info(f"skip for lower stars - (vcs) spec:{spec}")
                         continue
-                    logging.info(f"vsc get - repo:{repo}")
+                    logging.info(f"get (vcs) spec:{spec}")
                     need_more_scan = True
-                    repos.append(repo)
+                    repos.append(spec)
                 if not need_more_scan:
-                    logging.info(f"vsc no valid stars, exit")
+                    logging.info(f"no more enough github stars, exit...")
                     break
         return repos
 
 
 # https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme
 class AwesomeNeovimColorScheme:
-    def _parse_repo(self, element: WebElement) -> RepoMeta:
+    def _parse_spec(self, element: WebElement) -> ColorSpec:
         a = element.find_element(By.XPATH, "./a").text
         a_splits = a.split("(")
-        repo = a_splits[0]
-        stars = parse_number(a_splits[1])
-        return RepoMeta(
-            repo,
-            stars,
-            None,
+        handle = a_splits[0]
+        github_stars = parse_number(a_splits[1])
+        return ColorSpec(
+            handle,
+            github_stars,
+            last_git_commit=None,
             priority=100,
             source="https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
         )
 
-    def _parse_color(self, driver: Chrome, tag_id: str) -> list[RepoMeta]:
+    def _parse_colors_list(self, driver: Chrome, tag_id: str) -> list[ColorSpec]:
         repos = []
         colors_group = find_element(
             driver,
             f"//h3[@id='{tag_id}']/following-sibling::p/following-sibling::ul",
         )
         for e in colors_group.find_elements(By.XPATH, "./li"):
-            repo = self._parse_repo(e)
-            logging.info(f"acs repo:{repo}")
-            repos.append(repo)
+            spec = self._parse_spec(e)
+            logging.info(f"get (asn) repo:{spec}")
+            repos.append(spec)
         return repos
 
-    def fetch(self) -> list[RepoMeta]:
+    def fetch(self) -> list[ColorSpec]:
         repos = []
         with make_driver() as driver:
             driver.get(
                 "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme"
             )
-            treesitter_repos = self._parse_color(
+            treesitter_repos = self._parse_colors_list(
                 driver, "tree-sitter-supported-colorscheme"
             )
-            lua_repos = self._parse_color(driver, "lua-colorscheme")
+            lua_repos = self._parse_colors_list(driver, "lua-colorscheme")
             repos = treesitter_repos + lua_repos
         return repos
 
 
-def filter_repo_meta(repos: list[RepoMeta]) -> list[RepoMeta]:
-    def blacklist(repo) -> bool:
-        return any([True for b in BACKLIST if repo.url.find(b) >= 0])
+def filter_color_specs(specs: list[ColorSpec]) -> None:
+    # logging.debug(f"before filter:{[str(s) for s in specs]}")
 
-    filtered_repos: list[RepoMeta] = []
-    for repo in repos:
-        if blacklist(repo):
-            logging.info(f"skip for blacklist - repo:{repo}")
+    def blacklist(sp: ColorSpec) -> bool:
+        return any([True for b in BLACKLIST if sp.url.find(b) >= 0])
+
+    need_remove_specs: list[ColorSpec] = []
+    filtered_specs: list[ColorSpec] = []
+    for sp in specs:
+        logging.debug(f"process filtering on spec:{sp}")
+        if blacklist(sp):
+            logging.info(f"skip for blacklist - spec:{sp}")
+            need_remove_specs.append(sp)
             continue
-        if repo.stars < STARS:
-            logging.info(f"skip for lower stars - repo:{repo}")
+        if sp.github_stars < GITHUB_STARS:
+            logging.info(f"skip for lower stars - spec:{sp}")
+            need_remove_specs.append(sp)
             continue
-        repo.save()
-    return filtered_repos
+        filtered_specs.append(sp)
+
+    logging.debug(f"after filter:{[str(s) for s in specs]}")
+    for sp in need_remove_specs:
+        sp.remove()
+    for sp in filtered_specs:
+        sp.save()
 
 
 class Builder:
@@ -477,68 +467,74 @@ class Builder:
                 shutil.rmtree(candidate_path)
 
         # clone candidates
-        for repo in RepoMeta.all():
-            gobj = GitObject(repo)
-            gobj.clone()
-            last_update = retrieve_last_git_commit_datetime(gobj.path)
-            repo.last_update = last_update
-            repo.update_last_update()
+        for spec in ColorSpec.all():
+            logging.debug(f"download spec:{spec}")
+            assert isinstance(spec, ColorSpec)
+            spec.download_git_object()
+            last_update = retrieve_last_git_commit_datetime(
+                pathlib.Path(spec.candidate_path)
+            )
+            spec.update_last_git_commit(last_update)
+            assert isinstance(spec.last_git_commit, datetime.datetime)
             if (
-                repo.last_update.timestamp() + LASTCOMMIT
+                spec.last_git_commit.timestamp() + LAST_GIT_COMMIT
                 < datetime.datetime.now().timestamp()
             ):
-                logging.info(f"clone skip for too old last_update - repo:{repo}")
-                repo.remove()
+                logging.info(f"skip for too old git commit - spec:{spec}")
+                spec.remove()
+            if len(spec.get_vim_color_names()) == 0:
+                logging.info(f"skip for no color files (.vim,.lua) - spec:{spec}")
+                spec.remove()
 
-    def _dedup(self) -> list[RepoMeta]:
-        def greater_than(a: RepoMeta, b: RepoMeta) -> bool:
+    def _dedup(self) -> list[ColorSpec]:
+        def greater_than(a: ColorSpec, b: ColorSpec) -> bool:
             if a.priority != b.priority:
                 return a.priority > b.priority
-            if a.stars != b.stars:
-                return a.stars > b.stars
-            assert isinstance(a.last_update, datetime.datetime)
-            assert isinstance(b.last_update, datetime.datetime)
-            return a.last_update.timestamp() > b.last_update.timestamp()
+            if a.github_stars != b.github_stars:
+                return a.github_stars > b.github_stars
+            assert isinstance(a.last_git_commit, datetime.datetime)
+            assert isinstance(b.last_git_commit, datetime.datetime)
+            return a.last_git_commit.timestamp() > b.last_git_commit.timestamp()
 
-        colors: dict[str, RepoMeta] = dict()
-        repos: set[RepoMeta] = set()
+        specs_map: dict[str, ColorSpec] = dict()
+        specs_set: set[ColorSpec] = set()
 
-        for repo in RepoMeta.all():
-            candidate = GitObject(repo)
-            for color in candidate.get_colors():
+        for spec in ColorSpec.all():
+            color_names = spec.get_vim_color_names()
+            logging.debug(f"process dedup spec:{spec}, color names:{color_names}")
+            for color in color_names:
                 # detect duplicated color
-                if color in colors:
-                    old_repo = colors[color]
+                if color in specs_map:
+                    old_spec = specs_map[color]
                     logging.info(
-                        f"detect duplicated color({color}), new:{repo}, old:{old_repo}"
+                        f"detect duplicated color({color}), new:{spec}, old:{old_spec}"
                     )
                     # replace old repo if new repo has higher priority
-                    if greater_than(repo, old_repo):
-                        logging.info(f"replace old repo({old_repo}) with new({repo})")
-                        colors[color] = repo
-                        repos.add(repo)
-                        repos.remove(old_repo)
+                    if greater_than(spec, old_spec):
+                        logging.info(f"replace old repo({old_spec}) with new({spec})")
+                        specs_map[color] = spec
+                        specs_set.add(spec)
+                        specs_set.remove(old_spec)
                 else:
                     # add new color
-                    colors[color] = repo
-                    repos.add(repo)
-        return sorted(list(repos), key=lambda r: (r.url.lower(), r.stars))
+                    specs_map[color] = spec
+                    specs_set.add(spec)
+        logging.debug(f"after dedup: {[str(s) for s in specs_set]}")
+        return list(specs_set)
 
     def build(self) -> None:
         self._download()
         # dedup candidates
-        deduped_repos = self._dedup()
+        deduped_specs = self._dedup()
 
-        for repo in RepoMeta.all():
-            if not repo in deduped_repos:
-                logging.info(f"remove for duplicate - repo:{repo}")
-                repo.remove()
+        for spec in ColorSpec.all():
+            if not spec in deduped_specs:
+                logging.info(f"remove for duplicate - repo:{spec}")
+                spec.remove()
 
         md = MdUtils(file_name="COLORSCHEMES", title="ColorSchemes List")
-        for repo in RepoMeta.all():
-            md.new_line(
-                "- " + md.new_inline_link(link=repo.github_url(), text=repo.url)
-            )
+        for spec in ColorSpec.all():
+            md.new_line("- " + md.new_inline_link(link=spec.url, text=spec.handle))
         md.create_md_file()
 
 
@@ -552,25 +548,21 @@ class Builder:
 )
 @click.option("--no-headless", "no_headless_opt", is_flag=True, help="disable headless")
 @click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetching")
-@click.option("--skip-build", "skip_build_opt", is_flag=True, help="skip build")
-def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_build_opt):
-    global HEADLESS
+def collect(debug_opt, no_headless_opt, skip_fetch_opt):
+    global WEBDRIVER_HEADLESS
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
-    logging.debug(
-        f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}, skip_fetch_opt:{skip_fetch_opt}"
-    )
+    logging.debug(f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}")
     if no_headless_opt:
-        HEADLESS = False
+        WEBDRIVER_HEADLESS = False
     if not skip_fetch_opt:
-        fetched_repos = []
+        fetched_specs = []
         vcs = VimColorSchemes()
-        fetched_repos.extend(vcs.fetch())
+        fetched_specs.extend(vcs.fetch())
         asn = AwesomeNeovimColorScheme()
-        fetched_repos.extend(asn.fetch())
-        filter_repo_meta(fetched_repos)
-    if not skip_build_opt:
-        builder = Builder(False if debug_opt else True)
-        builder.build()
+        fetched_specs.extend(asn.fetch())
+        filter_color_specs(fetched_specs)
+    builder = Builder(False if debug_opt else True)
+    builder.build()
 
 
 if __name__ == "__main__":

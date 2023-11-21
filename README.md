@@ -13,7 +13,7 @@ It use offline github actions to weekly collect and update the most popular Vim/
 >
 > with below conditions:
 >
-> 1. Github stars &ge; 900.
+> 1. Github stars &ge; 800.
 > 2. Last git commit in 3 years.
 > 3. For multiple plugins that contain the same color name, choose the one in following rules:
 >    1. **Awesome-neovim** wins **vimcolorsheme**, since they usually has modern Neovim features (lua, lsp, treesitter) and support more third-party plugins.
