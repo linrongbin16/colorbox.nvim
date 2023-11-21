@@ -37,12 +37,12 @@ Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blo
 
 ## 📖 Table of contents
 
-- [Requirement](#requirement)
-- [Install](#install)
+- [Requirement](#-requirement)
+- [Install](#-install)
   - [lazy.nvim](#lazynvim)
-- [Configuration](#configuration)
-- [Development](#development)
-- [Contribute](#contribute)
+- [Configuration](#-configuration)
+- [Development](#-development)
+- [Contribute](#-contribute)
 
 ## ✅ Requirement
 
