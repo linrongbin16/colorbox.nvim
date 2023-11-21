@@ -212,7 +212,7 @@ local function _policy_shuffle()
         n = n + #spec.colors
     end
     local r = math.floor(math.fmod(randint(), n))
-    local color = ColorNames[r]
+    local color = ColorNames[r + 1]
     vim.cmd(string.format([[color %s]], color))
 end
 
