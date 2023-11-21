@@ -1,6 +1,5 @@
 local logger = require("colorbox.logger")
 local LogLevels = require("colorbox.logger").LogLevels
-local json = require("colorbox.json")
 local utils = require("colorbox.utils")
 
 --- @alias colorbox.Options table<any, any>
@@ -37,51 +36,6 @@ local Defaults = {
 --- @type colorbox.Options
 local Configs = {}
 
---- @class colorbox.ColorSpec
---- @field url string
---- @field name string pack name
---- @field path string path full path
---- @field colors string[] color file base name
---- @field stars integer
---- @field last_update string
---- @field priority integer
---- @field source string
-local ColorSpec = {}
-
---- @param url string
---- @param name string
---- @param path string
---- @param colors string[]|nil
---- @param stars integer?
---- @param last_update string?
---- @param priority integer?
---- @param source string?
---- @return colorbox.ColorSpec
-function ColorSpec:new(
-    url,
-    name,
-    path,
-    colors,
-    stars,
-    last_update,
-    priority,
-    source
-)
-    local o = {
-        url = url,
-        name = name,
-        path = path,
-        colors = colors or {},
-        stars = stars,
-        last_update = last_update,
-        priority = priority,
-        source = source,
-    }
-    setmetatable(o, self)
-    self.__index = self
-    return o
-end
-
 -- color names list
 --- @type string[]
 local ColorNamesList = {}
@@ -90,9 +44,9 @@ local ColorNamesList = {}
 --- @param spec colorbox.ColorSpec
 --- @return boolean
 local function _primary_color_name_filter(color_name, spec)
-    local unique = #spec.colors <= 1
-    local variants = spec.colors
-    local shortest = string.len(color_name) == utils.min(variants, string.len)
+    local unique = #spec.color_names <= 1
+    local shortest = string.len(color_name)
+        == utils.min(spec.color_names, string.len)
     local url_splits =
         vim.split(spec.url, "/", { plain = true, trimempty = true })
     local matched = url_splits[1]:lower() == color_name:lower()
@@ -152,7 +106,7 @@ local function _init()
         "|colorbox._init| HandleToColorSpecsMap:%s",
         vim.inspect(HandleToColorSpecsMap)
     )
-    for handle, spec in pairs(HandleToColorSpecsMap) do
+    for _, spec in pairs(HandleToColorSpecsMap) do
         if
             vim.fn.isdirectory(spec.full_pack_path) > 0
             and vim.fn.isdirectory(spec.full_pack_path .. "/.git") > 0
@@ -164,11 +118,13 @@ local function _init()
             end
         end
     end
-    logger.debug(
-        "|colorbox._init| before sort ColorNamesList:%s",
-        vim.inspect(ColorNamesList)
-    )
-    table.sort(ColorNamesList)
+    -- logger.debug(
+    --     "|colorbox._init| before sort ColorNamesList:%s",
+    --     vim.inspect(ColorNamesList)
+    -- )
+    table.sort(ColorNamesList, function(a, b)
+        return a:lower() < b:lower()
+    end)
     logger.debug(
         "|colorbox._init| ColorNamesList:%s",
         vim.inspect(ColorNamesList)
