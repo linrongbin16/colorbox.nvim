@@ -118,7 +118,7 @@ Then test with `vusted ./test`.
 
 ## 🎁 Contribute
 
-Please open [issue](https://github.com/linrongbin16/fzfx.nvim/issues)/[PR](https://github.com/linrongbin16/fzfx.nvim/pulls) for anything about fzfx.nvim.
+Please open [issue](https://github.com/linrongbin16/colorbox.nvim/issues)/[PR](https://github.com/linrongbin16/colorbox.nvim/pulls) for anything about colorbox.nvim.
 
 Like fzfx.nvim? Consider
 
