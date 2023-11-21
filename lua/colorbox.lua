@@ -86,22 +86,6 @@ end
 --- @type string[]
 local ColorNamesList = {}
 
---- @param cwd string
---- @return table<string, {url:string,stars:integer,last_update:string,priority:integer,source:string,obj_name:string}>
-local function _load_repo_meta_urls_map(cwd)
-    local dbfile = string.format("%s/db.json", cwd)
-    local fp = io.open(dbfile, "r")
-    assert(fp, string.format("failed to read %s", vim.inspect(dbfile)))
-    local dbtext = fp:read("*a")
-    fp:close()
-    local dbdata = json.decode(dbtext) --[[@as table]]
-    local repos = {}
-    for i, d in pairs(dbdata["_default"]) do
-        repos[d.url] = d
-    end
-    return repos
-end
-
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
@@ -147,16 +131,16 @@ local function _should_filter(color_name, spec)
 end
 
 local function _init()
-    local cwd = vim.fn["colorbox#base_dir"]()
+    local home_dir = vim.fn["colorbox#base_dir"]()
     local pack_dir = "pack/colorbox/start"
-    local full_pack_dir = string.format("%s/%s", cwd, pack_dir)
+    local full_pack_dir = string.format("%s/%s", home_dir, pack_dir)
     logger.debug(
-        "|colorbox.init| cwd:%s, pack_dir:%s, full_pack_dir:%s",
-        vim.inspect(cwd),
+        "|colorbox.init| home_dir:%s, pack_dir:%s, full_pack_dir:%s",
+        vim.inspect(home_dir),
         vim.inspect(pack_dir),
         vim.inspect(full_pack_dir)
     )
-    vim.opt.packpath:append(cwd)
+    vim.opt.packpath:append(home_dir)
     -- vim.opt.packpath:append(cwd .. "/pack")
     -- vim.opt.packpath:append(cwd .. "/pack/colorbox")
     -- vim.opt.packpath:append(cwd .. "/pack/colorbox/opt")
@@ -170,8 +154,8 @@ local function _init()
     )
     for handle, spec in pairs(HandleToColorSpecsMap) do
         if
-            vim.fn.isdirectory(spec.pack_path) > 0
-            and vim.fn.isdirectory(spec.pack_path .. "/.git") > 0
+            vim.fn.isdirectory(spec.full_pack_path) > 0
+            and vim.fn.isdirectory(spec.full_pack_path .. "/.git") > 0
         then
             for _, color_name in ipairs(spec.color_names) do
                 if not _should_filter(color_name, spec) then
@@ -270,14 +254,14 @@ local function update()
         file_log_name = "colorbox_install.log",
     })
 
-    local cwd = vim.fn["colorbox#base_dir"]()
-    local packstart = string.format("%s/pack/colorbox/start", cwd)
+    local home_dir = vim.fn["colorbox#base_dir"]()
+    local packstart = string.format("%s/pack/colorbox/start", home_dir)
     logger.debug(
-        "|colorbox.init| cwd:%s, pack:%s",
-        vim.inspect(cwd),
+        "|colorbox.init| home_dir:%s, pack:%s",
+        vim.inspect(home_dir),
         vim.inspect(packstart)
     )
-    vim.opt.packpath:append(cwd)
+    vim.opt.packpath:append(home_dir)
 
     local jobs = {}
 
@@ -315,7 +299,7 @@ local function update()
         else
             local cmd = string.format(
                 "cd %s && git clone --depth=1 %s %s",
-                cwd,
+                home_dir,
                 spec.url,
                 spec.pack_path
             )
