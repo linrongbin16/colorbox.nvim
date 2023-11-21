@@ -293,9 +293,26 @@ local function update()
     for url, repo in pairs(repos) do
         local github_url = string.format("https://github.com/%s", url)
         local install_path =
-            string.format("%s/%s", packstart, url:gsub("/", "%-"))
+            string.format("pack/colorbox/start/%s", url:gsub("/", "%-"))
         local full_install_path = string.format("%s/%s", cwd, install_path)
         logger.debug("install_path:%s", vim.inspect(install_path))
+        logger.debug("full_install_path:%s", vim.inspect(full_install_path))
+
+        local function _on_output(chanid, data, name)
+            if type(data) == "table" then
+                for _, line in ipairs(data) do
+                    if string.len(line) > 0 then
+                        logger.info(
+                            "(%s) %s: %s",
+                            vim.inspect(name),
+                            vim.inspect(url),
+                            vim.inspect(line)
+                        )
+                    end
+                end
+            end
+        end
+
         if
             vim.fn.isdirectory(full_install_path) > 0
             and vim.fn.isdirectory(full_install_path .. "/.git") > 0
@@ -305,13 +322,8 @@ local function update()
             local jobid = vim.fn.jobstart(cmd, {
                 stdout_buffered = true,
                 stderr_buffered = true,
-                on_stderr = function(chanid, data, name)
-                    logger.err(
-                        "error when updating %s: %s",
-                        vim.inspect(url),
-                        vim.inspect(data)
-                    )
-                end,
+                on_stdout = _on_output,
+                on_stderr = _on_output,
             })
             logger.info("updating %s", vim.inspect(url))
             table.insert(jobs, jobid)
@@ -326,13 +338,8 @@ local function update()
             local jobid = vim.fn.jobstart(cmd, {
                 stdout_buffered = true,
                 stderr_buffered = true,
-                on_stderr = function(chanid, data, name)
-                    logger.err(
-                        "error when installing %s: %s",
-                        vim.inspect(url),
-                        vim.inspect(data)
-                    )
-                end,
+                on_stdout = _on_output,
+                on_stderr = _on_output,
             })
             logger.info("installing %s", vim.inspect(url))
             table.insert(jobs, jobid)
