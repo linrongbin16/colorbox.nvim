@@ -51,4 +51,18 @@ describe("utils", function()
             )
         end)
     end)
+    describe("[string_find]", function()
+        it("endswith", function()
+            assert_eq(utils.string_find("asdf", "df"), 3)
+            assert_eq(utils.string_find("hello world", " world"), 6)
+            assert_eq(
+                utils.string_find("folke/tokyonight.nvim", "/tokyonight.nvim"),
+                6
+            )
+            assert_eq(
+                utils.string_find("folke/tokyonight.nvim", "/tokyonight%.nvim"),
+                nil
+            )
+        end)
+    end)
 end)
