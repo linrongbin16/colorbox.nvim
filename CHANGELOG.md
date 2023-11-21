@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.0.1...v1.1.0) (2023-11-21)
+
+
+### Features
+
+* **update:** auto-update ([#28](https://github.com/linrongbin16/colorbox.nvim/issues/28)) ([a730726](https://github.com/linrongbin16/colorbox.nvim/commit/a73072677d9ec24006818710531cd3bcc7200529))
+
+
+### Performance Improvements
+
+* **ci:** reduce to weekly run ([#30](https://github.com/linrongbin16/colorbox.nvim/issues/30)) ([f4f7603](https://github.com/linrongbin16/colorbox.nvim/commit/f4f7603285ad6a8df83d3312550bbf7ac3dbdda2))
+
 ## [1.0.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.0.0...v1.0.1) (2023-11-21)
 
 
