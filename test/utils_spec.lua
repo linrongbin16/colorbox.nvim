@@ -16,10 +16,21 @@ describe("utils", function()
                 "a",
                 "b",
                 "c",
+                "de",
             }, function(v)
                 return string.len(v)
             end)
             assert_eq(actual, 1)
+        end)
+    end)
+    describe("[randint]", function()
+        it("randint", function()
+            local last_value = nil
+            for i = 1, 100 do
+                local actual = utils.randint()
+                assert_true(actual ~= last_value)
+                last_value = actual
+            end
         end)
     end)
 end)
