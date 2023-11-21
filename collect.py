@@ -45,9 +45,12 @@ def init_logging(log_level: typing.Optional[int]) -> None:
     assert isinstance(log_level, int) or log_level is None
     log_level = logging.WARNING if log_level is None else log_level
     logging.basicConfig(
-        format="%(asctime)s %(levelname)s [%(filename)s:%(lineno)d]%(funcName)s - %(message)s",
+        format="%(asctime)s %(levelname)s [%(filename)s:%(lineno)d](%(funcName)s) - %(message)s",
         level=log_level,
-        handlers=[logging.StreamHandler(), logging.FileHandler(f"{sys.argv[0]}.log")],
+        handlers=[
+            logging.StreamHandler(),
+            logging.FileHandler(f"{sys.argv[0]}.log", mode="w"),
+        ],
     )
 
 
@@ -528,6 +531,7 @@ class Builder:
 
         for repo in RepoMeta.all():
             if not repo in deduped_repos:
+                logging.info(f"remove for duplicate - repo:{repo}")
                 repo.remove()
 
         md = MdUtils(file_name="COLORSCHEMES", title="ColorSchemes List")

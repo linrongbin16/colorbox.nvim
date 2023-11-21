@@ -1,0 +1,287 @@
+2023-11-21 14:40:30,191 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:morhetz/gruvbox, stars:12617, last_update:2023-08-14T14:04:06, priority:0, config:None>
+2023-11-21 14:40:30,215 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:altercation/vim-colors-solarized, stars:6525, last_update:2011-05-09T21:35:32, priority:0, config:None>
+2023-11-21 14:40:30,240 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:folke/tokyonight.nvim, stars:4363, last_update:2023-10-25T10:20:36, priority:0, config:None>
+2023-11-21 14:40:30,263 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:joshdick/onedark.vim, stars:3785, last_update:2023-07-19T05:35:43, priority:0, config:None>
+2023-11-21 14:40:30,286 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:catppuccin/nvim, stars:3696, last_update:2023-11-17T01:01:25, priority:0, config:None>
+2023-11-21 14:40:30,308 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:tomasr/molokai, stars:3576, last_update:2015-11-11T12:17:45, priority:0, config:None>
+2023-11-21 14:40:30,332 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:rebelot/kanagawa.nvim, stars:2992, last_update:2023-10-02T11:02:49, priority:0, config:None>
+2023-11-21 14:40:30,355 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:nlknguyen/papercolor-theme, stars:2562, last_update:2022-06-08T19:55:49, priority:0, config:None>
+2023-11-21 14:40:30,378 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:rafi/awesome-vim-colorschemes, stars:2548, last_update:2023-05-06T12:33:40, priority:0, config:None>
+2023-11-21 14:40:30,402 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:nordtheme/vim, stars:2449, last_update:2023-05-03T20:43:25, priority:0, config:None>
+2023-11-21 14:40:30,425 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T02:34:18, priority:0, config:None>
+2023-11-21 14:40:30,448 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:sainnhe/everforest, stars:2232, last_update:2023-10-24T16:55:03, priority:0, config:None>
+2023-11-21 14:40:30,471 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:cocopon/iceberg.vim, stars:2075, last_update:2022-11-23T01:48:02, priority:0, config:None>
+2023-11-21 14:40:30,493 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:rakr/vim-one, stars:1969, last_update:2020-12-14T23:40:35, priority:0, config:None>
+2023-11-21 14:40:30,520 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:nanotech/jellybeans.vim, stars:1739, last_update:2019-06-21T23:58:55, priority:0, config:None>
+2023-11-21 14:40:30,546 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:sonph/onehalf, stars:1695, last_update:2022-08-02T22:26:27, priority:0, config:None>
+2023-11-21 14:40:30,569 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:junegunn/seoul256.vim, stars:1604, last_update:2023-05-03T00:09:09, priority:0, config:None>
+2023-11-21 14:40:30,593 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:ayu-theme/ayu-vim, stars:1600, last_update:2020-05-29T06:19:17, priority:0, config:None>
+2023-11-21 14:40:30,616 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:sainnhe/gruvbox-material, stars:1521, last_update:2023-10-24T15:47:32, priority:0, config:None>
+2023-11-21 14:40:30,641 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:w0ng/vim-hybrid, stars:1458, last_update:2016-01-05T06:14:30, priority:0, config:None>
+2023-11-21 14:40:31,239 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:rose-pine/neovim, stars:1427, last_update:2023-10-25T19:43:34, priority:0, config:None>
+2023-11-21 14:40:31,264 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:ku1ik/vim-monokai, stars:1422, last_update:2022-02-09T08:03:39, priority:0, config:None>
+2023-11-21 14:40:31,289 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:sainnhe/sonokai, stars:1355, last_update:2023-10-24T16:16:35, priority:0, config:None>
+2023-11-21 14:40:31,319 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:dracula/vim, stars:1270, last_update:2023-10-29T13:48:54, priority:0, config:None>
+2023-11-21 14:40:31,344 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:sjl/badwolf, stars:1229, last_update:2020-02-19T02:00:14, priority:0, config:None>
+2023-11-21 14:40:31,367 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:navarasu/onedark.nvim, stars:1201, last_update:2023-10-19T15:48:36, priority:0, config:None>
+2023-11-21 14:40:31,391 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:navarasu/onedark.nvim, stars:1201, last_update:2023-10-19T15:48:36, priority:0, config:None>
+2023-11-21 14:40:31,416 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:jacoborus/tender.vim, stars:1071, last_update:2021-05-24T15:38:00, priority:0, config:None>
+2023-11-21 14:40:31,441 INFO [collect.py:402](fetch) - vsc get - repo:<RepoMeta url:lifepillar/vim-solarized8, stars:948, last_update:2023-08-13T09:40:20, priority:0, config:None>
+2023-11-21 14:40:31,466 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:tomasiser/vim-code-dark, stars:877, last_update:2023-11-11T16:42:04, priority:0, config:None>
+2023-11-21 14:40:31,490 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:jnurmine/zenburn, stars:864, last_update:2022-08-08T20:44:24, priority:0, config:None>
+2023-11-21 14:40:31,513 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:romainl/apprentice, stars:854, last_update:2023-02-15T06:48:37, priority:0, config:None>
+2023-11-21 14:40:31,537 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:sainnhe/edge, stars:790, last_update:2023-10-24T16:26:59, priority:0, config:None>
+2023-11-21 14:40:31,560 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:raphamorim/lucario, stars:779, last_update:2023-06-03T10:10:00, priority:0, config:None>
+2023-11-21 14:40:31,585 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:srcery-colors/srcery-vim, stars:766, last_update:2023-11-13T14:10:03, priority:0, config:None>
+2023-11-21 14:40:31,611 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:pineapplegiant/spaceduck, stars:749, last_update:2022-02-21T19:49:29, priority:0, config:None>
+2023-11-21 14:40:31,635 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:ajmwagar/vim-deus, stars:721, last_update:2021-03-28T12:44:13, priority:0, config:None>
+2023-11-21 14:40:31,659 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:bluz71/vim-nightfly-colors, stars:695, last_update:2023-11-01T09:23:21, priority:0, config:None>
+2023-11-21 14:40:31,682 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:shaunsingh/nord.nvim, stars:692, last_update:2023-10-04T23:38:09, priority:0, config:None>
+2023-11-21 14:40:31,705 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:bluz71/vim-moonfly-colors, stars:681, last_update:2023-11-01T09:22:45, priority:0, config:None>
+2023-11-21 14:40:31,891 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:fenetikm/falcon, stars:675, last_update:2023-03-12T03:17:37, priority:0, config:None>
+2023-11-21 14:40:31,914 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:drewtempelmeyer/palenight.vim, stars:649, last_update:2023-04-27T14:20:24, priority:0, config:None>
+2023-11-21 14:40:31,937 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:embark-theme/vim, stars:592, last_update:2023-04-21T04:25:15, priority:0, config:None>
+2023-11-21 14:40:31,966 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:kaicataldo/material.vim, stars:590, last_update:2023-02-09T16:27:06, priority:0, config:None>
+2023-11-21 14:40:32,013 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:preservim/vim-colors-pencil, stars:588, last_update:2022-05-07T07:40:36, priority:0, config:None>
+2023-11-21 14:40:32,037 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:olimorris/onedarkpro.nvim, stars:584, last_update:2023-11-15T22:54:16, priority:0, config:None>
+2023-11-21 14:40:32,061 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:challenger-deep-theme/vim, stars:572, last_update:2022-04-25T05:18:04, priority:0, config:None>
+2023-11-21 14:40:32,084 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:liuchengxu/space-vim-dark, stars:558, last_update:2023-11-04T02:12:37, priority:0, config:None>
+2023-11-21 14:40:32,107 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:kristijanhusak/vim-hybrid-material, stars:544, last_update:2020-06-16T16:43:56, priority:0, config:None>
+2023-11-21 14:40:32,131 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:mofiqul/vscode.nvim, stars:534, last_update:2023-10-17T13:47:46, priority:0, config:None>
+2023-11-21 14:40:32,157 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:savq/melange-nvim, stars:529, last_update:2023-10-19T15:52:34, priority:0, config:None>
+2023-11-21 14:40:32,182 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:lunacookies/vim-colors-xcode, stars:525, last_update:2023-11-06T14:52:07, priority:0, config:None>
+2023-11-21 14:40:32,206 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:ghifarit53/tokyonight-vim, stars:524, last_update:2021-04-23T02:55:12, priority:0, config:None>
+2023-11-21 14:40:32,229 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:rigellute/rigel, stars:504, last_update:2021-10-04T09:08:38, priority:0, config:None>
+2023-11-21 14:40:32,254 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:mcchrish/zenbones.nvim, stars:503, last_update:2023-10-30T19:26:55, priority:0, config:None>
+2023-11-21 14:40:32,276 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:wadackel/vim-dogrun, stars:492, last_update:2023-11-10T09:12:55, priority:0, config:None>
+2023-11-21 14:40:32,299 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:lifepillar/vim-gruvbox8, stars:487, last_update:2023-08-04T16:42:58, priority:0, config:None>
+2023-11-21 14:40:32,322 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:haishanh/night-owl.vim, stars:486, last_update:2020-12-25T04:19:51, priority:0, config:None>
+2023-11-21 14:40:32,345 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:mofiqul/dracula.nvim, stars:475, last_update:2023-10-26T06:37:51, priority:0, config:None>
+2023-11-21 14:40:32,368 INFO [collect.py:400](fetch) - vsc skip for stars - repo:<RepoMeta url:jaredgorski/spacecamp, stars:468, last_update:2023-08-25T14:14:04, priority:0, config:None>
+2023-11-21 14:40:32,369 INFO [collect.py:406](fetch) - vsc no valid stars, exit
+2023-11-21 14:40:35,624 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:shaeinst/roshnivim-cs, stars:62, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,632 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:rafamadriz/neon, stars:153, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,639 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:tomasiser/vim-code-dark, stars:874, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,645 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:Mofiqul/vscode.nvim, stars:531, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,652 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:askfiy/visual_studio_code, stars:112, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,658 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:marko-cerovac/material.nvim, stars:832, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,665 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:bluz71/vim-nightfly-colors, stars:691, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,671 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:bluz71/vim-moonfly-colors, stars:671, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,677 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:ChristianChiarulli/nvcode-color-schemes.vim, stars:281, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,683 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:folke/tokyonight.nvim, stars:4300, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,689 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:sainnhe/sonokai, stars:1300, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,695 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:nyoom-engineering/oxocarbon.nvim, stars:808, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,701 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:kyazdani42/blue-moon, stars:175, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,707 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:mhartington/oceanic-next, stars:1100, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,713 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:nvimdev/zephyr-nvim, stars:307, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,720 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:rockerBOO/boo-colorscheme-nvim, stars:146, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,726 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:jim-at-jibba/ariake-vim-colors, stars:29, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,732 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:Th3Whit3Wolf/onebuddy, stars:98, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,739 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:ishan9299/modus-theme-vim, stars:145, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,746 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:sainnhe/edge, stars:785, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,752 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:theniceboy/nvim-deus, stars:64, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,758 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:bkegley/gloombuddy, stars:43, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,765 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:Th3Whit3Wolf/one-nvim, stars:101, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,771 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:PHSix/nvim-hybrid, stars:23, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,777 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:Th3Whit3Wolf/space-nvim, stars:40, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,783 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:yonlu/omni.vim, stars:76, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,789 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:ray-x/aurora, stars:256, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,795 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:ray-x/starry.nvim, stars:175, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,802 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:tanvirtin/monokai.nvim, stars:303, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,808 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:ofirgall/ofirkai.nvim, stars:76, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,814 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:savq/melange-nvim, stars:526, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,820 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:RRethy/nvim-base16, stars:405, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,825 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:fenetikm/falcon, stars:676, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,832 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:andersevenrud/nordic.nvim, stars:165, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,838 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:AlexvZyl/nordic.nvim, stars:425, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,844 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:shaunsingh/nord.nvim, stars:689, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,850 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:Tsuzat/NeoSolarized.nvim, stars:111, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,856 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:svrana/neosolarized.nvim, stars:136, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,862 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:ishan9299/nvim-solarized-lua, stars:159, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,869 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:shaunsingh/moonlight.nvim, stars:163, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,875 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:navarasu/onedark.nvim, stars:1200, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,881 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:lourenci/github-colors, stars:89, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,887 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:sainnhe/gruvbox-material, stars:1500, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,893 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:sainnhe/everforest, stars:2200, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,899 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:neanias/everforest-nvim, stars:104, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,904 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:NTBBloodbath/doom-one.nvim, stars:173, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,910 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:dracula/vim, stars:1300, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,916 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:Mofiqul/dracula.nvim, stars:467, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,922 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:yashguptaz/calvera-dark.nvim, stars:136, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,928 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:nxvu699134/vn-night.nvim, stars:41, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,934 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:adisen99/codeschool.nvim, stars:36, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,940 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:projekt0n/github-nvim-theme, stars:1800, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,946 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:kdheepak/monochrome.nvim, stars:62, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,952 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:rose-pine/neovim, stars:1400, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,958 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:mcchrish/zenbones.nvim, stars:492, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,964 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:catppuccin/nvim, stars:3600, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,970 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:FrenzyExists/aquarium-vim, stars:258, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,976 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,982 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:kvrohit/substrata.nvim, stars:114, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,988 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:ldelossa/vimdark, stars:69, last_update:None, priority:100, config:None>
+2023-11-21 14:40:35,994 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:Everblush/everblush.nvim, stars:191, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,000 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:adisen99/apprentice.nvim, stars:38, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,006 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:olimorris/onedarkpro.nvim, stars:582, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,011 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:rmehri01/onenord.nvim, stars:425, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,018 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:RishabhRD/gruvy, stars:16, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,025 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:echasnovski/mini.nvim#colorschemes, stars:2900, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,031 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:luisiacc/gruvbox-baby, stars:317, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,037 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:titanzero/zephyrium, stars:21, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,042 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:rebelot/kanagawa.nvim, stars:2900, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,048 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:tiagovla/tokyodark.nvim, stars:367, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,054 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:cpea2506/one_monokai.nvim, stars:117, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,060 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:phha/zenburn.nvim, stars:64, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,066 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:kvrohit/rasmus.nvim, stars:109, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,072 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:chrsm/paramount-ng.nvim, stars:14, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,078 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:kaiuri/nvim-juliana, stars:85, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,084 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:lmburns/kimbox, stars:62, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,091 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:rockyzhang24/arctic.nvim, stars:105, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,100 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:ramojus/mellifluous.nvim, stars:190, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,105 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:Yazeed1s/minimal.nvim, stars:147, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,111 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:lewpoly/sherbet.nvim, stars:66, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,117 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:Mofiqul/adwaita.nvim, stars:189, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,123 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:olivercederborg/poimandres.nvim, stars:222, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,129 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:kvrohit/mellow.nvim, stars:156, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,135 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:gbprod/nord.nvim, stars:100, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,141 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:Yazeed1s/oh-lucy.nvim, stars:150, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,147 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:embark-theme/vim, stars:590, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,153 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:nyngwang/nvimgelion, stars:76, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,159 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:maxmx03/FluoroMachine.nvim, stars:119, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,165 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:dasupradyumna/midnight.nvim, stars:97, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,171 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:sonjiku/yawnc.nvim, stars:7, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,177 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:sekke276/dark_flat.nvim, stars:31, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,184 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:zootedb0t/citruszest.nvim, stars:37, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,190 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:2nthony/vitesse.nvim, stars:27, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,196 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:xero/miasma.nvim, stars:82, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,202 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:Verf/deepwhite.nvim, stars:42, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,208 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:judaew/ronny.nvim, stars:6, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,214 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:ribru17/bamboo.nvim, stars:157, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,220 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:cryptomilk/nightcity.nvim, stars:30, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,226 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:polirritmico/monokai-nightasty.nvim, stars:28, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,232 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:oxfist/night-owl.nvim, stars:104, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,237 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:text-to-colorscheme, stars:233, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,243 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:miikanissi/modus-themes.nvim, stars:20, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,261 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:tjdevries/gruvbuddy.nvim, stars:107, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,267 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:ellisonleao/gruvbox.nvim, stars:1300, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,273 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:metalelf0/jellybeans-nvim, stars:86, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,279 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:lalitmee/cobalt2.nvim, stars:77, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,285 INFO [collect.py:434](_parse_color) - acs repo:<RepoMeta url:calind/selenized.nvim, stars:2, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,382 INFO [collect.py:459](filter_repo_meta) - skip for blacklist - repo:<RepoMeta url:rafi/awesome-vim-colorschemes, stars:2548, last_update:2023-05-06T12:33:40, priority:0, config:None>
+2023-11-21 14:40:36,383 INFO [collect.py:459](filter_repo_meta) - skip for blacklist - repo:<RepoMeta url:sonph/onehalf, stars:1695, last_update:2022-08-02T22:26:27, priority:0, config:None>
+2023-11-21 14:40:36,386 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:shaeinst/roshnivim-cs, stars:62, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,386 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:rafamadriz/neon, stars:153, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,386 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:tomasiser/vim-code-dark, stars:874, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,386 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:Mofiqul/vscode.nvim, stars:531, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,386 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:askfiy/visual_studio_code, stars:112, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,386 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:marko-cerovac/material.nvim, stars:832, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,386 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:bluz71/vim-nightfly-colors, stars:691, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,386 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:bluz71/vim-moonfly-colors, stars:671, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,386 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:ChristianChiarulli/nvcode-color-schemes.vim, stars:281, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:nyoom-engineering/oxocarbon.nvim, stars:808, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:kyazdani42/blue-moon, stars:175, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:nvimdev/zephyr-nvim, stars:307, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:rockerBOO/boo-colorscheme-nvim, stars:146, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:jim-at-jibba/ariake-vim-colors, stars:29, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:Th3Whit3Wolf/onebuddy, stars:98, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:ishan9299/modus-theme-vim, stars:145, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:sainnhe/edge, stars:785, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:theniceboy/nvim-deus, stars:64, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:bkegley/gloombuddy, stars:43, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:Th3Whit3Wolf/one-nvim, stars:101, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:PHSix/nvim-hybrid, stars:23, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:Th3Whit3Wolf/space-nvim, stars:40, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:yonlu/omni.vim, stars:76, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:ray-x/aurora, stars:256, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:ray-x/starry.nvim, stars:175, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:tanvirtin/monokai.nvim, stars:303, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:ofirgall/ofirkai.nvim, stars:76, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:savq/melange-nvim, stars:526, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:RRethy/nvim-base16, stars:405, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:fenetikm/falcon, stars:676, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:andersevenrud/nordic.nvim, stars:165, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,387 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:AlexvZyl/nordic.nvim, stars:425, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,388 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:shaunsingh/nord.nvim, stars:689, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,388 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:Tsuzat/NeoSolarized.nvim, stars:111, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,388 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:svrana/neosolarized.nvim, stars:136, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,388 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:ishan9299/nvim-solarized-lua, stars:159, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,388 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:shaunsingh/moonlight.nvim, stars:163, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,388 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:lourenci/github-colors, stars:89, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,388 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:neanias/everforest-nvim, stars:104, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,388 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:NTBBloodbath/doom-one.nvim, stars:173, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,389 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:Mofiqul/dracula.nvim, stars:467, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,389 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:yashguptaz/calvera-dark.nvim, stars:136, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,389 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:nxvu699134/vn-night.nvim, stars:41, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,389 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:adisen99/codeschool.nvim, stars:36, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,389 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:kdheepak/monochrome.nvim, stars:62, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,389 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:mcchrish/zenbones.nvim, stars:492, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,389 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:FrenzyExists/aquarium-vim, stars:258, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:kvrohit/substrata.nvim, stars:114, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:ldelossa/vimdark, stars:69, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:Everblush/everblush.nvim, stars:191, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:adisen99/apprentice.nvim, stars:38, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:459](filter_repo_meta) - skip for blacklist - repo:<RepoMeta url:olimorris/onedarkpro.nvim, stars:582, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:rmehri01/onenord.nvim, stars:425, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:RishabhRD/gruvy, stars:16, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:459](filter_repo_meta) - skip for blacklist - repo:<RepoMeta url:echasnovski/mini.nvim#colorschemes, stars:2900, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:luisiacc/gruvbox-baby, stars:317, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:titanzero/zephyrium, stars:21, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:tiagovla/tokyodark.nvim, stars:367, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:cpea2506/one_monokai.nvim, stars:117, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:phha/zenburn.nvim, stars:64, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:kvrohit/rasmus.nvim, stars:109, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:chrsm/paramount-ng.nvim, stars:14, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:kaiuri/nvim-juliana, stars:85, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:lmburns/kimbox, stars:62, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:rockyzhang24/arctic.nvim, stars:105, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:ramojus/mellifluous.nvim, stars:190, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:Yazeed1s/minimal.nvim, stars:147, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:lewpoly/sherbet.nvim, stars:66, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:Mofiqul/adwaita.nvim, stars:189, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:olivercederborg/poimandres.nvim, stars:222, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:kvrohit/mellow.nvim, stars:156, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:gbprod/nord.nvim, stars:100, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:Yazeed1s/oh-lucy.nvim, stars:150, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:embark-theme/vim, stars:590, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:nyngwang/nvimgelion, stars:76, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:maxmx03/FluoroMachine.nvim, stars:119, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:dasupradyumna/midnight.nvim, stars:97, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:sonjiku/yawnc.nvim, stars:7, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:sekke276/dark_flat.nvim, stars:31, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:zootedb0t/citruszest.nvim, stars:37, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,390 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:2nthony/vitesse.nvim, stars:27, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:xero/miasma.nvim, stars:82, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:Verf/deepwhite.nvim, stars:42, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:judaew/ronny.nvim, stars:6, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:ribru17/bamboo.nvim, stars:157, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:cryptomilk/nightcity.nvim, stars:30, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:polirritmico/monokai-nightasty.nvim, stars:28, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:oxfist/night-owl.nvim, stars:104, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:text-to-colorscheme, stars:233, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:miikanissi/modus-themes.nvim, stars:20, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:tjdevries/gruvbuddy.nvim, stars:107, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:metalelf0/jellybeans-nvim, stars:86, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:lalitmee/cobalt2.nvim, stars:77, last_update:None, priority:100, config:None>
+2023-11-21 14:40:36,391 INFO [collect.py:462](filter_repo_meta) - skip for lower stars - repo:<RepoMeta url:calind/selenized.nvim, stars:2, last_update:None, priority:100, config:None>
+2023-11-21 14:41:19,946 INFO [collect.py:490](_download) - clone skip for too old last_update - repo:<RepoMeta url:altercation/vim-colors-solarized, stars:6525, last_update:2011-05-10T05:35:32, priority:0, config:None>
+2023-11-21 14:41:23,810 INFO [collect.py:490](_download) - clone skip for too old last_update - repo:<RepoMeta url:tomasr/molokai, stars:3576, last_update:2015-11-11T20:17:45, priority:0, config:None>
+2023-11-21 14:41:27,756 INFO [collect.py:490](_download) - clone skip for too old last_update - repo:<RepoMeta url:nanotech/jellybeans.vim, stars:1739, last_update:2019-06-22T07:58:55, priority:0, config:None>
+2023-11-21 14:41:29,872 INFO [collect.py:490](_download) - clone skip for too old last_update - repo:<RepoMeta url:ayu-theme/ayu-vim, stars:1600, last_update:2020-05-29T14:19:17, priority:0, config:None>
+2023-11-21 14:41:31,655 INFO [collect.py:490](_download) - clone skip for too old last_update - repo:<RepoMeta url:w0ng/vim-hybrid, stars:1458, last_update:2016-01-05T14:14:30, priority:0, config:None>
+2023-11-21 14:41:33,332 INFO [collect.py:490](_download) - clone skip for too old last_update - repo:<RepoMeta url:sjl/badwolf, stars:1229, last_update:2020-02-19T10:00:14, priority:0, config:None>
+2023-11-21 14:41:33,333 INFO [collect.py:287](clone) - candidate/EdenEast/nightfox.nvim already exist, skip...
+2023-11-21 14:41:33,344 INFO [collect.py:512](_dedup) - detect duplicated color(gruvbox), new:<RepoMeta url:morhetz/gruvbox, stars:12617, last_update:2023-08-14T22:04:06, priority:0, config:None>, old:<RepoMeta url:ellisonleao/gruvbox.nvim, stars:1300, last_update:2023-11-12T02:05:45, priority:100, config:None>
+2023-11-21 14:41:33,344 INFO [collect.py:512](_dedup) - detect duplicated color(onedark), new:<RepoMeta url:joshdick/onedark.vim, stars:3785, last_update:2023-07-19T13:35:43, priority:0, config:None>, old:<RepoMeta url:navarasu/onedark.nvim, stars:1200, last_update:2023-10-19T23:48:36, priority:100, config:None>
+2023-11-21 14:41:33,344 INFO [collect.py:512](_dedup) - detect duplicated color(terafox), new:<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>, old:<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>
+2023-11-21 14:41:33,344 INFO [collect.py:517](_dedup) - replace old repo(<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>) with new(<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>)
+2023-11-21 14:41:33,344 INFO [collect.py:512](_dedup) - detect duplicated color(carbonfox), new:<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>, old:<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>
+2023-11-21 14:41:33,344 INFO [collect.py:517](_dedup) - replace old repo(<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>) with new(<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>)
+2023-11-21 14:41:33,344 INFO [collect.py:512](_dedup) - detect duplicated color(nightfox), new:<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>, old:<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>
+2023-11-21 14:41:33,345 INFO [collect.py:517](_dedup) - replace old repo(<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>) with new(<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>)
+2023-11-21 14:41:33,345 INFO [collect.py:512](_dedup) - detect duplicated color(dayfox), new:<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>, old:<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>
+2023-11-21 14:41:33,345 INFO [collect.py:517](_dedup) - replace old repo(<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>) with new(<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>)
+2023-11-21 14:41:33,345 INFO [collect.py:512](_dedup) - detect duplicated color(dawnfox), new:<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>, old:<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>
+2023-11-21 14:41:33,345 INFO [collect.py:517](_dedup) - replace old repo(<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>) with new(<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>)
+2023-11-21 14:41:33,345 INFO [collect.py:512](_dedup) - detect duplicated color(nordfox), new:<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>, old:<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>
+2023-11-21 14:41:33,345 INFO [collect.py:517](_dedup) - replace old repo(<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>) with new(<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>)
+2023-11-21 14:41:33,345 INFO [collect.py:512](_dedup) - detect duplicated color(duskfox), new:<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>, old:<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>
+2023-11-21 14:41:33,345 INFO [collect.py:517](_dedup) - replace old repo(<RepoMeta url:edeneast/nightfox.nvim, stars:2446, last_update:2023-10-16T10:34:18, priority:0, config:None>) with new(<RepoMeta url:EdenEast/nightfox.nvim, stars:2400, last_update:2023-10-16T10:34:18, priority:100, config:None>)
