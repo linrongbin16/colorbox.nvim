@@ -57,14 +57,20 @@ Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blo
 require('lazy').setup({
     {
         'linrongbin16/colorbox.nvim',
-        lazy = false,
+        lazy = false, -- don't lazy this plugin if it provides the main colorscheme
+        priority = 1000, -- load this plugin before all other start plugins
         build = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
 })
 ```
 
-> Note: don't lazy this plugin unless you don't need to run `colorscheme` right after start nvim (it costs ~3 ms to start).
+> Note:
+>
+> If this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
+>
+> 1. Don't lazy this plugin.
+> 2. Load this plugin before all other start plugins.
 
 ## 🔧 Configuration
 
