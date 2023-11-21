@@ -284,12 +284,15 @@ local function update()
     end
     for url, repo in pairs(repos) do
         local github_url = string.format("https://github.com/%s", url)
-        local install_path = string.format("%s/%s", packstart, url)
+        local install_path =
+            string.format("%s/%s", packstart, url:gsub("/", "%-"))
+        -- logger.info("install_path:%s", vim.inspect(install_path))
         if
             vim.fn.isdirectory(install_path) > 0
             and vim.fn.isdirectory(install_path .. "/.git") > 0
         then
             local cmd = string.format("cd %s && git pull")
+            logger.info("update command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 stdout_buffered = true,
                 stderr_buffered = true,
@@ -301,7 +304,7 @@ local function update()
                     )
                 end,
             })
-            logger.info("updating %s", vim.inspect(url))
+            -- logger.info("updating %s", vim.inspect(url))
             table.insert(jobs, jobid)
         else
             local cmd = {
@@ -311,6 +314,7 @@ local function update()
                 github_url,
                 install_path,
             }
+            logger.info("install command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 stdout_buffered = true,
                 stderr_buffered = true,
@@ -322,7 +326,7 @@ local function update()
                     )
                 end,
             })
-            logger.info("installing %s", vim.inspect(url))
+            -- logger.info("installing %s", vim.inspect(url))
             table.insert(jobs, jobid)
         end
     end
