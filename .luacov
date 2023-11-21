@@ -1,0 +1,8 @@
+modules = {
+    ["colorbox"] = "lua/colorbox.lua",
+    ["colorbox.*"] = "lua",
+}
+exclude = {
+    "lua/colorbox/rxi_json.lua",
+}
+
