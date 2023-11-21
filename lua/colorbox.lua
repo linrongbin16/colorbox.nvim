@@ -357,9 +357,9 @@ end
 local function update()
     logger.setup({
         name = "colorbox",
-        level = LogLevels.DEBUG,
+        level = LogLevels.INFO,
         console_log = true,
-        file_log = true,
+        file_log = false,
         file_log_name = "colorbox_install.log",
     })
 
