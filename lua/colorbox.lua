@@ -75,6 +75,12 @@ local Defaults = {
 
     filter = function() end,
 
+    setup = {
+        ["projekt0n/github-nvim-theme"] = function()
+            require("github-theme").setup()
+        end,
+    },
+
     --- @type "dark"|"light"|nil
     background = nil,
 
@@ -90,20 +96,44 @@ local Defaults = {
 local Configs = {}
 
 --- @class colorbox.ColorSpec
+--- @field url string
 --- @field name string pack name
 --- @field path string path full path
 --- @field colors string[] color file base name
+--- @field stars integer
+--- @field last_update string
+--- @field priority integer
+--- @field source string
 local ColorSpec = {}
 
+--- @param url string
 --- @param name string
 --- @param path string
 --- @param colors string[]|nil
+--- @param stars integer?
+--- @param last_update string?
+--- @param priority integer?
+--- @param source string?
 --- @return colorbox.ColorSpec
-function ColorSpec:new(name, path, colors)
+function ColorSpec:new(
+    url,
+    name,
+    path,
+    colors,
+    stars,
+    last_update,
+    priority,
+    source
+)
     local o = {
+        url = url,
         name = name,
         path = path,
         colors = colors or {},
+        stars = stars,
+        last_update = last_update,
+        priority = priority,
+        source = source,
     }
     setmetatable(o, self)
     self.__index = self
@@ -118,6 +148,9 @@ local ColorSpecs = {}
 --- @type table<string, colorbox.ColorSpec>
 local ColorSpecsMap = {}
 
+-- plugin url => spec
+local ColorSpecUrlsMap = {}
+
 -- color names
 --- @type string[]
 local ColorNames = {}
@@ -125,6 +158,22 @@ local ColorNames = {}
 -- color name => spec
 --- @type table<string, colorbox.ColorSpec>
 local ColorNamesMap = {}
+
+--- @param cwd string
+--- @return table<string, {url:string,stars:integer,last_update:string,priority:integer,source:string,obj_name:string}>
+local function _load_repo_meta_urls_map(cwd)
+    local dbfile = string.format("%s/db.json", cwd)
+    local fp = io.open(dbfile, "r")
+    assert(fp, string.format("failed to read %s", vim.inspect(dbfile)))
+    local dbtext = fp:read("*a")
+    fp:close()
+    local dbdata = json.decode(dbtext) --[[@as table]]
+    local repos = {}
+    for i, d in pairs(dbdata["_default"]) do
+        repos[d.url] = d
+    end
+    return repos
+end
 
 local function _init()
     local cwd = vim.fn["colorbox#base_dir"]()
@@ -140,68 +189,63 @@ local function _init()
     -- vim.opt.packpath:append(cwd .. "/pack/colorbox/opt")
     -- vim.cmd([[packadd catppuccin-nvim]])
 
-    local pack_dir = vim.loop.fs_opendir(packstart) --[[@as luv_dir_t]]
-    while true do
-        local pack_tmp = pack_dir:readdir()
-        if type(pack_tmp) == "table" and #pack_tmp > 0 then
-            for i, pack_ttmp in ipairs(pack_tmp) do
-                if
-                    type(pack_ttmp) == "table"
-                    and type(pack_ttmp.name) == "string"
-                    and pack_ttmp.type == "directory"
-                then
-                    local spec = ColorSpec:new(
-                        pack_ttmp.name,
-                        string.format("%s/%s", packstart, pack_ttmp.name)
-                    )
-                    table.insert(ColorSpecs, spec)
-                    ColorSpecsMap[spec.name] = spec
-                    local color_dir, err =
-                        vim.loop.fs_opendir(spec.path .. "/colors") --[[@as luv_dir_t]]
-                    if not color_dir then
-                        logger.err(
-                            "failed to scan %s directory: %s",
-                            vim.inspect(spec.path),
-                            vim.inspect(err)
-                        )
-                    end
-                    while true do
-                        local color_tmp = color_dir:readdir()
-                        if type(color_tmp) == "table" and #color_tmp > 0 then
-                            for j, color_ttmp in ipairs(color_tmp) do
-                                -- logger.debug(
-                                --     "|colorbox.init| colors_ttmp %d:%s",
-                                --     j,
-                                --     vim.inspect(color_ttmp)
-                                -- )
-                                if
-                                    type(color_ttmp) == "table"
-                                    and type(color_ttmp.name) == "string"
-                                    and color_ttmp.type == "file"
-                                then
-                                    local color_file = color_ttmp.name
-                                    assert(
-                                        string_endswith(color_file, ".vim")
-                                            or string_endswith(
-                                                color_file,
-                                                ".lua"
-                                            )
-                                    )
-                                    local color =
-                                        color_file:sub(1, #color_file - 4)
-                                    table.insert(spec.colors, color)
-                                    ColorNamesMap[color] = spec
-                                    table.insert(ColorNames, color)
-                                end
-                            end
-                        else
-                            break
+    local repos = _load_repo_meta_urls_map(cwd)
+    for url, repo in pairs(repos) do
+        local obj_path = string.format("%s/%s", packstart, repo.obj_name)
+        if
+            vim.fn.isdirectory(obj_path) > 0
+            and vim.fn.isdirectory(obj_path .. "/.git") > 0
+        then
+            local spec = ColorSpec:new(
+                url,
+                repo.obj_name,
+                string.format("%s/%s", packstart, repo.obj_name),
+                {},
+                repo.stars,
+                repo.last_update,
+                repo.priority,
+                repo.source
+            )
+            table.insert(ColorSpecs, spec)
+            ColorSpecsMap[spec.name] = spec
+            ColorSpecUrlsMap[url] = spec
+            local color_dir, err = vim.loop.fs_opendir(spec.path .. "/colors") --[[@as luv_dir_t]]
+            if not color_dir then
+                logger.err(
+                    "failed to scan %s directory: %s",
+                    vim.inspect(spec.path),
+                    vim.inspect(err)
+                )
+            end
+            while true do
+                local color_tmp = color_dir:readdir()
+                if type(color_tmp) == "table" and #color_tmp > 0 then
+                    for j, color_ttmp in ipairs(color_tmp) do
+                        -- logger.debug(
+                        --     "|colorbox.init| colors_ttmp %d:%s",
+                        --     j,
+                        --     vim.inspect(color_ttmp)
+                        -- )
+                        if
+                            type(color_ttmp) == "table"
+                            and type(color_ttmp.name) == "string"
+                            and color_ttmp.type == "file"
+                        then
+                            local color_file = color_ttmp.name
+                            assert(
+                                string_endswith(color_file, ".vim")
+                                    or string_endswith(color_file, ".lua")
+                            )
+                            local color = color_file:sub(1, #color_file - 4)
+                            table.insert(spec.colors, color)
+                            ColorNamesMap[color] = spec
+                            table.insert(ColorNames, color)
                         end
                     end
+                else
+                    break
                 end
             end
-        else
-            break
         end
     end
 end
@@ -255,6 +299,13 @@ local function setup(opts)
             end
             local spec = ColorNamesMap[event.match]
             vim.cmd(string.format([[packadd %s]], spec.name))
+
+            if
+                type(Configs.setup) == "table"
+                and type(Configs.setup[spec.url]) == "function"
+            then
+                Configs.setup[spec.url]()
+            end
         end,
     })
 
@@ -279,17 +330,8 @@ local function update()
     )
     vim.opt.packpath:append(cwd)
 
-    local dbfile = string.format("%s/db.json", cwd)
-    local fp = io.open(dbfile, "r")
-    assert(fp, string.format("failed to read %s", vim.inspect(dbfile)))
-    local dbtext = fp:read("*a")
-    fp:close()
-    local dbdata = json.decode(dbtext) --[[@as table]]
-    local repos = {}
+    local repos = _load_repo_meta_urls_map(cwd)
     local jobs = {}
-    for i, d in pairs(dbdata["_default"]) do
-        repos[d.url] = d
-    end
     for url, repo in pairs(repos) do
         local github_url = string.format("https://github.com/%s", url)
         local install_path =
@@ -302,7 +344,7 @@ local function update()
             if type(data) == "table" then
                 for _, line in ipairs(data) do
                     if string.len(line) > 0 then
-                        logger.info(
+                        logger.debug(
                             "(%s) %s: %s",
                             vim.inspect(name),
                             vim.inspect(url),

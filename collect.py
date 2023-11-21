@@ -148,6 +148,7 @@ class RepoMeta:
     LAST_UPDATE = "last_update"
     PRIORITY = "priority"
     SOURCE = "source"
+    OBJ_NAME = "obj_name"
 
     def __init__(
         self,
@@ -156,6 +157,7 @@ class RepoMeta:
         last_update: typing.Optional[datetime.datetime] = None,
         priority: int = 0,
         source: typing.Optional[str] = None,
+        obj_name: typing.Optional[str] = None,
     ) -> None:
         assert isinstance(url, str)
         assert isinstance(stars, int) and stars >= 0
@@ -167,6 +169,7 @@ class RepoMeta:
         self.last_update = last_update
         self.priority = priority
         self.source = source
+        self.obj_name = self.url.replace("/", "-")
         self.config = self._init_config(url)
 
     def _init_url(self, url: str) -> str:
@@ -210,6 +213,7 @@ class RepoMeta:
             RepoMeta.LAST_UPDATE: datetime_tostring(self.last_update),
             RepoMeta.PRIORITY: self.priority,
             RepoMeta.SOURCE: self.source,
+            RepoMeta.OBJ_NAME: self.obj_name,
         }
         if len(count) <= 0:
             RepoMeta.DB.insert(obj)
@@ -248,6 +252,7 @@ class RepoMeta:
                     last_update=datetime_fromstring(j[RepoMeta.LAST_UPDATE]),
                     priority=j[RepoMeta.PRIORITY],
                     source=j[RepoMeta.SOURCE],
+                    obj_name=j[RepoMeta.OBJ_NAME],
                 )
                 for j in records
             ]
