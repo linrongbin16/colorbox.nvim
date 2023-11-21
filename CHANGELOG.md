@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.1.0...v1.1.1) (2023-11-21)
+
+
+### Performance Improvements
+
+* **load:** improve loading data speed ([9e835a5](https://github.com/linrongbin16/colorbox.nvim/commit/9e835a5fd8293ead9d3c331d671a50036483a0c7))
+* **refactor:** improve code structure ([#33](https://github.com/linrongbin16/colorbox.nvim/issues/33)) ([9e835a5](https://github.com/linrongbin16/colorbox.nvim/commit/9e835a5fd8293ead9d3c331d671a50036483a0c7))
+
 ## [1.1.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.0.1...v1.1.0) (2023-11-21)
 
 
