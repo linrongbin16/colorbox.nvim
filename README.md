@@ -46,8 +46,8 @@ Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blo
 
 ## ✅ Requirement
 
-- neovim &ge; 0.8.
-- [git](https://git-scm.com/).
+- Neovim &ge; 0.8.
+- [Git](https://git-scm.com/).
 
 ## 📦 Install
 
