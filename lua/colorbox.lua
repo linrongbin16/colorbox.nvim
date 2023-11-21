@@ -292,14 +292,13 @@ local function update()
     end
     for url, repo in pairs(repos) do
         local github_url = string.format("https://github.com/%s", url)
-        local install_path =
-            string.format("%s/%s", packstart, url:gsub("/", "%-"))
+        local install_path = url:gsub("/", "%-")
         logger.debug("install_path:%s", vim.inspect(install_path))
         if
             vim.fn.isdirectory(install_path) > 0
             and vim.fn.isdirectory(install_path .. "/.git") > 0
         then
-            local cmd = string.format("cd %s && git pull")
+            local cmd = string.format("cd %s && git pull", install_path)
             logger.debug("update command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 stdout_buffered = true,
