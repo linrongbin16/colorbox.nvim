@@ -521,116 +521,6 @@ class Builder:
                 repo.remove()
 
 
-class GitSubmodule:
-    def __init__(self) -> None:
-        pass
-
-    def _module_name(self, url: str) -> str:
-        return url.replace("/", "-")
-
-    def _submodules(self) -> list[str]:
-        old_modules = subprocess.check_output(
-            ["git", "submodule", "foreach"], encoding="UTF-8"
-        ).split("\n")
-        return old_modules
-
-    def update_submodules(self):
-        # add all submodules
-        for repo in RepoMeta.all():
-            try:
-                logging.info(
-                    subprocess.check_output(
-                        [
-                            "git",
-                            "submodule",
-                            "add",
-                            "--force",
-                            "--depth",
-                            "1",
-                            "--name",
-                            self._module_name(repo.url),
-                            repo.github_url(),
-                            f"pack/colorbox/opt/{self._module_name(repo.url)}",
-                        ]
-                    )
-                )
-            except Exception as e:
-                logging.warning(e)
-            try:
-                logging.info(
-                    subprocess.check_output(
-                        [
-                            "git",
-                            "config",
-                            "-f",
-                            ".gitmodules",
-                            f"submodule.{self._module_name(repo.url)}.shallow",
-                            "true",
-                        ]
-                    )
-                )
-            except Exception as e:
-                logging.warning(e)
-        # clean the removed
-        old_modules = [
-            sub.strip() for sub in self._submodules() if len(sub.strip()) > 0
-        ]
-        ENTERING = "Entering "
-        MODULES = "pack/colorbox/opt/"
-        old_modules = [
-            old[len(ENTERING) :] for old in old_modules if old.startswith(ENTERING)
-        ]
-        old_modules = [trim_quotes(old) for old in old_modules]
-        old_modules = [
-            old[len(MODULES) :] for old in old_modules if old.startswith(MODULES)
-        ]
-        logging.debug(f"old modules:{old_modules}")
-        repo_names = [self._module_name(repo.url) for repo in RepoMeta.all()]
-        for o in old_modules:
-            # remove
-            if o not in repo_names:
-                logging.debug(f"remove old submodule:{o}")
-                logging.warning(
-                    subprocess.check_output(
-                        ["git", "submodule", "deinit", "-f", f"pack/colorbox/opt/{o}"]
-                    )
-                )
-                logging.warning(
-                    subprocess.check_output(["rm", "-rf", f".git/modules/{o}"])
-                )
-                # try:
-                #     logging.warning(
-                #         subprocess.check_output(
-                #             [
-                #                 "git",
-                #                 "config",
-                #                 "-f",
-                #                 ".gitmodules",
-                #                 "--remove-section",
-                #                 f"submodule.{o}",
-                #             ]
-                #         )
-                #     )
-                # except Exception as e:
-                #     logging.warning(e)
-                # try:
-                #     logging.warning(
-                #         subprocess.check_output(
-                #             [
-                #                 "git",
-                #                 "config",
-                #                 "-f",
-                #                 ".git/config",
-                #                 "--remove-section",
-                #                 f"submodule.{o}",
-                #             ]
-                #         )
-                #     )
-                # except Exception as e:
-                #     logging.warning(e)
-                logging.warning(subprocess.check_output(["git", "rm", "--cached", o]))
-
-
 @click.command()
 @click.option(
     "-d",
@@ -660,8 +550,6 @@ def main(debug_opt, no_headless_opt, skip_fetch_opt, skip_build_opt):
     if not skip_build_opt:
         builder = Builder(False if debug_opt else True)
         builder.build()
-    # submodule = GitSubmodule()
-    # submodule.update_submodules()
 
 
 if __name__ == "__main__":

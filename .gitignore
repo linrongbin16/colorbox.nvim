@@ -136,3 +136,6 @@ dmypy.json
 
 # Candidates
 /candidate
+
+# pack/colorbox/start
+/pack/colorbox/start
