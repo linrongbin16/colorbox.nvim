@@ -9,17 +9,26 @@ local function min(l, f)
     return result
 end
 
+--- @param a integer
+--- @param b integer
 --- @return integer
-local function randint()
+local function math_mod(a, b)
+    return math.floor(math.fmod(a, b))
+end
+
+--- @param maximal integer?
+--- @return integer
+local function randint(maximal)
+    local int32_max = 2 ^ 31 - 1
+    maximal = maximal or int32_max
     local s1 = vim.loop.getpid()
     local s2, s3 = vim.loop.gettimeofday()
     local s4 = math.random()
-    local int32_max = 2 ^ 31 - 1
-    local r = math.min(s1, int32_max)
-    r = math.min(r + s2, int32_max)
-    r = math.min(r + s3, int32_max)
-    r = math.min(r + s4, int32_max)
-    return math.floor(r)
+    local r = math_mod(s1, maximal)
+    r = math_mod(r * 3 + s2, maximal)
+    r = math_mod(r * 7 + s3, maximal)
+    r = math_mod(r * 11 + s4, maximal)
+    return r
 end
 
 --- @param s string
@@ -62,6 +71,7 @@ end
 
 local M = {
     min = min,
+    math_mod = math_mod,
     randint = randint,
     string_endswith = string_endswith,
     string_find = string_find,

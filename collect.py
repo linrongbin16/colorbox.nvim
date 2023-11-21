@@ -153,6 +153,7 @@ class ColorSpec:
     LAST_GIT_COMMIT = "last_git_commit"
     GIT_PATH = "git_path"
     GIT_BRANCH = "git_branch"
+    COLOR_NAMES = "color_names"
 
     def __init__(
         self,
@@ -180,6 +181,7 @@ class ColorSpec:
         if isinstance(config, ColorSpecConfig):
             if isinstance(config.git_branch, str):
                 self.git_branch = config.git_branch
+        self.color_names: list[str] = []
 
     def _init_url(self, handle: str) -> str:
         handle = handle.strip()
@@ -215,6 +217,7 @@ class ColorSpec:
             ColorSpec.SOURCE: self.source,
             ColorSpec.GIT_PATH: self.git_path,
             ColorSpec.GIT_BRANCH: self.git_branch,
+            ColorSpec.COLOR_NAMES: self.color_names,
         }
         if len(count) <= 0:
             ColorSpec.DB.insert(obj)
@@ -225,13 +228,26 @@ class ColorSpec:
 
     def update_last_git_commit(self, last_git_commit: datetime.datetime) -> None:
         q = Query()
-        count = ColorSpec.DB.search(q.handle == self.handle)
-        assert len(count) == 1
+        records = ColorSpec.DB.search(q.handle == self.handle)
+        assert len(records) == 1
         assert isinstance(last_git_commit, datetime.datetime)
         self.last_git_commit = last_git_commit
         ColorSpec.DB.update(
             {
                 ColorSpec.LAST_GIT_COMMIT: datetime_tostring(self.last_git_commit),
+            },
+            q.handle == self.handle,
+        )
+
+    def update_color_names(self, color_names: list[str]) -> None:
+        q = Query()
+        records = ColorSpec.DB.search(q.handle == self.handle)
+        assert len(records) == 1
+        assert isinstance(color_names, list)
+        self.color_names = color_names
+        ColorSpec.DB.update(
+            {
+                ColorSpec.COLOR_NAMES: self.color_names,
             },
             q.handle == self.handle,
         )
@@ -482,9 +498,13 @@ class Builder:
             ):
                 logging.info(f"skip for too old git commit - spec:{spec}")
                 spec.remove()
-            if len(spec.get_vim_color_names()) == 0:
+                continue
+            color_names = spec.get_vim_color_names()
+            spec.update_color_names(color_names)
+            if len(color_names) == 0:
                 logging.info(f"skip for no color files (.vim,.lua) - spec:{spec}")
                 spec.remove()
+                continue
 
     def _dedup(self) -> list[ColorSpec]:
         def greater_than(a: ColorSpec, b: ColorSpec) -> bool:
