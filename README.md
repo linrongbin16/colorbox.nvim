@@ -80,6 +80,7 @@ require('colorbox').setup({
     --- @type "primary"|fun(color:string):boolean|nil
     filter = nil,
 
+    -- (Optional) setup plugin before running `colorscheme {color}`.
     --- @type table<string, function>
     setup = {
         ["projekt0n/github-nvim-theme"] = function()
