@@ -82,24 +82,9 @@ function ColorSpec:new(
     return o
 end
 
--- specs
---- @type colorbox.ColorSpec[]
-local ColorSpecs = {}
-
--- plugin name => spec
---- @type table<string, colorbox.ColorSpec>
-local ColorSpecsMap = {}
-
--- plugin url => spec
-local ColorSpecUrlsMap = {}
-
 -- color names list
 --- @type string[]
 local ColorNamesList = {}
-
--- color name => spec
---- @type table<string, colorbox.ColorSpec>
-local ColorNamesMap = {}
 
 --- @param cwd string
 --- @return table<string, {url:string,stars:integer,last_update:string,priority:integer,source:string,obj_name:string}>
@@ -191,6 +176,10 @@ local function _init()
             end
         end
     end
+    logger.debug(
+        "|colorbox._init| before sort ColorNamesList:%s",
+        vim.inspect(ColorNamesList)
+    )
     table.sort(ColorNamesList)
     logger.debug(
         "|colorbox._init| ColorNamesList:%s",
