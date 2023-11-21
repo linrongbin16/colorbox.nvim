@@ -1,7 +1,7 @@
 local logger = require("colorbox.logger")
 local LogLevels = require("colorbox.logger").LogLevels
 local json = require("colorbox.json")
-
+local utils = require("colorbox.utils")
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
@@ -125,8 +125,7 @@ local function _should_filter(color, spec)
     if Configs.filter == "primary" then
         local unique = #spec.colors <= 1
         local variants = spec.colors
-        local shortest = string.len(color)
-            == minimal_integer(variants, string.len)
+        local shortest = string.len(color) == utils.min(variants, string.len)
         local url_splits =
             vim.split(spec.url, "/", { plain = true, trimempty = true })
         local matched = url_splits[1]:lower() == color:lower()
@@ -143,6 +142,14 @@ local function _should_filter(color, spec)
     elseif type(Configs.filter) == "function" then
         return Configs.filter(color)
     end
+    assert(
+        false,
+        string.format(
+            "unknown 'filter' option: %s",
+            vim.inspect(Configs.filter)
+        )
+    )
+    return false
 end
 
 local function _init()
@@ -204,8 +211,8 @@ local function _init()
                         then
                             local color_file = color_ttmp.name
                             assert(
-                                string_endswith(color_file, ".vim")
-                                    or string_endswith(color_file, ".lua")
+                                utils.string_endswith(color_file, ".vim")
+                                    or utils.string_endswith(color_file, ".lua")
                             )
                             local color = color_file:sub(1, #color_file - 4)
                             table.insert(spec.colors, color)
@@ -229,7 +236,7 @@ end
 
 local function _policy_shuffle()
     if #ColorNames > 0 then
-        local r = math.floor(math.fmod(randint(), #ColorNames))
+        local r = math.floor(math.fmod(utils.randint(), #ColorNames))
         local color = ColorNames[r + 1]
         -- logger.debug(
         --     "|colorbox._policy_shuffle| color:%s, ColorNames:%s (%d), r:%d",
