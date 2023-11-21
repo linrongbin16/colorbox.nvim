@@ -58,6 +58,7 @@ require('lazy').setup({
     {
         'linrongbin16/colorbox.nvim',
         lazy = false,
+        priority = 1000,
         build = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
