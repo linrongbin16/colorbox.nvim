@@ -2,6 +2,17 @@ local logger = require("colorbox.logger")
 local LogLevels = require("colorbox.logger").LogLevels
 local json = require("colorbox.json")
 
+--- @param l any[]
+--- @param f fun(v:any):number
+--- @return number
+local function minimal_integer(l, f)
+    local result = 2 ^ 31 - 1
+    for _, i in ipairs(l) do
+        result = math.min(result, f(i))
+    end
+    return result
+end
+
 local function randint()
     local s1 = vim.loop.getpid()
     local s2, s3 = vim.loop.gettimeofday()
@@ -63,7 +74,7 @@ local Defaults = {
     --- @type "startup"|"interval"|"filetype"
     timing = "startup",
 
-    --- @type "primary"|"dark"|"light"|fun(color:string):boolean|nil
+    --- @type "primary"|fun(color:string):boolean|nil
     filter = nil,
 
     setup = {
@@ -166,6 +177,36 @@ local function _load_repo_meta_urls_map(cwd)
     return repos
 end
 
+--- @param color string
+--- @param spec colorbox.ColorSpec
+--- @return boolean
+local function _should_filter(color, spec)
+    if Configs.filter == nil then
+        return false
+    end
+    if Configs.filter == "primary" then
+        local unique = #spec.colors <= 1
+        local variants = spec.colors
+        local shortest = string.len(color)
+            == minimal_integer(variants, string.len)
+        local url_splits =
+            vim.split(spec.url, "/", { plain = true, trimempty = true })
+        local matched = url_splits[1]:lower() == color:lower()
+            or url_splits[2]:lower() == color:lower()
+        logger.debug(
+            "|colorbox._should_filter| color:%s, spec:%s, unique:%s, shortest: %s, matched:%s",
+            vim.inspect(color),
+            vim.inspect(spec),
+            vim.inspect(unique),
+            vim.inspect(shortest),
+            vim.inspect(matched)
+        )
+        return not unique and not shortest and not matched
+    elseif type(Configs.filter) == "function" then
+        return Configs.filter(color)
+    end
+end
+
 local function _init()
     local cwd = vim.fn["colorbox#base_dir"]()
     local packstart = string.format("%s/pack/colorbox/start", cwd)
@@ -208,6 +249,7 @@ local function _init()
                     vim.inspect(err)
                 )
             end
+            local color_candidates = {}
             while true do
                 local color_tmp = color_dir:readdir()
                 if type(color_tmp) == "table" and #color_tmp > 0 then
@@ -230,15 +272,21 @@ local function _init()
                             local color = color_file:sub(1, #color_file - 4)
                             table.insert(spec.colors, color)
                             ColorNamesMap[color] = spec
-                            table.insert(ColorNames, color)
+                            table.insert(color_candidates, color)
                         end
                     end
                 else
                     break
                 end
             end
+            for _, c in ipairs(color_candidates) do
+                if not _should_filter(c, spec) then
+                    table.insert(ColorNames, c)
+                end
+            end
         end
     end
+    logger.debug("|colorbox._init| ColorNames:%s", vim.inspect(ColorNames))
 end
 
 local function _policy_shuffle()
@@ -248,6 +296,7 @@ local function _policy_shuffle()
     end
     local r = math.floor(math.fmod(randint(), n))
     local color = ColorNames[r + 1]
+    logger.debug("|colorbox._policy_shuffle| color:%s", vim.inspect(color))
     vim.cmd(string.format([[color %s]], color))
 end
 
@@ -284,7 +333,7 @@ local function setup(opts)
 
     vim.api.nvim_create_autocmd("ColorSchemePre", {
         callback = function(event)
-            logger.debug("|colorbox.init| event:%s", vim.inspect(event))
+            logger.debug("|colorbox.setup| event:%s", vim.inspect(event))
             if type(event) ~= "table" or ColorNamesMap[event.match] == nil then
                 return
             end
