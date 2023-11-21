@@ -65,7 +65,7 @@ require('lazy').setup({
 })
 ```
 
-> Note: don't lazy this plugin since you usually need set `colorscheme` right after start nvim (it costs ~3 ms to start).
+> Note: don't lazy this plugin since you usually set `colorscheme` right after start nvim (it costs ~3 ms to start).
 
 ## 🔧 Configuration
 
