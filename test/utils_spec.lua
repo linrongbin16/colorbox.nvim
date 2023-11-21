@@ -33,4 +33,22 @@ describe("utils", function()
             end
         end)
     end)
+    describe("[string_endswith]", function()
+        it("endswith", function()
+            assert_true(utils.string_endswith("asdf", "df"))
+            assert_true(utils.string_endswith("hello world", " world"))
+            assert_true(
+                utils.string_endswith(
+                    "folke/tokyonight.nvim",
+                    "/tokyonight.nvim"
+                )
+            )
+            assert_false(
+                utils.string_endswith(
+                    "folke/tokyonight.nvim",
+                    "/tokyonight%.nvim"
+                )
+            )
+        end)
+    end)
 end)
