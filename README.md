@@ -93,16 +93,23 @@ require('colorbox').setup({
     },
 
     -- Run `set background=dark/light` before running `colorscheme {color}`.
+    --
     --- @type "dark"|"light"|nil
     background = nil,
 
     -- enable debug
+    --
+    --- @type boolean
     debug = false,
 
     -- print log to console (command line)
+    --
+    --- @type boolean
     console_log = true,
 
     -- print log to file.
+    --
+    --- @type boolean
     file_log = false,
 })
 ```
