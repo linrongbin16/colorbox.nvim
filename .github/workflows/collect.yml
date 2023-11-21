@@ -4,7 +4,7 @@ on:
     # * is a special character in YAML so you have to quote this string
     - cron: "53 14 * * *"
 concurrency:
-  group: ${{ github.ref }}-${{ github.action}}
+  group: ${{ github.ref }}-${{ github.action }}
   cancel-in-progress: true
 jobs:
   pipeline:
@@ -32,8 +32,7 @@ jobs:
           echo 'google-chrome --version'
           google-chrome --version
           rm google-chrome-stable_current_amd64.deb
-      - uses:
-          nanasess/setup-chromedriver@v2
+      - uses: nanasess/setup-chromedriver@v2
       - run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &

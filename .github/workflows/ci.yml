@@ -7,7 +7,7 @@ on:
     branches:
       - main
 concurrency:
-  group: ${{ github.ref }}-${{ github.action}}
+  group: ${{ github.ref }}-${{ github.action }}
   cancel-in-progress: true
 jobs:
   pr_conventional_commit:
