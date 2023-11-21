@@ -77,6 +77,10 @@ require('colorbox').setup({
     --- @type "startup"|"interval"|"filetype"
     timing = "startup",
 
+    -- (Optional) filter color by color name. For now there're two types of filters:
+    -- 1. the "primary" filter: only the primary colors will be selected, other variants will be skip.
+    -- 2. the function filter: colors will be filtered if function return true.
+    --
     --- @type "primary"|fun(color:string):boolean|nil
     filter = nil,
 
