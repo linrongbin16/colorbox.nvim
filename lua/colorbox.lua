@@ -261,7 +261,7 @@ local function setup(opts)
     _timing()
 end
 
-local function install()
+local function update()
     local cwd = vim.fn["colorbox#base_dir"]()
     local packstart = string.format("%s/pack/colorbox/start", cwd)
     logger.debug(
@@ -329,6 +329,6 @@ local function install()
     vim.fn.jobwait(jobs)
 end
 
-local M = { setup = setup, install = install }
+local M = { setup = setup, update = update }
 
 return M
