@@ -220,7 +220,6 @@ local function update()
     vim.opt.packpath:append(home_dir)
 
     local jobs = {}
-
     local HandleToColorSpecsMap =
         require("colorbox.db").get_handle_to_color_specs_map()
     for handle, spec in pairs(HandleToColorSpecsMap) do
