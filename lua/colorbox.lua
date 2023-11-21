@@ -164,6 +164,10 @@ local function _init()
 
     local HandleToColorSpecsMap =
         require("colorbox.db").get_handle_to_color_specs_map()
+    logger.debug(
+        "|colorbox._init| HandleToColorSpecsMap:%s",
+        vim.inspect(HandleToColorSpecsMap)
+    )
     for handle, spec in pairs(HandleToColorSpecsMap) do
         if
             vim.fn.isdirectory(spec.pack_path) > 0
