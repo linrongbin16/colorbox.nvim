@@ -52,28 +52,19 @@ local function string_find(s, t, start)
     return nil
 end
 
---- @enum colorbox.PolicyConfigEnum
-local PolicyConfigEnum = {
-    SHUFFLE = "shuffle",
-    INORDER = "inorder",
-    SINGLE = "single",
-}
-
---- @enum colorbox.TimingConfigEnum
-local TimingConfigEnum = {
-    STARTUP = "startup",
-    INTERVAL = "interval",
-    FILETYPE = "filetype",
-}
+--- @enum
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
 local Defaults = {
-    policy = PolicyConfigEnum.SHUFFLE,
+    --- @type "shuffle"|"inorder"|"single"
+    policy = "shuffle",
 
-    timing = TimingConfigEnum.STARTUP,
+    --- @type "startup"|"interval"|"filetype"
+    timing = "startup",
 
-    filter = function() end,
+    --- @type "primary"|"dark"|"light"|fun(color:string):boolean|nil
+    filter = nil,
 
     setup = {
         ["projekt0n/github-nvim-theme"] = function()
@@ -299,7 +290,6 @@ local function setup(opts)
             end
             local spec = ColorNamesMap[event.match]
             vim.cmd(string.format([[packadd %s]], spec.name))
-
             if
                 type(Configs.setup) == "table"
                 and type(Configs.setup[spec.url]) == "function"
@@ -342,15 +332,15 @@ local function update()
 
         local function _on_output(chanid, data, name)
             if type(data) == "table" then
+                logger.debug("%s: %s", vim.inspect(name), vim.inspect(data))
+                local lines = {}
                 for _, line in ipairs(data) do
-                    if string.len(line) > 0 then
-                        logger.debug(
-                            "(%s) %s: %s",
-                            vim.inspect(name),
-                            vim.inspect(url),
-                            vim.inspect(line)
-                        )
+                    if string.len(vim.trim(line)) > 0 then
+                        table.insert(lines, line)
                     end
+                end
+                if #lines > 0 then
+                    logger.info(table.concat(lines, ""))
                 end
             end
         end
@@ -367,7 +357,6 @@ local function update()
                 on_stdout = _on_output,
                 on_stderr = _on_output,
             })
-            logger.info("updating %s", vim.inspect(url))
             table.insert(jobs, jobid)
         else
             local cmd = string.format(
@@ -383,7 +372,7 @@ local function update()
                 on_stdout = _on_output,
                 on_stderr = _on_output,
             })
-            logger.info("installing %s", vim.inspect(url))
+            logger.debug("installing %s", vim.inspect(url))
             table.insert(jobs, jobid)
         end
     end
