@@ -133,9 +133,6 @@ dmypy.json
 # Sqlit3
 *.db
 
-# Python3
-collect.py.log
-
 # Candidates
 /candidate
 
