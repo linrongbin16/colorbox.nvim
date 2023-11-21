@@ -549,7 +549,7 @@ class Builder:
 @click.option("--no-headless", "no_headless_opt", is_flag=True, help="disable headless")
 @click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetching")
 @click.option("--skip-build", "skip_build_opt", is_flag=True, help="skip build")
-def main(debug_opt, no_headless_opt, skip_fetch_opt, skip_build_opt):
+def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_build_opt):
     global HEADLESS
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
     logging.debug(
@@ -570,4 +570,4 @@ def main(debug_opt, no_headless_opt, skip_fetch_opt, skip_build_opt):
 
 
 if __name__ == "__main__":
-    main()
+    collect()
