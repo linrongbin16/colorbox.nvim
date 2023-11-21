@@ -290,13 +290,14 @@ local function _init()
 end
 
 local function _policy_shuffle()
-    local n = 0
-    for _, spec in pairs(ColorSpecs) do
-        n = n + #spec.colors
-    end
-    local r = math.floor(math.fmod(randint(), n))
+    local r = math.floor(math.fmod(randint(), #ColorNames))
     local color = ColorNames[r + 1]
-    logger.debug("|colorbox._policy_shuffle| color:%s", vim.inspect(color))
+    -- logger.debug(
+    --     "|colorbox._policy_shuffle| color:%s, ColorNames:%s (%d), r:%d",
+    --     vim.inspect(color),
+    --     vim.inspect(ColorNames),
+    --     vim.inspect()
+    -- )
     vim.cmd(string.format([[color %s]], color))
 end
 
