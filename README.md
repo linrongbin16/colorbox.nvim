@@ -13,7 +13,7 @@ It use offline github actions to weekly collect and update the most popular Vim/
 >
 > with below conditions:
 >
-> 1. Github stars &ge; 900.
+> 1. Github stars &ge; 800.
 > 2. Last git commit in 3 years.
 > 3. For multiple plugins that contain the same color name, choose the one in following rules:
 >    1. **Awesome-neovim** wins **vimcolorsheme**, since they usually has modern Neovim features (lua, lsp, treesitter) and support more third-party plugins.
@@ -46,8 +46,8 @@ Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blo
 
 ## ✅ Requirement
 
-- neovim &ge; 0.8.
-- [git](https://git-scm.com/).
+- Neovim &ge; 0.8.
+- [Git](https://git-scm.com/).
 
 ## 📦 Install
 
@@ -57,15 +57,20 @@ Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blo
 require('lazy').setup({
     {
         'linrongbin16/colorbox.nvim',
-        lazy = false,
-        priority = 1000,
+        lazy = false, -- don't lazy this plugin if it provides the main colorscheme
+        priority = 1000, -- load this plugin before all other start plugins
         build = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
 })
 ```
 
-> Note: don't lazy this plugin since you usually need set `colorscheme` right after start nvim (it costs ~3 ms to start).
+> Note:
+>
+> If this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
+>
+> 1. Don't lazy this plugin.
+> 2. Load this plugin before all other start plugins.
 
 ## 🔧 Configuration
 
@@ -77,9 +82,14 @@ require('colorbox').setup({
     --- @type "startup"|"interval"|"filetype"
     timing = "startup",
 
+    -- (Optional) filter color by color name. For now there're two types of filters:
+    -- 1. the "primary" filter: only the primary colors will be selected, other variants will be skip.
+    -- 2. the function filter: colors will be filtered if function return true.
+    --
     --- @type "primary"|fun(color:string):boolean|nil
     filter = nil,
 
+    -- (Optional) setup plugin before running `colorscheme {color}`.
     --- @type table<string, function>
     setup = {
         ["projekt0n/github-nvim-theme"] = function()
@@ -87,16 +97,24 @@ require('colorbox').setup({
         end,
     },
 
+    -- Run `set background=dark/light` before running `colorscheme {color}`.
+    --
     --- @type "dark"|"light"|nil
     background = nil,
 
     -- enable debug
+    --
+    --- @type boolean
     debug = false,
 
     -- print log to console (command line)
+    --
+    --- @type boolean
     console_log = true,
 
     -- print log to file.
+    --
+    --- @type boolean
     file_log = false,
 })
 ```

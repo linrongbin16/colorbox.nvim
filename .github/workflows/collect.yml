@@ -1,12 +1,9 @@
 name: Color Collector
 on:
-  pull_request:
-    branches:
-      - main
   schedule:
     - cron: "53 0 * * 1"
 concurrency:
-  group: ${{ github.ref }}-${{ github.action }}
+  group: ${{ github.ref }}/collect
   cancel-in-progress: true
 jobs:
   pipeline:

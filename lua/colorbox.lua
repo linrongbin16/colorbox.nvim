@@ -1,69 +1,6 @@
 local logger = require("colorbox.logger")
 local LogLevels = require("colorbox.logger").LogLevels
-local json = require("colorbox.json")
-
---- @param l any[]
---- @param f fun(v:any):number
---- @return number
-local function minimal_integer(l, f)
-    local result = 2 ^ 31 - 1
-    for _, i in ipairs(l) do
-        result = math.min(result, f(i))
-    end
-    return result
-end
-
-local function randint()
-    local s1 = vim.loop.getpid()
-    local s2, s3 = vim.loop.gettimeofday()
-    local s4 = math.random()
-    local int32_max = 2 ^ 31 - 1
-    local r = math.min(s1, int32_max)
-    r = math.min(r + s2, int32_max)
-    r = math.min(r + s3, int32_max)
-    r = math.min(r + s4, int32_max)
-    return math.floor(r)
-end
-
---- @param s string
---- @param t string
---- @return boolean
-local function string_endswith(s, t)
-    return string.len(s) >= string.len(t) and s:sub(#s - #t + 1) == t
-end
-
---- @param s string
---- @param t string
---- @param start integer?
---- @return integer?
-local function string_find(s, t, start)
-    -- start = start or 1
-    -- local result = vim.fn.stridx(s, t, start - 1)
-    -- return result >= 0 and (result + 1) or nil
-
-    start = start or 1
-    for i = start, #s do
-        local match = true
-        for j = 1, #t do
-            if i + j - 1 > #s then
-                match = false
-                break
-            end
-            local a = string.byte(s, i + j - 1)
-            local b = string.byte(t, j)
-            if a ~= b then
-                match = false
-                break
-            end
-        end
-        if match then
-            return i
-        end
-    end
-    return nil
-end
-
---- @enum
+local utils = require("colorbox.utils")
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
@@ -88,8 +25,10 @@ local Defaults = {
 
     -- enable debug
     debug = false,
+
     -- print log to console (command line)
     console_log = true,
+
     -- print log to file.
     file_log = false,
 }
@@ -97,202 +36,105 @@ local Defaults = {
 --- @type colorbox.Options
 local Configs = {}
 
---- @class colorbox.ColorSpec
---- @field url string
---- @field name string pack name
---- @field path string path full path
---- @field colors string[] color file base name
---- @field stars integer
---- @field last_update string
---- @field priority integer
---- @field source string
-local ColorSpec = {}
-
---- @param url string
---- @param name string
---- @param path string
---- @param colors string[]|nil
---- @param stars integer?
---- @param last_update string?
---- @param priority integer?
---- @param source string?
---- @return colorbox.ColorSpec
-function ColorSpec:new(
-    url,
-    name,
-    path,
-    colors,
-    stars,
-    last_update,
-    priority,
-    source
-)
-    local o = {
-        url = url,
-        name = name,
-        path = path,
-        colors = colors or {},
-        stars = stars,
-        last_update = last_update,
-        priority = priority,
-        source = source,
-    }
-    setmetatable(o, self)
-    self.__index = self
-    return o
-end
-
--- specs
---- @type colorbox.ColorSpec[]
-local ColorSpecs = {}
-
--- plugin name => spec
---- @type table<string, colorbox.ColorSpec>
-local ColorSpecsMap = {}
-
--- plugin url => spec
-local ColorSpecUrlsMap = {}
-
--- color names
+-- color names list
 --- @type string[]
-local ColorNames = {}
+local ColorNamesList = {}
 
--- color name => spec
---- @type table<string, colorbox.ColorSpec>
-local ColorNamesMap = {}
-
---- @param cwd string
---- @return table<string, {url:string,stars:integer,last_update:string,priority:integer,source:string,obj_name:string}>
-local function _load_repo_meta_urls_map(cwd)
-    local dbfile = string.format("%s/db.json", cwd)
-    local fp = io.open(dbfile, "r")
-    assert(fp, string.format("failed to read %s", vim.inspect(dbfile)))
-    local dbtext = fp:read("*a")
-    fp:close()
-    local dbdata = json.decode(dbtext) --[[@as table]]
-    local repos = {}
-    for i, d in pairs(dbdata["_default"]) do
-        repos[d.url] = d
-    end
-    return repos
-end
-
---- @param color string
+--- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-local function _should_filter(color, spec)
+local function _primary_color_name_filter(color_name, spec)
+    local unique = #spec.color_names <= 1
+    local shortest = string.len(color_name)
+        == utils.min(spec.color_names, string.len)
+    local url_splits =
+        vim.split(spec.url, "/", { plain = true, trimempty = true })
+    local matched = url_splits[1]:lower() == color_name:lower()
+        or url_splits[2]:lower() == color_name:lower()
+    logger.debug(
+        "|colorbox._primary_color_name_filter| color:%s, spec:%s, unique:%s, shortest: %s, matched:%s",
+        vim.inspect(color_name),
+        vim.inspect(spec),
+        vim.inspect(unique),
+        vim.inspect(shortest),
+        vim.inspect(matched)
+    )
+    return not unique and not shortest and not matched
+end
+
+--- @param color_name string
+--- @param spec colorbox.ColorSpec
+--- @return boolean
+local function _should_filter(color_name, spec)
     if Configs.filter == nil then
         return false
     end
     if Configs.filter == "primary" then
-        local unique = #spec.colors <= 1
-        local variants = spec.colors
-        local shortest = string.len(color)
-            == minimal_integer(variants, string.len)
-        local url_splits =
-            vim.split(spec.url, "/", { plain = true, trimempty = true })
-        local matched = url_splits[1]:lower() == color:lower()
-            or url_splits[2]:lower() == color:lower()
-        logger.debug(
-            "|colorbox._should_filter| color:%s, spec:%s, unique:%s, shortest: %s, matched:%s",
-            vim.inspect(color),
-            vim.inspect(spec),
-            vim.inspect(unique),
-            vim.inspect(shortest),
-            vim.inspect(matched)
-        )
-        return not unique and not shortest and not matched
+        return _primary_color_name_filter(color_name, spec)
     elseif type(Configs.filter) == "function" then
-        return Configs.filter(color)
+        return Configs.filter(color_name)
     end
+    assert(
+        false,
+        string.format(
+            "unknown 'filter' option: %s",
+            vim.inspect(Configs.filter)
+        )
+    )
+    return false
 end
 
 local function _init()
-    local cwd = vim.fn["colorbox#base_dir"]()
-    local packstart = string.format("%s/pack/colorbox/start", cwd)
+    local home_dir = vim.fn["colorbox#base_dir"]()
+    local pack_dir = "pack/colorbox/start"
+    local full_pack_dir = string.format("%s/%s", home_dir, pack_dir)
     logger.debug(
-        "|colorbox.init| cwd:%s, pack:%s",
-        vim.inspect(cwd),
-        vim.inspect(packstart)
+        "|colorbox.init| home_dir:%s, pack_dir:%s, full_pack_dir:%s",
+        vim.inspect(home_dir),
+        vim.inspect(pack_dir),
+        vim.inspect(full_pack_dir)
     )
-    vim.opt.packpath:append(cwd)
+    vim.opt.packpath:append(home_dir)
     -- vim.opt.packpath:append(cwd .. "/pack")
     -- vim.opt.packpath:append(cwd .. "/pack/colorbox")
     -- vim.opt.packpath:append(cwd .. "/pack/colorbox/opt")
     -- vim.cmd([[packadd catppuccin-nvim]])
 
-    local repos = _load_repo_meta_urls_map(cwd)
-    for url, repo in pairs(repos) do
-        local obj_path = string.format("%s/%s", packstart, repo.obj_name)
+    local HandleToColorSpecsMap =
+        require("colorbox.db").get_handle_to_color_specs_map()
+    logger.debug(
+        "|colorbox._init| HandleToColorSpecsMap:%s",
+        vim.inspect(HandleToColorSpecsMap)
+    )
+    for _, spec in pairs(HandleToColorSpecsMap) do
         if
-            vim.fn.isdirectory(obj_path) > 0
-            and vim.fn.isdirectory(obj_path .. "/.git") > 0
+            vim.fn.isdirectory(spec.full_pack_path) > 0
+            and vim.fn.isdirectory(spec.full_pack_path .. "/.git") > 0
         then
-            local spec = ColorSpec:new(
-                url,
-                repo.obj_name,
-                string.format("%s/%s", packstart, repo.obj_name),
-                {},
-                repo.stars,
-                repo.last_update,
-                repo.priority,
-                repo.source
-            )
-            table.insert(ColorSpecs, spec)
-            ColorSpecsMap[spec.name] = spec
-            ColorSpecUrlsMap[url] = spec
-            local color_dir, err = vim.loop.fs_opendir(spec.path .. "/colors") --[[@as luv_dir_t]]
-            if not color_dir then
-                logger.err(
-                    "failed to scan %s directory: %s",
-                    vim.inspect(spec.path),
-                    vim.inspect(err)
-                )
-            end
-            local color_candidates = {}
-            while true do
-                local color_tmp = color_dir:readdir()
-                if type(color_tmp) == "table" and #color_tmp > 0 then
-                    for j, color_ttmp in ipairs(color_tmp) do
-                        -- logger.debug(
-                        --     "|colorbox.init| colors_ttmp %d:%s",
-                        --     j,
-                        --     vim.inspect(color_ttmp)
-                        -- )
-                        if
-                            type(color_ttmp) == "table"
-                            and type(color_ttmp.name) == "string"
-                            and color_ttmp.type == "file"
-                        then
-                            local color_file = color_ttmp.name
-                            assert(
-                                string_endswith(color_file, ".vim")
-                                    or string_endswith(color_file, ".lua")
-                            )
-                            local color = color_file:sub(1, #color_file - 4)
-                            table.insert(spec.colors, color)
-                            ColorNamesMap[color] = spec
-                            table.insert(color_candidates, color)
-                        end
-                    end
-                else
-                    break
-                end
-            end
-            for _, c in ipairs(color_candidates) do
-                if not _should_filter(c, spec) then
-                    table.insert(ColorNames, c)
+            for _, color_name in ipairs(spec.color_names) do
+                if not _should_filter(color_name, spec) then
+                    table.insert(ColorNamesList, color_name)
                 end
             end
         end
     end
-    logger.debug("|colorbox._init| ColorNames:%s", vim.inspect(ColorNames))
+    -- logger.debug(
+    --     "|colorbox._init| before sort ColorNamesList:%s",
+    --     vim.inspect(ColorNamesList)
+    -- )
+    table.sort(ColorNamesList, function(a, b)
+        return a:lower() < b:lower()
+    end)
+    logger.debug(
+        "|colorbox._init| ColorNamesList:%s",
+        vim.inspect(ColorNamesList)
+    )
 end
 
 local function _policy_shuffle()
-    if #ColorNames > 0 then
-        local r = math.floor(math.fmod(randint(), #ColorNames))
-        local color = ColorNames[r + 1]
+    if #ColorNamesList > 0 then
+        local r = utils.randint(#ColorNamesList)
+        local color = ColorNamesList[r + 1]
         -- logger.debug(
         --     "|colorbox._policy_shuffle| color:%s, ColorNames:%s (%d), r:%d",
         --     vim.inspect(color),
@@ -337,16 +179,21 @@ local function setup(opts)
     vim.api.nvim_create_autocmd("ColorSchemePre", {
         callback = function(event)
             logger.debug("|colorbox.setup| event:%s", vim.inspect(event))
-            if type(event) ~= "table" or ColorNamesMap[event.match] == nil then
+            local ColorNameToColorSpecsMap =
+                require("colorbox.db").get_color_name_to_color_specs_map()
+            if
+                type(event) ~= "table"
+                or ColorNameToColorSpecsMap[event.match] == nil
+            then
                 return
             end
-            local spec = ColorNamesMap[event.match]
-            vim.cmd(string.format([[packadd %s]], spec.name))
+            local spec = ColorNameToColorSpecsMap[event.match]
+            vim.cmd(string.format([[packadd %s]], spec.git_path))
             if
                 type(Configs.setup) == "table"
-                and type(Configs.setup[spec.url]) == "function"
+                and type(Configs.setup[spec.handle]) == "function"
             then
-                Configs.setup[spec.url]()
+                Configs.setup[spec.handle]()
             end
         end,
     })
@@ -363,25 +210,19 @@ local function update()
         file_log_name = "colorbox_install.log",
     })
 
-    local cwd = vim.fn["colorbox#base_dir"]()
-    local packstart = string.format("%s/pack/colorbox/start", cwd)
+    local home_dir = vim.fn["colorbox#base_dir"]()
+    local packstart = string.format("%s/pack/colorbox/start", home_dir)
     logger.debug(
-        "|colorbox.init| cwd:%s, pack:%s",
-        vim.inspect(cwd),
+        "|colorbox.init| home_dir:%s, pack:%s",
+        vim.inspect(home_dir),
         vim.inspect(packstart)
     )
-    vim.opt.packpath:append(cwd)
+    vim.opt.packpath:append(home_dir)
 
-    local repos = _load_repo_meta_urls_map(cwd)
     local jobs = {}
-    for url, repo in pairs(repos) do
-        local github_url = string.format("https://github.com/%s", url)
-        local install_path =
-            string.format("pack/colorbox/start/%s", url:gsub("/", "%-"))
-        local full_install_path = string.format("%s/%s", cwd, install_path)
-        logger.debug("install_path:%s", vim.inspect(install_path))
-        logger.debug("full_install_path:%s", vim.inspect(full_install_path))
-
+    local HandleToColorSpecsMap =
+        require("colorbox.db").get_handle_to_color_specs_map()
+    for handle, spec in pairs(HandleToColorSpecsMap) do
         local function _on_output(chanid, data, name)
             if type(data) == "table" then
                 logger.debug("%s: %s", vim.inspect(name), vim.inspect(data))
@@ -398,10 +239,10 @@ local function update()
         end
 
         if
-            vim.fn.isdirectory(full_install_path) > 0
-            and vim.fn.isdirectory(full_install_path .. "/.git") > 0
+            vim.fn.isdirectory(spec.full_pack_path) > 0
+            and vim.fn.isdirectory(spec.full_pack_path .. "/.git") > 0
         then
-            local cmd = string.format("cd %s && git pull", full_install_path)
+            local cmd = string.format("cd %s && git pull", spec.full_pack_path)
             logger.debug("update command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 stdout_buffered = true,
@@ -413,9 +254,9 @@ local function update()
         else
             local cmd = string.format(
                 "cd %s && git clone --depth=1 %s %s",
-                cwd,
-                github_url,
-                install_path
+                home_dir,
+                spec.url,
+                spec.pack_path
             )
             logger.debug("install command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
@@ -424,7 +265,7 @@ local function update()
                 on_stdout = _on_output,
                 on_stderr = _on_output,
             })
-            logger.debug("installing %s", vim.inspect(url))
+            logger.debug("installing %s", vim.inspect(handle))
             table.insert(jobs, jobid)
         end
     end
