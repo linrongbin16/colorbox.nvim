@@ -26,8 +26,10 @@ local Defaults = {
 
     -- enable debug
     debug = false,
+
     -- print log to console (command line)
     console_log = true,
+
     -- print log to file.
     file_log = false,
 }

@@ -87,6 +87,7 @@ require('colorbox').setup({
         end,
     },
 
+    -- Run `set background=dark/light` before running `colorscheme {color}`.
     --- @type "dark"|"light"|nil
     background = nil,
 
