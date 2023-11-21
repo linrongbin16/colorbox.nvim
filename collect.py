@@ -12,6 +12,7 @@ import typing
 from dataclasses import dataclass
 
 import click
+from mdutils.mdutils import MdUtils
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -271,15 +272,19 @@ class GitObject:
                 )
                 else None
             )
-            clone_cmd = (
-                f"git clone --depth=1 --single-branch --branch {specific_branch} {self.repo.github_url()} {self.path}"
-                if specific_branch
-                else f"git clone --depth=1 {self.repo.github_url()} {self.path}"
+            logging.debug(
+                f"{self.path} exist: {self.path.exists()}, isdir: {self.path.is_dir()}"
             )
-            logging.debug(clone_cmd)
             if self.path.exists() and self.path.is_dir():
-                shutil.rmtree(self.path)
-            os.system(clone_cmd)
+                logging.info(f"{self.path} already exist, skip...")
+            else:
+                clone_cmd = (
+                    f"git clone --depth=1 --single-branch --branch {specific_branch} {self.repo.github_url()} {self.path}"
+                    if specific_branch
+                    else f"git clone --depth=1 {self.repo.github_url()} {self.path}"
+                )
+                logging.debug(clone_cmd)
+                os.system(clone_cmd)
         except Exception as e:
             logging.exception(
                 f"failed to git clone candidate:{self.repo.github_url()}", e
@@ -519,6 +524,13 @@ class Builder:
         for repo in RepoMeta.all():
             if not repo in deduped_repos:
                 repo.remove()
+
+        md = MdUtils(file_name="COLORSCHEMES", title="ColorSchemes List")
+        for repo in RepoMeta.all():
+            md.new_line(
+                "- " + md.new_inline_link(link=repo.github_url(), text=repo.url)
+            )
+        md.create_md_file()
 
 
 @click.command()

@@ -31,7 +31,8 @@ It allow you do any switches with:
 
 ## Requirement
 
-Neovim &ge; 0.8.
+- neovim &ge; 0.8.
+- [git](https://git-scm.com/).
 
 ## Install
 

@@ -1,0 +1,24 @@
+
+ColorSchemes List
+=================
+  
+- [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim)  
+- [catppuccin/nvim](https://github.com/catppuccin/nvim)  
+- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim)  
+- [nlknguyen/papercolor-theme](https://github.com/nlknguyen/papercolor-theme)  
+- [nordtheme/vim](https://github.com/nordtheme/vim)  
+- [sainnhe/everforest](https://github.com/sainnhe/everforest)  
+- [cocopon/iceberg.vim](https://github.com/cocopon/iceberg.vim)  
+- [rakr/vim-one](https://github.com/rakr/vim-one)  
+- [junegunn/seoul256.vim](https://github.com/junegunn/seoul256.vim)  
+- [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material)  
+- [rose-pine/neovim](https://github.com/rose-pine/neovim)  
+- [ku1ik/vim-monokai](https://github.com/ku1ik/vim-monokai)  
+- [sainnhe/sonokai](https://github.com/sainnhe/sonokai)  
+- [dracula/vim](https://github.com/dracula/vim)  
+- [navarasu/onedark.nvim](https://github.com/navarasu/onedark.nvim)  
+- [jacoborus/tender.vim](https://github.com/jacoborus/tender.vim)  
+- [lifepillar/vim-solarized8](https://github.com/lifepillar/vim-solarized8)  
+- [mhartington/oceanic-next](https://github.com/mhartington/oceanic-next)  
+- [projekt0n/github-nvim-theme](https://github.com/projekt0n/github-nvim-theme)  
+- [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)
