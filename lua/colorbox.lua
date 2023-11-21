@@ -128,11 +128,11 @@ local ColorNamesMap = {}
 
 local function _init()
     local cwd = vim.fn["colorbox#base_dir"]()
-    local packopt = string.format("%s/pack/colorbox/start", cwd)
+    local packstart = string.format("%s/pack/colorbox/start", cwd)
     logger.debug(
         "|colorbox.init| cwd:%s, pack:%s",
         vim.inspect(cwd),
-        vim.inspect(packopt)
+        vim.inspect(packstart)
     )
     vim.opt.packpath:append(cwd)
     -- vim.opt.packpath:append(cwd .. "/pack")
@@ -140,7 +140,7 @@ local function _init()
     -- vim.opt.packpath:append(cwd .. "/pack/colorbox/opt")
     -- vim.cmd([[packadd catppuccin-nvim]])
 
-    local pack_dir = vim.loop.fs_opendir(packopt) --[[@as luv_dir_t]]
+    local pack_dir = vim.loop.fs_opendir(packstart) --[[@as luv_dir_t]]
     while true do
         local pack_tmp = pack_dir:readdir()
         if type(pack_tmp) == "table" and #pack_tmp > 0 then
@@ -152,7 +152,7 @@ local function _init()
                 then
                     local spec = ColorSpec:new(
                         pack_ttmp.name,
-                        string.format("%s/%s", packopt, pack_ttmp.name)
+                        string.format("%s/%s", packstart, pack_ttmp.name)
                     )
                     table.insert(ColorSpecs, spec)
                     ColorSpecsMap[spec.name] = spec
@@ -261,6 +261,74 @@ local function setup(opts)
     _timing()
 end
 
-local M = { setup = setup }
+local function install()
+    local cwd = vim.fn["colorbox#base_dir"]()
+    local packstart = string.format("%s/pack/colorbox/start", cwd)
+    logger.debug(
+        "|colorbox.init| cwd:%s, pack:%s",
+        vim.inspect(cwd),
+        vim.inspect(packstart)
+    )
+    vim.opt.packpath:append(cwd)
+
+    local dbfile = string.format("%s/db.json", cwd)
+    local fp = io.open(dbfile, "r")
+    assert(fp, string.format("failed to read %s", vim.inspect(dbfile)))
+    local dbtext = fp:read("*a")
+    fp:close()
+    local dbdata = json.decode(dbtext) --[[@as table]]
+    local repos = {}
+    local jobs = {}
+    for i, d in pairs(dbdata["_default"]) do
+        repos[d.url] = d
+    end
+    for url, repo in pairs(repos) do
+        local github_url = string.format("https://github.com/%s", url)
+        local install_path = string.format("%s/%s", packstart, url)
+        if
+            vim.fn.isdirectory(install_path) > 0
+            and vim.fn.isdirectory(install_path .. "/.git") > 0
+        then
+            local cmd = string.format("cd %s && git pull")
+            local jobid = vim.fn.jobstart(cmd, {
+                stdout_buffered = true,
+                stderr_buffered = true,
+                on_stderr = function(chanid, data, name)
+                    logger.err(
+                        "error when updating %s: %s",
+                        vim.inspect(url),
+                        vim.inspect(data)
+                    )
+                end,
+            })
+            logger.info("updating %s", vim.inspect(url))
+            table.insert(jobs, jobid)
+        else
+            local cmd = {
+                "git",
+                "clone",
+                "--depth=1",
+                github_url,
+                install_path,
+            }
+            local jobid = vim.fn.jobstart(cmd, {
+                stdout_buffered = true,
+                stderr_buffered = true,
+                on_stderr = function(chanid, data, name)
+                    logger.err(
+                        "error when installing %s: %s",
+                        vim.inspect(url),
+                        vim.inspect(data)
+                    )
+                end,
+            })
+            logger.info("installing %s", vim.inspect(url))
+            table.insert(jobs, jobid)
+        end
+    end
+    vim.fn.jobwait(jobs)
+end
+
+local M = { setup = setup, install = install }
 
 return M

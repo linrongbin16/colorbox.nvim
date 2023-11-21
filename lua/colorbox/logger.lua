@@ -31,7 +31,7 @@ local PathSeparator = (vim.fn.has("win32") > 0 or vim.fn.has("win64") > 0)
     or "/"
 
 local Defaults = {
-    name = nil,
+    name = "colorbox",
     level = LogLevels.INFO,
     console_log = true,
     file_log = false,
