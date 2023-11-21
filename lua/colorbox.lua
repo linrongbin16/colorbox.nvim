@@ -75,6 +75,9 @@ local Defaults = {
 
     filter = function() end,
 
+    --- @type "dark"|"light"|nil
+    background = nil,
+
     -- enable debug
     debug = false,
     -- print log to console (command line)
@@ -125,7 +128,7 @@ local ColorNamesMap = {}
 
 local function _init()
     local cwd = vim.fn["colorbox#base_dir"]()
-    local packopt = string.format("%s/pack/colorbox/opt", cwd)
+    local packopt = string.format("%s/pack/colorbox/start", cwd)
     logger.debug(
         "|colorbox.init| cwd:%s, pack:%s",
         vim.inspect(cwd),
@@ -214,6 +217,9 @@ local function _policy_shuffle()
 end
 
 local function _policy()
+    if Configs.background == "dark" or Configs.background == "light" then
+        vim.opt.background = Configs.background
+    end
     _policy_shuffle()
 end
 
