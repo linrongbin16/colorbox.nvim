@@ -63,6 +63,9 @@ require('colorbox').setup({
     --- @type "startup"|"interval"|"filetype"
     timing = "startup",
 
+    --- @type "primary"|fun(color:string):boolean|nil
+    filter = nil,
+
     --- @type "dark"|"light"|nil
     background = nil,
 
