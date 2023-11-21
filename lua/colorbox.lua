@@ -307,10 +307,10 @@ local function update()
         end
 
         if
-            vim.fn.isdirectory(spec.pack_path) > 0
-            and vim.fn.isdirectory(spec.pack_path .. "/.git") > 0
+            vim.fn.isdirectory(spec.full_pack_path) > 0
+            and vim.fn.isdirectory(spec.full_pack_path .. "/.git") > 0
         then
-            local cmd = string.format("cd %s && git pull", spec.pack_path)
+            local cmd = string.format("cd %s && git pull", spec.full_pack_path)
             logger.debug("update command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 stdout_buffered = true,
