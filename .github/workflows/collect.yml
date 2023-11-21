@@ -1,5 +1,8 @@
 name: Color Collector
 on:
+  pull_request:
+    branches:
+      - main
   schedule:
     - cron: "53 14 * * *"
 concurrency:

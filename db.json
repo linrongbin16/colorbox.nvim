@@ -1,1 +1,165 @@
-{"_default": {"3": {"url": "folke/tokyonight.nvim", "stars": 4300, "last_update": "2023-10-25T10:20:36", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}, "5": {"url": "catppuccin/nvim", "stars": 3600, "last_update": "2023-11-17T01:01:25", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}, "7": {"url": "rebelot/kanagawa.nvim", "stars": 2900, "last_update": "2023-10-02T11:02:49", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}, "8": {"url": "nlknguyen/papercolor-theme", "stars": 2562, "last_update": "2022-06-08T19:55:49", "priority": 0, "source": "https://vimcolorschemes.com/top"}, "9": {"url": "nordtheme/vim", "stars": 2448, "last_update": "2023-05-03T20:43:25", "priority": 0, "source": "https://vimcolorschemes.com/top"}, "11": {"url": "sainnhe/everforest", "stars": 2200, "last_update": "2023-10-24T16:55:03", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}, "12": {"url": "cocopon/iceberg.vim", "stars": 2072, "last_update": "2022-11-23T01:48:02", "priority": 0, "source": "https://vimcolorschemes.com/top"}, "13": {"url": "rakr/vim-one", "stars": 1969, "last_update": "2020-12-14T23:40:35", "priority": 0, "source": "https://vimcolorschemes.com/top"}, "15": {"url": "junegunn/seoul256.vim", "stars": 1605, "last_update": "2023-05-03T00:09:09", "priority": 0, "source": "https://vimcolorschemes.com/top"}, "17": {"url": "sainnhe/gruvbox-material", "stars": 1500, "last_update": "2023-10-24T15:47:32", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}, "19": {"url": "rose-pine/neovim", "stars": 1400, "last_update": "2023-10-25T19:43:34", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}, "20": {"url": "ku1ik/vim-monokai", "stars": 1422, "last_update": "2022-02-09T08:03:39", "priority": 0, "source": "https://vimcolorschemes.com/top"}, "21": {"url": "sainnhe/sonokai", "stars": 1300, "last_update": "2023-10-24T16:16:35", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}, "22": {"url": "dracula/vim", "stars": 1300, "last_update": "2023-10-29T13:48:54", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}, "24": {"url": "navarasu/onedark.nvim", "stars": 1200, "last_update": "2023-10-19T15:48:36", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}, "25": {"url": "jacoborus/tender.vim", "stars": 1071, "last_update": "2021-05-24T15:38:00", "priority": 0, "source": "https://vimcolorschemes.com/top"}, "26": {"url": "lifepillar/vim-solarized8", "stars": 948, "last_update": "2023-08-13T09:40:20", "priority": 0, "source": "https://vimcolorschemes.com/top"}, "27": {"url": "mhartington/oceanic-next", "stars": 1100, "last_update": "2023-05-01T13:43:29", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}, "37": {"url": "projekt0n/github-nvim-theme", "stars": 1800, "last_update": "2023-09-23T10:25:41", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}, "48": {"url": "ellisonleao/gruvbox.nvim", "stars": 1300, "last_update": "2023-11-11T18:05:45", "priority": 100, "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"}}}
+{
+  "_default": {
+    "3": {
+      "url": "folke/tokyonight.nvim",
+      "stars": 4300,
+      "last_update": "2023-10-25T18:20:36",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "folke-tokyonight.nvim"
+    },
+    "5": {
+      "url": "catppuccin/nvim",
+      "stars": 3600,
+      "last_update": "2023-11-17T09:01:25",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "catppuccin-nvim"
+    },
+    "7": {
+      "url": "rebelot/kanagawa.nvim",
+      "stars": 2900,
+      "last_update": "2023-10-02T19:02:49",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "rebelot-kanagawa.nvim"
+    },
+    "8": {
+      "url": "nlknguyen/papercolor-theme",
+      "stars": 2562,
+      "last_update": "2022-06-09T03:55:49",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top",
+      "obj_name": "nlknguyen-papercolor-theme"
+    },
+    "9": {
+      "url": "nordtheme/vim",
+      "stars": 2449,
+      "last_update": "2023-05-04T04:43:25",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top",
+      "obj_name": "nordtheme-vim"
+    },
+    "11": {
+      "url": "sainnhe/everforest",
+      "stars": 2200,
+      "last_update": "2023-10-25T00:55:03",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "sainnhe-everforest"
+    },
+    "12": {
+      "url": "cocopon/iceberg.vim",
+      "stars": 2075,
+      "last_update": "2022-11-23T09:48:02",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top",
+      "obj_name": "cocopon-iceberg.vim"
+    },
+    "13": {
+      "url": "rakr/vim-one",
+      "stars": 1969,
+      "last_update": "2020-12-15T07:40:35",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top",
+      "obj_name": "rakr-vim-one"
+    },
+    "15": {
+      "url": "junegunn/seoul256.vim",
+      "stars": 1604,
+      "last_update": "2023-05-03T08:09:09",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top",
+      "obj_name": "junegunn-seoul256.vim"
+    },
+    "17": {
+      "url": "sainnhe/gruvbox-material",
+      "stars": 1500,
+      "last_update": "2023-10-24T23:47:32",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "sainnhe-gruvbox-material"
+    },
+    "19": {
+      "url": "rose-pine/neovim",
+      "stars": 1400,
+      "last_update": "2023-10-26T03:43:34",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "rose-pine-neovim"
+    },
+    "20": {
+      "url": "ku1ik/vim-monokai",
+      "stars": 1422,
+      "last_update": "2022-02-09T16:03:39",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top",
+      "obj_name": "ku1ik-vim-monokai"
+    },
+    "21": {
+      "url": "sainnhe/sonokai",
+      "stars": 1300,
+      "last_update": "2023-10-25T00:16:35",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "sainnhe-sonokai"
+    },
+    "22": {
+      "url": "dracula/vim",
+      "stars": 1300,
+      "last_update": "2023-10-29T21:48:54",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "dracula-vim"
+    },
+    "24": {
+      "url": "navarasu/onedark.nvim",
+      "stars": 1200,
+      "last_update": "2023-10-19T23:48:36",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "navarasu-onedark.nvim"
+    },
+    "25": {
+      "url": "jacoborus/tender.vim",
+      "stars": 1071,
+      "last_update": "2021-05-24T23:38:00",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top",
+      "obj_name": "jacoborus-tender.vim"
+    },
+    "26": {
+      "url": "lifepillar/vim-solarized8",
+      "stars": 948,
+      "last_update": "2023-08-13T17:40:20",
+      "priority": 0,
+      "source": "https://vimcolorschemes.com/top",
+      "obj_name": "lifepillar-vim-solarized8"
+    },
+    "27": {
+      "url": "mhartington/oceanic-next",
+      "stars": 1100,
+      "last_update": "2023-05-01T21:43:29",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "mhartington-oceanic-next"
+    },
+    "37": {
+      "url": "projekt0n/github-nvim-theme",
+      "stars": 1800,
+      "last_update": "2023-09-23T18:25:41",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "projekt0n-github-nvim-theme"
+    },
+    "48": {
+      "url": "ellisonleao/gruvbox.nvim",
+      "stars": 1300,
+      "last_update": "2023-11-12T02:05:45",
+      "priority": 100,
+      "source": "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+      "obj_name": "ellisonleao-gruvbox.nvim"
+    }
+  }
+}
+

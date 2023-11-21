@@ -12,6 +12,7 @@ import typing
 from dataclasses import dataclass
 
 import click
+from mdutils.mdutils import MdUtils
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -147,6 +148,7 @@ class RepoMeta:
     LAST_UPDATE = "last_update"
     PRIORITY = "priority"
     SOURCE = "source"
+    OBJ_NAME = "obj_name"
 
     def __init__(
         self,
@@ -155,6 +157,7 @@ class RepoMeta:
         last_update: typing.Optional[datetime.datetime] = None,
         priority: int = 0,
         source: typing.Optional[str] = None,
+        obj_name: typing.Optional[str] = None,
     ) -> None:
         assert isinstance(url, str)
         assert isinstance(stars, int) and stars >= 0
@@ -166,6 +169,7 @@ class RepoMeta:
         self.last_update = last_update
         self.priority = priority
         self.source = source
+        self.obj_name = self.url.replace("/", "-")
         self.config = self._init_config(url)
 
     def _init_url(self, url: str) -> str:
@@ -209,6 +213,7 @@ class RepoMeta:
             RepoMeta.LAST_UPDATE: datetime_tostring(self.last_update),
             RepoMeta.PRIORITY: self.priority,
             RepoMeta.SOURCE: self.source,
+            RepoMeta.OBJ_NAME: self.obj_name,
         }
         if len(count) <= 0:
             RepoMeta.DB.insert(obj)
@@ -247,6 +252,7 @@ class RepoMeta:
                     last_update=datetime_fromstring(j[RepoMeta.LAST_UPDATE]),
                     priority=j[RepoMeta.PRIORITY],
                     source=j[RepoMeta.SOURCE],
+                    obj_name=j[RepoMeta.OBJ_NAME],
                 )
                 for j in records
             ]
@@ -271,15 +277,19 @@ class GitObject:
                 )
                 else None
             )
-            clone_cmd = (
-                f"git clone --depth=1 --single-branch --branch {specific_branch} {self.repo.github_url()} {self.path}"
-                if specific_branch
-                else f"git clone --depth=1 {self.repo.github_url()} {self.path}"
+            logging.debug(
+                f"{self.path} exist: {self.path.exists()}, isdir: {self.path.is_dir()}"
             )
-            logging.debug(clone_cmd)
             if self.path.exists() and self.path.is_dir():
-                shutil.rmtree(self.path)
-            os.system(clone_cmd)
+                logging.info(f"{self.path} already exist, skip...")
+            else:
+                clone_cmd = (
+                    f"git clone --depth=1 --single-branch --branch {specific_branch} {self.repo.github_url()} {self.path}"
+                    if specific_branch
+                    else f"git clone --depth=1 {self.repo.github_url()} {self.path}"
+                )
+                logging.debug(clone_cmd)
+                os.system(clone_cmd)
         except Exception as e:
             logging.exception(
                 f"failed to git clone candidate:{self.repo.github_url()}", e
@@ -519,6 +529,13 @@ class Builder:
         for repo in RepoMeta.all():
             if not repo in deduped_repos:
                 repo.remove()
+
+        md = MdUtils(file_name="COLORSCHEMES", title="ColorSchemes List")
+        for repo in RepoMeta.all():
+            md.new_line(
+                "- " + md.new_inline_link(link=repo.github_url(), text=repo.url)
+            )
+        md.create_md_file()
 
 
 @click.command()
