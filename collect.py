@@ -531,6 +531,7 @@ class Builder:
 
         for repo in RepoMeta.all():
             if not repo in deduped_repos:
+                logging.info(f"remove for duplicate - repo:{repo}")
                 repo.remove()
 
         md = MdUtils(file_name="COLORSCHEMES", title="ColorSchemes List")
