@@ -26,8 +26,16 @@ It install color plugins via git submodules instead of copy-paste source code, s
 
 It allow you do any switches with:
 
-- Multiple policies: suffle playback, play in order(todo), single cycle(todo).
-- Multiple timing: on startup, fixed interval(todo), by filetype(todo), etc.
+- Multiple policies:
+  - Suffle playback.
+  - Play in order(todo).
+  - Single cycle(todo).
+- Multiple timing:
+  - On startup.
+  - Fixed interval(todo).
+  - By filetype(todo).
+
+Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorschemes list.
 
 ## Requirement
 
@@ -36,4 +44,37 @@ It allow you do any switches with:
 
 ## Install
 
-TODO
+### [lazy.nvim](https://github.com/folke/lazy.nvim)
+
+```lua
+require('lazy').setup({
+    {
+        'linrongbin16/colorbox.nvim',
+        build = function() require('colorbox').update() end,
+    }
+})
+```
+
+## Configuratoin
+
+```lua
+require('colorbox').setup({
+    --- @type "shuffle"|"inorder"|"single"
+    policy = "shuffle",
+
+    --- @type "startup"|"interval"|"filetype"
+    timing = "startup",
+
+    --- @type "dark"|"light"|nil
+    background = nil,
+
+    -- enable debug
+    debug = false,
+
+    -- print log to console (command line)
+    console_log = true,
+
+    -- print log to file.
+    file_log = false,
+})
+```
