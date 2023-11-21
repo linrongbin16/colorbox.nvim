@@ -292,7 +292,8 @@ local function update()
     end
     for url, repo in pairs(repos) do
         local github_url = string.format("https://github.com/%s", url)
-        local install_path = url:gsub("/", "%-")
+        local install_path =
+            string.format("%s/%s", packstart, url:gsub("/", "%-"))
         local full_install_path = string.format("%s/%s", cwd, install_path)
         logger.debug("install_path:%s", vim.inspect(install_path))
         if
