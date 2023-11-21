@@ -32,10 +32,10 @@ local PathSeparator = (vim.fn.has("win32") > 0 or vim.fn.has("win64") > 0)
 
 local Defaults = {
     name = "colorbox",
-    level = LogLevels.INFO,
+    level = LogLevels.DEBUG,
     console_log = true,
     file_log = false,
-    file_log_name = nil,
+    file_log_name = "colorbox-install.log",
     file_log_dir = vim.fn.stdpath("data"),
     _file_log_path = nil,
 }
