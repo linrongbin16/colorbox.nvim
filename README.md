@@ -35,7 +35,7 @@ It install color plugins via git submodules instead of copy-paste source code, s
 It allow you play them with multiple playback settings:
 
 - Suffle playback.
-- Play in order (todo).
+- Play in order.
 - Single cycle (todo).
 - Specific color name (todo).
 
