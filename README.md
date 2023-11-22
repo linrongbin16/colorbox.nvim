@@ -36,6 +36,7 @@ It allow you play them with multiple playback settings:
 
 - Suffle playback.
 - Play in order.
+- Play in reverse order (todo).
 - Single cycle (todo).
 - Specific color name (todo).
 
