@@ -269,6 +269,7 @@ local function update()
         end
     end
     vim.fn.jobwait(jobs)
+    logger.close_file_mode_w()
 end
 
 local M = { setup = setup, update = update }

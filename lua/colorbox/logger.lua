@@ -74,7 +74,7 @@ local function setup(opts)
         assert(vim.fn.isdirectory(Configs.file_log_dir) > 0)
         assert(Configs.file_log_mode == "a" or Configs.file_log_mode == "w")
         if Configs.file_log_mode == "w" then
-            Configs._file_handle = io.open(Configs._file_log_path, "w")
+            Configs.file_handle = io.open(Configs._file_log_path, "w")
         end
     end
 end
@@ -121,7 +121,7 @@ local function log(level, msg)
         if Configs.file_log_mode == "a" then
             fp = io.open(Configs._file_log_path, "a")
         else
-            fp = Configs._file_handle
+            fp = Configs.file_handle
         end
         if fp then
             for _, line in ipairs(msg_lines) do
@@ -183,8 +183,16 @@ local function ensure(cond, fmt, ...)
     end
 end
 
+local function close_file_mode_w()
+    if Configs.file_handle then
+        Configs.file_handle:close()
+        Configs.file_handle = nil
+    end
+end
+
 local M = {
     setup = setup,
+    close_file_mode_w = close_file_mode_w,
     LogLevels = LogLevels,
     LogLevelNames = LogLevelNames,
     echo = echo,
