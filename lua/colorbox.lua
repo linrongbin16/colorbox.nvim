@@ -27,6 +27,14 @@ local Defaults = {
     --- @type string
     cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath("data")),
 
+    --- @type colorbox.Options
+    update = {
+        --- @type boolean
+        detach = false,
+        --- @type boolean
+        concurrency = true,
+    },
+
     -- enable debug
     debug = false,
 

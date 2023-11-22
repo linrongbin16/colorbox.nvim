@@ -128,12 +128,31 @@ require('colorbox').setup({
     --- @type "dark"|"light"|nil
     background = nil,
 
-    -- cache dir
-    -- for macos/linux: $HOME/.local/share/nvim/colorbox.nvim
-    -- for windows: $env:USERPROFILE\AppData\Local\nvim-data\colorbox.nvim
+    -- Cache directory
+    -- * For macos/linux: $HOME/.local/share/nvim/colorbox.nvim
+    -- * For windows: $env:USERPROFILE\AppData\Local\nvim-data\colorbox.nvim
     --
     --- @type string
     cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath('data')),
+
+    -- Control install/update git submodules jobs behaviour.
+    -- The jobs are actually running `git clone` and `git pull` commands.
+    --
+    --- @type colorbox.Options
+    update = {
+
+        -- Detach git command child process, e.g. don't wait them for completed.
+        -- Set `deatch=true` if you don't want to wait for too long when this plugin install/update.
+        --
+        --- @type boolean
+        detach = false,
+
+        -- Use one child process for one git command, e.g. run multiple git command at the same time.
+        -- Set `concurrency=false` if your network is weak and don't want to make too many git remote requests to GitHub.
+        --
+        --- @type boolean
+        concurrency = true,
+    },
 
     -- enable debug
     --
