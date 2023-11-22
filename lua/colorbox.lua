@@ -136,9 +136,12 @@ local function _save_previous_track(color_name, color_number)
     end)
 end
 
---- @return PreviousTrack
+--- @return PreviousTrack?
 local function _load_previous_track()
     local content = utils.readfile(Configs.previous_track_cache)
+    if content == nil then
+        return nil
+    end
     return json.decode(content) --[[@as PreviousTrack]]
 end
 
@@ -159,11 +162,12 @@ end
 
 local function _policy_inorder()
     if #FilteredColorNamesList > 0 then
-        local previous_track = _load_previous_track()
-        local i = utils.math_mod(
-            previous_track.color_number + 1,
-            #FilteredColorNamesList
-        )
+        local previous_track = _load_previous_track() --[[@as PreviousTrack]]
+        local i = previous_track == nil and 0
+            or utils.math_mod(
+                previous_track.color_number + 1,
+                #FilteredColorNamesList
+            )
         local color = FilteredColorNamesList[i + 1]
         vim.cmd(string.format([[color %s]], color))
         _save_previous_track(color, i)
