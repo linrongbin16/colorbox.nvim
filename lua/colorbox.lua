@@ -283,13 +283,9 @@ local function update()
     vim.opt.packpath:append(home_dir)
 
     local jobs = {}
-    local outputs = {}
     local HandleToColorSpecsMap =
         require("colorbox.db").get_handle_to_color_specs_map()
     for handle, spec in pairs(HandleToColorSpecsMap) do
-        if outputs[handle] == nil then
-            outputs[handle] = {}
-        end
         local function _on_output(chanid, data, name)
             if type(data) == "table" then
                 logger.debug(
@@ -301,8 +297,11 @@ local function update()
                 local lines = {}
                 for _, d in ipairs(data) do
                     if type(d) == "string" and string.len(vim.trim(d)) > 0 then
-                        table.insert(outputs[handle], d)
+                        table.insert(lines, d)
                     end
+                end
+                if #lines > 0 then
+                    logger.info("%s: %s", handle, table.concat(lines, ""))
                 end
             end
         end
@@ -314,9 +313,6 @@ local function update()
                 vim.inspect(name),
                 vim.inspect(exitcode)
             )
-            if #outputs[handle] > 0 then
-                logger.info("%s: %s", handle, table.concat(outputs[handle], ""))
-            end
         end
 
         if
@@ -328,6 +324,8 @@ local function update()
             local jobid = vim.fn.jobstart(cmd, {
                 cwd = spec.full_pack_path,
                 detach = true,
+                stdout_buffered = true,
+                stderr_buffered = true,
                 on_stdout = _on_output,
                 on_stderr = _on_output,
                 on_exit = _on_exit,
@@ -340,6 +338,8 @@ local function update()
             local jobid = vim.fn.jobstart(cmd, {
                 cwd = home_dir,
                 detach = true,
+                stdout_buffered = true,
+                stderr_buffered = true,
                 on_stdout = _on_output,
                 on_stderr = _on_output,
                 on_exit = _on_exit,
