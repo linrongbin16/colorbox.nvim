@@ -17,6 +17,7 @@ describe("logger", function()
         console_log = true,
         file_log = true,
         file_log_name = "colorbox_test.log",
+        file_log_dir = ".",
     })
     describe("[logger]", function()
         it("debug", function()
