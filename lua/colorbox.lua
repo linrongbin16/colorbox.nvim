@@ -210,7 +210,12 @@ local function update()
     for handle, spec in pairs(HandleToColorSpecsMap) do
         local function _on_output(chanid, data, name)
             if type(data) == "table" then
-                logger.debug("%s: %s", vim.inspect(name), vim.inspect(data))
+                logger.debug(
+                    "%s (%s): %s",
+                    vim.inspect(handle),
+                    vim.inspect(name),
+                    vim.inspect(data)
+                )
                 local lines = {}
                 for _, line in ipairs(data) do
                     if string.len(vim.trim(line)) > 0 then
@@ -218,9 +223,23 @@ local function update()
                     end
                 end
                 if #lines > 0 then
-                    logger.info(table.concat(lines, ""))
+                    logger.info(
+                        "%s (%s): %s",
+                        vim.inspect(handle),
+                        vim.inspect(name),
+                        table.concat(lines, "")
+                    )
                 end
             end
+        end
+        local function _on_exit(jid, exitcode, name)
+            logger.info(
+                "%s (%s-%s): exit with %s",
+                vim.inspect(handle),
+                vim.inspect(jid),
+                vim.inspect(name),
+                vim.inspect(exitcode)
+            )
         end
 
         if
@@ -235,6 +254,7 @@ local function update()
                 stderr_buffered = true,
                 on_stdout = _on_output,
                 on_stderr = _on_output,
+                on_exit = _on_exit,
             })
             table.insert(jobs, jobid)
         else
@@ -247,6 +267,7 @@ local function update()
                 stderr_buffered = true,
                 on_stdout = _on_output,
                 on_stderr = _on_output,
+                on_exit = _on_exit,
             })
             logger.debug("installing %s", vim.inspect(handle))
             table.insert(jobs, jobid)
