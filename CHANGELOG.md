@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.2.0...v1.3.0) (2023-11-22)
+
+
+### Features
+
+* **policy:** add `reverse_order` policy ([464f2d8](https://github.com/linrongbin16/colorbox.nvim/commit/464f2d838a869d8c3f2f982f0a0330772ec64ed5))
+
+
+### Performance Improvements
+
+* **shuffle:** better bitwise xor for random integer ([#44](https://github.com/linrongbin16/colorbox.nvim/issues/44)) ([464f2d8](https://github.com/linrongbin16/colorbox.nvim/commit/464f2d838a869d8c3f2f982f0a0330772ec64ed5))
+
 ## [1.2.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.1.2...v1.2.0) (2023-11-22)
 
 
