@@ -32,7 +32,7 @@ It use offline github actions to weekly collect and update the most popular Vim/
 
 It install color plugins via git submodules instead of copy-paste source code, so you get continuously updates from original authors instead of me, e.g. it only transport and manage, not produce.
 
-It allow you play them with multiple playback settings:
+It allow you play them with multiple playback settings (policies):
 
 - Suffle playback.
 - Play in order.
@@ -102,7 +102,7 @@ require('pckr').add({
 
 ```lua
 require('colorbox').setup({
-    --- @type "shuffle"|"inorder"|"single"
+    --- @type "shuffle"|"in_order"|"reverse_order"|"single"
     policy = "shuffle",
 
     --- @type "startup"|"interval"|"filetype"
