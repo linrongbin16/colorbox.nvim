@@ -10,7 +10,7 @@
 
 I'm greedy that I want all the **most popular** Neovim colorschemes than only one, I'm playful that I want to change colorscheme from time to time. Are you like me?
 
-This is it!
+Let's put all the ultra colorschemes into your Neovim player!
 
 It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
 
@@ -32,16 +32,20 @@ It use offline github actions to weekly collect and update the most popular Vim/
 
 It install color plugins via git submodules instead of copy-paste source code, so you get continuously updates from original authors instead of me, e.g. it only transport and manage, not produce.
 
-It allow you do any switches with:
+It allow you play them with multiple playback settings:
 
-- Multiple policies:
-  - Suffle playback.
-  - Play in order(todo).
-  - Single cycle(todo).
-- Multiple timing:
-  - On startup.
-  - Fixed interval(todo).
-  - By filetype(todo).
+- Suffle playback.
+- Play in order.
+- Single cycle (todo).
+- Specific color name (todo).
+
+And multiple trigger timings (colorschemes don't have end time):
+
+- On startup.
+- Fixed interval (todo).
+- Date time (todo).
+- By filetype (todo).
+- Manual (todo).
 
 ## 📖 Table of contents
 
@@ -107,7 +111,7 @@ require('colorbox').setup({
     -- 1. the "primary" filter: only the primary colors will be selected, other variants will be skip.
     -- 2. the function filter: colors will be filtered if function return true.
     --
-    --- @type "primary"|fun(color:string):boolean|nil
+    --- @type "primary"|fun(color:string,spec:colorbox.ColorSpec):boolean|nil
     filter = nil,
 
     -- (Optional) setup plugin before running `colorscheme {color}`.
@@ -122,6 +126,13 @@ require('colorbox').setup({
     --
     --- @type "dark"|"light"|nil
     background = nil,
+
+    -- cache dir
+    -- for macos/linux: $HOME/.local/share/nvim/colorbox.nvim
+    -- for windows: $env:USERPROFILE\AppData\Local\nvim-data\colorbox.nvim
+    --
+    --- @type string
+    cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath('data')),
 
     -- enable debug
     --

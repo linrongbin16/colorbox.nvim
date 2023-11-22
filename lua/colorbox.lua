@@ -1,6 +1,7 @@
 local logger = require("colorbox.logger")
 local LogLevels = require("colorbox.logger").LogLevels
 local utils = require("colorbox.utils")
+local json = require("colorbox.json")
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
@@ -11,7 +12,7 @@ local Defaults = {
     --- @type "startup"|"interval"|"filetype"
     timing = "startup",
 
-    --- @type "primary"|fun(color:string):boolean|nil
+    --- @type "primary"|fun(color:string,spec:colorbox.ColorSpec):boolean|nil
     filter = nil,
 
     setup = {
@@ -22,6 +23,9 @@ local Defaults = {
 
     --- @type "dark"|"light"|nil
     background = nil,
+
+    --- @type string
+    cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath("data")),
 
     -- enable debug
     debug = false,
@@ -115,10 +119,36 @@ local function _init()
     )
 end
 
+--- @alias PreviousTrack {color_name:string,color_number:integer}
+--- @param color_name string
+--- @param color_number integer
+local function _save_previous_track(color_name, color_number)
+    assert(
+        type(color_name) == "string" and string.len(vim.trim(color_name)) > 0,
+        string.format("invalid color name %s", vim.inspect(color_name))
+    )
+    vim.schedule(function()
+        local content = json.encode({
+            color_name = color_name,
+            color_number = color_number,
+        }) --[[@as string]]
+        utils.writefile(Configs.previous_track_cache, content)
+    end)
+end
+
+--- @return PreviousTrack?
+local function _load_previous_track()
+    local content = utils.readfile(Configs.previous_track_cache)
+    if content == nil then
+        return nil
+    end
+    return json.decode(content) --[[@as PreviousTrack]]
+end
+
 local function _policy_shuffle()
     if #FilteredColorNamesList > 0 then
-        local r = utils.randint(#FilteredColorNamesList)
-        local color = FilteredColorNamesList[r + 1]
+        local i = utils.randint(#FilteredColorNamesList)
+        local color = FilteredColorNamesList[i + 1]
         -- logger.debug(
         --     "|colorbox._policy_shuffle| color:%s, ColorNames:%s (%d), r:%d",
         --     vim.inspect(color),
@@ -126,14 +156,33 @@ local function _policy_shuffle()
         --     vim.inspect()
         -- )
         vim.cmd(string.format([[color %s]], color))
+        _save_previous_track(color, i)
+    end
+end
+
+local function _policy_inorder()
+    if #FilteredColorNamesList > 0 then
+        local previous_track = _load_previous_track() --[[@as PreviousTrack]]
+        local i = previous_track == nil and 0
+            or utils.math_mod(
+                previous_track.color_number + 1,
+                #FilteredColorNamesList
+            )
+        local color = FilteredColorNamesList[i + 1]
+        vim.cmd(string.format([[color %s]], color))
+        _save_previous_track(color, i)
     end
 end
 
 local function _policy()
     if Configs.background == "dark" or Configs.background == "light" then
-        vim.opt.background = Configs.background
+        vim.cmd(string.format([[set background=%s]], Configs.background))
     end
-    _policy_shuffle()
+    if Configs.policy == "shuffle" then
+        _policy_shuffle()
+    elseif Configs.policy == "inorder" then
+        _policy_inorder()
+    end
 end
 
 local function _timing_startup()
@@ -157,6 +206,18 @@ local function setup(opts)
         file_log = Configs.file_log,
         file_log_name = "colorbox.log",
     })
+
+    -- cache
+    assert(
+        vim.fn.filereadable(Configs.cache_dir) <= 0,
+        string.format(
+            "%s (cache_dir option) already exist but not a directory!",
+            Configs.cache_dir
+        )
+    )
+    vim.fn.mkdir(Configs.cache_dir, "p")
+    Configs.previous_track_cache =
+        string.format("%s/previous_track_cache", Configs.cache_dir)
 
     _init()
 
@@ -191,7 +252,8 @@ local function update()
         level = LogLevels.DEBUG,
         console_log = true,
         file_log = true,
-        file_log_name = "colorbox_install.log",
+        file_log_name = "colorbox_update.log",
+        file_log_mode = "w",
     })
 
     local home_dir = vim.fn["colorbox#base_dir"]()
@@ -209,7 +271,12 @@ local function update()
     for handle, spec in pairs(HandleToColorSpecsMap) do
         local function _on_output(chanid, data, name)
             if type(data) == "table" then
-                logger.debug("%s: %s", vim.inspect(name), vim.inspect(data))
+                logger.debug(
+                    "%s (%s): %s",
+                    vim.inspect(handle),
+                    vim.inspect(name),
+                    vim.inspect(data)
+                )
                 local lines = {}
                 for _, line in ipairs(data) do
                     if string.len(vim.trim(line)) > 0 then
@@ -217,43 +284,53 @@ local function update()
                     end
                 end
                 if #lines > 0 then
-                    logger.info(table.concat(lines, ""))
+                    logger.info("%s: %s", handle, table.concat(lines, ""))
                 end
             end
+        end
+        local function _on_exit(jid, exitcode, name)
+            logger.debug(
+                "%s (%s-%s): exit with %s",
+                vim.inspect(handle),
+                vim.inspect(jid),
+                vim.inspect(name),
+                vim.inspect(exitcode)
+            )
         end
 
         if
             vim.fn.isdirectory(spec.full_pack_path) > 0
             and vim.fn.isdirectory(spec.full_pack_path .. "/.git") > 0
         then
-            local cmd = string.format("cd %s && git pull", spec.full_pack_path)
+            local cmd = { "git", "pull" }
             logger.debug("update command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
+                cwd = spec.full_pack_path,
                 stdout_buffered = true,
                 stderr_buffered = true,
                 on_stdout = _on_output,
                 on_stderr = _on_output,
+                on_exit = _on_exit,
             })
             table.insert(jobs, jobid)
         else
-            local cmd = string.format(
-                "cd %s && git clone --depth=1 %s %s",
-                home_dir,
-                spec.url,
-                spec.pack_path
-            )
+            local cmd =
+                { "git", "clone", "--depth=1", spec.url, spec.pack_path }
             logger.debug("install command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
+                cwd = home_dir,
                 stdout_buffered = true,
                 stderr_buffered = true,
                 on_stdout = _on_output,
                 on_stderr = _on_output,
+                on_exit = _on_exit,
             })
             logger.debug("installing %s", vim.inspect(handle))
             table.insert(jobs, jobid)
         end
     end
     vim.fn.jobwait(jobs)
+    logger.close_file_mode_w()
 end
 
 local M = { setup = setup, update = update }
