@@ -42,6 +42,7 @@ It allow you play them with:
 - Multiple trigger timings:
   - On startup.
   - Fixed interval (todo).
+  - Date time (todo).
   - By filetype (todo).
   - Manual (todo).
 
