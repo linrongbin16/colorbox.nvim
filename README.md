@@ -32,19 +32,20 @@ It use offline github actions to weekly collect and update the most popular Vim/
 
 It install color plugins via git submodules instead of copy-paste source code, so you get continuously updates from original authors instead of me, e.g. it only transport and manage, not produce.
 
-It allow you play them with:
+It allow you play them with multiple playback settings:
 
-- Multiple playback settings:
-  - Suffle playback.
-  - Play in order (todo).
-  - Single cycle (todo).
-  - Specific color name (todo).
-- Multiple trigger timings (colorschemes don't have end time):
-  - On startup.
-  - Fixed interval (todo).
-  - Date time (todo).
-  - By filetype (todo).
-  - Manual (todo).
+- Suffle playback.
+- Play in order (todo).
+- Single cycle (todo).
+- Specific color name (todo).
+
+And multiple trigger timings (colorschemes don't have end time):
+
+- On startup.
+- Fixed interval (todo).
+- Date time (todo).
+- By filetype (todo).
+- Manual (todo).
 
 ## 📖 Table of contents
 
