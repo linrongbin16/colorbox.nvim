@@ -83,13 +83,13 @@ require('lazy').setup({
 ### [pckr.nvim](https://github.com/lewis6991/pckr.nvim)
 
 ```lua
-require('pckr').add{
+require('pckr').add({
     {
         'linrongbin16/colorbox.nvim',
         run = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
-}
+})
 ```
 
 ## 🔧 Configuration
