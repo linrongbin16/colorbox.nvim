@@ -223,17 +223,12 @@ local function update()
                     end
                 end
                 if #lines > 0 then
-                    logger.info(
-                        "%s (%s): %s",
-                        vim.inspect(handle),
-                        vim.inspect(name),
-                        table.concat(lines, "")
-                    )
+                    logger.info("%s: %s", handle, table.concat(lines, ""))
                 end
             end
         end
         local function _on_exit(jid, exitcode, name)
-            logger.info(
+            logger.debug(
                 "%s (%s-%s): exit with %s",
                 vim.inspect(handle),
                 vim.inspect(jid),
