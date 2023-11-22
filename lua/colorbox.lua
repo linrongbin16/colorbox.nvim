@@ -295,9 +295,9 @@ local function update()
                     vim.inspect(data)
                 )
                 local lines = {}
-                for _, d in ipairs(data) do
-                    if type(d) == "string" and string.len(vim.trim(d)) > 0 then
-                        table.insert(lines, d)
+                for _, line in ipairs(data) do
+                    if string.len(vim.trim(line)) > 0 then
+                        table.insert(lines, line)
                     end
                 end
                 if #lines > 0 then
@@ -323,7 +323,6 @@ local function update()
             logger.debug("update command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 cwd = spec.full_pack_path,
-                detach = true,
                 stdout_buffered = true,
                 stderr_buffered = true,
                 on_stdout = _on_output,
@@ -337,16 +336,18 @@ local function update()
             logger.debug("install command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 cwd = home_dir,
-                detach = true,
                 stdout_buffered = true,
                 stderr_buffered = true,
                 on_stdout = _on_output,
                 on_stderr = _on_output,
                 on_exit = _on_exit,
             })
+            logger.debug("installing %s", vim.inspect(handle))
             table.insert(jobs, jobid)
         end
     end
+    vim.fn.jobwait(jobs)
+    logger.close_file_mode_w()
 end
 
 local M = { setup = setup, update = update }
