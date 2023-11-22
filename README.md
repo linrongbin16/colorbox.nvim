@@ -98,6 +98,26 @@ require('pckr').add({
 })
 ```
 
+If you have issues when installing/updating multiple git submodules, try below options in the `update` API:
+
+```lua
+require('colorbox').update({
+    -- Install/update is actually running `git clone` and `git pull` commands with child process.
+
+    -- Detech the child process.
+    -- Set `detach=true` if you don't want to wait for git command complete, this will reduce this plugin's install/update time.
+    --
+    --- @type boolean
+    detach = false,
+
+    -- Dispatch each git command to a seperate child process, e.g. running multiple git commands at the same time.
+    -- Set `concurrency=false` if your network is weak and you don't want to setup too many git remote requests to GitHub at the same time.
+    --
+    --- @type boolean
+    concurrency = true,
+})
+```
+
 ## 🔧 Configuration
 
 ```lua
@@ -134,25 +154,6 @@ require('colorbox').setup({
     --
     --- @type string
     cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath('data')),
-
-    -- Control install/update git submodules jobs behaviour.
-    -- The jobs are actually running `git clone` and `git pull` commands.
-    --
-    --- @type colorbox.Options
-    update = {
-
-        -- Detach git command child process, e.g. don't wait them for completed.
-        -- Set `deatch=true` if you don't want to wait for too long when this plugin install/update.
-        --
-        --- @type boolean
-        detach = false,
-
-        -- Use one child process for one git command, e.g. run multiple git command at the same time.
-        -- Set `concurrency=false` if your network is weak and don't want to make too many git remote requests to GitHub.
-        --
-        --- @type boolean
-        concurrency = true,
-    },
 
     -- enable debug
     --

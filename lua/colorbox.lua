@@ -27,14 +27,6 @@ local Defaults = {
     --- @type string
     cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath("data")),
 
-    --- @type colorbox.Options
-    update = {
-        --- @type boolean
-        detach = false,
-        --- @type boolean
-        concurrency = true,
-    },
-
     -- enable debug
     debug = false,
 
@@ -271,7 +263,13 @@ local function setup(opts)
     _timing()
 end
 
-local function update()
+--- @param opts {detach:boolean?,concurrency:boolean}?
+local function update(opts)
+    opts = opts or { detach = false, concurrency = true }
+    opts.detach = type(opts.detach) == "boolean" and opts.detach or false
+    opts.concurrency = type(opts.concurrency) == "boolean" and opts.concurrency
+        or true
+
     logger.setup({
         name = "colorbox",
         level = LogLevels.DEBUG,
@@ -331,31 +329,42 @@ local function update()
             logger.debug("update command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 cwd = spec.full_pack_path,
+                detach = opts.detach,
                 stdout_buffered = true,
                 stderr_buffered = true,
                 on_stdout = _on_output,
                 on_stderr = _on_output,
                 on_exit = _on_exit,
             })
-            table.insert(jobs, jobid)
+            if opts.concurrency then
+                table.insert(jobs, jobid)
+            else
+                vim.fn.jobwait({ jobid })
+            end
         else
             local cmd =
                 { "git", "clone", "--depth=1", spec.url, spec.pack_path }
             logger.debug("install command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 cwd = home_dir,
+                detach = opts.detach,
                 stdout_buffered = true,
                 stderr_buffered = true,
                 on_stdout = _on_output,
                 on_stderr = _on_output,
                 on_exit = _on_exit,
             })
-            logger.debug("installing %s", vim.inspect(handle))
-            table.insert(jobs, jobid)
+            if opts.concurrency then
+                table.insert(jobs, jobid)
+            else
+                vim.fn.jobwait({ jobid })
+            end
         end
     end
-    vim.fn.jobwait(jobs)
-    logger.close_file_mode_w()
+    if not opts.detach then
+        vim.fn.jobwait(jobs)
+        logger.close_file_mode_w()
+    end
 end
 
 local M = { setup = setup, update = update }
