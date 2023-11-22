@@ -38,11 +38,11 @@ It allow you play them with:
   - Suffle playback.
   - Play in order (todo).
   - Single cycle (todo).
+  - Manual (todo).
 - Timing:
   - On startup.
   - Fixed interval (todo).
   - By filetype (todo).
-  - Manual (todo).
 
 ## 📖 Table of contents
 
