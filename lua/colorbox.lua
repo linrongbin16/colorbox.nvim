@@ -327,6 +327,7 @@ local function update()
             logger.debug("update command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 cwd = spec.full_pack_path,
+                detach = true,
                 on_stdout = _on_output,
                 on_stderr = _on_output,
                 on_exit = _on_exit,
@@ -338,6 +339,7 @@ local function update()
             logger.debug("install command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
                 cwd = home_dir,
+                detach = true,
                 on_stdout = _on_output,
                 on_stderr = _on_output,
                 on_exit = _on_exit,
@@ -345,8 +347,6 @@ local function update()
             table.insert(jobs, jobid)
         end
     end
-    vim.fn.jobwait(jobs)
-    logger.close_file_mode_w()
 end
 
 local M = { setup = setup, update = update }
