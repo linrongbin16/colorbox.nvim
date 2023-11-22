@@ -64,7 +64,8 @@ It allow you do any switches with:
 
 1. Don't lazy this plugin, it only takes ~4 ms to load.
 2. Load this plugin before all other start plugins.
-3. Hold your wifi, it `clone` and `pull` a lot of git repos!
+
+**Warning:** hold your wifi, it `clone` and `pull` a lot of git repos!
 
 ### [lazy.nvim](https://github.com/folke/lazy.nvim)
 
