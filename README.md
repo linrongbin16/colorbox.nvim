@@ -60,9 +60,7 @@ It allow you do any switches with:
 
 ## 📦 Install
 
-**Warning:**
-
-If this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
+**Warning:** if this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
 
 1. Don't lazy this plugin.
 2. Load this plugin before all other start plugins.
