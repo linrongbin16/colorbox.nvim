@@ -60,14 +60,14 @@ It allow you do any switches with:
 
 ## 📦 Install
 
-Note:
+**Warning:**
 
 If this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
 
 1. Don't lazy this plugin.
 2. Load this plugin before all other start plugins.
 
-It only takes 3~4 milliseconds to load.
+It only takes ~4 ms to load.
 
 ### [lazy.nvim](https://github.com/folke/lazy.nvim)
 
