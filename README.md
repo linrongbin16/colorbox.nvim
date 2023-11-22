@@ -32,16 +32,17 @@ It use offline github actions to weekly collect and update the most popular Vim/
 
 It install color plugins via git submodules instead of copy-paste source code, so you get continuously updates from original authors instead of me, e.g. it only transport and manage, not produce.
 
-It allow you do any switches with:
+It allow you play them with:
 
-- Multiple policies:
+- Policies:
   - Suffle playback.
-  - Play in order(todo).
-  - Single cycle(todo).
-- Multiple timing:
+  - Play in order (todo).
+  - Single cycle (todo).
+- Timing:
   - On startup.
-  - Fixed interval(todo).
-  - By filetype(todo).
+  - Fixed interval (todo).
+  - By filetype (todo).
+  - Manual (todo).
 
 ## 📖 Table of contents
 
