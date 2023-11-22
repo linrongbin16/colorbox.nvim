@@ -191,7 +191,8 @@ local function update()
         level = LogLevels.DEBUG,
         console_log = true,
         file_log = true,
-        file_log_name = "colorbox_install.log",
+        file_log_name = "colorbox_update.log",
+        file_log_mode = "w",
     })
 
     local home_dir = vim.fn["colorbox#base_dir"]()
@@ -226,9 +227,10 @@ local function update()
             vim.fn.isdirectory(spec.full_pack_path) > 0
             and vim.fn.isdirectory(spec.full_pack_path .. "/.git") > 0
         then
-            local cmd = string.format("cd %s && git pull", spec.full_pack_path)
+            local cmd = { "git", "pull" }
             logger.debug("update command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
+                cwd = spec.full_pack_path,
                 stdout_buffered = true,
                 stderr_buffered = true,
                 on_stdout = _on_output,
@@ -236,14 +238,11 @@ local function update()
             })
             table.insert(jobs, jobid)
         else
-            local cmd = string.format(
-                "cd %s && git clone --depth=1 %s %s",
-                home_dir,
-                spec.url,
-                spec.pack_path
-            )
+            local cmd =
+                { "git", "clone", "--depth=1", spec.url, spec.pack_path }
             logger.debug("install command:%s", vim.inspect(cmd))
             local jobid = vim.fn.jobstart(cmd, {
+                cwd = home_dir,
                 stdout_buffered = true,
                 stderr_buffered = true,
                 on_stdout = _on_output,

@@ -39,7 +39,7 @@ local Defaults = {
     file_log_dir = vim.fn.stdpath("data"),
     _file_log_path = nil,
     --- @type "a"|"w"
-    _file_log_mode = "a",
+    file_log_mode = "a",
 }
 
 local Configs = {}
@@ -72,8 +72,8 @@ local function setup(opts)
         assert(type(Configs.file_log_dir) == "string")
         assert(string.len(Configs.file_log_dir) > 0)
         assert(vim.fn.isdirectory(Configs.file_log_dir) > 0)
-        assert(Configs._file_log_mode == "a" or Configs._file_log_mode == "w")
-        if Configs._file_log_mode == "w" then
+        assert(Configs.file_log_mode == "a" or Configs.file_log_mode == "w")
+        if Configs.file_log_mode == "w" then
             Configs._file_handle = io.open(Configs._file_log_path, "w")
         end
     end
@@ -118,7 +118,7 @@ local function log(level, msg)
     end
     if Configs.file_log then
         local fp = nil
-        if Configs._file_log_mode == "a" then
+        if Configs.file_log_mode == "a" then
             fp = io.open(Configs._file_log_path, "a")
         else
             fp = Configs._file_handle
@@ -135,7 +135,7 @@ local function log(level, msg)
                 )
             end
         end
-        if Configs._file_log_mode == "a" then
+        if Configs.file_log_mode == "a" then
             if fp then
                 fp:close()
             end
