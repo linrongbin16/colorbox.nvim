@@ -1,3 +1,21 @@
+-- Returns the XOR of two binary numbers
+--- @param a integer
+--- @param b integer
+--- @return integer
+local function bitwise_xor(a, b)
+    local r = 0
+    local f = math.floor
+    for i = 0, 31 do
+        local x = a / 2 + b / 2
+        if x ~= f(x) then
+            r = r + 2 ^ i
+        end
+        a = f(a / 2)
+        b = f(b / 2)
+    end
+    return r
+end
+
 --- @param l any[]
 --- @param f fun(v:any):number
 --- @return number
@@ -25,9 +43,9 @@ local function randint(maximal)
     local s2, s3 = vim.loop.gettimeofday()
     local s4 = math.random()
     local r = math_mod(s1, maximal)
-    r = math_mod(r * 3 + s2, maximal)
-    r = math_mod(r * 7 + s3, maximal)
-    r = math_mod(r * 11 + s4, maximal)
+    r = math_mod(bitwise_xor(r, s2 or 3), maximal)
+    r = math_mod(bitwise_xor(r, s3 or 7), maximal)
+    r = math_mod(bitwise_xor(r, s4 or 11), maximal)
     return r
 end
 
