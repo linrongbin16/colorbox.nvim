@@ -6,7 +6,7 @@ local json = require("colorbox.json")
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
 local Defaults = {
-    --- @type "shuffle"|"inorder"|"single"
+    --- @type "shuffle"|"in_order"|"reverse_order"|"single"
     policy = "shuffle",
 
     --- @type "startup"|"interval"|"filetype"
@@ -160,7 +160,7 @@ local function _policy_shuffle()
     end
 end
 
-local function _policy_inorder()
+local function _policy_in_order()
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as PreviousTrack]]
         local i = previous_track == nil and 0
@@ -174,14 +174,31 @@ local function _policy_inorder()
     end
 end
 
+local function _policy_reverse_order()
+    if #FilteredColorNamesList > 0 then
+        local previous_track = _load_previous_track() --[[@as PreviousTrack]]
+        local i = previous_track == nil and 0
+            or (
+                previous_track.color_number - 1 < 0
+                    and (#FilteredColorNamesList - 1)
+                or previous_track.color_number - 1
+            )
+        local color = FilteredColorNamesList[i + 1]
+        vim.cmd(string.format([[color %s]], color))
+        _save_previous_track(color, i)
+    end
+end
+
 local function _policy()
     if Configs.background == "dark" or Configs.background == "light" then
         vim.cmd(string.format([[set background=%s]], Configs.background))
     end
     if Configs.policy == "shuffle" then
         _policy_shuffle()
-    elseif Configs.policy == "inorder" then
-        _policy_inorder()
+    elseif Configs.policy == "in_order" then
+        _policy_in_order()
+    elseif Configs.policy == "reverse_order" then
+        _policy_reverse_order()
     end
 end
 
