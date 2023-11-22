@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/linrongbin16/colorbox.nvim/compare/v1.1.1...v1.1.2) (2023-11-22)
+
+
+### Performance Improvements
+
+* **init:** improve speed via build index when initializing ([#37](https://github.com/linrongbin16/colorbox.nvim/issues/37)) ([8782111](https://github.com/linrongbin16/colorbox.nvim/commit/8782111bdfbe42412a3b3cf00852a9da79f99443))
+
 ## [1.1.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.1.0...v1.1.1) (2023-11-21)
 
 
