@@ -39,7 +39,7 @@ It allow you play them with:
   - Play in order (todo).
   - Single cycle (todo).
   - Specific color name (todo).
-- Multiple trigger timings:
+- Multiple trigger timings (colorschemes don't have end time):
   - On startup.
   - Fixed interval (todo).
   - Date time (todo).
