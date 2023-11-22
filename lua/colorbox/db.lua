@@ -89,6 +89,10 @@ local GitPathToColorSpecsMap = nil
 --- @type table<string, colorbox.ColorSpec>
 local ColorNameToColorSpecsMap = nil
 
+-- color names list
+--- @type string[]
+local ColorNamesList = nil
+
 do
     if type(HandleToColorSpecsMap) ~= "table" then
         local cwd = vim.fn["colorbox#base_dir"]()
@@ -127,6 +131,16 @@ do
             GitPathToColorSpecsMap[spec.git_path] = spec
         end
     end
+    if type(ColorNamesList) ~= "table" then
+        for _, spec in pairs(HandleToColorSpecsMap) do
+            for _, color_name in ipairs(spec.color_names) do
+                table.insert(ColorNamesList, color_name)
+            end
+        end
+        table.sort(ColorNamesList, function(a, b)
+            return a:lower() < b:lower()
+        end)
+    end
 end
 
 --- @return table<string, colorbox.ColorSpec>
@@ -144,10 +158,16 @@ local function get_color_name_to_color_specs_map()
     return ColorNameToColorSpecsMap
 end
 
+--- @return string[]
+local function get_color_names_list()
+    return ColorNamesList
+end
+
 local M = {
     get_handle_to_color_specs_map = get_handle_to_color_specs_map,
     get_git_path_to_color_specs_map = get_git_path_to_color_specs_map,
     get_color_name_to_color_specs_map = get_color_name_to_color_specs_map,
+    get_color_names_list = get_color_names_list,
 }
 
 return M

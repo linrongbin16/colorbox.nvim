@@ -36,9 +36,9 @@ local Defaults = {
 --- @type colorbox.Options
 local Configs = {}
 
--- color names list
+-- filtered color names list
 --- @type string[]
-local ColorNamesList = {}
+local FilteredColorNamesList = {}
 
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
@@ -100,41 +100,25 @@ local function _init()
     -- vim.opt.packpath:append(cwd .. "/pack/colorbox/opt")
     -- vim.cmd([[packadd catppuccin-nvim]])
 
-    local HandleToColorSpecsMap =
-        require("colorbox.db").get_handle_to_color_specs_map()
-    logger.debug(
-        "|colorbox._init| HandleToColorSpecsMap:%s",
-        vim.inspect(HandleToColorSpecsMap)
-    )
-    for _, spec in pairs(HandleToColorSpecsMap) do
-        if
-            vim.fn.isdirectory(spec.full_pack_path) > 0
-            and vim.fn.isdirectory(spec.full_pack_path .. "/.git") > 0
-        then
-            for _, color_name in ipairs(spec.color_names) do
-                if not _should_filter(color_name, spec) then
-                    table.insert(ColorNamesList, color_name)
-                end
-            end
+    local ColorNameToColorSpecsMap =
+        require("colorbox.db").get_color_name_to_color_specs_map()
+    local ColorNamesList = require("colorbox.db").get_color_names_list()
+    for _, color_name in pairs(ColorNamesList) do
+        local spec = ColorNameToColorSpecsMap[color_name]
+        if not _should_filter(color_name, spec) then
+            table.insert(FilteredColorNamesList, color_name)
         end
     end
-    -- logger.debug(
-    --     "|colorbox._init| before sort ColorNamesList:%s",
-    --     vim.inspect(ColorNamesList)
-    -- )
-    table.sort(ColorNamesList, function(a, b)
-        return a:lower() < b:lower()
-    end)
     logger.debug(
-        "|colorbox._init| ColorNamesList:%s",
-        vim.inspect(ColorNamesList)
+        "|colorbox._init| FilteredColorNamesList:%s",
+        vim.inspect(FilteredColorNamesList)
     )
 end
 
 local function _policy_shuffle()
-    if #ColorNamesList > 0 then
-        local r = utils.randint(#ColorNamesList)
-        local color = ColorNamesList[r + 1]
+    if #FilteredColorNamesList > 0 then
+        local r = utils.randint(#FilteredColorNamesList)
+        local color = FilteredColorNamesList[r + 1]
         -- logger.debug(
         --     "|colorbox._policy_shuffle| color:%s, ColorNames:%s (%d), r:%d",
         --     vim.inspect(color),
