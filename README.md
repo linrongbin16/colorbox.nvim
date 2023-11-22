@@ -127,6 +127,13 @@ require('colorbox').setup({
     --- @type "dark"|"light"|nil
     background = nil,
 
+    -- cache dir
+    -- for macos/linux: $HOME/.local/share/nvim/colorbox.nvim
+    -- for windows: $env:USERPROFILE\AppData\Local\nvim-data\colorbox.nvim
+    --
+    --- @type string
+    cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath('data')),
+
     -- enable debug
     --
     --- @type boolean

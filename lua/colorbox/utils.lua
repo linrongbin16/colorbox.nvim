@@ -69,12 +69,43 @@ local function string_find(s, t, start)
     return nil
 end
 
+--- @param filename string
+--- @param content string
+--- @return integer
+local function writefile(filename, content)
+    local f = io.open(filename, "w")
+    if not f then
+        return -1
+    end
+    f:write(content)
+    f:close()
+    return 0
+end
+
+--- @param filename string
+--- @param opts {trim:boolean?}|nil
+--- @return string?
+local function readfile(filename, opts)
+    opts = opts or { trim = true }
+    opts.trim = opts.trim == nil and true or opts.trim
+
+    local f = io.open(filename, "r")
+    if f == nil then
+        return nil
+    end
+    local content = f:read("*a")
+    f:close()
+    return opts.trim and vim.trim(content) or content
+end
+
 local M = {
     min = min,
     math_mod = math_mod,
     randint = randint,
     string_endswith = string_endswith,
     string_find = string_find,
+    readfile = readfile,
+    writefile = writefile,
 }
 
 return M

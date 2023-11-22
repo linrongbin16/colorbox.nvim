@@ -1,6 +1,7 @@
 local logger = require("colorbox.logger")
 local LogLevels = require("colorbox.logger").LogLevels
 local utils = require("colorbox.utils")
+local json = require("colorbox.json")
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
@@ -22,6 +23,9 @@ local Defaults = {
 
     --- @type "dark"|"light"|nil
     background = nil,
+
+    --- @type string
+    cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath("data")),
 
     -- enable debug
     debug = false,
@@ -115,10 +119,33 @@ local function _init()
     )
 end
 
+--- @alias PreviousTrack {color_name:string,color_number:integer}
+--- @param color_name string
+--- @param color_number integer
+local function _save_previous_track(color_name, color_number)
+    assert(
+        type(color_name) == "string" and string.len(vim.trim(color_name)) > 0,
+        string.format("invalid color name %s", vim.inspect(color_name))
+    )
+    vim.schedule(function()
+        local content = json.encode({
+            color_name = color_name,
+            color_number = color_number,
+        }) --[[@as string]]
+        utils.writefile(Configs.previous_track_cache, content)
+    end)
+end
+
+--- @return PreviousTrack
+local function _load_previous_track()
+    local content = utils.readfile(Configs.previous_track_cache)
+    return json.decode(content) --[[@as PreviousTrack]]
+end
+
 local function _policy_shuffle()
     if #FilteredColorNamesList > 0 then
-        local r = utils.randint(#FilteredColorNamesList)
-        local color = FilteredColorNamesList[r + 1]
+        local i = utils.randint(#FilteredColorNamesList)
+        local color = FilteredColorNamesList[i + 1]
         -- logger.debug(
         --     "|colorbox._policy_shuffle| color:%s, ColorNames:%s (%d), r:%d",
         --     vim.inspect(color),
@@ -126,6 +153,20 @@ local function _policy_shuffle()
         --     vim.inspect()
         -- )
         vim.cmd(string.format([[color %s]], color))
+        _save_previous_track(color, i)
+    end
+end
+
+local function _policy_inorder()
+    if #FilteredColorNamesList > 0 then
+        local previous_track = _load_previous_track()
+        local i = utils.math_mod(
+            previous_track.color_number + 1,
+            #FilteredColorNamesList
+        )
+        local color = FilteredColorNamesList[i + 1]
+        vim.cmd(string.format([[color %s]], color))
+        _save_previous_track(color, i)
     end
 end
 
@@ -133,7 +174,11 @@ local function _policy()
     if Configs.background == "dark" or Configs.background == "light" then
         vim.cmd(string.format([[set background=%s]], Configs.background))
     end
-    _policy_shuffle()
+    if Configs.policy == "shuffle" then
+        _policy_shuffle()
+    elseif Configs.policy == "inorder" then
+        _policy_inorder()
+    end
 end
 
 local function _timing_startup()
@@ -157,6 +202,18 @@ local function setup(opts)
         file_log = Configs.file_log,
         file_log_name = "colorbox.log",
     })
+
+    -- cache
+    assert(
+        vim.fn.filereadable(Configs.cache_dir) <= 0,
+        string.format(
+            "%s (cache_dir option) already exist but not a directory!",
+            Configs.cache_dir
+        )
+    )
+    vim.fn.mkdir(Configs.cache_dir, "p")
+    Configs.previous_track_cache =
+        string.format("%s/previous_track_cache", Configs.cache_dir)
 
     _init()
 
