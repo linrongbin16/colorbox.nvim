@@ -34,12 +34,12 @@ It install color plugins via git submodules instead of copy-paste source code, s
 
 It allow you play them with:
 
-- Policies:
+- Multiple playback settings:
   - Suffle playback.
   - Play in order (todo).
   - Single cycle (todo).
   - By color name (todo).
-- Timing:
+- Multiple trigger timings:
   - On startup.
   - Fixed interval (todo).
   - By filetype (todo).
