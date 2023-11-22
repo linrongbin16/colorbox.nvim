@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.3.0...v1.3.1) (2023-11-22)
+
+
+### Performance Improvements
+
+* **build:** async run to avoid blocking ([#46](https://github.com/linrongbin16/colorbox.nvim/issues/46)) ([814a927](https://github.com/linrongbin16/colorbox.nvim/commit/814a927a14669af4c8d5c86f22cf75488cf408ee))
+
 ## [1.3.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.2.0...v1.3.0) (2023-11-22)
 
 
