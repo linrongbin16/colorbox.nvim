@@ -131,7 +131,7 @@ end
 
 local function _policy()
     if Configs.background == "dark" or Configs.background == "light" then
-        vim.opt.background = Configs.background
+        vim.cmd(string.format([[set background=%s]], Configs.background))
     end
     _policy_shuffle()
 end
