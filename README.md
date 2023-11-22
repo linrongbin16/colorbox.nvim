@@ -48,6 +48,7 @@ It allow you do any switches with:
 - [Requirement](#-requirement)
 - [Install](#-install)
   - [lazy.nvim](#lazynvim)
+  - [pckr.nvim](#pckrnvim)
 - [Configuration](#-configuration)
 - [Development](#-development)
 - [Contribute](#-contribute)
@@ -58,6 +59,15 @@ It allow you do any switches with:
 - [Git](https://git-scm.com/).
 
 ## 📦 Install
+
+Note:
+
+If this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
+
+1. Don't lazy this plugin.
+2. Load this plugin before all other start plugins.
+
+It only takes 3~4 milliseconds to load.
 
 ### [lazy.nvim](https://github.com/folke/lazy.nvim)
 
@@ -73,12 +83,17 @@ require('lazy').setup({
 })
 ```
 
-> Note:
->
-> If this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
->
-> 1. Don't lazy this plugin.
-> 2. Load this plugin before all other start plugins.
+### [pckr.nvim](https://github.com/lewis6991/pckr.nvim)
+
+```lua
+require('pckr').add{
+    {
+        'linrongbin16/colorbox.nvim',
+        run = function() require('colorbox').update() end,
+        config = function() require('colorbox').setup() end,
+    }
+}
+```
 
 ## 🔧 Configuration
 
