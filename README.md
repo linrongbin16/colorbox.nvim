@@ -38,7 +38,7 @@ It allow you play them with:
   - Suffle playback.
   - Play in order (todo).
   - Single cycle (todo).
-  - By color name (todo).
+  - Specific color name (todo).
 - Multiple trigger timings:
   - On startup.
   - Fixed interval (todo).
