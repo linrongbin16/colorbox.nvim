@@ -111,7 +111,7 @@ require('colorbox').setup({
     -- 1. the "primary" filter: only the primary colors will be selected, other variants will be skip.
     -- 2. the function filter: colors will be filtered if function return true.
     --
-    --- @type "primary"|fun(color:string):boolean|nil
+    --- @type "primary"|fun(color:string,spec:colorbox.ColorSpec):boolean|nil
     filter = nil,
 
     -- (Optional) setup plugin before running `colorscheme {color}`.

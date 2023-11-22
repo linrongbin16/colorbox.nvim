@@ -11,7 +11,7 @@ local Defaults = {
     --- @type "startup"|"interval"|"filetype"
     timing = "startup",
 
-    --- @type "primary"|fun(color:string):boolean|nil
+    --- @type "primary"|fun(color:string,spec:colorbox.ColorSpec):boolean|nil
     filter = nil,
 
     setup = {
