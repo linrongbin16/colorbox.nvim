@@ -132,6 +132,7 @@ do
         end
     end
     if type(ColorNamesList) ~= "table" then
+        ColorNamesList = {}
         for _, spec in pairs(HandleToColorSpecsMap) do
             for _, color_name in ipairs(spec.color_names) do
                 table.insert(ColorNamesList, color_name)
