@@ -361,9 +361,8 @@ local function update(opts)
             end
         end
     end
-    if not opts.detach then
+    if not opts.detach and opts.concurrency then
         vim.fn.jobwait(jobs)
-        logger.close_file_mode_w()
     end
 end
 
