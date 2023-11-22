@@ -27,6 +27,8 @@ It use offline github actions to weekly collect and update the most popular Vim/
 >    1. **Awesome-neovim** wins **vimcolorsheme**, since they usually has modern Neovim features (lua, lsp, treesitter) and support more third-party plugins.
 >    2. More github stars.
 >    3. Newer git commits.
+>
+> Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorschemes list.
 
 It install color plugins via git submodules instead of copy-paste source code, so you get continuously updates from original authors instead of me, e.g. it only transport and manage, not produce.
 
@@ -40,8 +42,6 @@ It allow you do any switches with:
   - On startup.
   - Fixed interval(todo).
   - By filetype(todo).
-
-Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorschemes list.
 
 ## 📖 Table of contents
 
