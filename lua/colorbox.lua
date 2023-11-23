@@ -378,6 +378,7 @@ local function update(opts)
                 finished_count = finished_count + 1
             else
                 logger.info("finished %s jobs", vim.inspect(finished_count))
+                logger.close_file_mode_w()
             end
         end
 
