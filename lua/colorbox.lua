@@ -15,6 +15,7 @@ local Defaults = {
     --- @type "primary"|fun(color:string,spec:colorbox.ColorSpec):boolean|nil
     filter = nil,
 
+    --- @type table<string, function>
     setup = {
         ["projekt0n/github-nvim-theme"] = function()
             require("github-theme").setup()
@@ -23,6 +24,12 @@ local Defaults = {
 
     --- @type "dark"|"light"|nil
     background = nil,
+
+    --- @type colorbox.Options
+    command = {
+        name = "Colorbox",
+        desc = "Colorschemes player controller",
+    },
 
     --- @type string
     cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath("data")),
@@ -212,59 +219,8 @@ local function _timing()
     _timing_startup()
 end
 
---- @param opts colorbox.Options?
-local function setup(opts)
-    Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
-
-    logger.setup({
-        name = "colorbox",
-        level = Configs.debug and LogLevels.DEBUG or LogLevels.INFO,
-        console_log = Configs.console_log,
-        file_log = Configs.file_log,
-        file_log_name = "colorbox.log",
-    })
-
-    -- cache
-    assert(
-        vim.fn.filereadable(Configs.cache_dir) <= 0,
-        string.format(
-            "%s (cache_dir option) already exist but not a directory!",
-            Configs.cache_dir
-        )
-    )
-    vim.fn.mkdir(Configs.cache_dir, "p")
-    Configs.previous_track_cache =
-        string.format("%s/previous_track_cache", Configs.cache_dir)
-
-    _init()
-
-    vim.api.nvim_create_autocmd("ColorSchemePre", {
-        callback = function(event)
-            logger.debug("|colorbox.setup| event:%s", vim.inspect(event))
-            local ColorNameToColorSpecsMap =
-                require("colorbox.db").get_color_name_to_color_specs_map()
-            if
-                type(event) ~= "table"
-                or ColorNameToColorSpecsMap[event.match] == nil
-            then
-                return
-            end
-            local spec = ColorNameToColorSpecsMap[event.match]
-            vim.cmd(string.format([[packadd %s]], spec.git_path))
-            if
-                type(Configs.setup) == "table"
-                and type(Configs.setup[spec.handle]) == "function"
-            then
-                Configs.setup[spec.handle]()
-            end
-        end,
-    })
-
-    _timing()
-end
-
 --- @param opts {concurrency:integer}?
-local function update(opts)
+local function install(opts)
     opts = opts or { concurrency = 4 }
     opts.concurrency = type(opts.concurrency) == "number"
             and math.max(opts.concurrency, 1)
@@ -389,7 +345,15 @@ local function update(opts)
         then
             param = {
                 handle = handle,
-                cmd = { "git", "pull" },
+                cmd = (
+                    type(spec.git_branch) == "string"
+                    and string.len(spec.git_branch) > 0
+                )
+                        and string.format(
+                            "git checkout -b %s && git pull",
+                            spec.git_branch
+                        )
+                    or string.format("git pull"),
                 opts = {
                     cwd = spec.full_pack_path,
                     detach = true,
@@ -403,7 +367,20 @@ local function update(opts)
         else
             param = {
                 handle = handle,
-                cmd = { "git", "clone", "--depth=1", spec.url, spec.pack_path },
+                cmd = (
+                    type(spec.git_branch) == "string"
+                    and string.len(spec.git_branch) > 0
+                )
+                        and {
+                            "git",
+                            "clone",
+                            "--branch",
+                            spec.git_branch,
+                            "--depth=1",
+                            spec.url,
+                            spec.pack_path,
+                        }
+                    or { "git", "clone", "--depth=1", spec.url, spec.pack_path },
                 opts = {
                     cwd = home_dir,
                     detach = true,
@@ -432,6 +409,137 @@ local function update(opts)
     end
 end
 
-local M = { setup = setup, update = update }
+--- @deprecated
+local function update(opts)
+    return install(opts)
+end
+
+local function _clean()
+    local home_dir = vim.fn["colorbox#base_dir"]()
+    local full_pack_dir = string.format("%s/pack", home_dir)
+    local shorten_pack_dir = vim.fn.fnamemodify(full_pack_dir, ":~")
+    ---@diagnostic disable-next-line: discard-returns, param-type-mismatch
+    local opened_dir, opendir_err = vim.loop.fs_opendir(full_pack_dir)
+    if not opened_dir then
+        logger.debug(
+            "directory %s not found, error: %s",
+            vim.inspect(shorten_pack_dir),
+            vim.inspect(opendir_err)
+        )
+        return
+    end
+    vim.cmd(string.format([[silent execute "!rm -rf %s"]], full_pack_dir))
+    logger.info("cleaned directory: %s", shorten_pack_dir)
+end
+
+--- @param args string
+local function _reinstall(args)
+    _clean()
+
+    local opts = nil
+    if type(args) == "string" and string.len(vim.trim(args)) > 0 then
+        local args_splits =
+            vim.split(args, "=", { plain = true, trimempty = true })
+        if args_splits[1] == "concurrency" then
+            opts = { concurrency = tonumber(args_splits[2]) }
+        end
+    end
+    install(opts)
+end
+
+local CONTROLLERS_MAP = {
+    reinstall = _reinstall,
+}
+
+--- @param opts colorbox.Options?
+local function setup(opts)
+    Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
+
+    logger.setup({
+        name = "colorbox",
+        level = Configs.debug and LogLevels.DEBUG or LogLevels.INFO,
+        console_log = Configs.console_log,
+        file_log = Configs.file_log,
+        file_log_name = "colorbox.log",
+    })
+
+    -- cache
+    assert(
+        vim.fn.filereadable(Configs.cache_dir) <= 0,
+        string.format(
+            "%s (cache_dir option) already exist but not a directory!",
+            Configs.cache_dir
+        )
+    )
+    vim.fn.mkdir(Configs.cache_dir, "p")
+    Configs.previous_track_cache =
+        string.format("%s/previous_track_cache", Configs.cache_dir)
+
+    _init()
+
+    vim.api.nvim_create_user_command(
+        Configs.command.name,
+        function(command_opts)
+            -- logger.debug(
+            --     "|colorbox.setup| command opts:%s",
+            --     vim.inspect(command_opts)
+            -- )
+            local args = vim.trim(command_opts.args)
+            local args_splits =
+                vim.split(args, " ", { plain = true, trimempty = true })
+            logger.debug(
+                "|colorbox.setup| command args:%s, splits:%s",
+                vim.inspect(args),
+                vim.inspect(args_splits)
+            )
+            if #args_splits == 0 then
+                logger.warn("missing parameter.")
+                return
+            end
+            if type(CONTROLLERS_MAP[args_splits[1]]) == "function" then
+                local fn = CONTROLLERS_MAP[args_splits[1]]
+                local sub_args = args:sub(string.len(args_splits[1]) + 1)
+                fn(sub_args)
+            else
+                logger.warn("unknown parameter %s.", args_splits[1])
+            end
+        end,
+        {
+            nargs = "*",
+            range = false,
+            bang = true,
+            desc = Configs.command.desc,
+            complete = function(ArgLead, CmdLine, CursorPos)
+                return { "reinstall" }
+            end,
+        }
+    )
+
+    vim.api.nvim_create_autocmd("ColorSchemePre", {
+        callback = function(event)
+            logger.debug("|colorbox.setup| event:%s", vim.inspect(event))
+            local ColorNameToColorSpecsMap =
+                require("colorbox.db").get_color_name_to_color_specs_map()
+            if
+                type(event) ~= "table"
+                or ColorNameToColorSpecsMap[event.match] == nil
+            then
+                return
+            end
+            local spec = ColorNameToColorSpecsMap[event.match]
+            vim.cmd(string.format([[packadd %s]], spec.git_path))
+            if
+                type(Configs.setup) == "table"
+                and type(Configs.setup[spec.handle]) == "function"
+            then
+                Configs.setup[spec.handle]()
+            end
+        end,
+    })
+
+    _timing()
+end
+
+local M = { setup = setup, update = update, install = install }
 
 return M
