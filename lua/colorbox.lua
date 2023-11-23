@@ -191,7 +191,7 @@ end
 
 local function _policy()
     if Configs.background == "dark" or Configs.background == "light" then
-        vim.cmd(string.format([[set background=%s]], Configs.background))
+        vim.opt.background = Configs.background
     end
     if Configs.policy == "shuffle" then
         _policy_shuffle()
@@ -263,12 +263,12 @@ local function setup(opts)
     _timing()
 end
 
---- @param opts {detach:boolean?,concurrency:boolean}?
+--- @param opts {concurrency:integer}?
 local function update(opts)
-    opts = opts or { detach = false, concurrency = true }
-    opts.detach = type(opts.detach) == "boolean" and opts.detach or false
-    opts.concurrency = type(opts.concurrency) == "boolean" and opts.concurrency
-        or true
+    opts = opts or { concurrency = 4 }
+    opts.concurrency = type(opts.concurrency) == "number"
+            and math.max(opts.concurrency, 1)
+        or 4
 
     logger.setup({
         name = "colorbox",
@@ -288,22 +288,46 @@ local function update(opts)
     )
     vim.opt.packpath:append(home_dir)
 
-    local jobs = {}
     local HandleToColorSpecsMap =
         require("colorbox.db").get_handle_to_color_specs_map()
+
+    -- -- handle to job params map
+    -- --- @type table<string, colorbox.Options>
+    -- local handle_to_jobs_map = {}
+
+    -- a list of job params
+    --- @type colorbox.Options[]
+    local jobs_pending_queue = {}
+
+    -- a list of job id
+    --- @type integer[]
+    local jobs_working_queue = {}
+
+    -- job id to job params map
+    --- @type table<integer, colorbox.Options>
+    local jobid_to_jobs_map = {}
+
+    local prepared_count = 0
+    local finished_count = 0
+
+    for handle, spec in pairs(HandleToColorSpecsMap) do
+        prepared_count = prepared_count + 1
+    end
+    logger.info("started %s jobs", vim.inspect(prepared_count))
+
     for handle, spec in pairs(HandleToColorSpecsMap) do
         local function _on_output(chanid, data, name)
             if type(data) == "table" then
                 logger.debug(
-                    "%s (%s): %s",
-                    vim.inspect(handle),
+                    "(%s) %s: %s",
                     vim.inspect(name),
+                    vim.inspect(handle),
                     vim.inspect(data)
                 )
                 local lines = {}
-                for _, line in ipairs(data) do
-                    if string.len(vim.trim(line)) > 0 then
-                        table.insert(lines, line)
+                for _, d in ipairs(data) do
+                    if type(d) == "string" and string.len(vim.trim(d)) > 0 then
+                        table.insert(lines, d)
                     end
                 end
                 if #lines > 0 then
@@ -313,56 +337,102 @@ local function update(opts)
         end
         local function _on_exit(jid, exitcode, name)
             logger.debug(
-                "%s (%s-%s): exit with %s",
-                vim.inspect(handle),
-                vim.inspect(jid),
+                "(%s-%s) %s: exit with %s",
                 vim.inspect(name),
+                vim.inspect(jid),
+                vim.inspect(handle),
                 vim.inspect(exitcode)
             )
+
+            local removed_from_working_queue = false
+            for i, working_jobid in ipairs(jobs_working_queue) do
+                if working_jobid == jid then
+                    table.remove(jobs_working_queue, i)
+                    removed_from_working_queue = true
+                    break
+                end
+            end
+            if not removed_from_working_queue then
+                logger.err(
+                    "failed to remove job id %s from jobs_working_queue: %s",
+                    vim.inspect(jid),
+                    vim.inspect(jobs_working_queue)
+                )
+            end
+            if jobid_to_jobs_map[jid] == nil then
+                logger.err(
+                    "failed to remove job id %s from jobid_to_jobs_map: %s",
+                    vim.inspect(jid),
+                    vim.inspect(jobid_to_jobs_map)
+                )
+            end
+            jobid_to_jobs_map[jid] = nil
+
+            if #jobs_pending_queue > 0 then
+                local waiting_job_param = jobs_pending_queue[1]
+                table.remove(jobs_pending_queue, 1)
+
+                local new_jobid = vim.fn.jobstart(
+                    waiting_job_param.cmd,
+                    waiting_job_param.opts
+                )
+                table.insert(jobs_working_queue, new_jobid)
+                jobid_to_jobs_map[new_jobid] = waiting_job_param
+
+                finished_count = finished_count + 1
+            else
+                logger.info("finished %s jobs", vim.inspect(finished_count))
+            end
         end
 
+        local param = nil
         if
             vim.fn.isdirectory(spec.full_pack_path) > 0
             and vim.fn.isdirectory(spec.full_pack_path .. "/.git") > 0
         then
-            local cmd = { "git", "pull" }
-            logger.debug("update command:%s", vim.inspect(cmd))
-            local jobid = vim.fn.jobstart(cmd, {
-                cwd = spec.full_pack_path,
-                detach = opts.detach,
-                stdout_buffered = true,
-                stderr_buffered = true,
-                on_stdout = _on_output,
-                on_stderr = _on_output,
-                on_exit = _on_exit,
-            })
-            if opts.concurrency then
-                table.insert(jobs, jobid)
-            else
-                vim.fn.jobwait({ jobid })
-            end
+            param = {
+                handle = handle,
+                cmd = { "git", "pull" },
+                opts = {
+                    cwd = spec.full_pack_path,
+                    detach = true,
+                    stdout_buffered = true,
+                    stderr_buffered = true,
+                    on_stdout = _on_output,
+                    on_stderr = _on_output,
+                    on_exit = _on_exit,
+                },
+            }
         else
-            local cmd =
-                { "git", "clone", "--depth=1", spec.url, spec.pack_path }
-            logger.debug("install command:%s", vim.inspect(cmd))
-            local jobid = vim.fn.jobstart(cmd, {
-                cwd = home_dir,
-                detach = opts.detach,
-                stdout_buffered = true,
-                stderr_buffered = true,
-                on_stdout = _on_output,
-                on_stderr = _on_output,
-                on_exit = _on_exit,
-            })
-            if opts.concurrency then
-                table.insert(jobs, jobid)
-            else
-                vim.fn.jobwait({ jobid })
-            end
+            param = {
+                handle = handle,
+                cmd = { "git", "clone", "--depth=1", spec.url, spec.pack_path },
+                opts = {
+                    cwd = home_dir,
+                    detach = true,
+                    stdout_buffered = true,
+                    stderr_buffered = true,
+                    on_stdout = _on_output,
+                    on_stderr = _on_output,
+                    on_exit = _on_exit,
+                },
+            }
         end
-    end
-    if not opts.detach and opts.concurrency then
-        vim.fn.jobwait(jobs)
+
+        table.insert(jobs_pending_queue, param)
+        -- handle_to_jobs_map[handle] = param
+
+        if #jobs_working_queue < opts.concurrency then
+            local waiting_job_param = jobs_pending_queue[1]
+            table.remove(jobs_pending_queue, 1)
+
+            local new_jobid =
+                vim.fn.jobstart(waiting_job_param.cmd, waiting_job_param.opts)
+            table.insert(jobs_working_queue, new_jobid)
+            jobid_to_jobs_map[new_jobid] = waiting_job_param
+
+            finished_count = finished_count + 1
+        end
     end
 end
 
