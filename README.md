@@ -107,11 +107,12 @@ require('colorbox').install({
 
 ## 🚀 Usage
 
-You can use `Colorbox` to control the colorschemes player:
+You can use command `Colorbox` to control the colorschemes player:
 
-- `Colorbox next/prev/shuffle`: next color, previous color, next random color (even you didn't configure the `shuffle` policy).
-- `Colorbox pause/restart`: stay on current color (disable timing config, e.g. fixed interval, by filetype timings), restart to continue change colors (enable timing config).
-- `Colorbox clean/install`: clean git submodules, install git submodules.
+- `Colorbox reinstall`: clean & re-install git submodules.
+  - **Note:** use `Colorbox reinstall concurrency=1` to specify the `concurrency` parameters.
+- `Colorbox next/prev/shuffle` (todo): next color, previous color, next random color (even you didn't configure the `shuffle` policy).
+- `Colorbox pause/restart` (todo): stay on current color (disable timing config, e.g. fixed interval, by filetype timings), restart to continue change colors (enable timing config).
 
 **Note:** you can still use `colorscheme xxx` to change colorscheme.
 

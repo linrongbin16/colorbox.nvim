@@ -219,68 +219,6 @@ local function _timing()
     _timing_startup()
 end
 
---- @param opts colorbox.Options?
-local function setup(opts)
-    Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
-
-    logger.setup({
-        name = "colorbox",
-        level = Configs.debug and LogLevels.DEBUG or LogLevels.INFO,
-        console_log = Configs.console_log,
-        file_log = Configs.file_log,
-        file_log_name = "colorbox.log",
-    })
-
-    -- cache
-    assert(
-        vim.fn.filereadable(Configs.cache_dir) <= 0,
-        string.format(
-            "%s (cache_dir option) already exist but not a directory!",
-            Configs.cache_dir
-        )
-    )
-    vim.fn.mkdir(Configs.cache_dir, "p")
-    Configs.previous_track_cache =
-        string.format("%s/previous_track_cache", Configs.cache_dir)
-
-    _init()
-
-    vim.api.nvim_create_user_command(
-        Configs.command.name,
-        function(command_opts) end,
-        {
-            nargs = "*",
-            range = false,
-            bang = true,
-            desc = Configs.command.desc,
-        }
-    )
-
-    vim.api.nvim_create_autocmd("ColorSchemePre", {
-        callback = function(event)
-            logger.debug("|colorbox.setup| event:%s", vim.inspect(event))
-            local ColorNameToColorSpecsMap =
-                require("colorbox.db").get_color_name_to_color_specs_map()
-            if
-                type(event) ~= "table"
-                or ColorNameToColorSpecsMap[event.match] == nil
-            then
-                return
-            end
-            local spec = ColorNameToColorSpecsMap[event.match]
-            vim.cmd(string.format([[packadd %s]], spec.git_path))
-            if
-                type(Configs.setup) == "table"
-                and type(Configs.setup[spec.handle]) == "function"
-            then
-                Configs.setup[spec.handle]()
-            end
-        end,
-    })
-
-    _timing()
-end
-
 --- @param opts {concurrency:integer}?
 local function install(opts)
     opts = opts or { concurrency = 4 }
@@ -474,6 +412,93 @@ end
 --- @deprecated
 local function update(opts)
     return install(opts)
+end
+
+local function _clean()
+    local home_dir = vim.fn["colorbox#base_dir"]()
+    local full_pack_dir = string.format("%s/pack", home_dir)
+    local opened_dir, opened_dir_err = vim.loop.fs_opendir(full_pack_dir)
+    if not opened_dir then
+        logger.err(
+            "failed to open directory: %s, error: %s",
+            vim.inspect(full_pack_dir),
+            vim.inspect(opened_dir_err)
+        )
+        return
+    end
+end
+
+local CONTROLLERS_MAP = {
+    clean = _clean,
+    install = install,
+}
+
+--- @param opts colorbox.Options?
+local function setup(opts)
+    Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
+
+    logger.setup({
+        name = "colorbox",
+        level = Configs.debug and LogLevels.DEBUG or LogLevels.INFO,
+        console_log = Configs.console_log,
+        file_log = Configs.file_log,
+        file_log_name = "colorbox.log",
+    })
+
+    -- cache
+    assert(
+        vim.fn.filereadable(Configs.cache_dir) <= 0,
+        string.format(
+            "%s (cache_dir option) already exist but not a directory!",
+            Configs.cache_dir
+        )
+    )
+    vim.fn.mkdir(Configs.cache_dir, "p")
+    Configs.previous_track_cache =
+        string.format("%s/previous_track_cache", Configs.cache_dir)
+
+    _init()
+
+    vim.api.nvim_create_user_command(
+        Configs.command.name,
+        function(command_opts)
+            -- logger.debug(
+            --     "|colorbox.setup| command opts:%s",
+            --     vim.inspect(command_opts)
+            -- )
+            local button = command_opts.args
+        end,
+        {
+            nargs = "*",
+            range = false,
+            bang = true,
+            desc = Configs.command.desc,
+        }
+    )
+
+    vim.api.nvim_create_autocmd("ColorSchemePre", {
+        callback = function(event)
+            logger.debug("|colorbox.setup| event:%s", vim.inspect(event))
+            local ColorNameToColorSpecsMap =
+                require("colorbox.db").get_color_name_to_color_specs_map()
+            if
+                type(event) ~= "table"
+                or ColorNameToColorSpecsMap[event.match] == nil
+            then
+                return
+            end
+            local spec = ColorNameToColorSpecsMap[event.match]
+            vim.cmd(string.format([[packadd %s]], spec.git_path))
+            if
+                type(Configs.setup) == "table"
+                and type(Configs.setup[spec.handle]) == "function"
+            then
+                Configs.setup[spec.handle]()
+            end
+        end,
+    })
+
+    _timing()
 end
 
 local M = { setup = setup, update = update, install = install }
