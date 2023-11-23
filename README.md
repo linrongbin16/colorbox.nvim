@@ -10,7 +10,7 @@
 
 I'm greedy that I want all the **most popular** Neovim colorschemes than only one, I'm playful that I want to change colorscheme from time to time. Are you like me?
 
-Let's put all the ultra colorschemes into your Neovim player!
+Let's load all the ultra colorschemes into your Neovim player!
 
 It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
 
