@@ -419,47 +419,25 @@ local function _clean()
     local full_pack_dir = string.format("%s/pack", home_dir)
     local shorten_pack_dir = vim.fn.fnamemodify(full_pack_dir, ":~:.")
     ---@diagnostic disable-next-line: discard-returns, param-type-mismatch
-    vim.loop.fs_opendir(full_pack_dir, function(opendir_err, opened_dir)
-        if opendir_err then
+    local opened_dir, opendir_err = vim.loop.fs_opendir(full_pack_dir)
+    if not opened_dir then
+        logger.err(
+            "failed to open directory: %s, error: %s",
+            vim.inspect(full_pack_dir),
+            vim.inspect(opendir_err)
+        )
+        return
+    end
+    vim.loop.fs_rmdir(full_pack_dir, function(rmdir_err)
+        if rmdir_err then
             logger.err(
-                "failed to open directory: %s, error: %s",
+                "failed to remove directory: %s, error: %s",
                 vim.inspect(full_pack_dir),
-                vim.inspect(opendir_err)
+                vim.inspect(rmdir_err)
             )
-            return
+        else
+            logger.info("cleaned directory: %s", vim.inspect(shorten_pack_dir))
         end
-        vim.loop.fs_fstat(opened_dir, function(fstat_err, stat)
-            if fstat_err then
-                logger.err(
-                    "failed to open directory: %s, error: %s",
-                    vim.inspect(full_pack_dir),
-                    vim.inspect(fstat_err)
-                )
-            end
-            vim.loop.fs_closedir(opened_dir, function(closedir_err)
-                if closedir_err then
-                    logger.debug(
-                        "failed to close opened directory: %s, error: %s",
-                        vim.inspect(full_pack_dir),
-                        vim.inspect(closedir_err)
-                    )
-                end
-                vim.loop.fs_rmdir(full_pack_dir, function(rmdir_err)
-                    if rmdir_err then
-                        logger.err(
-                            "failed to remove directory: %s, error: %s",
-                            vim.inspect(full_pack_dir),
-                            vim.inspect(rmdir_err)
-                        )
-                    else
-                        logger.info(
-                            "cleaned directory: %s",
-                            vim.inspect(shorten_pack_dir)
-                        )
-                    end
-                end)
-            end)
-        end)
     end)
 end
 
