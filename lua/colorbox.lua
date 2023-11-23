@@ -282,7 +282,7 @@ local function setup(opts)
 end
 
 --- @param opts {concurrency:integer}?
-local function update(opts)
+local function install(opts)
     opts = opts or { concurrency = 4 }
     opts.concurrency = type(opts.concurrency) == "number"
             and math.max(opts.concurrency, 1)
@@ -471,6 +471,11 @@ local function update(opts)
     end
 end
 
-local M = { setup = setup, update = update }
+--- @deprecated
+local function update(opts)
+    return install(opts)
+end
+
+local M = { setup = setup, update = update, install = install }
 
 return M
