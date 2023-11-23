@@ -421,7 +421,7 @@ local function _clean()
     ---@diagnostic disable-next-line: discard-returns, param-type-mismatch
     local opened_dir, opendir_err = vim.loop.fs_opendir(full_pack_dir)
     if not opened_dir then
-        logger.err(
+        logger.debug(
             "directory %s not found, error: %s",
             vim.inspect(shorten_pack_dir),
             vim.inspect(opendir_err)
@@ -433,7 +433,9 @@ local function _clean()
 end
 
 --- @param args string
-local function _install(args)
+local function _reinstall(args)
+    _clean()
+
     local opts = nil
     if type(args) == "string" and string.len(vim.trim(args)) > 0 then
         local args_splits =
@@ -446,8 +448,7 @@ local function _install(args)
 end
 
 local CONTROLLERS_MAP = {
-    clean = _clean,
-    install = _install,
+    reinstall = _reinstall,
 }
 
 --- @param opts colorbox.Options?
@@ -509,7 +510,7 @@ local function setup(opts)
             bang = true,
             desc = Configs.command.desc,
             complete = function(ArgLead, CmdLine, CursorPos)
-                return { "install", "clean" }
+                return { "reinstall" }
             end,
         }
     )
