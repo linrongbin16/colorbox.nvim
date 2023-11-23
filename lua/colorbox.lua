@@ -417,28 +417,19 @@ end
 local function _clean()
     local home_dir = vim.fn["colorbox#base_dir"]()
     local full_pack_dir = string.format("%s/pack", home_dir)
-    local shorten_pack_dir = vim.fn.fnamemodify(full_pack_dir, ":~:.")
+    local shorten_pack_dir = vim.fn.fnamemodify(full_pack_dir, ":~")
     ---@diagnostic disable-next-line: discard-returns, param-type-mismatch
     local opened_dir, opendir_err = vim.loop.fs_opendir(full_pack_dir)
     if not opened_dir then
         logger.err(
-            "failed to open directory: %s, error: %s",
+            "directory %s not found, error: %s",
             vim.inspect(full_pack_dir),
             vim.inspect(opendir_err)
         )
         return
     end
-    vim.loop.fs_rmdir(full_pack_dir, function(rmdir_err)
-        if rmdir_err then
-            logger.err(
-                "failed to remove directory: %s, error: %s",
-                vim.inspect(full_pack_dir),
-                vim.inspect(rmdir_err)
-            )
-        else
-            logger.info("cleaned directory: %s", vim.inspect(shorten_pack_dir))
-        end
-    end)
+    vim.cmd(string.format([[silent execute "!rm -rf %s"]], full_pack_dir))
+    logger.info("cleaned directory: %s", shorten_pack_dir)
 end
 
 --- @param args string
@@ -517,6 +508,9 @@ local function setup(opts)
             range = false,
             bang = true,
             desc = Configs.command.desc,
+            complete = function(ArgLead, CmdLine, CursorPos)
+                return { "install", "clean" }
+            end,
         }
     )
 
