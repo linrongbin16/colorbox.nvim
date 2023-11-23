@@ -291,10 +291,6 @@ local function update(opts)
     local HandleToColorSpecsMap =
         require("colorbox.db").get_handle_to_color_specs_map()
 
-    -- -- handle to job params map
-    -- --- @type table<string, colorbox.Options>
-    -- local handle_to_jobs_map = {}
-
     -- a list of job params
     --- @type colorbox.Options[]
     local jobs_pending_queue = {}
@@ -420,7 +416,6 @@ local function update(opts)
         end
 
         table.insert(jobs_pending_queue, param)
-        -- handle_to_jobs_map[handle] = param
 
         if #jobs_working_queue < opts.concurrency then
             local waiting_job_param = jobs_pending_queue[1]
