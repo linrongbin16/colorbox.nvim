@@ -70,8 +70,6 @@ And multiple trigger timings (colorschemes don't have end time):
 1. Don't lazy this plugin, it only takes ~4 ms to load.
 2. Load this plugin before all other start plugins.
 
-**Warning:** hold your wifi, it `clone` and `pull` a lot of git repos!
-
 ### [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
@@ -95,6 +93,15 @@ require('pckr').add({
         run = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
+})
+```
+
+If you have issues on running multiple git clone/pull commands, try set `concurrency=1` in the `update` API:
+
+```lua
+require('colorbox').update({
+    --- @type integer
+    concurrency = 4,
 })
 ```
 
@@ -128,9 +135,9 @@ require('colorbox').setup({
     --- @type "dark"|"light"|nil
     background = nil,
 
-    -- cache dir
-    -- for macos/linux: $HOME/.local/share/nvim/colorbox.nvim
-    -- for windows: $env:USERPROFILE\AppData\Local\nvim-data\colorbox.nvim
+    -- Cache directory
+    -- * For macos/linux: $HOME/.local/share/nvim/colorbox.nvim
+    -- * For windows: $env:USERPROFILE\AppData\Local\nvim-data\colorbox.nvim
     --
     --- @type string
     cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath('data')),
