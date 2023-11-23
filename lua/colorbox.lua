@@ -417,20 +417,68 @@ end
 local function _clean()
     local home_dir = vim.fn["colorbox#base_dir"]()
     local full_pack_dir = string.format("%s/pack", home_dir)
-    local opened_dir, opened_dir_err = vim.loop.fs_opendir(full_pack_dir)
-    if not opened_dir then
-        logger.err(
-            "failed to open directory: %s, error: %s",
-            vim.inspect(full_pack_dir),
-            vim.inspect(opened_dir_err)
-        )
-        return
+    local shorten_pack_dir = vim.fn.fnamemodify(full_pack_dir, ":~:.")
+    ---@diagnostic disable-next-line: discard-returns, param-type-mismatch
+    vim.loop.fs_opendir(full_pack_dir, function(opendir_err, opened_dir)
+        if opendir_err then
+            logger.err(
+                "failed to open directory: %s, error: %s",
+                vim.inspect(full_pack_dir),
+                vim.inspect(opendir_err)
+            )
+            return
+        end
+        vim.loop.fs_fstat(opened_dir, function(fstat_err, stat)
+            if fstat_err then
+                logger.err(
+                    "failed to open directory: %s, error: %s",
+                    vim.inspect(full_pack_dir),
+                    vim.inspect(fstat_err)
+                )
+            end
+            vim.loop.fs_closedir(opened_dir, function(closedir_err)
+                if closedir_err then
+                    logger.debug(
+                        "failed to close opened directory: %s, error: %s",
+                        vim.inspect(full_pack_dir),
+                        vim.inspect(closedir_err)
+                    )
+                end
+                vim.loop.fs_rmdir(full_pack_dir, function(rmdir_err)
+                    if rmdir_err then
+                        logger.err(
+                            "failed to remove directory: %s, error: %s",
+                            vim.inspect(full_pack_dir),
+                            vim.inspect(rmdir_err)
+                        )
+                    else
+                        logger.info(
+                            "cleaned directory: %s",
+                            vim.inspect(shorten_pack_dir)
+                        )
+                    end
+                end)
+            end)
+        end)
+    end)
+end
+
+--- @param args string
+local function _install(args)
+    local opts = nil
+    if type(args) == "string" and string.len(vim.trim(args)) > 0 then
+        local args_splits =
+            vim.split(args, "=", { plain = true, trimempty = true })
+        if args_splits[1] == "concurrency" then
+            opts = { concurrency = tonumber(args_splits[2]) }
+        end
     end
+    install(opts)
 end
 
 local CONTROLLERS_MAP = {
     clean = _clean,
-    install = install,
+    install = _install,
 }
 
 --- @param opts colorbox.Options?
@@ -466,7 +514,25 @@ local function setup(opts)
             --     "|colorbox.setup| command opts:%s",
             --     vim.inspect(command_opts)
             -- )
-            local button = command_opts.args
+            local args = vim.trim(command_opts.args)
+            local args_splits =
+                vim.split(args, " ", { plain = true, trimempty = true })
+            logger.debug(
+                "|colorbox.setup| command args:%s, splits:%s",
+                vim.inspect(args),
+                vim.inspect(args_splits)
+            )
+            if #args_splits == 0 then
+                logger.warn("missing parameter.")
+                return
+            end
+            if type(CONTROLLERS_MAP[args_splits[1]]) == "function" then
+                local fn = CONTROLLERS_MAP[args_splits[1]]
+                local sub_args = args:sub(string.len(args_splits[1]) + 1)
+                fn(sub_args)
+            else
+                logger.warn("unknown parameter %s.", args_splits[1])
+            end
         end,
         {
             nargs = "*",
