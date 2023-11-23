@@ -7,7 +7,7 @@
 <a href="https://github.com/linrongbin16/colorbox.nvim/search?l=lua"><img alt="Language" src="https://img.shields.io/github/languages/top/linrongbin16/colorbox.nvim?label=Lua&logo=lua&logoColor=fff&labelColor=2C2D72" /></a>
 <a href="https://github.com/linrongbin16/gitlinker.nvim/actions/workflows/ci.yml"><img alt="ci.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/ci.yml?label=GitHub%20CI&labelColor=181717&logo=github&logoColor=fff" /></a>
 <a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim?logo=codecov&logoColor=F01F7A&label=Codecov" /></a>
-<a href="https://github.com/linrongbin16/gitlinker.nvim/actions/workflows/collect.yml"><img alt="collect.yml" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Frepos%2Flinrongbin16%2Fcolorbox.nvim%2Fcommits%3Fpath%3Dcollect.py.log%26page%3D1%26per_page%3D1&query=%24%5B0%5D.commit.committer.date&logo=githubactions&logoColor=fff&label=Last%20Update&labelColor=483D8B" /></a>
+<a href="https://github.com/linrongbin16/gitlinker.nvim/actions/workflows/collect.yml"><img alt="collect.yml" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Frepos%2Flinrongbin16%2Fcolorbox.nvim%2Fcommits%3Fpath%3Dcollect.py.log%26page%3D1%26per_page%3D1&query=%24%5B0%5D.commit.committer.date&logo=githubactions&logoColor=fff&label=Last%20Update&labelColor=2F4F4F" /></a>
 </p>
 
 I'm greedy that I want all the **most popular** Neovim colorschemes than only one, I'm playful that I want to change colorscheme from time to time. Are you like me?
