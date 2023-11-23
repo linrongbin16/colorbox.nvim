@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.3.1...v1.4.0) (2023-11-23)
+
+
+### Features
+
+* **command:** add `Colorbox` command and provide `reinstall` option ([b2a561b](https://github.com/linrongbin16/colorbox.nvim/commit/b2a561b0f85da4836fd3dc136e8593265123617c))
+* **install:** use `neovim` branch for `lifepillar/vim-solarized8` ([#52](https://github.com/linrongbin16/colorbox.nvim/issues/52)) ([b2a561b](https://github.com/linrongbin16/colorbox.nvim/commit/b2a561b0f85da4836fd3dc136e8593265123617c))
+
 ## [1.3.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.3.0...v1.3.1) (2023-11-23)
 
 
