@@ -423,7 +423,7 @@ local function _clean()
     if not opened_dir then
         logger.err(
             "directory %s not found, error: %s",
-            vim.inspect(full_pack_dir),
+            vim.inspect(shorten_pack_dir),
             vim.inspect(opendir_err)
         )
         return
