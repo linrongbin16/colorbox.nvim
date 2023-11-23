@@ -15,6 +15,7 @@ local Defaults = {
     --- @type "primary"|fun(color:string,spec:colorbox.ColorSpec):boolean|nil
     filter = nil,
 
+    --- @type table<string, function>
     setup = {
         ["projekt0n/github-nvim-theme"] = function()
             require("github-theme").setup()
@@ -23,6 +24,12 @@ local Defaults = {
 
     --- @type "dark"|"light"|nil
     background = nil,
+
+    --- @type colorbox.Options
+    command = {
+        name = "Colorbox",
+        desc = "Colorschemes player controller",
+    },
 
     --- @type string
     cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath("data")),
@@ -238,6 +245,17 @@ local function setup(opts)
 
     _init()
 
+    vim.api.nvim_create_user_command(
+        Configs.command.name,
+        function(command_opts) end,
+        {
+            nargs = "*",
+            range = false,
+            bang = true,
+            desc = Configs.command.desc,
+        }
+    )
+
     vim.api.nvim_create_autocmd("ColorSchemePre", {
         callback = function(event)
             logger.debug("|colorbox.setup| event:%s", vim.inspect(event))
@@ -389,7 +407,15 @@ local function update(opts)
         then
             param = {
                 handle = handle,
-                cmd = { "git", "pull" },
+                cmd = (
+                    type(spec.git_branch) == "string"
+                    and string.len(spec.git_branch) > 0
+                )
+                        and string.format(
+                            "git checkout -b %s && git pull",
+                            spec.git_branch
+                        )
+                    or string.format("git pull"),
                 opts = {
                     cwd = spec.full_pack_path,
                     detach = true,
@@ -403,7 +429,20 @@ local function update(opts)
         else
             param = {
                 handle = handle,
-                cmd = { "git", "clone", "--depth=1", spec.url, spec.pack_path },
+                cmd = (
+                    type(spec.git_branch) == "string"
+                    and string.len(spec.git_branch) > 0
+                )
+                        and {
+                            "git",
+                            "clone",
+                            "--branch",
+                            spec.git_branch,
+                            "--depth=1",
+                            spec.url,
+                            spec.pack_path,
+                        }
+                    or { "git", "clone", "--depth=1", spec.url, spec.pack_path },
                 opts = {
                     cwd = home_dir,
                     detach = true,
