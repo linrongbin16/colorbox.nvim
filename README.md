@@ -114,7 +114,7 @@ You can use command `Colorbox` to control the colorschemes player:
 - `Colorbox next/prev/shuffle` (todo): next color, previous color, next random color (even you didn't configure the `shuffle` policy).
 - `Colorbox pause/restart` (todo): stay on current color (disable timing config, e.g. fixed interval, by filetype timings), restart to continue change colors (enable timing config).
 
-**Note:** you can still use `colorscheme xxx` to change colorscheme.
+**Note:** you can still use `colorscheme` command to change colorscheme.
 
 ## 🔧 Configuration
 
