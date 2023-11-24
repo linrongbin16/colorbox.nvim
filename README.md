@@ -78,8 +78,46 @@ And multiple trigger timings (colorschemes don't have end time):
 
 ## ✅ Requirement
 
-- Neovim &ge; 0.8.
-- [Git](https://git-scm.com/).
+- neovim &ge; 0.8.
+- [git](https://git-scm.com/).
+- [rm](https://man7.org/linux/man-pages/man1/rm.1.html) (optional for `clean` and `reinstall` command on Windows).
+
+<details>
+<summary><i>Click here to see how to install `rm` command on Windows</i></summary>
+
+There're many ways to install portable linux shell and builtin commands on Windows, but personally I would recommend below two methods.
+
+#### [Git for Windows](https://git-scm.com/download/win)
+
+Install with the below 3 options:
+
+- In **Select Components**, select **Associate .sh files to be run with Bash**.
+
+  <img alt="install-windows-git1.png" src="https://raw.githubusercontent.com/linrongbin16/lin.nvim.dev/main/assets/installations/install-windows-git1.png" width="70%" />
+
+- In **Adjusting your PATH environment**, select **Use Git and optional Unix tools from the Command Prompt**.
+
+  <img alt="install-windows-git2.png" src="https://raw.githubusercontent.com/linrongbin16/lin.nvim.dev/main/assets/installations/install-windows-git2.png" width="70%" />
+
+- In **Configuring the terminal emulator to use with Git Bash**, select **Use Windows's default console window**.
+
+  <img alt="install-windows-git3.png" src="https://raw.githubusercontent.com/linrongbin16/lin.nvim.dev/main/assets/installations/install-windows-git3.png" width="70%" />
+
+After this step, **git.exe** and builtin linux commands(such as **rm.exe**) will be available in `%PATH%`.
+
+#### [scoop](https://scoop.sh/)
+
+Run below powershell commands:
+
+```powershell
+# scoop
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm get.scoop.sh | iex
+
+scoop install coreutils     # rm
+```
+
+</details>
 
 ## 📦 Install
 

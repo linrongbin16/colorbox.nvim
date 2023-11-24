@@ -508,8 +508,42 @@ local function _clean()
         )
         return
     end
-    vim.cmd(string.format([[silent execute "!rm -rf %s"]], full_pack_dir))
-    logger.info("cleaned directory: %s", shorten_pack_dir)
+    if utils.is_windows then
+        if vim.fn.executable("rm") > 0 then
+            local jobid = vim.fn.jobstart({ "rm", "-rf", full_pack_dir }, {
+                detach = false,
+                stdout_buffered = true,
+                stderr_buffered = true,
+                on_stdout = function(chanid, data, name)
+                    logger.debug(
+                        "clean job(%s) data:%s",
+                        vim.inspect(name),
+                        vim.inspect(data)
+                    )
+                end,
+                on_stderr = function(chanid, data, name)
+                    logger.debug(
+                        "clean job(%s) data:%s",
+                        vim.inspect(name),
+                        vim.inspect(data)
+                    )
+                end,
+                on_exit = function(jid, exitcode, name)
+                    logger.debug(
+                        "clean job(%s) done:%s",
+                        vim.inspect(name),
+                        vim.inspect(exitcode)
+                    )
+                end,
+            })
+            vim.fn.jobwait({ jobid })
+        else
+            logger.warn("no 'rm' command found, skip cleaning...")
+        end
+    else
+        vim.cmd(string.format([[silent execute "!rm -rf %s"]], full_pack_dir))
+        logger.info("cleaned directory: %s", shorten_pack_dir)
+    end
 end
 
 --- @param args string?
