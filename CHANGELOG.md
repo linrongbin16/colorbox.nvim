@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.5.0...v1.6.0) (2023-11-24)
+
+
+### Features
+
+* **fixed interval:** support fixed interval timing and policy ([#59](https://github.com/linrongbin16/colorbox.nvim/issues/59)) ([f0fcd55](https://github.com/linrongbin16/colorbox.nvim/commit/f0fcd552d3b9d9142b101d070034f1f09008a28d))
+
 ## [1.5.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.4.0...v1.5.0) (2023-11-24)
 
 
