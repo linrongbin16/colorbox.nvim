@@ -71,6 +71,8 @@ And multiple trigger timings (colorschemes don't have end time):
   - [lazy.nvim](#lazynvim)
   - [pckr.nvim](#pckrnvim)
 - [Configuration](#-configuration)
+  - [On Startup](#on-startup)
+  - [Fixed Interval](#fixed-interval)
 - [Development](#-development)
 - [Contribute](#-contribute)
 
@@ -192,6 +194,28 @@ require('colorbox').setup({
     --
     --- @type boolean
     file_log = false,
+})
+```
+
+### On Startup
+
+To choose a colorscheme on nvim start, please use:
+
+```lua
+require('colorbox').setup({
+    policy = 'shuffle',
+    timing = 'startup',
+})
+```
+
+### Fixed Interval
+
+To choose a colorscheme on fixed interval per seconds, please use:
+
+```lua
+require('colorbox').setup({
+    policy = { name = "interval", seconds = 1, implement = "shuffle" },
+    timing = 'interval',
 })
 ```
 
