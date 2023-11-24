@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.4.0...v1.5.0) (2023-11-24)
+
+
+### Features
+
+* **controller:** provide `update` option ([#57](https://github.com/linrongbin16/colorbox.nvim/issues/57)) ([c6338ff](https://github.com/linrongbin16/colorbox.nvim/commit/c6338ff63452e78e6492a83da19e38e5646ce241))
+
 ## [1.4.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.3.1...v1.4.0) (2023-11-23)
 
 
