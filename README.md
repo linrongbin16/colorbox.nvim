@@ -14,6 +14,20 @@ I'm greedy that I want all the **most popular** Neovim colorschemes than only on
 
 Let's load all the ultra colorschemes into your Neovim player!
 
+![shuffle-per-seconds-v1](https://github.com/linrongbin16/colorbox.nvim/assets/6496887/74cc205f-fbf6-4edb-abdd-72aaea27b50b)
+
+<details>
+<summary><i>Click here to see how to configure</i></summary>
+
+```lua
+require('colorbox').setup({
+  policy = { name = "interval", seconds = 1, implement = "shuffle" },
+  timing = "interval",
+})
+```
+
+</details>
+
 It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
 
 > The **most popular** colorschemes are picked from below websites:
@@ -57,6 +71,8 @@ And multiple trigger timings (colorschemes don't have end time):
   - [lazy.nvim](#lazynvim)
   - [pckr.nvim](#pckrnvim)
 - [Configuration](#-configuration)
+  - [On Startup](#on-startup)
+  - [Fixed Interval](#fixed-interval)
 - [Development](#-development)
 - [Contribute](#-contribute)
 
@@ -122,7 +138,16 @@ You can use command `Colorbox` to control the colorschemes player:
 
 ```lua
 require('colorbox').setup({
-    --- @type "shuffle"|"in_order"|"reverse_order"|"single"
+    -- by filetype policy: filetype => color name
+    --- @alias ByFileTypePolicyConfigFileType string
+    --- @alias ByFileTypePolicyConfigColorName string
+    --- @alias ByFileTypePolicyConfig {name:"filetype",mapping:table<ByFileTypePolicyConfigFileType, ByFileTypePolicyConfigColorName>}
+    ---
+    -- fixed interval seconds
+    --- @alias FixedIntervalPolicyConfig {name:"interval",seconds:integer,implement:"shuffle"|"in_order"|"reverse_order"|"single"}
+    ---
+    --- @alias PolicyConfig "shuffle"|"in_order"|"reverse_order"|"single"|ByFileTypePolicyConfig|FixedIntervalPolicyConfig
+    --- @type PolicyConfig
     policy = "shuffle",
 
     --- @type "startup"|"interval"|"filetype"
@@ -169,6 +194,28 @@ require('colorbox').setup({
     --
     --- @type boolean
     file_log = false,
+})
+```
+
+### On Startup
+
+To choose a colorscheme on nvim start, please use:
+
+```lua
+require('colorbox').setup({
+    policy = 'shuffle',
+    timing = 'startup',
+})
+```
+
+### Fixed Interval
+
+To choose a colorscheme on fixed interval per seconds, please use:
+
+```lua
+require('colorbox').setup({
+    policy = { name = "interval", seconds = 1, implement = "shuffle" },
+    timing = 'interval',
 })
 ```
 
