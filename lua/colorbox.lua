@@ -220,7 +220,7 @@ local function _timing()
 end
 
 --- @param opts {concurrency:integer}?
-local function install(opts)
+local function update(opts)
     opts = opts or { concurrency = 4 }
     opts.concurrency = type(opts.concurrency) == "number"
             and math.max(opts.concurrency, 1)
@@ -410,8 +410,8 @@ local function install(opts)
 end
 
 --- @deprecated
-local function update(opts)
-    return install(opts)
+local function install(opts)
+    return update(opts)
 end
 
 local function _clean()
@@ -444,10 +444,11 @@ local function _reinstall(args)
             opts = { concurrency = tonumber(args_splits[2]) }
         end
     end
-    install(opts)
+    update(opts)
 end
 
 local CONTROLLERS_MAP = {
+    update = update,
     reinstall = _reinstall,
 }
 
@@ -510,7 +511,7 @@ local function setup(opts)
             bang = true,
             desc = Configs.command.desc,
             complete = function(ArgLead, CmdLine, CursorPos)
-                return { "reinstall" }
+                return { "update", "reinstall" }
             end,
         }
     )

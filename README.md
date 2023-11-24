@@ -80,7 +80,7 @@ require('lazy').setup({
         'linrongbin16/colorbox.nvim',
         lazy = false, -- don't lazy this plugin if it provides the main colorscheme
         priority = 1000, -- load this plugin before all other start plugins
-        build = function() require('colorbox').install() end,
+        build = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
 })
@@ -92,16 +92,16 @@ require('lazy').setup({
 require('pckr').add({
     {
         'linrongbin16/colorbox.nvim',
-        run = function() require('colorbox').install() end,
+        run = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
 })
 ```
 
-If you have issues on running multiple git clone/pull commands, try set `concurrency=1` in the `install` API:
+If you have issues on running multiple git clone/pull commands, try set `concurrency=1` in the `update` API:
 
 ```lua
-require('colorbox').install({
+require('colorbox').update({
     --- @type integer
     concurrency = 4,
 })
@@ -111,8 +111,8 @@ require('colorbox').install({
 
 You can use command `Colorbox` to control the colorschemes player:
 
-- `Colorbox reinstall`: clean & re-install git submodules.
-  - **Note:** use `Colorbox reinstall concurrency=1` to specify the `concurrency` parameters.
+- `Colorbox update/reinstall`: update, or clean & re-install git submodules.
+  - **Note:** use `concurrency=1` to specify the `concurrency` parameters.
 - `Colorbox next/prev/shuffle` (todo): next color, previous color, next random color (even you didn't configure the `shuffle` policy).
 - `Colorbox pause/restart` (todo): stay on current color (disable timing config, e.g. fixed interval, by filetype timings), restart to continue change colors (enable timing config).
 
