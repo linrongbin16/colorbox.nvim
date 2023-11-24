@@ -432,10 +432,9 @@ local function _clean()
     logger.info("cleaned directory: %s", shorten_pack_dir)
 end
 
---- @param args string
-local function _reinstall(args)
-    _clean()
-
+--- @param args string?
+--- @return colorbox.Options?
+local function _parse_update_args(args)
     local opts = nil
     if type(args) == "string" and string.len(vim.trim(args)) > 0 then
         local args_splits =
@@ -444,11 +443,22 @@ local function _reinstall(args)
             opts = { concurrency = tonumber(args_splits[2]) }
         end
     end
-    update(opts)
+    return opts
+end
+
+--- @param args string
+local function _update(args)
+    update(_parse_update_args(args))
+end
+
+--- @param args string
+local function _reinstall(args)
+    _clean()
+    update(_parse_update_args(args))
 end
 
 local CONTROLLERS_MAP = {
-    update = update,
+    update = _update,
     reinstall = _reinstall,
 }
 
