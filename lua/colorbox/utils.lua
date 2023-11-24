@@ -1,3 +1,5 @@
+local int32_max = 2 ^ 31 - 1
+
 -- Returns the XOR of two binary numbers
 --- @param a integer
 --- @param b integer
@@ -20,7 +22,7 @@ end
 --- @param f fun(v:any):number
 --- @return number
 local function min(l, f)
-    local result = 2 ^ 31 - 1
+    local result = int32_max
     for _, i in ipairs(l) do
         result = math.min(result, f(i))
     end
@@ -37,7 +39,6 @@ end
 --- @param maximal integer?
 --- @return integer
 local function randint(maximal)
-    local int32_max = 2 ^ 31 - 1
     maximal = maximal or int32_max
     local s1 = vim.loop.getpid()
     local s2, s3 = vim.loop.gettimeofday()
@@ -117,6 +118,7 @@ local function readfile(filename, opts)
 end
 
 local M = {
+    int32_max = int32_max,
     min = min,
     math_mod = math_mod,
     randint = randint,

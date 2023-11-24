@@ -6,7 +6,28 @@ local json = require("colorbox.json")
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
 local Defaults = {
-    --- @type "shuffle"|"in_order"|"reverse_order"|"single"
+    -- shuffle playback
+    --- @alias ShufflePolicyConfig "shuffle"
+    ---
+    --- in order
+    --- @alias InOrderPolicyConfig "in_order"
+    ---
+    --- reverse order
+    --- @alias ReverseOrderPolicyConfig "reverse_order"
+    ---
+    --- single cycle
+    --- @alias SinglePolicyConfig "single"
+    ---
+    -- by filetype policy: filetype => color name
+    --- @alias ByFileTypePolicyConfigFileType string
+    --- @alias ByFileTypePolicyConfigColorName string
+    --- @alias ByFileTypePolicyConfig {name:"filetype",mapping:table<ByFileTypePolicyConfigFileType, ByFileTypePolicyConfigColorName>}
+    ---
+    -- fixed interval seconds
+    --- @alias FixedIntervalPolicyConfig {name:"interval",seconds:integer,implement:ShufflePolicyConfig|InOrderPolicyConfig|ReverseOrderPolicyConfig|SinglePolicyConfig}
+    ---
+    --- @alias PolicyConfig ShufflePolicyConfig|InOrderPolicyConfig|ReverseOrderPolicyConfig|SinglePolicyConfig|ByFileTypePolicyConfig|FixedIntervalPolicyConfig
+    --- @type PolicyConfig
     policy = "shuffle",
 
     --- @type "startup"|"interval"|"filetype"
@@ -126,6 +147,12 @@ local function _init()
     )
 end
 
+local function _before_running_colorscheme_hook()
+    if Configs.background == "dark" or Configs.background == "light" then
+        vim.opt.background = Configs.background
+    end
+end
+
 --- @alias PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
 --- @param color_number integer
@@ -162,6 +189,7 @@ local function _policy_shuffle()
         --     vim.inspect(ColorNames),
         --     vim.inspect()
         -- )
+        _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
         _save_previous_track(color, i)
     end
@@ -176,6 +204,7 @@ local function _policy_in_order()
                 #FilteredColorNamesList
             )
         local color = FilteredColorNamesList[i + 1]
+        _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
         _save_previous_track(color, i)
     end
@@ -191,21 +220,50 @@ local function _policy_reverse_order()
                 or previous_track.color_number - 1
             )
         local color = FilteredColorNamesList[i + 1]
+        _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
         _save_previous_track(color, i)
     end
 end
 
-local function _policy()
-    if Configs.background == "dark" or Configs.background == "light" then
-        vim.opt.background = Configs.background
+--- @param po colorbox.Options?
+local function _is_fixed_interval_policy(po)
+    return type(po) == "table"
+        and po.name == "interval"
+        and type(po.seconds) == "number"
+        and po.seconds >= 0
+        and type(po.implement) == "string"
+        and string.len(po.implement) > 0
+end
+
+local function _policy_fixed_interval()
+    local later = Configs.policy.seconds > 0 and (Configs.policy.seconds * 1000)
+        or utils.int32_max
+
+    local function impl()
+        if Configs.policy.implement == "shuffle" then
+            _policy_shuffle()
+        elseif Configs.policy.implement == "in_order" then
+            _policy_in_order()
+        elseif Configs.policy.implement == "reverse_order" then
+            _policy_reverse_order()
+        elseif Configs.policy.implement == "single" then
+            -- TODO: implement single cycle
+        end
+        vim.defer_fn(impl, later)
     end
+    impl()
+end
+
+local function _policy()
     if Configs.policy == "shuffle" then
         _policy_shuffle()
     elseif Configs.policy == "in_order" then
         _policy_in_order()
     elseif Configs.policy == "reverse_order" then
         _policy_reverse_order()
+    elseif _is_fixed_interval_policy(Configs.policy) then
+        _policy_fixed_interval()
     end
 end
 
@@ -215,8 +273,17 @@ local function _timing_startup()
     })
 end
 
+local function _timing_interval()
+    -- Configs.timing
+end
+
 local function _timing()
-    _timing_startup()
+    if Configs.timing == "startup" then
+        _timing_startup()
+    elseif Configs.timing == "interval" then
+        assert(_is_fixed_interval_policy(Configs.policy))
+        _policy_fixed_interval()
+    end
 end
 
 --- @param opts {concurrency:integer}?
