@@ -195,7 +195,6 @@ local function _policy_shuffle()
         -- )
         _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
-        _after_running_colorscheme_hook()
         _save_previous_track(color, i)
     end
 end
@@ -211,7 +210,6 @@ local function _policy_in_order()
         local color = FilteredColorNamesList[i + 1]
         _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
-        _after_running_colorscheme_hook()
         _save_previous_track(color, i)
     end
 end
@@ -228,7 +226,6 @@ local function _policy_reverse_order()
         local color = FilteredColorNamesList[i + 1]
         _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
-        _after_running_colorscheme_hook()
         _save_previous_track(color, i)
     end
 end
@@ -250,10 +247,13 @@ local function _policy_fixed_interval()
     local function impl()
         if Configs.policy.implement == "shuffle" then
             _policy_shuffle()
+            _after_running_colorscheme_hook()
         elseif Configs.policy.implement == "in_order" then
             _policy_in_order()
+            _after_running_colorscheme_hook()
         elseif Configs.policy.implement == "reverse_order" then
             _policy_reverse_order()
+            _after_running_colorscheme_hook()
         elseif Configs.policy.implement == "single" then
             -- TODO: implement single cycle
         end
