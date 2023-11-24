@@ -288,7 +288,13 @@ local function _timing()
     if Configs.timing == "startup" then
         _timing_startup()
     elseif Configs.timing == "interval" then
-        assert(_is_fixed_interval_policy(Configs.policy))
+        assert(
+            _is_fixed_interval_policy(Configs.policy),
+            string.format(
+                "invalid policy %s for 'interval' timing!",
+                vim.inspect(Configs.policy)
+            )
+        )
         _policy_fixed_interval()
     end
 end
