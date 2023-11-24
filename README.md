@@ -136,7 +136,28 @@ You can use command `Colorbox` to control the colorschemes player:
 
 ```lua
 require('colorbox').setup({
-    --- @type "shuffle"|"in_order"|"reverse_order"|"single"
+    -- shuffle playback
+    --- @alias ShufflePolicyConfig "shuffle"
+    ---
+    --- in order
+    --- @alias InOrderPolicyConfig "in_order"
+    ---
+    --- reverse order
+    --- @alias ReverseOrderPolicyConfig "reverse_order"
+    ---
+    --- single cycle
+    --- @alias SinglePolicyConfig "single"
+    ---
+    -- by filetype policy: filetype => color name
+    --- @alias ByFileTypePolicyConfigFileType string
+    --- @alias ByFileTypePolicyConfigColorName string
+    --- @alias ByFileTypePolicyConfig {name:"filetype",mapping:table<ByFileTypePolicyConfigFileType, ByFileTypePolicyConfigColorName>}
+    ---
+    -- fixed interval seconds
+    --- @alias FixedIntervalPolicyConfig {name:"interval",seconds:integer,implement:ShufflePolicyConfig|InOrderPolicyConfig|ReverseOrderPolicyConfig|SinglePolicyConfig}
+    ---
+    --- @alias PolicyConfig ShufflePolicyConfig|InOrderPolicyConfig|ReverseOrderPolicyConfig|SinglePolicyConfig|ByFileTypePolicyConfig|FixedIntervalPolicyConfig
+    --- @type PolicyConfig
     policy = "shuffle",
 
     --- @type "startup"|"interval"|"filetype"
