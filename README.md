@@ -10,15 +10,23 @@
 <a href="https://github.com/linrongbin16/gitlinker.nvim/actions/workflows/collect.yml"><img alt="collect.yml" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Frepos%2Flinrongbin16%2Fcolorbox.nvim%2Fcommits%3Fpath%3Dcollect.py.log%26page%3D1%26per_page%3D1&query=%24%5B0%5D.commit.committer.date&logo=githubactions&logoColor=fff&label=Last%20Update&labelColor=2F4F4F" /></a>
 </p>
 
-
-
 I'm greedy that I want all the **most popular** Neovim colorschemes than only one, I'm playful that I want to change colorscheme from time to time. Are you like me?
 
 Let's load all the ultra colorschemes into your Neovim player!
 
-
 https://github.com/linrongbin16/colorbox.nvim/assets/6496887/ef3e1aa3-376e-49c0-8d01-c3b8dd1419ad
 
+<details>
+<summary><i>Click here to see how to configure</i></summary>
+
+```lua
+require('colorbox').setup({
+  policy = { name = "interval", seconds = 1, implement = "shuffle" },
+  timing = "interval",
+})
+```
+
+</details>
 
 It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
 
