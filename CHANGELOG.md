@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.7.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.6.0...v1.7.0) (2023-11-24)
+
+
+### Features
+
+* **install:** support 'reinstall' on Windows ([#62](https://github.com/linrongbin16/colorbox.nvim/issues/62)) ([9f00c7b](https://github.com/linrongbin16/colorbox.nvim/commit/9f00c7ba8814b8d2d5b1a8000d068a949954a3f7))
+
+
+### Bug Fixes
+
+* **filter:** fix 'primary' filter ([91e89c9](https://github.com/linrongbin16/colorbox.nvim/commit/91e89c9c553c3df59e6ebf26bb1038450f883c30))
+
 ## [1.6.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.5.0...v1.6.0) (2023-11-24)
 
 
