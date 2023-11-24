@@ -1,3 +1,4 @@
+local is_windows = vim.fn.has("win32") > 0 or vim.fn.has("win64") > 0
 local int32_max = 2 ^ 31 - 1
 
 -- Returns the XOR of two binary numbers
@@ -118,6 +119,7 @@ local function readfile(filename, opts)
 end
 
 local M = {
+    is_windows = is_windows,
     int32_max = int32_max,
     min = min,
     math_mod = math_mod,
