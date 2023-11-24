@@ -220,7 +220,7 @@ local function _timing()
 end
 
 --- @param opts {concurrency:integer}?
-local function install(opts)
+local function update(opts)
     opts = opts or { concurrency = 4 }
     opts.concurrency = type(opts.concurrency) == "number"
             and math.max(opts.concurrency, 1)
@@ -410,8 +410,8 @@ local function install(opts)
 end
 
 --- @deprecated
-local function update(opts)
-    return install(opts)
+local function install(opts)
+    return update(opts)
 end
 
 local function _clean()
@@ -432,10 +432,9 @@ local function _clean()
     logger.info("cleaned directory: %s", shorten_pack_dir)
 end
 
---- @param args string
-local function _reinstall(args)
-    _clean()
-
+--- @param args string?
+--- @return colorbox.Options?
+local function _parse_update_args(args)
     local opts = nil
     if type(args) == "string" and string.len(vim.trim(args)) > 0 then
         local args_splits =
@@ -444,10 +443,22 @@ local function _reinstall(args)
             opts = { concurrency = tonumber(args_splits[2]) }
         end
     end
-    install(opts)
+    return opts
+end
+
+--- @param args string
+local function _update(args)
+    update(_parse_update_args(args))
+end
+
+--- @param args string
+local function _reinstall(args)
+    _clean()
+    update(_parse_update_args(args))
 end
 
 local CONTROLLERS_MAP = {
+    update = _update,
     reinstall = _reinstall,
 }
 
@@ -510,7 +521,7 @@ local function setup(opts)
             bang = true,
             desc = Configs.command.desc,
             complete = function(ArgLead, CmdLine, CursorPos)
-                return { "reinstall" }
+                return { "update", "reinstall" }
             end,
         }
     )
