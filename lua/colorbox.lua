@@ -79,10 +79,10 @@ local function _primary_color_name_filter(color_name, spec)
     local unique = #spec.color_names <= 1
     local shortest = string.len(color_name)
         == utils.min(spec.color_names, string.len)
-    local url_splits =
-        vim.split(spec.url, "/", { plain = true, trimempty = true })
-    local matched = url_splits[1]:lower() == color_name:lower()
-        or url_splits[2]:lower() == color_name:lower()
+    local handle_splits =
+        vim.split(spec.handle, "/", { plain = true, trimempty = true })
+    local matched = handle_splits[1]:lower() == color_name:lower()
+        or handle_splits[2]:lower() == color_name:lower()
     logger.debug(
         "|colorbox._primary_color_name_filter| color:%s, spec:%s, unique:%s, shortest: %s, matched:%s",
         vim.inspect(color_name),
