@@ -88,7 +88,7 @@ And multiple trigger timings (colorschemes don't have end time):
 
 There're many ways to install portable linux shell and builtin commands on Windows, but personally I would recommend below two methods.
 
-#### [Git for Windows](https://git-scm.com/download/win)
+### [Git for Windows](https://git-scm.com/download/win)
 
 Install with the below 3 options:
 
@@ -106,7 +106,7 @@ Install with the below 3 options:
 
 After this step, **git.exe** and builtin linux commands(such as **rm.exe**) will be available in `%PATH%`.
 
-#### [scoop](https://scoop.sh/)
+### [scoop](https://scoop.sh/)
 
 Run below powershell commands:
 
