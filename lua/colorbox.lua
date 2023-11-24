@@ -254,8 +254,8 @@ local function _policy_fixed_interval()
         elseif Configs.policy.implement == "reverse_order" then
             _policy_reverse_order()
             _after_running_colorscheme_hook()
-        elseif Configs.policy.implement == "single" then
-            -- TODO: implement single cycle
+            -- elseif Configs.policy.implement == "single" then
+            --     -- TODO: implement single cycle
         end
         vim.defer_fn(impl, later)
     end
