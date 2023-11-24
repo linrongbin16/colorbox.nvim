@@ -80,7 +80,7 @@ And multiple trigger timings (colorschemes don't have end time):
 
 - neovim &ge; 0.8.
 - [git](https://git-scm.com/).
-- [rm](https://man7.org/linux/man-pages/man1/rm.1.html) (optional for `clean` and `reinstall` command on Windows).
+- [rm](https://man7.org/linux/man-pages/man1/rm.1.html) (optional for `reinstall` command on Windows).
 
 <details>
 <summary><i>Click here to see how to install `rm` command on Windows</i></summary>
