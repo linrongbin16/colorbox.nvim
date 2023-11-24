@@ -153,6 +153,10 @@ local function _before_running_colorscheme_hook()
     end
 end
 
+local function _after_running_colorscheme_hook()
+    vim.cmd([[syntax sync fromstart]])
+end
+
 --- @alias PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
 --- @param color_number integer
@@ -191,6 +195,7 @@ local function _policy_shuffle()
         -- )
         _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
+        _after_running_colorscheme_hook()
         _save_previous_track(color, i)
     end
 end
@@ -206,6 +211,7 @@ local function _policy_in_order()
         local color = FilteredColorNamesList[i + 1]
         _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
+        _after_running_colorscheme_hook()
         _save_previous_track(color, i)
     end
 end
@@ -222,6 +228,7 @@ local function _policy_reverse_order()
         local color = FilteredColorNamesList[i + 1]
         _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
+        _after_running_colorscheme_hook()
         _save_previous_track(color, i)
     end
 end
