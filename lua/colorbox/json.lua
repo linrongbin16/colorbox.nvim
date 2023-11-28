@@ -1,10 +1,10 @@
-local rxi_json = require("colorbox.rxi_json")
+local actboy168_json = require("colorbox.actboy168_json")
 
 local M = {
     encode = (vim.fn.has("nvim-0.9") and vim.json ~= nil) and vim.json.encode
-        or rxi_json.encode,
+        or actboy168_json.encode,
     decode = (vim.fn.has("nvim-0.9") and vim.json ~= nil) and vim.json.decode
-        or rxi_json.decode,
+        or actboy168_json.decode,
 }
 
 return M
