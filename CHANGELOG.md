@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.7.0...v1.7.1) (2023-11-28)
+
+
+### Bug Fixes
+
+* **install:** fix NPE while installation ([#64](https://github.com/linrongbin16/colorbox.nvim/issues/64)) ([3aa8c2d](https://github.com/linrongbin16/colorbox.nvim/commit/3aa8c2d5fb9a412f643baddea4d0b3840d2092cb))
+
 ## [1.7.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.6.0...v1.7.0) (2023-11-24)
 
 
