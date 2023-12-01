@@ -101,8 +101,8 @@ end
 --- @param spec colorbox.ColorSpec
 --- @return boolean
 local function _should_filter(color_name, spec)
-    if Configs.filter == nil then
-        return false
+    if Configs.filter == nil or type(Configs.filter) == 'boolean' then
+        return Configs.filter or false
     end
     if Configs.filter == "primary" then
         return _primary_color_name_filter(color_name, spec)
@@ -245,7 +245,6 @@ end
 --- @param po colorbox.Options?
 local function _is_fixed_interval_policy(po)
     return type(po) == "table"
-        and po.name == "interval"
         and type(po.seconds) == "number"
         and po.seconds >= 0
         and type(po.implement) == "string"

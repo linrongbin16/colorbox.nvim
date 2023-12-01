@@ -21,7 +21,7 @@ https://github.com/linrongbin16/colorbox.nvim/assets/6496887/8fff55ea-749d-4064-
 
 ```lua
 require('colorbox').setup({
-  policy = { name = "interval", seconds = 1, implement = "shuffle" },
+  policy = { seconds = 1, implement = "shuffle" },
   timing = "interval",
 })
 ```
@@ -71,8 +71,8 @@ And multiple trigger timings (colorschemes don't have end time):
   - [lazy.nvim](#lazynvim)
   - [pckr.nvim](#pckrnvim)
 - [Configuration](#-configuration)
-  - [On Startup](#on-startup)
-  - [Fixed Interval](#fixed-interval)
+  - [Timing & Policy](#timing--policy)
+  - [Filter](#filter)
 - [Development](#-development)
 - [Contribute](#-contribute)
 
@@ -199,6 +199,19 @@ require('colorbox').setup({
     -- builtin filter
     --- @alias colorbox.BuiltinFilterConfig "primary"
     ---
+    --- @class colorbox.ColorSpec
+    --- @field handle string "folke/tokyonight.nvim"
+    --- @field url string "https://github.com/folke/tokyonight.nvim"
+    --- @field github_stars integer 4300
+    --- @field last_git_commit string "2023-10-25T18:20:36"
+    --- @field priority integer 100/0
+    --- @field source string "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"
+    --- @field git_path string "folke-tokyonight.nvim"
+    --- @field git_branch string? nil|"neovim"
+    --- @field color_names string[] ["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]
+    --- @field pack_path string "pack/colorbox/start/folke-tokyonight.nvim"
+    --- @field full_pack_path string "Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"
+    --
     -- function-based filter, disabled if function return true.
     --- @alias colorbox.FunctionFilterConfig fun(color:string, spec:colorbox.ColorSpec):boolean
     ---
@@ -246,7 +259,15 @@ require('colorbox').setup({
 })
 ```
 
-### On Startup
+### Timing & Policy
+
+Timing and policy configs have to work together.
+
+- `timing`: 'startup' (on nvim start), 'interval' (fixed interval seconds), 'filetype' (by buffer filetype, todo).
+- `policy`:
+  - Builtin policies (see `colorbox.BuiltinPolicyConfig`): 'shuffle' (random select), 'in_order' ('A-Z' color names), 'reverse_order' ('Z-A' color names), 'single_cycle' (don't change, todo).
+  - Fixed interval policies (see `colorbox.ByFileTypePolicyConfig`): todo.
+  - By buffer filetype policies (see ``)                                                                           
 
 To choose a colorscheme on nvim start, please use:
 
@@ -257,14 +278,45 @@ require('colorbox').setup({
 })
 ```
 
-### Fixed Interval
-
 To choose a colorscheme on fixed interval per seconds, please use:
 
 ```lua
 require('colorbox').setup({
-    policy = { name = "interval", seconds = 1, implement = "shuffle" },
+    policy = { seconds = 1, implement = "shuffle" },
     timing = 'interval',
+})
+```
+
+### Filter
+
+There're 3 types of filter configs:
+
+- Builtin filters (see `colorbox.BuiltinFilterConfig`): `primary` (only the main color).
+- Function-based filters (see `colorbox.FunctionFilterConfig`): a lua function that decide whether to filter the color, return true if you want to disable the color.
+  - **Note:** the lua function use signature `fun(color:string, spec:colorbox.ColorSpec):boolean`, where 1st parameter `color` is the color name, 2nd paraneter `spec` is the meta info of a color plugin, see `colorbox.ColorSpec`.
+- List-based filters (see `colorbox.AnyFilterConfig`): a lua list that contains multiple of builtin filters and function filters, the color will be disabled if any of these filters returns true.
+
+To disable filters, please use:
+
+```lua
+require('colorbox').setup({
+    filter = false,
+})
+```
+
+To enable only primary colors (default config), please use:
+
+```lua
+require('colorbox').setup({
+    filter = 'primary',
+})
+```
+
+To enable only github stars &ge; 1000 & primary colors, please use:
+
+```lua
+require('colorbox').setup({
+    filter = {'primary', function(color, spec) return spec.github_stars < 1000 end },
 })
 ```
 
