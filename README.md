@@ -194,6 +194,7 @@ require('colorbox').setup({
     timing = "startup",
 
     -- (Optional) filters that disable some colors that you don't want.
+    -- By default only enable primary color, e.g. only 'tokyonight' is picked, others ('tokyonight-day', 'tokyonight-moon', 'tokyonight-night', 'tokyonight-storm') are excluded.
     --
     -- builtin filter
     --- @alias colorbox.BuiltinFilterConfig "primary"
@@ -206,17 +207,7 @@ require('colorbox').setup({
     ---
     --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AnyFilterConfig
     --- @type colorbox.FilterConfig?
-    filter = {
-        -- by default only enable primary color.
-        -- e.g. only 'tokyonight' is picked, others ('tokyonight-day', 'tokyonight-moon', 'tokyonight-night', 'tokyonight-storm') are excluded.
-        "primary", 
-
-        -- by default only enable github stars >= 800.
-        -- current database collect github stars >= 500, some could be not too popular.
-        function(color, spec)
-            return spec.github_stars < 800
-        end,
-    },
+    filter = "primary",
 
     -- (Optional) setup plugin before running `colorscheme {color}`.
     --- @type table<string, function>
