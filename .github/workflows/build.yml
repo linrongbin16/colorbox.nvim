@@ -5,6 +5,9 @@ on:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+concurrency:
+  group: ${{ github.ref }}/build
+  cancel-in-progress: true
 jobs:
   sonarcloud:
     name: SonarCloud
