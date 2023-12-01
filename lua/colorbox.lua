@@ -9,7 +9,7 @@ local uv = (vim.fn.has("nvim-0.10") > 0 and vim.uv ~= nil) and vim.uv
 --- @type colorbox.Options
 local Defaults = {
     -- builtin policy
-    --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single_cycle"
+    --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single"
     ---
     -- by filetype policy: buffer filetype => color name
     --- @alias colorbox.ByFileTypePolicyConfig {implement:colorbox.BuiltinPolicyConfig|table<string, string>}
@@ -172,7 +172,7 @@ end
 --- @alias PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
 --- @param color_number integer
-local function _save_previous_track(color_name, color_number)
+local function _save_track(color_name, color_number)
     assert(
         type(color_name) == "string" and string.len(vim.trim(color_name)) > 0,
         string.format("invalid color name %s", vim.inspect(color_name))
@@ -195,10 +195,18 @@ local function _load_previous_track()
     return json.decode(content) --[[@as PreviousTrack]]
 end
 
+--- @param idx integer
+--- @return string
+local function _get_color_name_by_idx(idx)
+    assert(type(idx) == "number" and idx >= 0)
+    idx = utils.math_mod(idx + 1, #FilteredColorNamesList)
+    return FilteredColorNamesList[idx]
+end
+
 local function _policy_shuffle()
     if #FilteredColorNamesList > 0 then
         local i = utils.randint(#FilteredColorNamesList)
-        local color = FilteredColorNamesList[i + 1]
+        local color = _get_color_name_by_idx(i)
         -- logger.debug(
         --     "|colorbox._policy_shuffle| color:%s, ColorNames:%s (%d), r:%d",
         --     vim.inspect(color),
@@ -207,22 +215,18 @@ local function _policy_shuffle()
         -- )
         _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
-        _save_previous_track(color, i)
+        _save_track(color, i)
     end
 end
 
 local function _policy_in_order()
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as PreviousTrack]]
-        local i = previous_track == nil and 0
-            or utils.math_mod(
-                previous_track.color_number + 1,
-                #FilteredColorNamesList
-            )
-        local color = FilteredColorNamesList[i + 1]
+        local i = previous_track == nil and 0 or previous_track.color_number + 1
+        local color = _get_color_name_by_idx(i)
         _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
-        _save_previous_track(color, i)
+        _save_track(color, i)
     end
 end
 
@@ -235,10 +239,23 @@ local function _policy_reverse_order()
                     and (#FilteredColorNamesList - 1)
                 or previous_track.color_number - 1
             )
-        local color = FilteredColorNamesList[i + 1]
+        local color = _get_color_name_by_idx(i)
         _before_running_colorscheme_hook()
         vim.cmd(string.format([[color %s]], color))
-        _save_previous_track(color, i)
+        _save_track(color, i)
+    end
+end
+
+local function _policy_single()
+    if #FilteredColorNamesList > 0 then
+        local previous_track = _load_previous_track() --[[@as PreviousTrack]]
+        local i = previous_track == nil and 0 or previous_track.color_number
+        local color = _get_color_name_by_idx(i)
+        if color ~= vim.g.colors_name then
+            _before_running_colorscheme_hook()
+            vim.cmd(string.format([[color %s]], color))
+        end
+        _save_track(color, i)
     end
 end
 
@@ -265,8 +282,9 @@ local function _policy_fixed_interval()
         elseif Configs.policy.implement == "reverse_order" then
             _policy_reverse_order()
             _after_running_colorscheme_hook()
-            -- elseif Configs.policy.implement == "single" then
-            --     -- TODO: implement single cycle
+        elseif Configs.policy.implement == "single" then
+            _policy_single()
+            _after_running_colorscheme_hook()
         end
         vim.defer_fn(impl, later)
     end
@@ -280,6 +298,8 @@ local function _policy()
         _policy_in_order()
     elseif Configs.policy == "reverse_order" then
         _policy_reverse_order()
+    elseif Configs.policy == "single" then
+        _policy_single()
     elseif _is_fixed_interval_policy(Configs.policy) then
         _policy_fixed_interval()
     end
