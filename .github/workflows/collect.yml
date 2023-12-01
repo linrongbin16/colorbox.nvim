@@ -1,4 +1,4 @@
-name: Color Collector
+name: Collector
 on:
   schedule:
     - cron: "53 0 * * 1"
