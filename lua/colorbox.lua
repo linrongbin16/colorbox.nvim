@@ -37,12 +37,7 @@ local Defaults = {
     ---
     --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AnyFilterConfig
     --- @type colorbox.FilterConfig?
-    filter = {
-        "primary",
-        function(color, spec)
-            return spec.github_stars < 800
-        end,
-    },
+    filter = "primary",
 
     --- @type table<string, function>
     setup = {
