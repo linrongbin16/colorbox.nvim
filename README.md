@@ -14,7 +14,7 @@ I'm greedy that I want all the **most popular** Neovim colorschemes than only on
 
 Let's load all the ultra colorschemes into your Neovim player!
 
-![shuffle-per-seconds-v1](https://github.com/linrongbin16/colorbox.nvim/assets/6496887/74cc205f-fbf6-4edb-abdd-72aaea27b50b)
+https://github.com/linrongbin16/colorbox.nvim/assets/6496887/8fff55ea-749d-4064-90b8-a3799519898d
 
 <details>
 <summary><i>Click here to see how to configure</i></summary>
