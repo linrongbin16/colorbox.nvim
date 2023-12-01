@@ -28,6 +28,7 @@ BLACKLIST = [
     "mini.nvim#minischeme",
     "mini.nvim#colorschemes",
     "olimorris/onedarkpro.nvim",
+    "text-to-colorscheme",
 ]
 
 
@@ -37,6 +38,7 @@ WEBDRIVER_TIMEOUT = 30
 
 # git object
 DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S"
+DATE_FORMAT = "%Y-%m-%d"
 CANDIDATE_DIR = "candidate"
 
 
@@ -101,6 +103,12 @@ def datetime_tostring(
         else None
     )
 
+def date_tostring(value: typing.Optional[datetime.datetime]) -> typing.Optional[str]:
+    return (
+        value.strftime(DATE_FORMAT)
+        if isinstance(value, datetime.datetime)
+        else None
+    )
 
 def datetime_fromstring(
     value: typing.Optional[str],
@@ -119,17 +127,21 @@ def path2str(p: pathlib.Path) -> str:
     return result
 
 
-def retrieve_last_git_commit_datetime(git_path: pathlib.Path) -> datetime.datetime:
-    saved_cwd = os.getcwd()
-    os.chdir(git_path)
-    last_commit_time = subprocess.check_output(
-        ["git", "log", "-1", '--format="%at"'], encoding="UTF-8"
-    ).strip()
-    last_commit_time = trim_quotes(last_commit_time)
-    dt = datetime.datetime.fromtimestamp(int(last_commit_time))
-    logging.debug(f"repo ({git_path}) last git commit time:{dt}")
-    os.chdir(saved_cwd)
-    return dt
+def retrieve_last_git_commit_datetime(git_path: pathlib.Path) -> typing.Optional[datetime.datetime]:
+    try:
+        saved_cwd = os.getcwd()
+        os.chdir(git_path)
+        last_commit_time = subprocess.check_output(
+            ["git", "log", "-1", '--format="%at"'], encoding="UTF-8"
+        ).strip()
+        last_commit_time = trim_quotes(last_commit_time)
+        dt = datetime.datetime.fromtimestamp(int(last_commit_time))
+        logging.debug(f"repo ({git_path}) last git commit time:{dt}")
+        os.chdir(saved_cwd)
+        return dt
+    except Exception as e:
+        logging.exception(f"failed to retrieve last git commit - spec:{git_path}", e)
+        return None
 
 
 @dataclass
@@ -277,7 +289,7 @@ class ColorSpec:
         except:
             return []
 
-    def download_git_object(self) -> None:
+    def download_git_object(self) -> bool:
         try:
             clone_cmd = None
             if isinstance(self.git_branch, str):
@@ -293,8 +305,10 @@ class ColorSpec:
             else:
                 logging.debug(clone_cmd)
                 os.system(clone_cmd)
+            return True
         except Exception as e:
             logging.exception(f"failed to download git object: {self.url}", e)
+            return False
 
     def get_vim_color_names(self) -> list[str]:
         colors_dir = pathlib.Path(f"{self.candidate_path}/colors")
@@ -379,7 +393,7 @@ class VimColorSchemes:
             github_stars,
             last_git_commit=last_git_commit,
             priority=0,
-            source="https://vimcolorschemes.com/top",
+            source="vimcolorschemes",
         )
 
     def fetch(self) -> list[ColorSpec]:
@@ -391,6 +405,9 @@ class VimColorSchemes:
                 for element in find_elements(driver, "//article[@class='card']"):
                     spec = self._parse_spec(element)
                     logging.debug(f"vsc repo:{spec}")
+                    if len(spec.handle.split('/')) != 2:
+                        logging.info(f"skip for invalid handle - (vcs) spec:{spec}")
+                        continue
                     if spec.github_stars < GITHUB_STARS:
                         logging.info(f"skip for lower stars - (vcs) spec:{spec}")
                         continue
@@ -415,7 +432,7 @@ class AwesomeNeovimColorScheme:
             github_stars,
             last_git_commit=None,
             priority=100,
-            source="https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme",
+            source="awesome-neovim",
         )
 
     def _parse_colors_list(self, driver: Chrome, tag_id: str) -> list[ColorSpec]:
@@ -426,6 +443,12 @@ class AwesomeNeovimColorScheme:
         )
         for e in colors_group.find_elements(By.XPATH, "./li"):
             spec = self._parse_spec(e)
+            if len(spec.handle.split('/')) != 2:
+                logging.info(f"skip for invalid handle - (asn) spec:{spec}")
+                continue
+            if spec.github_stars < GITHUB_STARS:
+                logging.info(f"skip for lower stars - (asn) spec:{spec}")
+                continue
             logging.info(f"get (asn) repo:{spec}")
             repos.append(spec)
         return repos
@@ -454,14 +477,15 @@ def filter_color_specs(specs: list[ColorSpec]) -> None:
     filtered_specs: list[ColorSpec] = []
     for sp in specs:
         logging.debug(f"process filtering on spec:{sp}")
+        if sp.github_stars < GITHUB_STARS:
+            logging.info(f"skip for lower stars - spec:{sp}")
+            continue
         if blacklist(sp):
             logging.info(f"skip for blacklist - spec:{sp}")
             need_remove_specs.append(sp)
             continue
-        if sp.github_stars < GITHUB_STARS:
-            logging.info(f"skip for lower stars - spec:{sp}")
-            need_remove_specs.append(sp)
-            continue
+        else:
+            logging.debug(f"no-skip for blacklist - spec:{sp}")
         filtered_specs.append(sp)
 
     logging.debug(f"after filter:{[str(s) for s in specs]}")
@@ -490,6 +514,10 @@ class Builder:
             last_update = retrieve_last_git_commit_datetime(
                 pathlib.Path(spec.candidate_path)
             )
+            # if last_update is None:
+            #     logging.info(f"skip for invalid git commit - spec:{spec}")
+            #     spec.remove()
+            #     continue
             spec.update_last_git_commit(last_update)
             assert isinstance(spec.last_git_commit, datetime.datetime)
             if (
@@ -554,7 +582,11 @@ class Builder:
 
         md = MdUtils(file_name="COLORSCHEMES", title="ColorSchemes List")
         for spec in ColorSpec.all():
-            md.new_line("- " + md.new_inline_link(link=spec.url, text=spec.handle))
+            color_names = spec.get_vim_color_names()
+            color_names = ", ".join([f"'{c}'" for c in color_names])
+            md.new_line(
+                f"- {md.new_inline_link(link=spec.url, text=spec.handle)} (stars: {spec.github_stars}, last update: {date_tostring(spec.last_git_commit)}): {color_names}"
+            )
         md.create_md_file()
 
 

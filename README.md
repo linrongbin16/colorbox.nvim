@@ -32,8 +32,8 @@ It use offline github actions to weekly collect and update the most popular Vim/
 
 > The **most popular** colorschemes are picked from below websites:
 >
-> - [vimcolorscheme.com/top](https://vimcolorschemes.com/top)
-> - [www.trackawesomelist.com/rockerBOO/awesome-neovim](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
+> - [vimcolorschemes.com/top](https://vimcolorschemes.com/top)
+> - [rockerBOO/awesome-neovim](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
 >
 > with below conditions:
 >
@@ -177,27 +177,46 @@ You can use command `Colorbox` to control the colorschemes player:
 
 ```lua
 require('colorbox').setup({
-    -- by filetype policy: filetype => color name
-    --- @alias ByFileTypePolicyConfigFileType string
-    --- @alias ByFileTypePolicyConfigColorName string
-    --- @alias ByFileTypePolicyConfig {name:"filetype",mapping:table<ByFileTypePolicyConfigFileType, ByFileTypePolicyConfigColorName>}
+    -- builtin policy
+    --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single_cycle"
+    ---
+    -- by filetype policy: buffer filetype => color name
+    --- @alias colorbox.ByFileTypePolicyConfig {implement:colorbox.BuiltinPolicyConfig|table<string, string>}
     ---
     -- fixed interval seconds
-    --- @alias FixedIntervalPolicyConfig {name:"interval",seconds:integer,implement:"shuffle"|"in_order"|"reverse_order"|"single"}
+    --- @alias colorbox.FixedIntervalPolicyConfig {seconds:integer,implement:colorbox.BuiltinPolicyConfig}
     ---
-    --- @alias PolicyConfig "shuffle"|"in_order"|"reverse_order"|"single"|ByFileTypePolicyConfig|FixedIntervalPolicyConfig
-    --- @type PolicyConfig
+    --- @alias colorbox.PolicyConfig colorbox.BuiltinPolicyConfig|colorbox.ByFileTypePolicyConfig|colorbox.FixedIntervalPolicyConfig
+    --- @type colorbox.PolicyConfig
     policy = "shuffle",
 
     --- @type "startup"|"interval"|"filetype"
     timing = "startup",
 
-    -- (Optional) filter color by color name. For now there're two types of filters:
-    -- 1. the "primary" filter: only the primary colors will be selected, other variants will be skip.
-    -- 2. the function filter: colors will be filtered if function return true.
+    -- (Optional) filters that disable some colors that you don't want.
     --
-    --- @type "primary"|fun(color:string,spec:colorbox.ColorSpec):boolean|nil
-    filter = nil,
+    -- builtin filter
+    --- @alias colorbox.BuiltinFilterConfig "primary"
+    ---
+    -- function-based filter, disabled if function return true.
+    --- @alias colorbox.FunctionFilterConfig fun(color:string, spec:colorbox.ColorSpec):boolean
+    ---
+    ---list-based filter, disabled if any of filter hit the conditions.
+    --- @alias colorbox.AnyFilterConfig (colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig)[]
+    ---
+    --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AnyFilterConfig
+    --- @type colorbox.FilterConfig?
+    filter = {
+        -- by default only enable primary color.
+        -- e.g. only 'tokyonight' is picked, others ('tokyonight-day', 'tokyonight-moon', 'tokyonight-night', 'tokyonight-storm') are excluded.
+        "primary", 
+
+        -- by default only enable github stars >= 800.
+        -- current database collect github stars >= 500, some could be not too popular.
+        function(color, spec)
+            return spec.github_stars < 800
+        end,
+    },
 
     -- (Optional) setup plugin before running `colorscheme {color}`.
     --- @type table<string, function>
