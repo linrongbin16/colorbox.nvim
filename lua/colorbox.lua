@@ -8,35 +8,36 @@ local uv = (vim.fn.has("nvim-0.10") > 0 and vim.uv ~= nil) and vim.uv
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
 local Defaults = {
-    -- shuffle playback
-    --- @alias ShufflePolicyConfig "shuffle"
+    -- builtin policy
+    --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single_cycle"
     ---
-    --- in order
-    --- @alias InOrderPolicyConfig "in_order"
-    ---
-    --- reverse order
-    --- @alias ReverseOrderPolicyConfig "reverse_order"
-    ---
-    --- single cycle
-    --- @alias SinglePolicyConfig "single"
-    ---
-    -- by filetype policy: filetype => color name
-    --- @alias ByFileTypePolicyConfigFileType string
-    --- @alias ByFileTypePolicyConfigColorName string
-    --- @alias ByFileTypePolicyConfig {name:"filetype",mapping:table<ByFileTypePolicyConfigFileType, ByFileTypePolicyConfigColorName>}
+    -- by filetype policy: buffer filetype => color name
+    --- @alias colorbox.ByFileTypePolicyConfig {implement:colorbox.BuiltinPolicyConfig|table<string, string>}
     ---
     -- fixed interval seconds
-    --- @alias FixedIntervalPolicyConfig {name:"interval",seconds:integer,implement:ShufflePolicyConfig|InOrderPolicyConfig|ReverseOrderPolicyConfig|SinglePolicyConfig}
+    --- @alias colorbox.FixedIntervalPolicyConfig {seconds:integer,implement:colorbox.BuiltinPolicyConfig}
     ---
-    --- @alias PolicyConfig ShufflePolicyConfig|InOrderPolicyConfig|ReverseOrderPolicyConfig|SinglePolicyConfig|ByFileTypePolicyConfig|FixedIntervalPolicyConfig
-    --- @type PolicyConfig
+    --- @alias colorbox.PolicyConfig colorbox.BuiltinPolicyConfig|colorbox.ByFileTypePolicyConfig|colorbox.FixedIntervalPolicyConfig
+    --- @type colorbox.PolicyConfig
     policy = "shuffle",
 
     --- @type "startup"|"interval"|"filetype"
     timing = "startup",
 
-    --- @type "primary"|fun(color:string,spec:colorbox.ColorSpec):boolean|nil
-    filter = nil,
+    -- (Optional) filters that disable some colors that you don't want.
+    --
+    -- builtin filter
+    --- @alias colorbox.BuiltinFilterConfig "primary"
+    ---
+    -- function-based filter, disabled if function return true.
+    --- @alias colorbox.FunctionFilterConfig fun(color:string, spec:colorbox.ColorSpec):boolean
+    ---
+    ---list-based filter, disabled if any of filter hit the conditions.
+    --- @alias colorbox.AnyFilterConfig (colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig)[]
+    ---
+    --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AnyFilterConfig
+    --- @type colorbox.FilterConfig?
+    filter = "primary",
 
     --- @type table<string, function>
     setup = {
@@ -107,6 +108,13 @@ local function _should_filter(color_name, spec)
         return _primary_color_name_filter(color_name, spec)
     elseif type(Configs.filter) == "function" then
         return Configs.filter(color_name)
+    elseif type(Configs.filter) == "table" then
+        for _, f in ipairs(Configs.filter) do
+            if f(color_name, spec) then
+                return true
+            end
+        end
+        return false
     end
     assert(
         false,
@@ -429,15 +437,7 @@ local function update(opts)
         then
             param = {
                 handle = handle,
-                cmd = (
-                    type(spec.git_branch) == "string"
-                    and string.len(spec.git_branch) > 0
-                )
-                        and string.format(
-                            "git checkout -b %s && git pull",
-                            spec.git_branch
-                        )
-                    or string.format("git pull"),
+                cmd = "git pull",
                 opts = {
                     cwd = spec.full_pack_path,
                     detach = true,

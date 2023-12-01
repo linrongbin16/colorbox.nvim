@@ -2,28 +2,28 @@
 ColorSchemes List
 =================
   
-- [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim)  
-- [catppuccin/nvim](https://github.com/catppuccin/nvim)  
-- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim)  
-- [nlknguyen/papercolor-theme](https://github.com/nlknguyen/papercolor-theme)  
-- [nordtheme/vim](https://github.com/nordtheme/vim)  
-- [sainnhe/everforest](https://github.com/sainnhe/everforest)  
-- [cocopon/iceberg.vim](https://github.com/cocopon/iceberg.vim)  
-- [rakr/vim-one](https://github.com/rakr/vim-one)  
-- [junegunn/seoul256.vim](https://github.com/junegunn/seoul256.vim)  
-- [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material)  
-- [rose-pine/neovim](https://github.com/rose-pine/neovim)  
-- [ku1ik/vim-monokai](https://github.com/ku1ik/vim-monokai)  
-- [sainnhe/sonokai](https://github.com/sainnhe/sonokai)  
-- [dracula/vim](https://github.com/dracula/vim)  
-- [navarasu/onedark.nvim](https://github.com/navarasu/onedark.nvim)  
-- [jacoborus/tender.vim](https://github.com/jacoborus/tender.vim)  
-- [lifepillar/vim-solarized8](https://github.com/lifepillar/vim-solarized8)  
-- [mhartington/oceanic-next](https://github.com/mhartington/oceanic-next)  
-- [projekt0n/github-nvim-theme](https://github.com/projekt0n/github-nvim-theme)  
-- [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)  
-- [tomasiser/vim-code-dark](https://github.com/tomasiser/vim-code-dark)  
-- [jnurmine/zenburn](https://github.com/jnurmine/zenburn)  
-- [romainl/apprentice](https://github.com/romainl/apprentice)  
-- [marko-cerovac/material.nvim](https://github.com/marko-cerovac/material.nvim)  
-- [nyoom-engineering/oxocarbon.nvim](https://github.com/nyoom-engineering/oxocarbon.nvim)
+- [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim) (stars: 4400, last update: 2023-10-25): 'tokyonight-moon', 'tokyonight-night', 'tokyonight-day', 'tokyonight-storm', 'tokyonight'  
+- [catppuccin/nvim](https://github.com/catppuccin/nvim) (stars: 3700, last update: 2023-11-29): 'catppuccin', 'catppuccin-frappe', 'catppuccin-macchiato', 'catppuccin-mocha', 'catppuccin-latte'  
+- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) (stars: 3000, last update: 2023-10-02): 'kanagawa-wave', 'kanagawa', 'kanagawa-lotus', 'kanagawa-dragon'  
+- [nlknguyen/papercolor-theme](https://github.com/nlknguyen/papercolor-theme) (stars: 2564, last update: 2022-06-09): 'PaperColor'  
+- [nordtheme/vim](https://github.com/nordtheme/vim) (stars: 2451, last update: 2023-05-04): 'nord'  
+- [sainnhe/everforest](https://github.com/sainnhe/everforest) (stars: 2200, last update: 2023-10-25): 'everforest'  
+- [cocopon/iceberg.vim](https://github.com/cocopon/iceberg.vim) (stars: 2072, last update: 2022-11-23): 'iceberg'  
+- [rakr/vim-one](https://github.com/rakr/vim-one) (stars: 1968, last update: 2020-12-15): 'one'  
+- [junegunn/seoul256.vim](https://github.com/junegunn/seoul256.vim) (stars: 1604, last update: 2023-05-03): 'seoul256-light', 'seoul256'  
+- [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material) (stars: 1500, last update: 2023-11-22): 'gruvbox-material'  
+- [rose-pine/neovim](https://github.com/rose-pine/neovim) (stars: 1400, last update: 2023-10-26): 'rose-pine-moon', 'rose-pine-dawn', 'rose-pine', 'rose-pine-main'  
+- [ku1ik/vim-monokai](https://github.com/ku1ik/vim-monokai) (stars: 1420, last update: 2022-02-09): 'monokai'  
+- [sainnhe/sonokai](https://github.com/sainnhe/sonokai) (stars: 1400, last update: 2023-10-25): 'sonokai'  
+- [dracula/vim](https://github.com/dracula/vim) (stars: 1300, last update: 2023-10-29): 'dracula'  
+- [navarasu/onedark.nvim](https://github.com/navarasu/onedark.nvim) (stars: 1200, last update: 2023-11-23): 'onedark'  
+- [jacoborus/tender.vim](https://github.com/jacoborus/tender.vim) (stars: 1072, last update: 2021-05-24): 'tender'  
+- [lifepillar/vim-solarized8](https://github.com/lifepillar/vim-solarized8) (stars: 951, last update: 2023-08-13): 'solarized8', 'solarized8_flat', 'solarized8_high', 'solarized8_low'  
+- [mhartington/oceanic-next](https://github.com/mhartington/oceanic-next) (stars: 1100, last update: 2023-05-01): 'OceanicNext', 'OceanicNextLight'  
+- [projekt0n/github-nvim-theme](https://github.com/projekt0n/github-nvim-theme) (stars: 1800, last update: 2023-11-26): 'github_light_high_contrast', 'github_light_tritanopia', 'github_light', 'github_dark_tritanopia', 'github_light_colorblind', 'github_dark_colorblind', 'github_light_default', 'github_dark_dimmed', 'github_dark', 'github_dark_default', 'github_dark_high_contrast', 'github_dimmed'  
+- [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim) (stars: 1300, last update: 2023-11-30): 'gruvbox'  
+- [tomasiser/vim-code-dark](https://github.com/tomasiser/vim-code-dark) (stars: 877, last update: 2023-11-12): 'codedark'  
+- [jnurmine/zenburn](https://github.com/jnurmine/zenburn) (stars: 862, last update: 2022-08-09): 'zenburn'  
+- [romainl/apprentice](https://github.com/romainl/apprentice) (stars: 854, last update: 2023-02-15): 'apprentice'  
+- [marko-cerovac/material.nvim](https://github.com/marko-cerovac/material.nvim) (stars: 843, last update: 2023-11-24): 'material', 'material-deep-ocean', 'material-darker', 'material-palenight', 'material-lighter', 'material-oceanic'  
+- [nyoom-engineering/oxocarbon.nvim](https://github.com/nyoom-engineering/oxocarbon.nvim) (stars: 808, last update: 2023-11-28): 'oxocarbon'
