@@ -101,7 +101,7 @@ end
 --- @param spec colorbox.ColorSpec
 --- @return boolean
 local function _should_filter(color_name, spec)
-    if Configs.filter == nil or type(Configs.filter) == 'boolean' then
+    if Configs.filter == nil or type(Configs.filter) == "boolean" then
         return Configs.filter or false
     end
     if Configs.filter == "primary" then
