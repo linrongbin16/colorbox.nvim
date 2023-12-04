@@ -390,8 +390,7 @@ class VimColorSchemes:
             source="vimcolorschemes",
         )
 
-    def fetch(self) -> list[ColorSpec]:
-        repos: list[ColorSpec] = []
+    def fetch(self) -> None:
         with make_driver() as driver:
             for page_url in self._pages():
                 driver.get(page_url)
@@ -407,11 +406,10 @@ class VimColorSchemes:
                         continue
                     logging.info(f"get (vcs) spec:{spec}")
                     need_more_scan = True
-                    repos.append(spec)
+                    spec.save()
                 if not need_more_scan:
                     logging.info(f"no more enough github stars, exit...")
                     break
-        return repos
 
 
 # https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme
@@ -447,46 +445,39 @@ class AwesomeNeovimColorScheme:
             repos.append(spec)
         return repos
 
-    def fetch(self) -> list[ColorSpec]:
-        repos = []
+    def fetch(self) -> None:
         with make_driver() as driver:
             driver.get(
                 "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme"
             )
-            treesitter_repos = self._parse_colors_list(
+            treesitter_specs = self._parse_colors_list(
                 driver, "tree-sitter-supported-colorscheme"
             )
-            lua_repos = self._parse_colors_list(driver, "lua-colorscheme")
-            repos = treesitter_repos + lua_repos
-        return repos
+            for spec in treesitter_specs:
+                spec.save()
+            lua_specs = self._parse_colors_list(driver, "lua-colorscheme")
+            for spec in lua_specs:
+                spec.save()
 
 
-def filter_color_specs(specs: list[ColorSpec]) -> None:
+def filter_color_specs() -> None:
     # logging.debug(f"before filter:{[str(s) for s in specs]}")
 
     def blacklist(sp: ColorSpec) -> bool:
         return any([True for b in BLACKLIST if sp.url.find(b) >= 0])
 
-    need_remove_specs: list[ColorSpec] = []
-    filtered_specs: list[ColorSpec] = []
-    for sp in specs:
-        logging.debug(f"process filtering on spec:{sp}")
-        if sp.github_stars < GITHUB_STARS:
-            logging.info(f"skip for lower stars - spec:{sp}")
+    for spec in ColorSpec.all():
+        logging.debug(f"process filtering on spec:{spec}")
+        if spec.github_stars < GITHUB_STARS:
+            logging.info(f"skip for lower stars - spec:{spec}")
+            spec.remove()
             continue
-        if blacklist(sp):
-            logging.info(f"skip for blacklist - spec:{sp}")
-            need_remove_specs.append(sp)
+        if blacklist(spec):
+            logging.info(f"skip for blacklist - spec:{spec}")
+            spec.remove()
             continue
         else:
-            logging.debug(f"no-skip for blacklist - spec:{sp}")
-        filtered_specs.append(sp)
-
-    logging.debug(f"after filter:{[str(s) for s in specs]}")
-    for sp in need_remove_specs:
-        sp.remove()
-    for sp in filtered_specs:
-        sp.save()
+            logging.debug(f"no-skip for blacklist - spec:{spec}")
 
 
 class Builder:
@@ -573,10 +564,12 @@ class Builder:
         md = MdUtils(file_name="COLORSCHEMES", title="ColorSchemes List")
         for spec in ColorSpec.all():
             color_names = spec.get_vim_color_names()
-            color_names = ", ".join([f"'{c}'" for c in color_names])
+            color_names = sorted(color_names)
             md.new_line(
-                f"- {md.new_inline_link(link=spec.url, text=spec.handle)} (stars: {spec.github_stars}, last update: {date_tostring(spec.last_git_commit)}): {color_names}"
+                f"- {md.new_inline_link(link=spec.url, text=spec.handle)} (stars: {spec.github_stars}, last update: {date_tostring(spec.last_git_commit)})"
             )
+            for cname in color_names:
+                md.new_line(f"  - {cname}")
         md.create_md_file()
 
 
@@ -597,12 +590,11 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt):
     if no_headless_opt:
         WEBDRIVER_HEADLESS = False
     if not skip_fetch_opt:
-        fetched_specs = []
         vcs = VimColorSchemes()
-        fetched_specs.extend(vcs.fetch())
+        vcs.fetch()
         asn = AwesomeNeovimColorScheme()
-        fetched_specs.extend(asn.fetch())
-        filter_color_specs(fetched_specs)
+        asn.fetch()
+        filter_color_specs()
     builder = Builder(False if debug_opt else True)
     builder.build()
 
