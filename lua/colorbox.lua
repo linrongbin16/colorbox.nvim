@@ -75,6 +75,10 @@ local Configs = {}
 --- @type string[]
 local FilteredColorNamesList = {}
 
+-- filtered color name to index map, the reverse of FilteredColorNamesList (index => name)
+--- @type table<string, integer>
+local FilteredColorNameToIndexMap = {}
+
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
@@ -152,6 +156,9 @@ local function _init()
         if not _should_filter(color_name, spec) and obj_exist then
             table.insert(FilteredColorNamesList, color_name)
         end
+    end
+    for i, color_name in ipairs(FilteredColorNamesList) do
+        FilteredColorNameToIndexMap[color_name] = i
     end
     logger.debug(
         "|colorbox._init| FilteredColorNamesList:%s",
