@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.8.0...v1.9.0) (2023-12-07)
+
+
+### Features
+
+* **policy:** add 'by filetype' policy ([#72](https://github.com/linrongbin16/colorbox.nvim/issues/72)) ([2910a20](https://github.com/linrongbin16/colorbox.nvim/commit/2910a203698851f50b2d9e5754978d7939d3769f))
+
 ## [1.8.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.7.1...v1.8.0) (2023-12-07)
 
 
