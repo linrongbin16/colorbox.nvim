@@ -323,22 +323,27 @@ local function _is_by_filetype_policy(po)
 end
 
 local function _policy_by_filetype()
-    local ft = vim.bo.filetype or ""
+    vim.defer_fn(function()
+        local ft = vim.bo.filetype or ""
 
-    if Configs.policy.mapping[ft] then
-        local ok, err = pcall(
-            ---@diagnostic disable-next-line: param-type-mismatch
-            vim.cmd,
-            string.format([[color %s]], Configs.policy.mapping[ft])
-        )
-        assert(ok, err)
-    else
-        local ok, err =
-            ---@diagnostic disable-next-line: param-type-mismatch
-            pcall(vim.cmd, string.format([[color %s]], Configs.policy.fallback))
-        assert(ok, err)
-    end
-    _force_sync_syntax()
+        if Configs.policy.mapping[ft] then
+            local ok, err = pcall(
+                ---@diagnostic disable-next-line: param-type-mismatch
+                vim.cmd,
+                string.format([[color %s]], Configs.policy.mapping[ft])
+            )
+            assert(ok, err)
+        else
+            local ok, err =
+                ---@diagnostic disable-next-line: param-type-mismatch
+                pcall(
+                    vim.cmd,
+                    string.format([[color %s]], Configs.policy.fallback)
+                )
+            assert(ok, err)
+        end
+        _force_sync_syntax()
+    end, 200)
 end
 
 local function _policy()
@@ -370,7 +375,7 @@ local function _timing_startup()
 end
 
 local function _timing_buffer_changed()
-    vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    vim.api.nvim_create_autocmd({ "BufNew", "BufReadPre", "BufNewFile" }, {
         callback = _policy,
     })
 end
