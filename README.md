@@ -53,8 +53,7 @@ It allow you play them with multiple playback settings (policies):
 - Suffle playback.
 - Play in order.
 - Play in reverse order.
-- Single cycle (todo).
-- Specific color name (todo).
+- Single cycle.
 
 And multiple trigger timings (colorschemes don't have end time):
 
