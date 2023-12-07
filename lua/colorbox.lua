@@ -90,14 +90,14 @@ local function _primary_color_name_filter(color_name, spec)
         vim.split(spec.handle, "/", { plain = true, trimempty = true })
     local matched = handle_splits[1]:lower() == color_name:lower()
         or handle_splits[2]:lower() == color_name:lower()
-    logger.debug(
-        "|colorbox._primary_color_name_filter| color:%s, spec:%s, unique:%s, shortest: %s, matched:%s",
-        vim.inspect(color_name),
-        vim.inspect(spec),
-        vim.inspect(unique),
-        vim.inspect(shortest),
-        vim.inspect(matched)
-    )
+    -- logger.debug(
+    --     "|colorbox._primary_color_name_filter| color:%s, spec:%s, unique:%s, shortest: %s, matched:%s",
+    --     vim.inspect(color_name),
+    --     vim.inspect(spec),
+    --     vim.inspect(unique),
+    --     vim.inspect(shortest),
+    --     vim.inspect(matched)
+    -- )
     return not unique and not shortest and not matched
 end
 
@@ -134,12 +134,12 @@ local function _init()
     local home_dir = vim.fn["colorbox#base_dir"]()
     local pack_dir = "pack/colorbox/start"
     local full_pack_dir = string.format("%s/%s", home_dir, pack_dir)
-    logger.debug(
-        "|colorbox.init| home_dir:%s, pack_dir:%s, full_pack_dir:%s",
-        vim.inspect(home_dir),
-        vim.inspect(pack_dir),
-        vim.inspect(full_pack_dir)
-    )
+    -- logger.debug(
+    --     "|colorbox.init| home_dir:%s, pack_dir:%s, full_pack_dir:%s",
+    --     vim.inspect(home_dir),
+    --     vim.inspect(pack_dir),
+    --     vim.inspect(full_pack_dir)
+    -- )
     vim.opt.packpath:append(home_dir)
     -- vim.opt.packpath:append(cwd .. "/pack")
     -- vim.opt.packpath:append(cwd .. "/pack/colorbox")
@@ -369,11 +369,11 @@ local function update(opts)
 
     local home_dir = vim.fn["colorbox#base_dir"]()
     local packstart = string.format("%s/pack/colorbox/start", home_dir)
-    logger.debug(
-        "|colorbox.init| home_dir:%s, pack:%s",
-        vim.inspect(home_dir),
-        vim.inspect(packstart)
-    )
+    -- logger.debug(
+    --     "|colorbox.init| home_dir:%s, pack:%s",
+    --     vim.inspect(home_dir),
+    --     vim.inspect(packstart)
+    -- )
     vim.opt.packpath:append(home_dir)
 
     local HandleToColorSpecsMap =
@@ -545,11 +545,11 @@ local function _clean()
     ---@diagnostic disable-next-line: discard-returns, param-type-mismatch
     local opened_dir, opendir_err = uv.fs_opendir(full_pack_dir)
     if not opened_dir then
-        logger.debug(
-            "directory %s not found, error: %s",
-            vim.inspect(shorten_pack_dir),
-            vim.inspect(opendir_err)
-        )
+        -- logger.debug(
+        --     "directory %s not found, error: %s",
+        --     vim.inspect(shorten_pack_dir),
+        --     vim.inspect(opendir_err)
+        -- )
         return
     end
     if vim.fn.executable("rm") > 0 then
@@ -558,25 +558,25 @@ local function _clean()
             stdout_buffered = true,
             stderr_buffered = true,
             on_stdout = function(chanid, data, name)
-                logger.debug(
-                    "clean job(%s) data:%s",
-                    vim.inspect(name),
-                    vim.inspect(data)
-                )
+                -- logger.debug(
+                --     "clean job(%s) data:%s",
+                --     vim.inspect(name),
+                --     vim.inspect(data)
+                -- )
             end,
             on_stderr = function(chanid, data, name)
-                logger.debug(
-                    "clean job(%s) data:%s",
-                    vim.inspect(name),
-                    vim.inspect(data)
-                )
+                -- logger.debug(
+                --     "clean job(%s) data:%s",
+                --     vim.inspect(name),
+                --     vim.inspect(data)
+                -- )
             end,
             on_exit = function(jid, exitcode, name)
-                logger.debug(
-                    "clean job(%s) done:%s",
-                    vim.inspect(name),
-                    vim.inspect(exitcode)
-                )
+                -- logger.debug(
+                --     "clean job(%s) done:%s",
+                --     vim.inspect(name),
+                --     vim.inspect(exitcode)
+                -- )
             end,
         })
         vim.fn.jobwait({ jobid })
@@ -652,11 +652,11 @@ local function setup(opts)
             local args = vim.trim(command_opts.args)
             local args_splits =
                 vim.split(args, " ", { plain = true, trimempty = true })
-            logger.debug(
-                "|colorbox.setup| command args:%s, splits:%s",
-                vim.inspect(args),
-                vim.inspect(args_splits)
-            )
+            -- logger.debug(
+            --     "|colorbox.setup| command args:%s, splits:%s",
+            --     vim.inspect(args),
+            --     vim.inspect(args_splits)
+            -- )
             if #args_splits == 0 then
                 logger.warn("missing parameter.")
                 return
