@@ -21,7 +21,7 @@ local Defaults = {
     --- @type colorbox.PolicyConfig
     policy = "shuffle",
 
-    --- @type "startup"|"interval"|"filetype"
+    --- @type "startup"|"interval"|"bufferchanged"
     timing = "startup",
 
     -- (Optional) filters that disable some colors that you don't want.
@@ -169,12 +169,6 @@ local function _init()
     -- )
 end
 
-local function _update_background()
-    if Configs.background == "dark" or Configs.background == "light" then
-        vim.opt.background = Configs.background
-    end
-end
-
 local function _force_sync_syntax()
     vim.cmd([[syntax sync fromstart]])
 end
@@ -240,8 +234,9 @@ local function _policy_shuffle()
         --     vim.inspect(ColorNames),
         --     vim.inspect()
         -- )
-        _update_background()
-        vim.cmd(string.format([[color %s]], color))
+        ---@diagnostic disable-next-line: param-type-mismatch
+        local ok, err = pcall(vim.cmd, string.format([[color %s]], color))
+        assert(ok, err)
     end
 end
 
@@ -250,8 +245,9 @@ local function _policy_in_order()
         local previous_track = _load_previous_track() --[[@as PreviousTrack]]
         local i = previous_track ~= nil and previous_track.color_number or 0
         local color = _get_next_color_name_by_idx(i)
-        _update_background()
-        vim.cmd(string.format([[color %s]], color))
+        ---@diagnostic disable-next-line: param-type-mismatch
+        local ok, err = pcall(vim.cmd, string.format([[color %s]], color))
+        assert(ok, err)
     end
 end
 
@@ -261,8 +257,9 @@ local function _policy_reverse_order()
         local i = previous_track ~= nil and previous_track.color_number
             or (#FilteredColorNamesList + 1)
         local color = _get_prev_color_name_by_idx(i)
-        _update_background()
-        vim.cmd(string.format([[color %s]], color))
+        ---@diagnostic disable-next-line: param-type-mismatch
+        local ok, err = pcall(vim.cmd, string.format([[color %s]], color))
+        assert(ok, err)
     end
 end
 
@@ -276,13 +273,15 @@ local function _policy_single()
             color = _get_next_color_name_by_idx(0)
         end
         if color ~= vim.g.colors_name then
-            _update_background()
-            vim.cmd(string.format([[color %s]], color))
+            ---@diagnostic disable-next-line: param-type-mismatch
+            local ok, err = pcall(vim.cmd, string.format([[color %s]], color))
+            assert(ok, err)
         end
     end
 end
 
 --- @param po colorbox.Options?
+--- @return boolean
 local function _is_fixed_interval_policy(po)
     return type(po) == "table"
         and type(po.seconds) == "number"
@@ -314,6 +313,34 @@ local function _policy_fixed_interval()
     impl()
 end
 
+--- @param po colorbox.Options?
+--- @return boolean
+local function _is_by_filetype_policy(po)
+    return type(po) == "table"
+        and type(po.mapping) == "table"
+        and type(po.fallback) == "string"
+        and string.len(po.fallback) > 0
+end
+
+local function _policy_by_filetype()
+    local ft = vim.bo.filetype or ""
+
+    if Configs.policy.mapping[ft] then
+        local ok, err = pcall(
+            ---@diagnostic disable-next-line: param-type-mismatch
+            vim.cmd,
+            string.format([[color %s]], Configs.policy.mapping[ft])
+        )
+        assert(ok, err)
+    else
+        local ok, err =
+            ---@diagnostic disable-next-line: param-type-mismatch
+            pcall(vim.cmd, string.format([[color %s]], Configs.policy.fallback))
+        assert(ok, err)
+    end
+    _force_sync_syntax()
+end
+
 local function _policy()
     if Configs.policy == "shuffle" then
         _policy_shuffle()
@@ -323,8 +350,16 @@ local function _policy()
         _policy_reverse_order()
     elseif Configs.policy == "single" then
         _policy_single()
-    elseif _is_fixed_interval_policy(Configs.policy) then
+    elseif
+        Configs.timing == "interval"
+        and _is_fixed_interval_policy(Configs.policy)
+    then
         _policy_fixed_interval()
+    elseif
+        Configs.timing == "bufferchanged"
+        and _is_by_filetype_policy(Configs.policy)
+    then
+        _policy_by_filetype()
     end
 end
 
@@ -334,8 +369,10 @@ local function _timing_startup()
     })
 end
 
-local function _timing_interval()
-    -- Configs.timing
+local function _timing_buffer_changed()
+    vim.api.nvim_create_autocmd({ "BufEnter" }, {
+        callback = _policy,
+    })
 end
 
 local function _timing()
@@ -350,6 +387,17 @@ local function _timing()
             )
         )
         _policy_fixed_interval()
+    elseif Configs.timing == "bufferchanged" then
+        assert(
+            _is_by_filetype_policy(Configs.policy),
+            string.format(
+                "invalid policy %s for 'bufferchanged' timing!",
+                vim.inspect(Configs.policy)
+            )
+        )
+        _timing_buffer_changed()
+    else
+        error(string.format("invalid timing %s!", vim.inspect(Configs.timing)))
     end
 end
 
@@ -703,6 +751,12 @@ local function setup(opts)
                 and type(Configs.setup[spec.handle]) == "function"
             then
                 Configs.setup[spec.handle]()
+            end
+            if
+                Configs.background == "dark"
+                or Configs.background == "light"
+            then
+                vim.opt.background = Configs.background
             end
         end,
     })

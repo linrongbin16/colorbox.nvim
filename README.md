@@ -182,7 +182,7 @@ require('colorbox').setup({
     --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single"
     ---
     -- by filetype policy: buffer filetype => color name
-    --- @alias colorbox.ByFileTypePolicyConfig {implement:colorbox.BuiltinPolicyConfig|table<string, string>}
+    --- @alias colorbox.ByFileTypePolicyConfig {mapping:table<string, string>,fallback:string}
     ---
     -- fixed interval seconds
     --- @alias colorbox.FixedIntervalPolicyConfig {seconds:integer,implement:colorbox.BuiltinPolicyConfig}
@@ -191,7 +191,7 @@ require('colorbox').setup({
     --- @type colorbox.PolicyConfig
     policy = "shuffle",
 
-    --- @type "startup"|"interval"|"filetype"
+    --- @type "startup"|"interval"|"bufferchanged"
     timing = "startup",
 
     -- (Optional) filters that disable some colors that you don't want.
