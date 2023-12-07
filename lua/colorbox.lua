@@ -160,30 +160,35 @@ local function _init()
     for i, color_name in ipairs(FilteredColorNamesList) do
         FilteredColorNameToIndexMap[color_name] = i
     end
-    logger.debug(
-        "|colorbox._init| FilteredColorNamesList:%s",
-        vim.inspect(FilteredColorNamesList)
-    )
+    -- logger.debug(
+    --     "|colorbox._init| FilteredColorNamesList:%s",
+    --     vim.inspect(FilteredColorNamesList)
+    -- )
+    -- logger.debug(
+    --     "|colorbox._init| FilteredColorNameToIndexMap:%s",
+    --     vim.inspect(FilteredColorNameToIndexMap)
+    -- )
 end
 
-local function _before_running_colorscheme_hook()
+local function _update_background()
     if Configs.background == "dark" or Configs.background == "light" then
         vim.opt.background = Configs.background
     end
 end
 
-local function _after_running_colorscheme_hook()
+local function _force_sync_syntax()
     vim.cmd([[syntax sync fromstart]])
 end
 
 --- @alias PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
---- @param color_number integer
-local function _save_track(color_name, color_number)
+local function _save_track(color_name)
     assert(
         type(color_name) == "string" and string.len(vim.trim(color_name)) > 0,
         string.format("invalid color name %s", vim.inspect(color_name))
     )
+    -- start from 0, end with #FilteredColorNamesList-1
+    local color_number = FilteredColorNameToIndexMap[color_name] or 0
     vim.schedule(function()
         local content = json.encode({
             color_name = color_name,
@@ -220,9 +225,9 @@ local function _policy_shuffle()
         --     vim.inspect(ColorNames),
         --     vim.inspect()
         -- )
-        _before_running_colorscheme_hook()
+        _update_background()
         vim.cmd(string.format([[color %s]], color))
-        _save_track(color, i)
+        _save_track(color)
     end
 end
 
@@ -231,9 +236,9 @@ local function _policy_in_order()
         local previous_track = _load_previous_track() --[[@as PreviousTrack]]
         local i = previous_track == nil and 0 or previous_track.color_number + 1
         local color = _get_color_name_by_idx(i)
-        _before_running_colorscheme_hook()
+        _update_background()
         vim.cmd(string.format([[color %s]], color))
-        _save_track(color, i)
+        _save_track(color)
     end
 end
 
@@ -247,9 +252,9 @@ local function _policy_reverse_order()
                 or previous_track.color_number - 1
             )
         local color = _get_color_name_by_idx(i)
-        _before_running_colorscheme_hook()
+        _update_background()
         vim.cmd(string.format([[color %s]], color))
-        _save_track(color, i)
+        _save_track(color)
     end
 end
 
@@ -259,10 +264,10 @@ local function _policy_single()
         local i = previous_track == nil and 0 or previous_track.color_number
         local color = _get_color_name_by_idx(i)
         if color ~= vim.g.colors_name then
-            _before_running_colorscheme_hook()
+            _update_background()
             vim.cmd(string.format([[color %s]], color))
         end
-        _save_track(color, i)
+        _save_track(color)
     end
 end
 
@@ -282,16 +287,16 @@ local function _policy_fixed_interval()
     local function impl()
         if Configs.policy.implement == "shuffle" then
             _policy_shuffle()
-            _after_running_colorscheme_hook()
+            _force_sync_syntax()
         elseif Configs.policy.implement == "in_order" then
             _policy_in_order()
-            _after_running_colorscheme_hook()
+            _force_sync_syntax()
         elseif Configs.policy.implement == "reverse_order" then
             _policy_reverse_order()
-            _after_running_colorscheme_hook()
+            _force_sync_syntax()
         elseif Configs.policy.implement == "single" then
             _policy_single()
-            _after_running_colorscheme_hook()
+            _force_sync_syntax()
         end
         vim.defer_fn(impl, later)
     end
