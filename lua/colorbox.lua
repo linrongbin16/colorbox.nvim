@@ -9,7 +9,7 @@ local uv = (vim.fn.has("nvim-0.10") > 0 and vim.uv ~= nil) and vim.uv
 --- @type colorbox.Options
 local Defaults = {
     -- builtin policy
-    --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single_cycle"
+    --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single"
     ---
     -- by filetype policy: buffer filetype => color name
     --- @alias colorbox.ByFileTypePolicyConfig {implement:colorbox.BuiltinPolicyConfig|table<string, string>}
@@ -75,6 +75,10 @@ local Configs = {}
 --- @type string[]
 local FilteredColorNamesList = {}
 
+-- filtered color name to index map, the reverse of FilteredColorNamesList (index => name)
+--- @type table<string, integer>
+local FilteredColorNameToIndexMap = {}
+
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
@@ -86,14 +90,14 @@ local function _primary_color_name_filter(color_name, spec)
         vim.split(spec.handle, "/", { plain = true, trimempty = true })
     local matched = handle_splits[1]:lower() == color_name:lower()
         or handle_splits[2]:lower() == color_name:lower()
-    logger.debug(
-        "|colorbox._primary_color_name_filter| color:%s, spec:%s, unique:%s, shortest: %s, matched:%s",
-        vim.inspect(color_name),
-        vim.inspect(spec),
-        vim.inspect(unique),
-        vim.inspect(shortest),
-        vim.inspect(matched)
-    )
+    -- logger.debug(
+    --     "|colorbox._primary_color_name_filter| color:%s, spec:%s, unique:%s, shortest: %s, matched:%s",
+    --     vim.inspect(color_name),
+    --     vim.inspect(spec),
+    --     vim.inspect(unique),
+    --     vim.inspect(shortest),
+    --     vim.inspect(matched)
+    -- )
     return not unique and not shortest and not matched
 end
 
@@ -130,12 +134,12 @@ local function _init()
     local home_dir = vim.fn["colorbox#base_dir"]()
     local pack_dir = "pack/colorbox/start"
     local full_pack_dir = string.format("%s/%s", home_dir, pack_dir)
-    logger.debug(
-        "|colorbox.init| home_dir:%s, pack_dir:%s, full_pack_dir:%s",
-        vim.inspect(home_dir),
-        vim.inspect(pack_dir),
-        vim.inspect(full_pack_dir)
-    )
+    -- logger.debug(
+    --     "|colorbox.init| home_dir:%s, pack_dir:%s, full_pack_dir:%s",
+    --     vim.inspect(home_dir),
+    --     vim.inspect(pack_dir),
+    --     vim.inspect(full_pack_dir)
+    -- )
     vim.opt.packpath:append(home_dir)
     -- vim.opt.packpath:append(cwd .. "/pack")
     -- vim.opt.packpath:append(cwd .. "/pack/colorbox")
@@ -147,36 +151,43 @@ local function _init()
     local ColorNamesList = require("colorbox.db").get_color_names_list()
     for _, color_name in pairs(ColorNamesList) do
         local spec = ColorNameToColorSpecsMap[color_name]
-        local stat = uv.fs_stat(spec.full_pack_path)
-        local obj_exist = stat ~= nil
-        if not _should_filter(color_name, spec) and obj_exist then
+        local pack_exist = uv.fs_stat(spec.full_pack_path) ~= nil
+        if not _should_filter(color_name, spec) and pack_exist then
             table.insert(FilteredColorNamesList, color_name)
         end
     end
-    logger.debug(
-        "|colorbox._init| FilteredColorNamesList:%s",
-        vim.inspect(FilteredColorNamesList)
-    )
+    for i, color_name in ipairs(FilteredColorNamesList) do
+        FilteredColorNameToIndexMap[color_name] = i
+    end
+    -- logger.debug(
+    --     "|colorbox._init| FilteredColorNamesList:%s",
+    --     vim.inspect(FilteredColorNamesList)
+    -- )
+    -- logger.debug(
+    --     "|colorbox._init| FilteredColorNameToIndexMap:%s",
+    --     vim.inspect(FilteredColorNameToIndexMap)
+    -- )
 end
 
-local function _before_running_colorscheme_hook()
+local function _update_background()
     if Configs.background == "dark" or Configs.background == "light" then
         vim.opt.background = Configs.background
     end
 end
 
-local function _after_running_colorscheme_hook()
+local function _force_sync_syntax()
     vim.cmd([[syntax sync fromstart]])
 end
 
 --- @alias PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
---- @param color_number integer
-local function _save_previous_track(color_name, color_number)
+local function _save_track(color_name)
     assert(
         type(color_name) == "string" and string.len(vim.trim(color_name)) > 0,
         string.format("invalid color name %s", vim.inspect(color_name))
     )
+    -- start from 0, end with #FilteredColorNamesList-1
+    local color_number = FilteredColorNameToIndexMap[color_name] or 0
     vim.schedule(function()
         local content = json.encode({
             color_name = color_name,
@@ -195,50 +206,77 @@ local function _load_previous_track()
     return json.decode(content) --[[@as PreviousTrack]]
 end
 
+--- @param idx integer
+--- @return string
+local function _get_next_color_name_by_idx(idx)
+    assert(type(idx) == "number" and idx > 0)
+    idx = idx + 1
+    if idx > #FilteredColorNamesList then
+        idx = 1
+    end
+    return FilteredColorNamesList[idx]
+end
+
+--- @param idx integer
+--- @return string
+local function _get_prev_color_name_by_idx(idx)
+    assert(type(idx) == "number" and idx > 0)
+    idx = idx - 1
+    if idx < 1 then
+        idx = #FilteredColorNamesList
+    end
+    return FilteredColorNamesList[idx]
+end
+
 local function _policy_shuffle()
     if #FilteredColorNamesList > 0 then
-        local i = utils.randint(#FilteredColorNamesList)
-        local color = FilteredColorNamesList[i + 1]
+        local i = utils.randint(#FilteredColorNamesList) + 1
+        local color = _get_next_color_name_by_idx(i)
         -- logger.debug(
         --     "|colorbox._policy_shuffle| color:%s, ColorNames:%s (%d), r:%d",
         --     vim.inspect(color),
         --     vim.inspect(ColorNames),
         --     vim.inspect()
         -- )
-        _before_running_colorscheme_hook()
+        _update_background()
         vim.cmd(string.format([[color %s]], color))
-        _save_previous_track(color, i)
     end
 end
 
 local function _policy_in_order()
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as PreviousTrack]]
-        local i = previous_track == nil and 0
-            or utils.math_mod(
-                previous_track.color_number + 1,
-                #FilteredColorNamesList
-            )
-        local color = FilteredColorNamesList[i + 1]
-        _before_running_colorscheme_hook()
+        local i = previous_track ~= nil and previous_track.color_number or 0
+        local color = _get_next_color_name_by_idx(i)
+        _update_background()
         vim.cmd(string.format([[color %s]], color))
-        _save_previous_track(color, i)
     end
 end
 
 local function _policy_reverse_order()
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as PreviousTrack]]
-        local i = previous_track == nil and 0
-            or (
-                previous_track.color_number - 1 < 0
-                    and (#FilteredColorNamesList - 1)
-                or previous_track.color_number - 1
-            )
-        local color = FilteredColorNamesList[i + 1]
-        _before_running_colorscheme_hook()
+        local i = previous_track ~= nil and previous_track.color_number
+            or (#FilteredColorNamesList + 1)
+        local color = _get_prev_color_name_by_idx(i)
+        _update_background()
         vim.cmd(string.format([[color %s]], color))
-        _save_previous_track(color, i)
+    end
+end
+
+local function _policy_single()
+    if #FilteredColorNamesList > 0 then
+        local previous_track = _load_previous_track() --[[@as PreviousTrack]]
+        local color = nil
+        if previous_track then
+            color = previous_track.color_name
+        else
+            color = _get_next_color_name_by_idx(0)
+        end
+        if color ~= vim.g.colors_name then
+            _update_background()
+            vim.cmd(string.format([[color %s]], color))
+        end
     end
 end
 
@@ -258,15 +296,16 @@ local function _policy_fixed_interval()
     local function impl()
         if Configs.policy.implement == "shuffle" then
             _policy_shuffle()
-            _after_running_colorscheme_hook()
+            _force_sync_syntax()
         elseif Configs.policy.implement == "in_order" then
             _policy_in_order()
-            _after_running_colorscheme_hook()
+            _force_sync_syntax()
         elseif Configs.policy.implement == "reverse_order" then
             _policy_reverse_order()
-            _after_running_colorscheme_hook()
-            -- elseif Configs.policy.implement == "single" then
-            --     -- TODO: implement single cycle
+            _force_sync_syntax()
+        elseif Configs.policy.implement == "single" then
+            _policy_single()
+            _force_sync_syntax()
         end
         vim.defer_fn(impl, later)
     end
@@ -280,6 +319,8 @@ local function _policy()
         _policy_in_order()
     elseif Configs.policy == "reverse_order" then
         _policy_reverse_order()
+    elseif Configs.policy == "single" then
+        _policy_single()
     elseif _is_fixed_interval_policy(Configs.policy) then
         _policy_fixed_interval()
     end
@@ -328,11 +369,11 @@ local function update(opts)
 
     local home_dir = vim.fn["colorbox#base_dir"]()
     local packstart = string.format("%s/pack/colorbox/start", home_dir)
-    logger.debug(
-        "|colorbox.init| home_dir:%s, pack:%s",
-        vim.inspect(home_dir),
-        vim.inspect(packstart)
-    )
+    -- logger.debug(
+    --     "|colorbox.init| home_dir:%s, pack:%s",
+    --     vim.inspect(home_dir),
+    --     vim.inspect(packstart)
+    -- )
     vim.opt.packpath:append(home_dir)
 
     local HandleToColorSpecsMap =
@@ -502,13 +543,13 @@ local function _clean()
     local full_pack_dir = string.format("%s/pack", home_dir)
     local shorten_pack_dir = vim.fn.fnamemodify(full_pack_dir, ":~")
     ---@diagnostic disable-next-line: discard-returns, param-type-mismatch
-    local opened_dir, opendir_err = vim.loop.fs_opendir(full_pack_dir)
+    local opened_dir, opendir_err = uv.fs_opendir(full_pack_dir)
     if not opened_dir then
-        logger.debug(
-            "directory %s not found, error: %s",
-            vim.inspect(shorten_pack_dir),
-            vim.inspect(opendir_err)
-        )
+        -- logger.debug(
+        --     "directory %s not found, error: %s",
+        --     vim.inspect(shorten_pack_dir),
+        --     vim.inspect(opendir_err)
+        -- )
         return
     end
     if vim.fn.executable("rm") > 0 then
@@ -517,25 +558,25 @@ local function _clean()
             stdout_buffered = true,
             stderr_buffered = true,
             on_stdout = function(chanid, data, name)
-                logger.debug(
-                    "clean job(%s) data:%s",
-                    vim.inspect(name),
-                    vim.inspect(data)
-                )
+                -- logger.debug(
+                --     "clean job(%s) data:%s",
+                --     vim.inspect(name),
+                --     vim.inspect(data)
+                -- )
             end,
             on_stderr = function(chanid, data, name)
-                logger.debug(
-                    "clean job(%s) data:%s",
-                    vim.inspect(name),
-                    vim.inspect(data)
-                )
+                -- logger.debug(
+                --     "clean job(%s) data:%s",
+                --     vim.inspect(name),
+                --     vim.inspect(data)
+                -- )
             end,
             on_exit = function(jid, exitcode, name)
-                logger.debug(
-                    "clean job(%s) done:%s",
-                    vim.inspect(name),
-                    vim.inspect(exitcode)
-                )
+                -- logger.debug(
+                --     "clean job(%s) done:%s",
+                --     vim.inspect(name),
+                --     vim.inspect(exitcode)
+                -- )
             end,
         })
         vim.fn.jobwait({ jobid })
@@ -611,11 +652,11 @@ local function setup(opts)
             local args = vim.trim(command_opts.args)
             local args_splits =
                 vim.split(args, " ", { plain = true, trimempty = true })
-            logger.debug(
-                "|colorbox.setup| command args:%s, splits:%s",
-                vim.inspect(args),
-                vim.inspect(args_splits)
-            )
+            -- logger.debug(
+            --     "|colorbox.setup| command args:%s, splits:%s",
+            --     vim.inspect(args),
+            --     vim.inspect(args_splits)
+            -- )
             if #args_splits == 0 then
                 logger.warn("missing parameter.")
                 return
@@ -641,7 +682,10 @@ local function setup(opts)
 
     vim.api.nvim_create_autocmd("ColorSchemePre", {
         callback = function(event)
-            logger.debug("|colorbox.setup| event:%s", vim.inspect(event))
+            logger.debug(
+                "|colorbox.setup| ColorSchemePre event:%s",
+                vim.inspect(event)
+            )
             local ColorNameToColorSpecsMap =
                 require("colorbox.db").get_color_name_to_color_specs_map()
             if
@@ -658,6 +702,16 @@ local function setup(opts)
             then
                 Configs.setup[spec.handle]()
             end
+        end,
+    })
+
+    vim.api.nvim_create_autocmd("ColorScheme", {
+        callback = function(event)
+            logger.debug(
+                "|colorbox.setup| ColorScheme event:%s",
+                vim.inspect(event)
+            )
+            _save_track(event.match)
         end,
     })
 
