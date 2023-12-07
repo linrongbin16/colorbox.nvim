@@ -59,10 +59,9 @@ It allow you play them with multiple playback settings (policies):
 And multiple trigger timings (colorschemes don't have end time):
 
 - On startup.
-- Fixed interval (todo).
+- Fixed interval.
 - Date time (todo).
-- By filetype (todo).
-- Manual (todo).
+- By filetype.
 
 ## 📖 Table of contents
 
@@ -264,11 +263,11 @@ require('colorbox').setup({
 
 Timing and policy configs have to work together.
 
-- `timing`: 'startup' (on nvim start), 'interval' (fixed interval seconds), 'filetype' (by buffer filetype, todo).
+- `timing`: 'startup', 'interval', 'bufferchanged'.
 - `policy`:
-  - Builtin policies (see `colorbox.BuiltinPolicyConfig`): 'shuffle' (random select), 'in_order' ('A-Z' color names), 'reverse_order' ('Z-A' color names), 'single' (don't change).
-  - Fixed interval policies (see `colorbox.ByFileTypePolicyConfig`): todo.
-  - By buffer filetype policies (see ``)
+  - Builtin policies (see `colorbox.BuiltinPolicyConfig`): working with 'startup' timing.
+  - Fixed interval policies (see `colorbox.FixedIntervalPolicyConfig`): working with 'interval' timing.
+  - By filetype policies (see `colorbox.ByFileTypePolicyConfig`): working with 'bufferchanged' timing.
 
 To choose a fixed colorscheme on nvim start, please use:
 

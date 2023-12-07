@@ -132,8 +132,8 @@ end
 
 local function _init()
     local home_dir = vim.fn["colorbox#base_dir"]()
-    local pack_dir = "pack/colorbox/start"
-    local full_pack_dir = string.format("%s/%s", home_dir, pack_dir)
+    -- local pack_dir = "pack/colorbox/start"
+    -- local full_pack_dir = string.format("%s/%s", home_dir, pack_dir)
     -- logger.debug(
     --     "|colorbox.init| home_dir:%s, pack_dir:%s, full_pack_dir:%s",
     --     vim.inspect(home_dir),
@@ -737,10 +737,10 @@ local function setup(opts)
 
     vim.api.nvim_create_autocmd("ColorSchemePre", {
         callback = function(event)
-            logger.debug(
-                "|colorbox.setup| ColorSchemePre event:%s",
-                vim.inspect(event)
-            )
+            -- logger.debug(
+            --     "|colorbox.setup| ColorSchemePre event:%s",
+            --     vim.inspect(event)
+            -- )
             local ColorNameToColorSpecsMap =
                 require("colorbox.db").get_color_name_to_color_specs_map()
             if
@@ -768,10 +768,10 @@ local function setup(opts)
 
     vim.api.nvim_create_autocmd("ColorScheme", {
         callback = function(event)
-            logger.debug(
-                "|colorbox.setup| ColorScheme event:%s",
-                vim.inspect(event)
-            )
+            -- logger.debug(
+            --     "|colorbox.setup| ColorScheme event:%s",
+            --     vim.inspect(event)
+            -- )
             _save_track(event.match)
         end,
     })
