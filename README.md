@@ -59,10 +59,9 @@ It allow you play them with multiple playback settings (policies):
 And multiple trigger timings (colorschemes don't have end time):
 
 - On startup.
-- Fixed interval (todo).
+- Fixed interval.
 - Date time (todo).
-- By filetype (todo).
-- Manual (todo).
+- By filetype.
 
 ## 📖 Table of contents
 
@@ -182,7 +181,7 @@ require('colorbox').setup({
     --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single"
     ---
     -- by filetype policy: buffer filetype => color name
-    --- @alias colorbox.ByFileTypePolicyConfig {implement:colorbox.BuiltinPolicyConfig|table<string, string>}
+    --- @alias colorbox.ByFileTypePolicyConfig {mapping:table<string, string>,fallback:string}
     ---
     -- fixed interval seconds
     --- @alias colorbox.FixedIntervalPolicyConfig {seconds:integer,implement:colorbox.BuiltinPolicyConfig}
@@ -191,7 +190,7 @@ require('colorbox').setup({
     --- @type colorbox.PolicyConfig
     policy = "shuffle",
 
-    --- @type "startup"|"interval"|"filetype"
+    --- @type "startup"|"interval"|"bufferchanged"
     timing = "startup",
 
     -- (Optional) filters that disable some colors that you don't want.
@@ -264,11 +263,11 @@ require('colorbox').setup({
 
 Timing and policy configs have to work together.
 
-- `timing`: 'startup' (on nvim start), 'interval' (fixed interval seconds), 'filetype' (by buffer filetype, todo).
+- `timing`: 'startup', 'interval', 'bufferchanged'.
 - `policy`:
-  - Builtin policies (see `colorbox.BuiltinPolicyConfig`): 'shuffle' (random select), 'in_order' ('A-Z' color names), 'reverse_order' ('Z-A' color names), 'single' (don't change).
-  - Fixed interval policies (see `colorbox.ByFileTypePolicyConfig`): todo.
-  - By buffer filetype policies (see ``)
+  - Builtin policies (see `colorbox.BuiltinPolicyConfig`): working with 'startup' timing.
+  - Fixed interval policies (see `colorbox.FixedIntervalPolicyConfig`): working with 'interval' timing.
+  - By filetype policies (see `colorbox.ByFileTypePolicyConfig`): working with 'bufferchanged' timing.
 
 To choose a fixed colorscheme on nvim start, please use:
 
@@ -286,6 +285,23 @@ require('colorbox').setup({
     background = 'dark',
     policy = 'shuffle',
     timing = 'startup',
+})
+```
+
+To choose a colorscheme by file type, please use:
+
+```lua
+require('colorbox').setup({
+    policy = {
+        mapping = {
+            lua = "PaperColor",
+            yaml = "everforest",
+            markdown = "kanagawa",
+            python = "iceberg",
+        },
+        fallback = "solarized8",
+    },
+    timing = "bufferchanged",
 })
 ```
 
