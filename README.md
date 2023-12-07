@@ -289,6 +289,23 @@ require('colorbox').setup({
 })
 ```
 
+To choose a colorscheme by file type, please use:
+
+```lua
+require('colorbox').setup({
+    policy = {
+        mapping = {
+            lua = "PaperColor",
+            yaml = "everforest",
+            markdown = "kanagawa",
+            python = "iceberg",
+        },
+        fallback = "solarized8",
+    },
+    timing = "bufferchanged",
+})
+```
+
 To choose a colorscheme on fixed interval per seconds, please use:
 
 ```lua
