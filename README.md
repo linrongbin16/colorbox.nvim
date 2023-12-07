@@ -266,14 +266,24 @@ Timing and policy configs have to work together.
 
 - `timing`: 'startup' (on nvim start), 'interval' (fixed interval seconds), 'filetype' (by buffer filetype, todo).
 - `policy`:
-  - Builtin policies (see `colorbox.BuiltinPolicyConfig`): 'shuffle' (random select), 'in_order' ('A-Z' color names), 'reverse_order' ('Z-A' color names), 'single' (don't change, todo).
+  - Builtin policies (see `colorbox.BuiltinPolicyConfig`): 'shuffle' (random select), 'in_order' ('A-Z' color names), 'reverse_order' ('Z-A' color names), 'single' (don't change).
   - Fixed interval policies (see `colorbox.ByFileTypePolicyConfig`): todo.
   - By buffer filetype policies (see ``)
 
-To choose a colorscheme on nvim start, please use:
+To choose a fixed colorscheme on nvim start, please use:
 
 ```lua
 require('colorbox').setup({
+    policy = 'single',
+    timing = 'startup',
+})
+```
+
+To choose a random colorscheme on nvim start with dark background, please use:
+
+```lua
+require('colorbox').setup({
+    background = 'dark',
     policy = 'shuffle',
     timing = 'startup',
 })

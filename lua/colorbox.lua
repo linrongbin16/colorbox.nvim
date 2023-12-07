@@ -208,16 +208,30 @@ end
 
 --- @param idx integer
 --- @return string
-local function _get_color_name_by_idx(idx)
-    assert(type(idx) == "number" and idx >= 0)
-    idx = utils.math_mod(idx + 1, #FilteredColorNamesList)
+local function _get_next_color_name_by_idx(idx)
+    assert(type(idx) == "number" and idx > 0)
+    idx = idx + 1
+    if idx > #FilteredColorNamesList then
+        idx = 1
+    end
+    return FilteredColorNamesList[idx]
+end
+
+--- @param idx integer
+--- @return string
+local function _get_prev_color_name_by_idx(idx)
+    assert(type(idx) == "number" and idx > 0)
+    idx = idx - 1
+    if idx < 1 then
+        idx = #FilteredColorNamesList
+    end
     return FilteredColorNamesList[idx]
 end
 
 local function _policy_shuffle()
     if #FilteredColorNamesList > 0 then
-        local i = utils.randint(#FilteredColorNamesList)
-        local color = _get_color_name_by_idx(i)
+        local i = utils.randint(#FilteredColorNamesList) + 1
+        local color = _get_next_color_name_by_idx(i)
         -- logger.debug(
         --     "|colorbox._policy_shuffle| color:%s, ColorNames:%s (%d), r:%d",
         --     vim.inspect(color),
@@ -226,47 +240,43 @@ local function _policy_shuffle()
         -- )
         _update_background()
         vim.cmd(string.format([[color %s]], color))
-        _save_track(color)
     end
 end
 
 local function _policy_in_order()
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as PreviousTrack]]
-        local i = previous_track == nil and 0 or previous_track.color_number + 1
-        local color = _get_color_name_by_idx(i)
+        local i = previous_track ~= nil and previous_track.color_number or 0
+        local color = _get_next_color_name_by_idx(i)
         _update_background()
         vim.cmd(string.format([[color %s]], color))
-        _save_track(color)
     end
 end
 
 local function _policy_reverse_order()
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as PreviousTrack]]
-        local i = previous_track == nil and 0
-            or (
-                previous_track.color_number - 1 < 0
-                    and (#FilteredColorNamesList - 1)
-                or previous_track.color_number - 1
-            )
-        local color = _get_color_name_by_idx(i)
+        local i = previous_track ~= nil and previous_track.color_number
+            or (#FilteredColorNamesList + 1)
+        local color = _get_prev_color_name_by_idx(i)
         _update_background()
         vim.cmd(string.format([[color %s]], color))
-        _save_track(color)
     end
 end
 
 local function _policy_single()
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as PreviousTrack]]
-        local i = previous_track == nil and 0 or previous_track.color_number
-        local color = _get_color_name_by_idx(i)
+        local color = nil
+        if previous_track then
+            color = previous_track.color_name
+        else
+            color = _get_next_color_name_by_idx(0)
+        end
         if color ~= vim.g.colors_name then
             _update_background()
             vim.cmd(string.format([[color %s]], color))
         end
-        _save_track(color)
     end
 end
 
@@ -533,7 +543,7 @@ local function _clean()
     local full_pack_dir = string.format("%s/pack", home_dir)
     local shorten_pack_dir = vim.fn.fnamemodify(full_pack_dir, ":~")
     ---@diagnostic disable-next-line: discard-returns, param-type-mismatch
-    local opened_dir, opendir_err = vim.loop.fs_opendir(full_pack_dir)
+    local opened_dir, opendir_err = uv.fs_opendir(full_pack_dir)
     if not opened_dir then
         logger.debug(
             "directory %s not found, error: %s",
@@ -672,7 +682,10 @@ local function setup(opts)
 
     vim.api.nvim_create_autocmd("ColorSchemePre", {
         callback = function(event)
-            logger.debug("|colorbox.setup| event:%s", vim.inspect(event))
+            logger.debug(
+                "|colorbox.setup| ColorSchemePre event:%s",
+                vim.inspect(event)
+            )
             local ColorNameToColorSpecsMap =
                 require("colorbox.db").get_color_name_to_color_specs_map()
             if
@@ -689,6 +702,16 @@ local function setup(opts)
             then
                 Configs.setup[spec.handle]()
             end
+        end,
+    })
+
+    vim.api.nvim_create_autocmd("ColorScheme", {
+        callback = function(event)
+            logger.debug(
+                "|colorbox.setup| ColorScheme event:%s",
+                vim.inspect(event)
+            )
+            _save_track(event.match)
         end,
     })
 

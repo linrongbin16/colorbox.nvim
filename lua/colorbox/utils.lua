@@ -1,6 +1,9 @@
 local is_windows = vim.fn.has("win32") > 0 or vim.fn.has("win64") > 0
 local int32_max = 2 ^ 31 - 1
 
+local uv = (vim.fn.has("nvim-0.10") > 0 and vim.uv ~= nil) and vim.uv
+    or vim.loop
+
 -- Returns the XOR of two binary numbers
 --- @param a integer
 --- @param b integer
@@ -38,15 +41,15 @@ local function math_mod(a, b)
 end
 
 --- @param maximal integer?
---- @return integer
+--- @return integer  range in [0, maximal)
 local function randint(maximal)
     maximal = maximal or int32_max
-    local s1 = vim.loop.getpid()
-    local s2, s3 = vim.loop.gettimeofday()
+    local s1 = uv.getpid()
+    local s2, s3 = uv.gettimeofday()
     local s4 = math.random()
     local r = math_mod(s1, maximal)
     r = math_mod(bitwise_xor(r, s2 or 3), maximal)
-    r = math_mod(bitwise_xor(r, s3 or 7), maximal)
+    r = math_mod(bitwise_xor(r, tonumber(s3) or 7), maximal)
     r = math_mod(bitwise_xor(r, s4 or 11), maximal)
     return r
 end
