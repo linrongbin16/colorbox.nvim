@@ -12,7 +12,7 @@ local Defaults = {
     --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single"
     ---
     -- by filetype policy: buffer filetype => color name
-    --- @alias colorbox.ByFileTypePolicyConfig {implement:colorbox.BuiltinPolicyConfig|table<string, string>}
+    --- @alias colorbox.ByFileTypePolicyConfig {mapping:table<string, string>,fallback:string}
     ---
     -- fixed interval seconds
     --- @alias colorbox.FixedIntervalPolicyConfig {seconds:integer,implement:colorbox.BuiltinPolicyConfig}
@@ -182,10 +182,12 @@ end
 --- @alias PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
 local function _save_track(color_name)
-    assert(
-        type(color_name) == "string" and string.len(vim.trim(color_name)) > 0,
-        string.format("invalid color name %s", vim.inspect(color_name))
-    )
+    if
+        type(color_name) ~= "string"
+        or string.len(vim.trim(color_name)) == 0
+    then
+        return
+    end
     -- start from 0, end with #FilteredColorNamesList-1
     local color_number = FilteredColorNameToIndexMap[color_name] or 0
     vim.schedule(function()
