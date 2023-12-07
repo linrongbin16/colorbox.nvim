@@ -151,9 +151,8 @@ local function _init()
     local ColorNamesList = require("colorbox.db").get_color_names_list()
     for _, color_name in pairs(ColorNamesList) do
         local spec = ColorNameToColorSpecsMap[color_name]
-        local stat = uv.fs_stat(spec.full_pack_path)
-        local obj_exist = stat ~= nil
-        if not _should_filter(color_name, spec) and obj_exist then
+        local pack_exist = uv.fs_stat(spec.full_pack_path) ~= nil
+        if not _should_filter(color_name, spec) and pack_exist then
             table.insert(FilteredColorNamesList, color_name)
         end
     end
