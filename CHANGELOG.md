@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.9.0...v1.9.1) (2023-12-07)
+
+
+### Performance Improvements
+
+* **install:** optimize log message ([#75](https://github.com/linrongbin16/colorbox.nvim/issues/75)) ([1ddde8c](https://github.com/linrongbin16/colorbox.nvim/commit/1ddde8c5ebfa4041952757e9d33da799ff039aa6))
+
 ## [1.9.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.8.0...v1.9.0) (2023-12-07)
 
 
