@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.8.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.7.1...v1.8.0) (2023-12-07)
+
+
+### Features
+
+* **policy:** add 'single' policy ([#70](https://github.com/linrongbin16/colorbox.nvim/issues/70)) ([da537b4](https://github.com/linrongbin16/colorbox.nvim/commit/da537b4aa5aa9f02692d815b4eddce15db2c65dc))
+
+
+### Performance Improvements
+
+* **collector:** improve colorschemes list ([#66](https://github.com/linrongbin16/colorbox.nvim/issues/66)) ([3c4060c](https://github.com/linrongbin16/colorbox.nvim/commit/3c4060c214c3b78783250b7c2e1d0a4b4e6d1e94))
+* **colorschemes:** improve COLORSCHEMES list ([#71](https://github.com/linrongbin16/colorbox.nvim/issues/71)) ([5211c28](https://github.com/linrongbin16/colorbox.nvim/commit/5211c282596e37755908908f9e04146b947fc9d3))
+* **config:** by default only enable 'primary' colors ([3c4060c](https://github.com/linrongbin16/colorbox.nvim/commit/3c4060c214c3b78783250b7c2e1d0a4b4e6d1e94))
+* **policy:** remove 'name' from fixed interval policy ([#68](https://github.com/linrongbin16/colorbox.nvim/issues/68)) ([759d524](https://github.com/linrongbin16/colorbox.nvim/commit/759d524f2e244a2718836b0498a66391f0ab3a14))
+
 ## [1.7.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.7.0...v1.7.1) (2023-11-28)
 
 
