@@ -42,7 +42,17 @@ local Defaults = {
     file_log_mode = "a",
 }
 
-local Configs = {}
+local Configs = {
+    name = "colorbox",
+    level = LogLevels.INFO,
+    console_log = true,
+    file_log = false,
+    file_log_name = nil,
+    file_log_dir = vim.fn.stdpath("data"),
+    _file_log_path = nil,
+    --- @type "a"|"w"
+    file_log_mode = "a",
+}
 
 --- @param opts table<any, any>
 local function setup(opts)
