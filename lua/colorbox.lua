@@ -463,14 +463,10 @@ local function update(opts)
                     vim.inspect(handle),
                     vim.inspect(data)
                 )
-                local lines = {}
                 for _, d in ipairs(data) do
                     if type(d) == "string" and string.len(vim.trim(d)) > 0 then
-                        table.insert(lines, d)
+                        logger.info("%s: %s", handle, d)
                     end
-                end
-                if #lines > 0 then
-                    logger.info("%s: %s", handle, table.concat(lines, ""))
                 end
             end
         end
