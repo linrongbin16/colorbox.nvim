@@ -123,7 +123,7 @@ scoop install coreutils     # rm
 
 **Warning:** if this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
 
-1. Don't lazy this plugin, it only takes ~4 ms to load.
+1. Don't lazy this plugin (it only takes ~4 ms to load).
 2. Load this plugin before all other start plugins.
 
 ### [lazy.nvim](https://github.com/folke/lazy.nvim)
