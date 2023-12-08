@@ -95,29 +95,53 @@ jobs:
           files: luacov.report.out
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-  release:
+  # release:
+  #   name: Release
+  #   if: ${{ github.ref == 'refs/heads/main' }}
+  #   needs:
+  #     - luacheck
+  #     - unit_test
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: write
+  #     pull-requests: write
+  #     repository-projects: write
+  #   steps:
+  #     - uses: google-github-actions/release-please-action@v3
+  #       id: release
+  #       with:
+  #         release-type: simple
+  #         package-name: colorbox.nvim
+  #     - uses: actions/checkout@v4
+  #     - uses: rickstaa/action-create-tag@v1
+  #       if: ${{ steps.release.outputs.release_created }}
+  #       with:
+  #         tag: stable
+  #         message: "Current stable release: ${{ steps.release.outputs.tag_name }}"
+  #         tag_exists_error: false
+  #         force_push_tag: true
+  update_release_draft:
     name: Release
     if: ${{ github.ref == 'refs/heads/main' }}
     needs:
       - luacheck
       - unit_test
-    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
-      repository-projects: write
+    runs-on: ubuntu-latest
     steps:
-      - uses: google-github-actions/release-please-action@v3
+      - uses: release-drafter/release-drafter@v5
         id: release
-        with:
-          token: ${{ secrets.PERSONAL_RELEASE_TOKEN }}
-          release-type: simple
-          package-name: colorbox.nvim
+        env:
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_RELEASE_TOKEN }}
       - uses: actions/checkout@v4
       - uses: rickstaa/action-create-tag@v1
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ steps.release.outputs.tag_name }}
         with:
           tag: stable
           message: "Current stable release: ${{ steps.release.outputs.tag_name }}"
           tag_exists_error: false
           force_push_tag: true
+          github_token: ${{ secrets.PERSONAL_RELEASE_TOKEN }}
