@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.2](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.1...v1.13.2) (2023-12-08)
+
+
+### Performance Improvements
+
+* **ci:** try again ([#122](https://github.com/linrongbin16/colorbox.nvim/issues/122)) ([a10c6ea](https://github.com/linrongbin16/colorbox.nvim/commit/a10c6eaca5f69570cc00bcabfff7e24981486a3b))
+
 ## [1.13.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.0...v1.13.1) (2023-12-08)
 
 
