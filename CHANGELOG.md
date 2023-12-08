@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.2](https://github.com/linrongbin16/colorbox.nvim/compare/v1.12.1...v1.12.2) (2023-12-08)
+
+
+### Performance Improvements
+
+* **ci:** try again personal token ([#105](https://github.com/linrongbin16/colorbox.nvim/issues/105)) ([694cf32](https://github.com/linrongbin16/colorbox.nvim/commit/694cf328f683425d22f049209de6aaf4ddc4f7ce))
+
 ## [1.12.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.12.0...v1.12.1) (2023-12-08)
 
 
