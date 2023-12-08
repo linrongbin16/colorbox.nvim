@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.9.2](https://github.com/linrongbin16/colorbox.nvim/compare/v1.9.1...v1.9.2) (2023-12-08)
+
+
+### Bug Fixes
+
+* **ci:** fix action-create-tag v1 ([#88](https://github.com/linrongbin16/colorbox.nvim/issues/88)) ([3987942](https://github.com/linrongbin16/colorbox.nvim/commit/3987942a2d488321faf2f886547cf567c6dbf022))
+* **ci:** fix infinite PR loop by please-release action ([#82](https://github.com/linrongbin16/colorbox.nvim/issues/82)) ([a984910](https://github.com/linrongbin16/colorbox.nvim/commit/a984910bd59768281f93ef6c69f7f2603d8a7cba))
+* **ci:** fix please-release action ([#87](https://github.com/linrongbin16/colorbox.nvim/issues/87)) ([1d93e3e](https://github.com/linrongbin16/colorbox.nvim/commit/1d93e3edd04edf297bba9b50a136f8f7319838f7))
+* **ci:** fix release-drafter ([#83](https://github.com/linrongbin16/colorbox.nvim/issues/83)) ([b4ffdb4](https://github.com/linrongbin16/colorbox.nvim/commit/b4ffdb41b942cd9f599ee5a6c613fc7eb539ef00))
+* **ci:** fix release-drafter config ([#84](https://github.com/linrongbin16/colorbox.nvim/issues/84)) ([77f8d17](https://github.com/linrongbin16/colorbox.nvim/commit/77f8d175e0847c7c42b0d0354af27b046676cb54))
+
+
+### Performance Improvements
+
+* **ci:** upload luarocks ([#77](https://github.com/linrongbin16/colorbox.nvim/issues/77)) ([b6c7f59](https://github.com/linrongbin16/colorbox.nvim/commit/b6c7f593a005c40c185fb36966d075c799e19239))
+
+
+### Reverts
+
+* **ci:** use please-release ([#85](https://github.com/linrongbin16/colorbox.nvim/issues/85)) ([d4b2eab](https://github.com/linrongbin16/colorbox.nvim/commit/d4b2eabc2d32987d480320402efc10d2e1b8ccf8))
+
 ## [1.11.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.10.0...v1.11.0) (2023-12-08)
 
 
