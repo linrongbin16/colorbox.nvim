@@ -114,7 +114,7 @@ jobs:
           release-type: simple
           package-name: colorbox.nvim
       - uses: actions/checkout@v4
-      - uses: rickstaa/action-create-tag@v2
+      - uses: rickstaa/action-create-tag@v1
         if: ${{ steps.release.outputs.release_created }}
         with:
           tag: stable
