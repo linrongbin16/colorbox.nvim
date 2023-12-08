@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.0...v1.13.1) (2023-12-08)
+
+
+### Performance Improvements
+
+* **ci:** try trigger luarocks ci ([#120](https://github.com/linrongbin16/colorbox.nvim/issues/120)) ([4dd969e](https://github.com/linrongbin16/colorbox.nvim/commit/4dd969e6117775c524961531132ff09930fa6890))
+
 ## [1.13.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.12.4...v1.13.0) (2023-12-08)
 
 
