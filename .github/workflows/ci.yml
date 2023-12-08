@@ -121,6 +121,11 @@ jobs:
   #         tag_exists_error: false
   #         force_push_tag: true
   update_release_draft:
+    name: Release
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs:
+      - luacheck
+      - unit_test
     permissions:
       contents: write
       pull-requests: write
