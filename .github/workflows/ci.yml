@@ -126,5 +126,4 @@ jobs:
         id: release
         with:
           repo_token: "${{ secrets.PERSONAL_RELEASE_TOKEN }}"
-          automatic_release_tag: "stable"
           prerelease: false
