@@ -5,6 +5,9 @@ on:
       - main
 permissions:
   contents: read
+concurrency:
+  group: ${{ github.ref }}-release-drafter
+  cancel-in-progress: true
 jobs:
   update_release_draft:
     name: Release
