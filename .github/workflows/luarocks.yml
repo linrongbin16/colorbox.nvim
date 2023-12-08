@@ -22,6 +22,5 @@ jobs:
           LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
         with:
           summary: "Load all the ultra colorschemes into your Neovim player!"
-          licence: "MIT"
           labels: |
             neovim
