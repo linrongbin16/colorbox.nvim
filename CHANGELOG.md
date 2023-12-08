@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.3](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.2...v1.13.3) (2023-12-08)
+
+
+### Performance Improvements
+
+* **ci:** try upload luarocks again3 ([#124](https://github.com/linrongbin16/colorbox.nvim/issues/124)) ([a2199c1](https://github.com/linrongbin16/colorbox.nvim/commit/a2199c12b84278943cb0627b69714f44385e73d2))
+
 ## [1.13.2](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.1...v1.13.2) (2023-12-08)
 
 
