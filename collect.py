@@ -295,7 +295,7 @@ class ColorSpec:
                 f"{candidate_dir} exist: {candidate_dir.exists()}, isdir: {candidate_dir.is_dir()}"
             )
             if candidate_dir.exists() and candidate_dir.is_dir():
-                logging.info(f"{candidate_dir} already exist, skip...")
+                logging.debug(f"{candidate_dir} already exist, skip...")
             else:
                 logging.debug(clone_cmd)
                 os.system(clone_cmd)
@@ -399,16 +399,16 @@ class VimColorSchemes:
                     spec = self._parse_spec(element)
                     logging.debug(f"vsc repo:{spec}")
                     if len(spec.handle.split("/")) != 2:
-                        logging.info(f"skip for invalid handle - (vcs) spec:{spec}")
+                        logging.debug(f"skip for invalid handle - (vcs) spec:{spec}")
                         continue
                     if spec.github_stars < GITHUB_STARS:
-                        logging.info(f"skip for lower stars - (vcs) spec:{spec}")
+                        logging.debug(f"skip for lower stars - (vcs) spec:{spec}")
                         continue
-                    logging.info(f"get (vcs) spec:{spec}")
+                    logging.debug(f"get (vcs) spec:{spec}")
                     need_more_scan = True
                     spec.save()
                 if not need_more_scan:
-                    logging.info(f"no more enough github stars, exit...")
+                    logging.debug(f"no more enough github stars, exit...")
                     break
 
 
@@ -436,12 +436,12 @@ class AwesomeNeovimColorScheme:
         for e in colors_group.find_elements(By.XPATH, "./li"):
             spec = self._parse_spec(e)
             if len(spec.handle.split("/")) != 2:
-                logging.info(f"skip for invalid handle - (asn) spec:{spec}")
+                logging.debug(f"skip for invalid handle - (asn) spec:{spec}")
                 continue
             if spec.github_stars < GITHUB_STARS:
-                logging.info(f"skip for lower stars - (asn) spec:{spec}")
+                logging.debug(f"skip for lower stars - (asn) spec:{spec}")
                 continue
-            logging.info(f"get (asn) repo:{spec}")
+            logging.debug(f"get (asn) repo:{spec}")
             repos.append(spec)
         return repos
 
@@ -469,11 +469,11 @@ def filter_color_specs() -> None:
     for spec in ColorSpec.all():
         logging.debug(f"process filtering on spec:{spec}")
         if spec.github_stars < GITHUB_STARS:
-            logging.info(f"skip for lower stars - spec:{spec}")
+            logging.debug(f"skip for lower stars - spec:{spec}")
             spec.remove()
             continue
         if blacklist(spec):
-            logging.info(f"skip for blacklist - spec:{spec}")
+            logging.debug(f"skip for blacklist - spec:{spec}")
             spec.remove()
             continue
         else:
@@ -505,13 +505,13 @@ class Builder:
                 spec.last_git_commit.timestamp() + LAST_GIT_COMMIT
                 < datetime.datetime.now().timestamp()
             ):
-                logging.info(f"skip for too old git commit - spec:{spec}")
+                logging.debug(f"skip for too old git commit - spec:{spec}")
                 spec.remove()
                 continue
             color_names = spec.get_vim_color_names()
             spec.update_color_names(color_names)
             if len(color_names) == 0:
-                logging.info(f"skip for no color files (.vim,.lua) - spec:{spec}")
+                logging.debug(f"skip for no color files (.vim,.lua) - spec:{spec}")
                 spec.remove()
                 continue
 
@@ -535,12 +535,12 @@ class Builder:
                 # detect duplicated color
                 if color in specs_map:
                     old_spec = specs_map[color]
-                    logging.info(
+                    logging.debug(
                         f"detect duplicated color({color}), new:{spec}, old:{old_spec}"
                     )
                     # replace old repo if new repo has higher priority
                     if greater_than(spec, old_spec):
-                        logging.info(f"replace old repo({old_spec}) with new({spec})")
+                        logging.debug(f"replace old repo({old_spec}) with new({spec})")
                         specs_map[color] = spec
                         specs_set.add(spec)
                         specs_set.remove(old_spec)
@@ -558,11 +558,12 @@ class Builder:
 
         for spec in ColorSpec.all():
             if not spec in deduped_specs:
-                logging.info(f"remove for duplicate - repo:{spec}")
+                logging.debug(f"remove for duplicate - repo:{spec}")
                 spec.remove()
 
         md = MdUtils(file_name="COLORSCHEMES", title="ColorSchemes List")
         for spec in ColorSpec.all():
+            logging.info(f"collect spec:{spec}")
             color_names = spec.get_vim_color_names()
             color_names = sorted(color_names)
             md.new_line(

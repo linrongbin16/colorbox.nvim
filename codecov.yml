@@ -7,4 +7,4 @@ coverage:
       default:
         threshold: 90%
 ignore:
-  - "lua/colorbox/rxi_json.lua"
+  - "lua/colorbox/commons/*.lua"

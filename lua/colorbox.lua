@@ -1,7 +1,7 @@
 local logger = require("colorbox.logger")
 local LogLevels = require("colorbox.logger").LogLevels
 local utils = require("colorbox.utils")
-local json = require("colorbox.json")
+local jsons = require("colorbox.commons.jsons")
 local uv = (vim.fn.has("nvim-0.10") > 0 and vim.uv ~= nil) and vim.uv
     or vim.loop
 
@@ -185,7 +185,7 @@ local function _save_track(color_name)
     -- start from 0, end with #FilteredColorNamesList-1
     local color_number = FilteredColorNameToIndexMap[color_name] or 0
     vim.schedule(function()
-        local content = json.encode({
+        local content = jsons.encode({
             color_name = color_name,
             color_number = color_number,
         }) --[[@as string]]
@@ -199,7 +199,7 @@ local function _load_previous_track()
     if content == nil then
         return nil
     end
-    return json.decode(content) --[[@as PreviousTrack]]
+    return jsons.decode(content) --[[@as PreviousTrack]]
 end
 
 --- @param idx integer

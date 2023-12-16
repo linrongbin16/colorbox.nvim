@@ -35,7 +35,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --config-path .stylua.toml ./lua
+          args: --config-path .stylua.toml ./lua ./test
       - name: Install commons.nvim
         if: ${{ github.ref != 'refs/heads/main' }}
         shell: bash

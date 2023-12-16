@@ -1,4 +1,4 @@
-local json = require("colorbox.json")
+local jsons = require("colorbox.commons.jsons")
 
 --- @class colorbox.ColorSpec
 --- @field handle string "folke/tokyonight.nvim"
@@ -101,7 +101,7 @@ do
         assert(fp, string.format("failed to read %s", vim.inspect(file)))
         local content = fp:read("*a")
         fp:close()
-        local data = json.decode(content) --[[@as table]]
+        local data = jsons.decode(content) --[[@as table]]
         HandleToColorSpecsMap = {}
         for _, d in pairs(data["_default"]) do
             HandleToColorSpecsMap[d.handle] = ColorSpec:new(

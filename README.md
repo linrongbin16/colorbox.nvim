@@ -3,11 +3,11 @@
 <!-- query a github file last update timestamp: https://stackoverflow.com/a/50204589/4438921 -->
 
 <p align="center">
-<a href="https://github.com/neovim/neovim/releases/v0.8.0"><img alt="Neovim" src="https://img.shields.io/badge/Neovim-v0.8-57A143?logo=neovim&logoColor=57A143" /></a>
-<a href="https://luarocks.org/modules/linrongbin16/colorbox.nvim"><img alt="luarocks" src="https://custom-icon-badges.demolab.com/luarocks/v/linrongbin16/colorbox.nvim?label=LuaRocks&labelColor=063B70&logo=tag&logoColor=fff&color=008B8B" /></a>
+<a href="https://github.com/neovim/neovim/releases/v0.8.0"><img alt="Neovim" src="https://img.shields.io/badge/Neovim-v0.8+-57A143?logo=neovim&logoColor=57A143" /></a>
+<a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://custom-icon-badges.demolab.com/badge/Powered_by-commons.nvim-teal?logo=heart&logoColor=fff&labelColor=red" /></a>
+<a href="https://luarocks.org/modules/linrongbin16/colorbox.nvim"><img alt="luarocks" src="https://custom-icon-badges.demolab.com/luarocks/v/linrongbin16/colorbox.nvim?label=LuaRocks&labelColor=2C2D72&logo=tag&logoColor=fff&color=blue" /></a>
 <a href="https://github.com/linrongbin16/gitlinker.nvim/actions/workflows/ci.yml"><img alt="ci.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/ci.yml?label=GitHub%20CI&labelColor=181717&logo=github&logoColor=fff" /></a>
 <a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim?logo=codecov&logoColor=F01F7A&label=Codecov" /></a>
-<a href="https://github.com/linrongbin16/gitlinker.nvim/actions/workflows/collect.yml"><img alt="collect.yml" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Frepos%2Flinrongbin16%2Fcolorbox.nvim%2Fcommits%3Fpath%3Dcollect.py.log%26page%3D1%26per_page%3D1&query=%24%5B0%5D.commit.committer.date&logo=githubactions&logoColor=fff&label=Last%20Update&labelColor=2F4F4F" /></a>
 </p>
 
 I'm greedy that I want all the **most popular** Neovim colorschemes than only one, I'm playful that I want to change colorscheme from time to time. Are you like me?
