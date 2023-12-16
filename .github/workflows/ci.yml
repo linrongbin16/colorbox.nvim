@@ -36,14 +36,16 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --config-path .stylua.toml ./lua
-      - name: Add json.lua
+      - name: Install commons.nvim
         if: ${{ github.ref != 'refs/heads/main' }}
         shell: bash
         run: |
-          echo "pwd"
-          echo $PWD
-          git clone --depth=1 https://github.com/actboy168/json.lua.git ~/.json.lua
-          cp ~/.json.lua/json.lua ./lua/colorbox/actboy168_json.lua
+          git clone --depth=1 https://github.com/linrongbin16/commons.nvim.git ~/.commons.nvim
+          rm -rf ./lua/colorbox/commons
+          mkdir -p ./lua/colorbox/commons
+          cp -rf ~/.commons.nvim/lua/commons/*.lua ./lua/colorbox/commons
+          cd ./lua/colorbox/commons
+          find . -type f -name '*.lua' -exec sed -i 's/require("commons/require("colorbox.commons/g' {} \;
       - name: Auto Commit
         if: ${{ github.ref != 'refs/heads/main' }}
         uses: stefanzweifel/git-auto-commit-action@v4
