@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.4](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.3...v1.13.4) (2023-12-17)
+
+
+### Performance Improvements
+
+* **commons:** migrate to commons library ([#129](https://github.com/linrongbin16/colorbox.nvim/issues/129)) ([b1980a7](https://github.com/linrongbin16/colorbox.nvim/commit/b1980a7289bfb390ea738c957427b1ce9f3e0552))
+
 ## [1.13.3](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.2...v1.13.3) (2023-12-08)
 
 
