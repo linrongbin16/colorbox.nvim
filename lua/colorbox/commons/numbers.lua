@@ -66,4 +66,11 @@ M.auto_incremental_id = function()
   return IncrementalId
 end
 
+--- @param a integer
+--- @param b integer
+--- @return integer
+M.mod = function(a, b)
+  return math.floor(math.fmod(a, b))
+end
+
 return M

@@ -100,11 +100,11 @@ M.run = function(cmd, opts, on_exit)
     end
   end
 
-  local _system = require("colorbox.commons._system").run
-
-  if vim.fn.has("nvim-0.10") > 0 and type(vim.system) == "function" then
-    _system = vim.system
-  end
+  local _system = (
+    vim.fn.has("nvim-0.10") > 0 and type(vim.system) == "function"
+  )
+      and vim.system
+    or require("colorbox.commons._system").run
 
   return _system(cmd, {
     cwd = opts.cwd,
