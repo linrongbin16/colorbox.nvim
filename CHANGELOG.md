@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.5](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.4...v1.13.5) (2023-12-17)
+
+
+### Bug Fixes
+
+* **unpack:** fix unpack ([#132](https://github.com/linrongbin16/colorbox.nvim/issues/132)) ([a483f98](https://github.com/linrongbin16/colorbox.nvim/commit/a483f984470dda88f29986a83a13d50f8b6f9f4a))
+
 ## [1.13.4](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.3...v1.13.4) (2023-12-17)
 
 
