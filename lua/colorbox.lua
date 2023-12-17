@@ -1,9 +1,9 @@
 local logger = require("colorbox.logger")
 local LogLevels = require("colorbox.logger").LogLevels
-local utils = require("colorbox.utils")
 local jsons = require("colorbox.commons.jsons")
-local uv = (vim.fn.has("nvim-0.10") > 0 and vim.uv ~= nil) and vim.uv
-    or vim.loop
+local uv = require("colorbox.commons.uv")
+local numbers = require("colorbox.commons.numbers")
+local fileios = require("colorbox.commons.fileios")
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
@@ -85,7 +85,7 @@ local FilteredColorNameToIndexMap = {}
 local function _primary_color_name_filter(color_name, spec)
     local unique = #spec.color_names <= 1
     local shortest = string.len(color_name)
-        == utils.min(spec.color_names, string.len)
+        == numbers.min(string.len, table.unpack(spec.color_names))
     local handle_splits =
         vim.split(spec.handle, "/", { plain = true, trimempty = true })
     local matched = handle_splits[1]:lower() == color_name:lower()
@@ -189,13 +189,13 @@ local function _save_track(color_name)
             color_name = color_name,
             color_number = color_number,
         }) --[[@as string]]
-        utils.writefile(Configs.previous_track_cache, content)
+        fileios.writefile(Configs.previous_track_cache, content)
     end)
 end
 
 --- @return PreviousTrack?
 local function _load_previous_track()
-    local content = utils.readfile(Configs.previous_track_cache)
+    local content = fileios.readfile(Configs.previous_track_cache)
     if content == nil then
         return nil
     end
@@ -226,7 +226,7 @@ end
 
 local function _policy_shuffle()
     if #FilteredColorNamesList > 0 then
-        local i = utils.randint(#FilteredColorNamesList) + 1
+        local i = math.random(#FilteredColorNamesList)
         local color = _get_next_color_name_by_idx(i)
         -- logger.debug(
         --     "|colorbox._policy_shuffle| color:%s, ColorNames:%s (%d), r:%d",
@@ -292,7 +292,7 @@ end
 
 local function _policy_fixed_interval()
     local later = Configs.policy.seconds > 0 and (Configs.policy.seconds * 1000)
-        or utils.int32_max
+        or numbers.INT32_MAX
 
     local function impl()
         if Configs.policy.implement == "shuffle" then
