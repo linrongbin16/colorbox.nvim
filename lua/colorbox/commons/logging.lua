@@ -461,7 +461,7 @@ M.Logger = Logger
 --- @type table<string, commons.logging.Logger>
 local NAMESPACE = {}
 
---- @alias commons.LoggingConfigs {name:string,level:(commons.LogLevels|string)?,console_log:boolean?,file_log:boolean?,file_log_name:string?,file_log_dir:string?}
+--- @alias commons.LoggingConfigs {name:string,level:(commons.LogLevels|string)?,console_log:boolean?,file_log:boolean?,file_log_name:string?,file_log_dir:string?,file_log_mode:"a"|"w"|nil}
 --- @type commons.LoggingConfigs
 local Defaults = {
   --- @type string
@@ -470,7 +470,8 @@ local Defaults = {
   console_log = true,
   file_log = false,
   file_log_name = nil,
-  file_log_dir = vim.fn.stdpath("data"),
+  file_log_dir = vim.fn.stdpath("data") --[[@as string]],
+  file_log_mode = "a",
 }
 
 --- @param opts commons.LoggingConfigs
@@ -495,7 +496,7 @@ M.setup = function(opts)
         or "",
       conf.file_log_name
     )
-    local file_handler = FileHandler:new(filepath, "a")
+    local file_handler = FileHandler:new(filepath, conf.file_log_mode or "a")
     logger:add_handler(file_handler)
   end
 
