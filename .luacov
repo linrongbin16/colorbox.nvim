@@ -3,6 +3,6 @@ modules = {
     ["colorbox.*"] = "lua",
 }
 exclude = {
-    "lua/colorbox/rxi_json.lua",
+    "lua/colorbox/commons/*.lua",
 }
 
