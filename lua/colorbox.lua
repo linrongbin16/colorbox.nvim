@@ -85,7 +85,7 @@ local FilteredColorNameToIndexMap = {}
 local function _primary_color_name_filter(color_name, spec)
     local unique = #spec.color_names <= 1
     local shortest = string.len(color_name)
-        == numbers.min(string.len, table.unpack(spec.color_names))
+        == numbers.min(string.len, unpack(spec.color_names))
     local handle_splits =
         vim.split(spec.handle, "/", { plain = true, trimempty = true })
     local matched = handle_splits[1]:lower() == color_name:lower()
