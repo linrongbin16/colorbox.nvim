@@ -68,6 +68,7 @@ And multiple trigger timings (colorschemes don't have end time):
 - [Install](#-install)
   - [lazy.nvim](#lazynvim)
   - [pckr.nvim](#pckrnvim)
+- [Command](#-command)
 - [Configuration](#-configuration)
   - [Timing & Policy](#timing--policy)
   - [Filter](#filter)
@@ -161,7 +162,7 @@ require('colorbox').update({
 })
 ```
 
-## 🚀 Usage
+## 🚀 Command
 
 You can use command `Colorbox` to control the player with below subcommands:
 
