@@ -30,6 +30,8 @@ require('colorbox').setup({
 
 It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
 
+> [!NOTE]
+>
 > The **most popular** colorschemes are picked from below websites:
 >
 > - [vimcolorschemes.com/top](https://vimcolorschemes.com/top)
@@ -115,7 +117,7 @@ Run below powershell commands:
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 irm get.scoop.sh | iex
 
-scoop install coreutils     # rm
+scoop install uutils-coreutils     # rm
 ```
 
 </details>
