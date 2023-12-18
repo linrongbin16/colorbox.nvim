@@ -423,7 +423,7 @@ local function update(opts)
     })
 
     local home_dir = vim.fn["colorbox#base_dir"]()
-    local packstart = string.format("%s/pack/colorbox/start", home_dir)
+    -- local packstart = string.format("%s/pack/colorbox/start", home_dir)
     -- logger.debug(
     --     "|colorbox.init| home_dir:%s, pack:%s",
     --     vim.inspect(home_dir),
