@@ -72,8 +72,8 @@ And multiple trigger timings (colorschemes don't have end time):
   - [pckr.nvim](#pckrnvim)
 - [Command](#-command)
 - [Configuration](#-configuration)
-  - [Timing & Policy](#timing--policy)
   - [Filter](#filter)
+  - [Timing & Policy](#timing--policy)
   - [Background](#background)
 - [Development](#-development)
 - [Contribute](#-contribute)
@@ -135,8 +135,8 @@ scoop install uutils-coreutils     # rm
 require('lazy').setup({
     {
         'linrongbin16/colorbox.nvim',
-        lazy = false, -- don't lazy this plugin if it provides the main colorscheme
-        priority = 1000, -- load this plugin before all other start plugins
+        lazy = false, -- don't lazy load
+        priority = 1000, -- load this plugin at first
         build = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
@@ -155,13 +155,10 @@ require('pckr').add({
 })
 ```
 
-If you have issues on running multiple git clone/pull commands, try set `concurrency=1` in the `update` API:
+If you have issue on running multiple git commands, try set `concurrency=1` in the `update` API:
 
 ```lua
-require('colorbox').update({
-    --- @type integer
-    concurrency = 4,
-})
+require('colorbox').update({ concurrency = 4 })
 ```
 
 ## 🚀 Command
