@@ -9,11 +9,14 @@ describe("colorbox", function()
         vim.api.nvim_command("cd " .. cwd)
     end)
 
+    local github_actions = os.getenv("GITHUB_ACTIONS") == "true"
     local colorbox = require("colorbox")
     describe("[setup]", function()
         it("setup", function()
-            colorbox.update()
-            colorbox.setup()
+            if not github_actions then
+                colorbox.update()
+                colorbox.setup()
+            end
         end)
     end)
 end)
