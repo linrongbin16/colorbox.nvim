@@ -117,7 +117,7 @@ Run below powershell commands:
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 irm get.scoop.sh | iex
 
-scoop install coreutils     # rm
+scoop install uutils-coreutils     # rm
 ```
 
 </details>
