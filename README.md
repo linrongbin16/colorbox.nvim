@@ -30,6 +30,8 @@ require('colorbox').setup({
 
 It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
 
+> [!NOTE]
+>
 > The **most popular** colorschemes are picked from below websites:
 >
 > - [vimcolorschemes.com/top](https://vimcolorschemes.com/top)
