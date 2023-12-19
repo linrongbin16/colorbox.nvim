@@ -72,9 +72,10 @@ And multiple trigger timings (colorschemes don't have end time):
   - [pckr.nvim](#pckrnvim)
 - [Command](#-command)
 - [Configuration](#-configuration)
-  - [Timing & Policy](#timing--policy)
   - [Filter](#filter)
+  - [Timing & Policy](#timing--policy)
   - [Background](#background)
+- [Receipts](#receipts)
 - [Development](#-development)
 - [Contribute](#-contribute)
 
@@ -135,8 +136,8 @@ scoop install uutils-coreutils     # rm
 require('lazy').setup({
     {
         'linrongbin16/colorbox.nvim',
-        lazy = false, -- don't lazy this plugin if it provides the main colorscheme
-        priority = 1000, -- load this plugin before all other start plugins
+        lazy = false, -- don't lazy load
+        priority = 1000, -- load at first
         build = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
@@ -159,7 +160,6 @@ If you have issues on running multiple git clone/pull commands, try set `concurr
 
 ```lua
 require('colorbox').update({
-    --- @type integer
     concurrency = 4,
 })
 ```
@@ -180,50 +180,14 @@ You can use command `Colorbox` to control the player with below subcommands:
 
 ```lua
 require('colorbox').setup({
-    -- builtin policy
-    --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single"
-    ---
-    -- by filetype policy: buffer filetype => color name
-    --- @alias colorbox.ByFileTypePolicyConfig {mapping:table<string, string>,fallback:string}
-    ---
-    -- fixed interval seconds
-    --- @alias colorbox.FixedIntervalPolicyConfig {seconds:integer,implement:colorbox.BuiltinPolicyConfig}
-    ---
-    --- @alias colorbox.PolicyConfig colorbox.BuiltinPolicyConfig|colorbox.ByFileTypePolicyConfig|colorbox.FixedIntervalPolicyConfig
-    --- @type colorbox.PolicyConfig
+    -- Disable those colors you don't want from the candidates list.
+    filter = "primary",
+
+    -- Choose a colorscheme from the filtered candidates.
     policy = "shuffle",
 
-    --- @type "startup"|"interval"|"bufferchanged"
+    -- Decide when to switch to next colorscheme.
     timing = "startup",
-
-    -- (Optional) filters that disable some colors that you don't want.
-    -- By default only enable primary color, e.g. only 'tokyonight' is picked, others ('tokyonight-day', 'tokyonight-moon', 'tokyonight-night', 'tokyonight-storm') are excluded.
-    --
-    -- builtin filter
-    --- @alias colorbox.BuiltinFilterConfig "primary"
-    ---
-    --- @class colorbox.ColorSpec
-    --- @field handle string "folke/tokyonight.nvim"
-    --- @field url string "https://github.com/folke/tokyonight.nvim"
-    --- @field github_stars integer 4300
-    --- @field last_git_commit string "2023-10-25T18:20:36"
-    --- @field priority integer 100/0
-    --- @field source string "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"
-    --- @field git_path string "folke-tokyonight.nvim"
-    --- @field git_branch string? nil|"neovim"
-    --- @field color_names string[] ["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]
-    --- @field pack_path string "pack/colorbox/start/folke-tokyonight.nvim"
-    --- @field full_pack_path string "Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"
-    --
-    -- function-based filter, disabled if function return true.
-    --- @alias colorbox.FunctionFilterConfig fun(color:string, spec:colorbox.ColorSpec):boolean
-    ---
-    ---list-based filter, disabled if any of filter hit the conditions.
-    --- @alias colorbox.AnyFilterConfig (colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig)[]
-    ---
-    --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AnyFilterConfig
-    --- @type colorbox.FilterConfig?
-    filter = "primary",
 
     -- (Optional) setup plugin before running `colorscheme {color}`.
     --- @type table<string, function>
@@ -233,7 +197,7 @@ require('colorbox').setup({
         end,
     },
 
-    -- Run `set background=dark/light` before running `colorscheme {color}`.
+    -- Set `background` before running `colorscheme {color}`.
     --
     --- @type "dark"|"light"|nil
     background = nil,
@@ -246,31 +210,114 @@ require('colorbox').setup({
     cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath('data')),
 
     -- enable debug
-    --
-    --- @type boolean
     debug = false,
 
     -- print log to console (command line)
-    --
-    --- @type boolean
     console_log = true,
 
     -- print log to file.
-    --
-    --- @type boolean
     file_log = false,
 })
 ```
 
+When choosing a colorscheme, this plugin will run following steps:
+
+- Run the filter, disable those colors you don't want from candidates list. See [Filter](#filter).
+- Run the policy at a proper timing, and choose a colorscheme. See [Timing & Policy](#timing--policy).
+- Refresh the `background` option. See [Background](#background).
+- Run the `colorscheme` command to actually change to the colorscheme.
+
+### Filter
+
+There're 3 types of filter configs:
+
+- Builtin filters:
+
+  - `"primary"`: Only enables the main color (if there are multiple colors in one plugin).
+
+- Function filters: A lua function that decide whether to enable/disable a color
+
+  > **Note:**
+  >
+  > The lua function has below signature:
+  >
+  > ```lua
+  > function(color:string, spec:colorbox.ColorSpec):boolean
+  > ```
+  >
+  > Parameters:
+  >
+  > - `color`: Color name.
+  > - `spec`: Colorscheme meta info, which is the `colorbox.ColorSpec` type, see below.
+  >
+  > Returns:
+  >
+  > - To disable a color, returns `true`.
+  > - To enable a color, returns `false`.
+  >
+  > ```lua
+  > --- @class colorbox.ColorSpec
+  > --- @field handle string "folke/tokyonight.nvim"
+  > --- @field url string "https://github.com/folke/tokyonight.nvim"
+  > --- @field github_stars integer 4300
+  > --- @field last_git_commit string "2023-10-25T18:20:36"
+  > --- @field priority integer 100/0
+  > --- @field source string "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"
+  > --- @field git_path string "folke-tokyonight.nvim"
+  > --- @field git_branch string? nil|"neovim"
+  > --- @field color_names string[] ["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]
+  > --- @field pack_path string "pack/colorbox/start/folke-tokyonight.nvim"
+  > --- @field full_pack_path string "Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"
+  > ```
+
+- List filters: A lua list that contains multiple other filters. A color will be disabled if any of those filters returns true.
+
 ### Timing & Policy
 
-Timing and policy configs have to work together.
+> [!NOTE]
+>
+> Timing and policy have to work together.
 
-- `timing`: 'startup', 'interval', 'bufferchanged'.
+- `timing`:
+
+  - `"startup"`: Choose a color on nvim's start.
+  - `"interval"`: Choose a color after a fixed interval time.
+  - `"bufferchanged"`: Choose a color when buffer changed.
+
 - `policy`:
-  - Builtin policies (see `colorbox.BuiltinPolicyConfig`): working with 'startup' timing.
-  - Fixed interval policies (see `colorbox.FixedIntervalPolicyConfig`): working with 'interval' timing.
-  - By filetype policies (see `colorbox.ByFileTypePolicyConfig`): working with 'bufferchanged' timing.
+
+  - Builtin policy, works with `timing = "startup"`.
+
+    - `"shuffle"`: Random choose next color.
+    - `"in_order"`: Choose next color in order, color names are ordered from 'A' to 'Z'.
+    - `"reverse_order"`: Choose next color in reversed order, color names are ordered from 'Z' to 'A'.
+    - `"single"`: Choose the fixed one color.
+
+  - Fixed interval time policy, works with `timing = "interval"`. The policy contains two fields:
+
+    - `seconds`: Fixed interval time by seconds.
+    - `implement`: Internal policy implementation, e.g. `shuffle`, `in_order`, `reverse_order`, `single` builtin policies.
+
+  - By filetype policy, works with `timing = "bufferchanged"`.
+
+    - `mapping`: A lua table to map file type to colorscheme.
+    - `fallback`: Default colorscheme when file type is not mapped.
+
+### Background
+
+There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, e.g. they forced the `set background=light` on loading.
+
+If you want to bring the dark-able colors back to dark, please see:
+
+```lua
+require('colorbox').setup({
+    background = 'dark',
+})
+```
+
+It will automatically run `set background=dark` option before `colorscheme` command.
+
+## Receipts
 
 To choose a fixed colorscheme on nvim start, please use:
 
@@ -317,15 +364,6 @@ require('colorbox').setup({
 })
 ```
 
-### Filter
-
-There're 3 types of filter configs:
-
-- Builtin filters (see `colorbox.BuiltinFilterConfig`): `primary` (only the main color).
-- Function-based filters (see `colorbox.FunctionFilterConfig`): a lua function that decide whether to filter the color, return true if you want to disable the color.
-  - **Note:** the lua function use signature `fun(color:string, spec:colorbox.ColorSpec):boolean`, where 1st parameter `color` is the color name, 2nd paraneter `spec` is the meta info of a color plugin, see `colorbox.ColorSpec`.
-- List-based filters (see `colorbox.AnyFilterConfig`): a lua list that contains multiple of builtin filters and function filters, the color will be disabled if any of these filters returns true.
-
 To disable filters, please use:
 
 ```lua
@@ -346,23 +384,14 @@ To enable only github stars &ge; 1000 & primary colors, please use:
 
 ```lua
 require('colorbox').setup({
-    filter = {'primary', function(color, spec) return spec.github_stars < 1000 end },
+    filter = {
+        "primary",
+        function(color, spec)
+            return spec.github_stars < 1000
+        end
+    },
 })
 ```
-
-### Background
-
-Most colorschemes are both dark-able and light-able, they depend on the `set background=dark/light` option, while there're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, e.g. they change the `background` option when loaded.
-
-If you didn't disable the light colors (for example set `filter=false` to allow all the colors), but still want to the dark-able colors to be dark, please see:
-
-```lua
-require('colorbox').setup({
-    background = 'dark',
-})
-```
-
-It automatically set `set background=dark` option before running `colorscheme {color}` command, thus try to bring background back to dark unless those forced to be light ones.
 
 ## ✏️ Development
 
