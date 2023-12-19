@@ -226,9 +226,13 @@ When choosing a colorscheme, this plugin will run following steps:
 There're 3 types of filter configs:
 
 - Builtin filters:
+
   - `"primary"`: Only enables the main color (if there are multiple colors in one plugin).
-- Function filters: a lua function that decide whether to enable/disable a color, returns `true` if you want to disable the color, returns `false` if enable the color.
-  > **Note**
+  
+- Function filters: A lua function that decide whether to enable/disable a color, returns `true` if you want to disable the color, returns `false` if enable the color.
+
+  > **Note:**
+  > 
   > The lua function has below signature:
   > 
   > ```lua
@@ -255,7 +259,7 @@ There're 3 types of filter configs:
   > --- @field full_pack_path string "Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"
   > ```
 
-- List-based filters (see `colorbox.AnyFilterConfig`): a lua list that contains multiple of builtin filters and function filters, the color will be disabled if any of these filters returns true.
+- List filters: A lua list that contains multiple other filters. A color will be disabled if any of those filters returns true.
 
 ### Timing & Policy
 
