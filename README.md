@@ -221,6 +221,42 @@ When choosing a colorscheme, this plugin will run following steps:
 * Refresh the `background` option. See [Background](#background).
 * Run the `colorscheme` command to actually change to the colorscheme.
 
+### Filter
+
+There're 3 types of filter configs:
+
+- Builtin filters:
+  - `"primary"`: Only enables the main color (if there are multiple colors in one plugin).
+- Function filters: a lua function that decide whether to enable/disable a color, returns `true` if you want to disable the color, returns `false` if enable the color.
+  > **Note**
+  > The lua function has below signature:
+  > 
+  > ```lua
+  > function(color:string, spec:colorbox.ColorSpec):boolean
+  > ```
+  >
+  > Parameters:
+  >
+  >   - `color`: Color name.
+  >   - `spec`: Colorscheme meta info, which is the `colorbox.ColorSpec` type.
+  >
+  > ```lua
+  > --- @class colorbox.ColorSpec
+  > --- @field handle string "folke/tokyonight.nvim"
+  > --- @field url string "https://github.com/folke/tokyonight.nvim"
+  > --- @field github_stars integer 4300
+  > --- @field last_git_commit string "2023-10-25T18:20:36"
+  > --- @field priority integer 100/0
+  > --- @field source string "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"
+  > --- @field git_path string "folke-tokyonight.nvim"
+  > --- @field git_branch string? nil|"neovim"
+  > --- @field color_names string[] ["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]
+  > --- @field pack_path string "pack/colorbox/start/folke-tokyonight.nvim"
+  > --- @field full_pack_path string "Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"
+  > ```
+
+- List-based filters (see `colorbox.AnyFilterConfig`): a lua list that contains multiple of builtin filters and function filters, the color will be disabled if any of these filters returns true.
+
 ### Timing & Policy
 
 Timing and policy configs have to work together.
@@ -275,15 +311,6 @@ require('colorbox').setup({
     timing = 'interval',
 })
 ```
-
-### Filter
-
-There're 3 types of filter configs:
-
-- Builtin filters (see `colorbox.BuiltinFilterConfig`): `primary` (only the main color).
-- Function-based filters (see `colorbox.FunctionFilterConfig`): a lua function that decide whether to filter the color, return true if you want to disable the color.
-  - **Note:** the lua function use signature `fun(color:string, spec:colorbox.ColorSpec):boolean`, where 1st parameter `color` is the color name, 2nd paraneter `spec` is the meta info of a color plugin, see `colorbox.ColorSpec`.
-- List-based filters (see `colorbox.AnyFilterConfig`): a lua list that contains multiple of builtin filters and function filters, the color will be disabled if any of these filters returns true.
 
 To disable filters, please use:
 
