@@ -179,9 +179,14 @@ You can use command `Colorbox` to control the player with below subcommands:
 
 ```lua
 require('colorbox').setup({
-    policy = "shuffle",
-    timing = "startup",
+    -- Filter colors you don't want from the candidates list.
     filter = "primary",
+
+    -- Policies to choose a colorscheme from the filtered candidates.
+    policy = "shuffle",
+
+    -- Timing to decide when to switch to next colorscheme.
+    timing = "startup",
 
     -- (Optional) setup plugin before running `colorscheme {color}`.
     --- @type table<string, function>
@@ -216,10 +221,10 @@ require('colorbox').setup({
 
 When choosing a colorscheme, this plugin will run following steps:
 
-* Run the filter, disable those colors you don't want from candidates list. See [Filter](#filter).
-* Run the policy at a proper timing, and choose a colorscheme. See [Timing & Policy](#timing--policy).
-* Refresh the `background` option. See [Background](#background).
-* Run the `colorscheme` command to actually change to the colorscheme.
+- Run the filter, disable those colors you don't want from candidates list. See [Filter](#filter).
+- Run the policy at a proper timing, and choose a colorscheme. See [Timing & Policy](#timing--policy).
+- Refresh the `background` option. See [Background](#background).
+- Run the `colorscheme` command to actually change to the colorscheme.
 
 ### Filter
 
@@ -228,21 +233,26 @@ There're 3 types of filter configs:
 - Builtin filters:
 
   - `"primary"`: Only enables the main color (if there are multiple colors in one plugin).
-  
-- Function filters: A lua function that decide whether to enable/disable a color, returns `true` if you want to disable the color, returns `false` if enable the color.
+
+- Function filters: A lua function that decide whether to enable/disable a color
 
   > **Note:**
-  > 
+  >
   > The lua function has below signature:
-  > 
+  >
   > ```lua
   > function(color:string, spec:colorbox.ColorSpec):boolean
   > ```
   >
   > Parameters:
   >
-  >   - `color`: Color name.
-  >   - `spec`: Colorscheme meta info, which is the `colorbox.ColorSpec` type.
+  > - `color`: Color name.
+  > - `spec`: Colorscheme meta info, which is the `colorbox.ColorSpec` type, see below.
+  >
+  > Returns:
+  >
+  > - To disable a color, returns `true`.
+  > - To enable a color, returns `false`.
   >
   > ```lua
   > --- @class colorbox.ColorSpec
