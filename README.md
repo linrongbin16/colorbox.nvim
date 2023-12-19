@@ -75,6 +75,7 @@ And multiple trigger timings (colorschemes don't have end time):
   - [Filter](#filter)
   - [Timing & Policy](#timing--policy)
   - [Background](#background)
+- [Receipts](#receipts)
 - [Development](#-development)
 - [Contribute](#-contribute)
 
@@ -273,13 +274,50 @@ There're 3 types of filter configs:
 
 ### Timing & Policy
 
-Timing and policy configs have to work together.
+> [!NOTE]
+>
+> Timing and policy have to work together.
 
-- `timing`: 'startup', 'interval', 'bufferchanged'.
+- `timing`:
+
+  - `"startup"`: Choose a color on nvim's start.
+  - `"interval"`: Choose a color after a fixed interval time.
+  - `"bufferchanged"`: Choose a color when buffer changed.
+
 - `policy`:
-  - Builtin policies (see `colorbox.BuiltinPolicyConfig`): working with 'startup' timing.
-  - Fixed interval policies (see `colorbox.FixedIntervalPolicyConfig`): working with 'interval' timing.
-  - By filetype policies (see `colorbox.ByFileTypePolicyConfig`): working with 'bufferchanged' timing.
+
+  - Builtin policy, works with `timing = "startup"`.
+
+    - `"shuffle"`: Random choose next color.
+    - `"in_order"`: Choose next color in order, color names are ordered from 'A' to 'Z'.
+    - `"reverse_order"`: Choose next color in reversed order, color names are ordered from 'Z' to 'A'.
+    - `"single"`: Choose the fixed one color.
+
+  - Fixed interval time policy, works with `timing = "interval"`. The policy contains two fields:
+
+    - `seconds`: Fixed interval time by seconds.
+    - `implement`: Internal policy implementation, e.g. `shuffle`, `in_order`, `reverse_order`, `single` builtin policies.
+
+  - By filetype policy, works with `timing = "bufferchanged"`.
+
+    - `mapping`: A lua table to map file type to colorscheme.
+    - `fallback`: Default colorscheme when file type is not mapped.
+
+### Background
+
+There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, e.g. they forced the `set background=light` on loading.
+
+If you want to bring the dark-able colors back to dark, please see:
+
+```lua
+require('colorbox').setup({
+    background = 'dark',
+})
+```
+
+It will automatically run `set background=dark` option before `colorscheme` command.
+
+## Receipts
 
 To choose a fixed colorscheme on nvim start, please use:
 
@@ -346,23 +384,14 @@ To enable only github stars &ge; 1000 & primary colors, please use:
 
 ```lua
 require('colorbox').setup({
-    filter = {'primary', function(color, spec) return spec.github_stars < 1000 end },
+    filter = {
+        "primary",
+        function(color, spec)
+            return spec.github_stars < 1000
+        end
+    },
 })
 ```
-
-### Background
-
-Most colorschemes are both dark-able and light-able, they depend on the `set background=dark/light` option, while there're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, e.g. they change the `background` option when loaded.
-
-If you didn't disable the light colors (for example set `filter=false` to allow all the colors), but still want to the dark-able colors to be dark, please see:
-
-```lua
-require('colorbox').setup({
-    background = 'dark',
-})
-```
-
-It automatically set `set background=dark` option before running `colorscheme {color}` command, thus try to bring background back to dark unless those forced to be light ones.
 
 ## ✏️ Development
 
