@@ -159,7 +159,6 @@ If you have issues on running multiple git clone/pull commands, try set `concurr
 
 ```lua
 require('colorbox').update({
-    --- @type integer
     concurrency = 4,
 })
 ```
