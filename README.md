@@ -216,7 +216,7 @@ require('colorbox').setup({
 
 When choosing a colorscheme, this plugin will run following steps:
 
-* Run the filter, disable those you don't want from candidates list. See [Filter](#filter).
+* Run the filter, disable those colors you don't want from candidates list. See [Filter](#filter).
 * Run the policy at a proper timing, to choose a colorscheme. See [Timing & Policy](#timing--policy).
 * Refresh the `background` option. See [Background](#background).
 * Run the `colorscheme` command to actually change to the colorscheme.
