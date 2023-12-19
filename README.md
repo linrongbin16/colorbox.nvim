@@ -135,8 +135,8 @@ scoop install uutils-coreutils     # rm
 require('lazy').setup({
     {
         'linrongbin16/colorbox.nvim',
-        lazy = false, -- don't lazy this plugin if it provides the main colorscheme
-        priority = 1000, -- load this plugin before all other start plugins
+        lazy = false, -- don't lazy load
+        priority = 1000, -- load at first
         build = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
