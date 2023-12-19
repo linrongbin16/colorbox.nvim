@@ -180,13 +180,13 @@ You can use command `Colorbox` to control the player with below subcommands:
 
 ```lua
 require('colorbox').setup({
-    -- Filter colors you don't want from the candidates list.
+    -- Disable those colors you don't want from the candidates list.
     filter = "primary",
 
-    -- Policies to choose a colorscheme from the filtered candidates.
+    -- Choose a colorscheme from the filtered candidates.
     policy = "shuffle",
 
-    -- Timing to decide when to switch to next colorscheme.
+    -- Decide when to switch to next colorscheme.
     timing = "startup",
 
     -- (Optional) setup plugin before running `colorscheme {color}`.
