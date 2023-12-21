@@ -307,7 +307,7 @@ There're 3 types of filter configs:
 
 There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, e.g. they forced the `set background=light` on loading.
 
-If you want to bring the dark-able colors back to dark, please see:
+If you want to bring the dark-able colors back to dark, please use:
 
 ```lua
 require('colorbox').setup({
