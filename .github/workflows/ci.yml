@@ -35,6 +35,7 @@ jobs:
           rm -rf ./lua/colorbox/commons
           mkdir -p ./lua/colorbox/commons
           cp -rf ~/.commons.nvim/lua/commons/*.lua ./lua/colorbox/commons
+          cp ~/.commons.nvim/version.txt ./lua/colorbox/commons/version.txt
           cd ./lua/colorbox/commons
           find . -type f -name '*.lua' -exec sed -i 's/require("commons/require("colorbox.commons/g' {} \;
       - uses: JohnnyMorganz/stylua-action@v3
