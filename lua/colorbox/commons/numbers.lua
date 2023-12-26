@@ -171,7 +171,7 @@ M.shuffle = function(l)
   end
 
   for i = n, 1, -1 do
-    local j = M.random(n) or math.random(n)
+    local j = M.random(n)
     local tmp = new_l[j]
     new_l[j] = new_l[i]
     new_l[i] = tmp
