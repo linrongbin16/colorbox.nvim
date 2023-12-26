@@ -370,7 +370,7 @@ local function _timing_startup()
     })
 end
 
-local function _timing_buffer_changed()
+local function _timing_filetype()
     vim.api.nvim_create_autocmd({ "BufNew", "BufReadPre", "BufNewFile" }, {
         callback = _policy,
     })
@@ -398,7 +398,7 @@ local function _timing()
                 vim.inspect(Configs.policy)
             )
         )
-        _timing_buffer_changed()
+        _timing_filetype()
     else
         error(string.format("invalid timing %s!", vim.inspect(Configs.timing)))
     end
