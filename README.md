@@ -282,7 +282,7 @@ There're 3 types of filter configs:
 
   - `"startup"`: Choose a color on nvim's start.
   - `"interval"`: Choose a color after a fixed interval time.
-  - `"bufferchanged"`: Choose a color when buffer changed.
+  - `"filetype"`: Choose a color by file type.
 
 - `policy`:
 
@@ -298,7 +298,7 @@ There're 3 types of filter configs:
     - `seconds`: Fixed interval time by seconds.
     - `implement`: Internal policy implementation, e.g. `shuffle`, `in_order`, `reverse_order`, `single` builtin policies.
 
-  - By filetype policy, works with `timing = "bufferchanged"`.
+  - By filetype policy, works with `timing = "filetype"`.
 
     - `mapping`: A lua table to map file type to colorscheme.
     - `fallback`: Default colorscheme when file type is not mapped.
@@ -351,7 +351,7 @@ require('colorbox').setup({
         },
         fallback = "solarized8",
     },
-    timing = "bufferchanged",
+    timing = "filetype",
 })
 ```
 
