@@ -24,8 +24,8 @@ describe("colorbox", function()
             end
         end)
     end)
-    describe("[utils]", function()
-        it("_primary_color_name_filter", function()
+    describe("[_primary_color_name_filter]", function()
+        it("test", function()
             local ColorNameToColorSpecsMap =
                 db.get_color_name_to_color_specs_map()
             local input_color = "tokyonight"
@@ -44,7 +44,9 @@ describe("colorbox", function()
                 assert_eq(actual, input_color ~= c)
             end
         end)
-        it("_should_filter", function()
+    end)
+    describe("[_should_filter]", function()
+        it("test", function()
             local ColorNameToColorSpecsMap =
                 db.get_color_name_to_color_specs_map()
             for color, spec in pairs(ColorNameToColorSpecsMap) do
