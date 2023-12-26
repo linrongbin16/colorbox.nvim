@@ -226,28 +226,9 @@ local function _get_prev_color_name_by_idx(idx)
     return FilteredColorNamesList[idx]
 end
 
-local function _randint(n)
-    local secs, millis = uv.gettimeofday()
-    local pid = uv.os_getpid()
-
-    secs = tonumber(secs) or math.random(n)
-    millis = tonumber(millis) or math.random(n)
-    pid = tonumber(pid) or math.random(n)
-
-    local total = numbers.mod(
-        numbers.mod(secs + millis, numbers.INT32_MAX) + pid,
-        numbers.INT32_MAX
-    )
-
-    local chars = strings.tochars(tostring(total)) --[[@as string[] ]]
-    chars = numbers.shuffle(chars) --[[@as string[] ]]
-    return numbers.mod(tonumber(table.concat(chars, "")) or math.random(n), n)
-        + 1
-end
-
 local function _policy_shuffle()
     if #FilteredColorNamesList > 0 then
-        local i = _randint(#FilteredColorNamesList)
+        local i = numbers.random(#FilteredColorNamesList)
         local color = _get_next_color_name_by_idx(i)
         logging.get("colorbox"):debug(
             "|_policy_shuffle| color:%s, FilteredColorNamesList:%s (%d), i:%d",
