@@ -80,25 +80,36 @@ local FilteredColorNamesList = {}
 --- @type table<string, integer>
 local FilteredColorNameToIndexMap = {}
 
+local function _minimal_color_name_len(spec)
+    local n = numbers.INT32_MAX
+    for _, c in ipairs(spec.color_names) do
+        if string.len(c) < n then
+            n = string.len(c)
+        end
+    end
+    return n
+end
+
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
 local function _primary_color_name_filter(color_name, spec)
+    local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
     local unique = #spec.color_names <= 1
-    local shortest = string.len(color_name)
-        == numbers.min(string.len, unpack(spec.color_names))
-    local handle_splits =
-        vim.split(spec.handle, "/", { plain = true, trimempty = true })
+    local current_name_len = string.len(color_name)
+    local minimal_name_len = _minimal_color_name_len(spec)
+    local shortest = current_name_len == minimal_name_len
+    local handle_splits = strings.split(spec.handle, "/")
     local matched = handle_splits[1]:lower() == color_name:lower()
         or handle_splits[2]:lower() == color_name:lower()
-    -- logger.debug(
-    --     "|colorbox._primary_color_name_filter| color:%s, spec:%s, unique:%s, shortest: %s, matched:%s",
-    --     vim.inspect(color_name),
-    --     vim.inspect(spec),
-    --     vim.inspect(unique),
-    --     vim.inspect(shortest),
-    --     vim.inspect(matched)
-    -- )
+    logger:debug(
+        "|_primary_color_name_filter| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
+        vim.inspect(unique),
+        vim.inspect(shortest),
+        vim.inspect(current_name_len),
+        vim.inspect(minimal_name_len),
+        vim.inspect(matched)
+    )
     return not unique and not shortest and not matched
 end
 
@@ -175,17 +186,13 @@ local function _force_sync_syntax()
     vim.cmd([[syntax sync fromstart]])
 end
 
---- @alias PreviousTrack {color_name:string,color_number:integer}
+--- @alias colorbox.PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
 local function _save_track(color_name)
-    if
-        type(color_name) ~= "string"
-        or string.len(vim.trim(color_name)) == 0
-    then
+    if strings.blank(color_name) then
         return
     end
-    -- start from 0, end with #FilteredColorNamesList-1
-    local color_number = FilteredColorNameToIndexMap[color_name] or 0
+    local color_number = FilteredColorNameToIndexMap[color_name] or 1
     vim.schedule(function()
         local content = jsons.encode({
             color_name = color_name,
@@ -195,13 +202,13 @@ local function _save_track(color_name)
     end)
 end
 
---- @return PreviousTrack?
+--- @return colorbox.PreviousTrack?
 local function _load_previous_track()
     local content = fileios.readfile(Configs.previous_track_cache)
     if content == nil then
         return nil
     end
-    return jsons.decode(content) --[[@as PreviousTrack]]
+    return jsons.decode(content) --[[@as colorbox.PreviousTrack?]]
 end
 
 --- @param idx integer
@@ -226,28 +233,9 @@ local function _get_prev_color_name_by_idx(idx)
     return FilteredColorNamesList[idx]
 end
 
-local function randint(n)
-    local secs, millis = uv.gettimeofday()
-    local pid = uv.os_getpid()
-
-    secs = tonumber(secs) or math.random(n)
-    millis = tonumber(millis) or math.random(n)
-    pid = tonumber(pid) or math.random(n)
-
-    local total = numbers.mod(
-        numbers.mod(secs + millis, numbers.INT32_MAX) + pid,
-        numbers.INT32_MAX
-    )
-
-    local chars = strings.tochars(tostring(total)) --[[@as string[] ]]
-    chars = numbers.shuffle(chars) --[[@as string[] ]]
-    return numbers.mod(tonumber(table.concat(chars, "")) or math.random(n), n)
-        + 1
-end
-
 local function _policy_shuffle()
     if #FilteredColorNamesList > 0 then
-        local i = randint(#FilteredColorNamesList)
+        local i = numbers.random(#FilteredColorNamesList)
         local color = _get_next_color_name_by_idx(i)
         logging.get("colorbox"):debug(
             "|_policy_shuffle| color:%s, FilteredColorNamesList:%s (%d), i:%d",
@@ -266,8 +254,8 @@ end
 
 local function _policy_in_order()
     if #FilteredColorNamesList > 0 then
-        local previous_track = _load_previous_track() --[[@as PreviousTrack]]
-        local i = previous_track ~= nil and previous_track.color_number or 0
+        local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
+        local i = previous_track ~= nil and previous_track.color_number or 1
         local color = _get_next_color_name_by_idx(i)
         ---@diagnostic disable-next-line: param-type-mismatch
         local ok, err = pcall(vim.cmd, string.format([[color %s]], color))
@@ -277,7 +265,7 @@ end
 
 local function _policy_reverse_order()
     if #FilteredColorNamesList > 0 then
-        local previous_track = _load_previous_track() --[[@as PreviousTrack]]
+        local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
         local i = previous_track ~= nil and previous_track.color_number
             or (#FilteredColorNamesList + 1)
         local color = _get_prev_color_name_by_idx(i)
@@ -289,7 +277,7 @@ end
 
 local function _policy_single()
     if #FilteredColorNamesList > 0 then
-        local previous_track = _load_previous_track() --[[@as PreviousTrack]]
+        local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
         local color = nil
         if previous_track then
             color = previous_track.color_name
@@ -806,6 +794,15 @@ local function setup(opts)
     _timing()
 end
 
-local M = { setup = setup, update = update, install = install }
+local M = {
+    setup = setup,
+    update = update,
+    install = install,
+    _primary_color_name_filter = _primary_color_name_filter,
+    _should_filter = _should_filter,
+    _force_sync_syntax = _force_sync_syntax,
+    _save_track = _save_track,
+    _load_previous_track = _load_previous_track,
+}
 
 return M

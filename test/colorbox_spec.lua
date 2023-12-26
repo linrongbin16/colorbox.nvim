@@ -11,11 +11,66 @@ describe("colorbox", function()
 
     local github_actions = os.getenv("GITHUB_ACTIONS") == "true"
     local colorbox = require("colorbox")
-    describe("[setup]", function()
-        it("setup", function()
+    local db = require("colorbox.db")
+    colorbox.setup({
+        debug = true,
+        file_log = true,
+    })
+
+    describe("[update]", function()
+        it("update", function()
             if not github_actions then
                 colorbox.update()
-                colorbox.setup()
+            end
+        end)
+    end)
+    describe("[_primary_color_name_filter]", function()
+        it("test", function()
+            local ColorNameToColorSpecsMap =
+                db.get_color_name_to_color_specs_map()
+            local input_color = "tokyonight"
+            local input_spec = ColorNameToColorSpecsMap[input_color]
+            for _, c in ipairs(input_spec.color_names) do
+                local actual =
+                    colorbox._primary_color_name_filter(c, input_spec)
+                print(
+                    string.format(
+                        "input color:%s, current color:%s, actual:%s\n",
+                        vim.inspect(input_color),
+                        vim.inspect(c),
+                        vim.inspect(actual)
+                    )
+                )
+                assert_eq(actual, input_color ~= c)
+            end
+        end)
+    end)
+    describe("[_should_filter]", function()
+        it("test", function()
+            local ColorNameToColorSpecsMap =
+                db.get_color_name_to_color_specs_map()
+            for color, spec in pairs(ColorNameToColorSpecsMap) do
+                local actual = colorbox._should_filter(color, spec)
+                assert_eq(type(actual), "boolean")
+            end
+        end)
+    end)
+    describe("[_force_sync_syntax]", function()
+        it("test", function()
+            colorbox._force_sync_syntax()
+        end)
+    end)
+    describe("[_save_track/_load_previous_track]", function()
+        it("test", function()
+            colorbox._save_track("tokyonight")
+            local actual = colorbox._load_previous_track() --[[@as colorbox.PreviousTrack]]
+            print(
+                string.format("load previous track:%s\n", vim.inspect(actual))
+            )
+            if actual ~= nil then
+                assert_eq(type(actual), "table")
+                assert_eq(type(actual.color_name), "string")
+                assert_true(actual.color_number > 0)
             end
         end)
     end)
