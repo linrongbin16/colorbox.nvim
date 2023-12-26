@@ -803,6 +803,7 @@ local M = {
     update = update,
     install = install,
     _primary_color_name_filter = _primary_color_name_filter,
+    _should_filter = _should_filter,
 }
 
 return M

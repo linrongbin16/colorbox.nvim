@@ -44,5 +44,13 @@ describe("colorbox", function()
                 assert_eq(actual, input_color ~= c)
             end
         end)
+        it("_should_filter", function()
+            local ColorNameToColorSpecsMap =
+                db.get_color_name_to_color_specs_map()
+            for color, spec in pairs(ColorNameToColorSpecsMap) do
+                local actual = colorbox._should_filter(color, spec)
+                assert_eq(type(actual), "boolean")
+            end
+        end)
     end)
 end)
