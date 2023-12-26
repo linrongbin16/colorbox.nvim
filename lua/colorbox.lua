@@ -228,6 +228,10 @@ end
 local function randint(n)
     local secs, millis = uv.gettimeofday()
     local pid = uv.os_getpid()
+    secs = tonumber(secs) or math.random(n)
+    millis = tonumber(millis) or math.random(n)
+    pid = tonumber(pid) or math.random(n)
+
     local total = numbers.mod(
         numbers.mod(tonumber(secs) + tonumber(millis), numbers.INT32_MAX)
             + tonumber(pid),
