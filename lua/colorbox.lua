@@ -4,6 +4,7 @@ local jsons = require("colorbox.commons.jsons")
 local uv = require("colorbox.commons.uv")
 local numbers = require("colorbox.commons.numbers")
 local fileios = require("colorbox.commons.fileios")
+local strings = require("colorbox.commons.strings")
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
@@ -228,41 +229,20 @@ end
 local function randint(n)
     local secs, millis = uv.gettimeofday()
     local pid = uv.os_getpid()
+
     secs = tonumber(secs) or math.random(n)
     millis = tonumber(millis) or math.random(n)
     pid = tonumber(pid) or math.random(n)
 
     local total = numbers.mod(
-        numbers.mod(tonumber(secs) + tonumber(millis), numbers.INT32_MAX)
-            + tonumber(pid),
+        numbers.mod(secs + millis, numbers.INT32_MAX) + pid,
         numbers.INT32_MAX
-    ) --[[@as integer]]
-    local buffer = tostring(total)
-    local len = string.len(buffer)
-    for i = len, 1, -1 do
-        local j = math.random(len)
-        local tmp_j = string.sub(buffer, j, j)
-        local tmp_i = string.sub(buffer, i, i)
-        local new_buffer = ""
-        if j > 1 then
-            new_buffer = string.sub(buffer, 1, j - 1)
-        end
-        new_buffer = new_buffer .. tmp_i
-        if j < len then
-            new_buffer = new_buffer .. string.sub(buffer, j + 1)
-        end
-        buffer = new_buffer
-        new_buffer = ""
-        if i > 1 then
-            new_buffer = string.sub(buffer, 1, i - 1)
-        end
-        new_buffer = new_buffer .. tmp_j
-        if i < len then
-            new_buffer = new_buffer .. string.sub(buffer, i + 1)
-        end
-        buffer = new_buffer
-    end
-    return numbers.mod(tonumber(buffer) --[[@as integer]], n) + 1
+    )
+
+    local chars = strings.tochars(tostring(total))
+    chars = numbers.shuffle(chars)
+    chars = table.concat(chars, "")
+    return numbers.mod(tonumber(chars) or math.random(n), n) + 1
 end
 
 local function _policy_shuffle()
