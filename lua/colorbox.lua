@@ -239,10 +239,10 @@ local function randint(n)
         numbers.INT32_MAX
     )
 
-    local chars = strings.tochars(tostring(total))
-    chars = numbers.shuffle(chars)
-    chars = table.concat(chars, "")
-    return numbers.mod(tonumber(chars) or math.random(n), n) + 1
+    local chars = strings.tochars(tostring(total)) --[[@as string[] ]]
+    chars = numbers.shuffle(chars) --[[@as string[] ]]
+    return numbers.mod(tonumber(table.concat(chars, "")) or math.random(n), n)
+        + 1
 end
 
 local function _policy_shuffle()
