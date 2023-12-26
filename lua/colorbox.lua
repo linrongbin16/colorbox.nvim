@@ -226,7 +226,7 @@ local function _get_prev_color_name_by_idx(idx)
     return FilteredColorNamesList[idx]
 end
 
-local function randint(n)
+local function _randint(n)
     local secs, millis = uv.gettimeofday()
     local pid = uv.os_getpid()
 
@@ -247,7 +247,7 @@ end
 
 local function _policy_shuffle()
     if #FilteredColorNamesList > 0 then
-        local i = randint(#FilteredColorNamesList)
+        local i = _randint(#FilteredColorNamesList)
         local color = _get_next_color_name_by_idx(i)
         logging.get("colorbox"):debug(
             "|_policy_shuffle| color:%s, FilteredColorNamesList:%s (%d), i:%d",
