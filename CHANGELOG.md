@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.13.8](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.7...v1.13.8) (2023-12-26)
+
+
+### Bug Fixes
+
+* **filter:** fix 'primary' filter ([#143](https://github.com/linrongbin16/colorbox.nvim/issues/143)) ([4c5dbda](https://github.com/linrongbin16/colorbox.nvim/commit/4c5dbda63646bfd85c00cfc6dd6eb7feb47f3bff))
+
+
+### Performance Improvements
+
+* **shuffle:** use commons random API ([#143](https://github.com/linrongbin16/colorbox.nvim/issues/143)) ([4c5dbda](https://github.com/linrongbin16/colorbox.nvim/commit/4c5dbda63646bfd85c00cfc6dd6eb7feb47f3bff))
+
 ## [1.13.7](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.6...v1.13.7) (2023-12-26)
 
 
