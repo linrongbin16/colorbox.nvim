@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.7](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.6...v1.13.7) (2023-12-26)
+
+
+### Bug Fixes
+
+* **policy:** fix 'shuffle' random ([#141](https://github.com/linrongbin16/colorbox.nvim/issues/141)) ([9372112](https://github.com/linrongbin16/colorbox.nvim/commit/93721123cbefafc192789a787071b493d5e2e1bd))
+
 ## [1.13.6](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.5...v1.13.6) (2023-12-18)
 
 
