@@ -4,6 +4,7 @@ local jsons = require("colorbox.commons.jsons")
 local uv = require("colorbox.commons.uv")
 local numbers = require("colorbox.commons.numbers")
 local fileios = require("colorbox.commons.fileios")
+local strings = require("colorbox.commons.strings")
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
@@ -146,6 +147,7 @@ local function _init()
     -- vim.opt.packpath:append(cwd .. "/pack/colorbox/opt")
     -- vim.cmd([[packadd catppuccin-nvim]])
 
+    local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
     local ColorNameToColorSpecsMap =
         require("colorbox.db").get_color_name_to_color_specs_map()
     local ColorNamesList = require("colorbox.db").get_color_names_list()
@@ -159,14 +161,14 @@ local function _init()
     for i, color_name in ipairs(FilteredColorNamesList) do
         FilteredColorNameToIndexMap[color_name] = i
     end
-    -- logger.debug(
-    --     "|colorbox._init| FilteredColorNamesList:%s",
-    --     vim.inspect(FilteredColorNamesList)
-    -- )
-    -- logger.debug(
-    --     "|colorbox._init| FilteredColorNameToIndexMap:%s",
-    --     vim.inspect(FilteredColorNameToIndexMap)
-    -- )
+    logger:debug(
+        "|_init| FilteredColorNamesList:%s",
+        vim.inspect(FilteredColorNamesList)
+    )
+    logger:debug(
+        "|_init| FilteredColorNameToIndexMap:%s",
+        vim.inspect(FilteredColorNameToIndexMap)
+    )
 end
 
 local function _force_sync_syntax()
@@ -224,18 +226,40 @@ local function _get_prev_color_name_by_idx(idx)
     return FilteredColorNamesList[idx]
 end
 
+local function randint(n)
+    local secs, millis = uv.gettimeofday()
+    local pid = uv.os_getpid()
+
+    secs = tonumber(secs) or math.random(n)
+    millis = tonumber(millis) or math.random(n)
+    pid = tonumber(pid) or math.random(n)
+
+    local total = numbers.mod(
+        numbers.mod(secs + millis, numbers.INT32_MAX) + pid,
+        numbers.INT32_MAX
+    )
+
+    local chars = strings.tochars(tostring(total)) --[[@as string[] ]]
+    chars = numbers.shuffle(chars) --[[@as string[] ]]
+    return numbers.mod(tonumber(table.concat(chars, "")) or math.random(n), n)
+        + 1
+end
+
 local function _policy_shuffle()
     if #FilteredColorNamesList > 0 then
-        local i = math.random(#FilteredColorNamesList)
+        local i = randint(#FilteredColorNamesList)
         local color = _get_next_color_name_by_idx(i)
-        -- logger.debug(
-        --     "|colorbox._policy_shuffle| color:%s, ColorNames:%s (%d), r:%d",
-        --     vim.inspect(color),
-        --     vim.inspect(ColorNames),
-        --     vim.inspect()
-        -- )
-        ---@diagnostic disable-next-line: param-type-mismatch
-        local ok, err = pcall(vim.cmd, string.format([[color %s]], color))
+        logging.get("colorbox"):debug(
+            "|_policy_shuffle| color:%s, FilteredColorNamesList:%s (%d), i:%d",
+            vim.inspect(color),
+            vim.inspect(FilteredColorNamesList),
+            vim.inspect(#FilteredColorNamesList),
+            vim.inspect(i)
+        )
+        local ok, err = pcall(
+            vim.cmd --[[@as function]],
+            string.format([[color %s]], color)
+        )
         assert(ok, err)
     end
 end
@@ -421,6 +445,7 @@ local function update(opts)
         file_log_name = "colorbox_update.log",
         file_log_mode = "w",
     })
+    local logger = logging.get("colorbox-update") --[[@as commons.logging.Logger]]
 
     local home_dir = vim.fn["colorbox#base_dir"]()
     -- local packstart = string.format("%s/pack/colorbox/start", home_dir)
@@ -459,7 +484,7 @@ local function update(opts)
     for handle, spec in pairs(HandleToColorSpecsMap) do
         local function _on_output(chanid, data, name)
             if type(data) == "table" then
-                logging.get("colorbox-update"):debug(
+                logger:debug(
                     "(%s) %s: %s",
                     vim.inspect(name),
                     vim.inspect(handle),
@@ -467,13 +492,13 @@ local function update(opts)
                 )
                 for _, d in ipairs(data) do
                     if type(d) == "string" and string.len(vim.trim(d)) > 0 then
-                        logging.get("colorbox-update"):info("%s: %s", handle, d)
+                        logger:info("%s: %s", handle, d)
                     end
                 end
             end
         end
         local function _on_exit(jid, exitcode, name)
-            logging.get("colorbox-update"):debug(
+            logger:debug(
                 "(%s-%s) %s: exit with %s",
                 vim.inspect(name),
                 vim.inspect(jid),
@@ -490,14 +515,14 @@ local function update(opts)
                 end
             end
             if not removed_from_working_queue then
-                logging.get("colorbox-update"):err(
+                logger:err(
                     "failed to remove job id %s from jobs_working_queue: %s",
                     vim.inspect(jid),
                     vim.inspect(jobs_working_queue)
                 )
             end
             if jobid_to_jobs_map[jid] == nil then
-                logging.get("colorbox-update"):err(
+                logger:err(
                     "failed to remove job id %s from jobid_to_jobs_map: %s",
                     vim.inspect(jid),
                     vim.inspect(jobid_to_jobs_map)
@@ -606,6 +631,7 @@ local function _clean()
         -- )
         return
     end
+    local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
     if vim.fn.executable("rm") > 0 then
         local jobid = vim.fn.jobstart({ "rm", "-rf", full_pack_dir }, {
             detach = false,
@@ -634,9 +660,9 @@ local function _clean()
             end,
         })
         vim.fn.jobwait({ jobid })
-        logging.get("colorbox"):info("cleaned directory: %s", shorten_pack_dir)
+        logger:info("cleaned directory: %s", shorten_pack_dir)
     else
-        logging.get("colorbox"):warn("no 'rm' command found, skip cleaning...")
+        logger:warn("no 'rm' command found, skip cleaning...")
     end
 end
 
@@ -699,6 +725,8 @@ local function setup(opts)
     vim.api.nvim_create_user_command(
         Configs.command.name,
         function(command_opts)
+            local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+
             -- logger.debug(
             --     "|colorbox.setup| command opts:%s",
             --     vim.inspect(command_opts)
@@ -712,7 +740,7 @@ local function setup(opts)
             --     vim.inspect(args_splits)
             -- )
             if #args_splits == 0 then
-                logging.get("colorbox"):warn("missing parameter.")
+                logger:warn("missing parameter.")
                 return
             end
             if type(CONTROLLERS_MAP[args_splits[1]]) == "function" then
@@ -720,9 +748,7 @@ local function setup(opts)
                 local sub_args = args:sub(string.len(args_splits[1]) + 1)
                 fn(sub_args)
             else
-                logging
-                    .get("colorbox")
-                    :warn("unknown parameter %s.", args_splits[1])
+                logger:warn("unknown parameter %s.", args_splits[1])
             end
         end,
         {
