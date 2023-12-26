@@ -55,4 +55,23 @@ describe("colorbox", function()
             end
         end)
     end)
+    describe("[_force_sync_syntax]", function()
+        it("test", function()
+            colorbox._force_sync_syntax()
+        end)
+    end)
+    describe("[_save_track/_load_previous_track]", function()
+        it("test", function()
+            colorbox._save_track("tokyonight")
+            local actual = colorbox._load_previous_track() --[[@as colorbox.PreviousTrack]]
+            print(
+                string.format("load previous track:%s\n", vim.inspect(actual))
+            )
+            if actual ~= nil then
+                assert_eq(type(actual), "table")
+                assert_eq(type(actual.color_name), "string")
+                assert_true(actual.color_number > 0)
+            end
+        end)
+    end)
 end)

@@ -186,17 +186,13 @@ local function _force_sync_syntax()
     vim.cmd([[syntax sync fromstart]])
 end
 
---- @alias PreviousTrack {color_name:string,color_number:integer}
+--- @alias colorbox.PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
 local function _save_track(color_name)
-    if
-        type(color_name) ~= "string"
-        or string.len(vim.trim(color_name)) == 0
-    then
+    if strings.blank(color_name) then
         return
     end
-    -- start from 0, end with #FilteredColorNamesList-1
-    local color_number = FilteredColorNameToIndexMap[color_name] or 0
+    local color_number = FilteredColorNameToIndexMap[color_name] or 1
     vim.schedule(function()
         local content = jsons.encode({
             color_name = color_name,
@@ -206,13 +202,13 @@ local function _save_track(color_name)
     end)
 end
 
---- @return PreviousTrack?
+--- @return colorbox.PreviousTrack?
 local function _load_previous_track()
     local content = fileios.readfile(Configs.previous_track_cache)
     if content == nil then
         return nil
     end
-    return jsons.decode(content) --[[@as PreviousTrack]]
+    return jsons.decode(content) --[[@as colorbox.PreviousTrack?]]
 end
 
 --- @param idx integer
@@ -258,8 +254,8 @@ end
 
 local function _policy_in_order()
     if #FilteredColorNamesList > 0 then
-        local previous_track = _load_previous_track() --[[@as PreviousTrack]]
-        local i = previous_track ~= nil and previous_track.color_number or 0
+        local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
+        local i = previous_track ~= nil and previous_track.color_number or 1
         local color = _get_next_color_name_by_idx(i)
         ---@diagnostic disable-next-line: param-type-mismatch
         local ok, err = pcall(vim.cmd, string.format([[color %s]], color))
@@ -269,7 +265,7 @@ end
 
 local function _policy_reverse_order()
     if #FilteredColorNamesList > 0 then
-        local previous_track = _load_previous_track() --[[@as PreviousTrack]]
+        local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
         local i = previous_track ~= nil and previous_track.color_number
             or (#FilteredColorNamesList + 1)
         local color = _get_prev_color_name_by_idx(i)
@@ -281,7 +277,7 @@ end
 
 local function _policy_single()
     if #FilteredColorNamesList > 0 then
-        local previous_track = _load_previous_track() --[[@as PreviousTrack]]
+        local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
         local color = nil
         if previous_track then
             color = previous_track.color_name
@@ -804,6 +800,9 @@ local M = {
     install = install,
     _primary_color_name_filter = _primary_color_name_filter,
     _should_filter = _should_filter,
+    _force_sync_syntax = _force_sync_syntax,
+    _save_track = _save_track,
+    _load_previous_track = _load_previous_track,
 }
 
 return M
