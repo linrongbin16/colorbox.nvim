@@ -235,7 +235,7 @@ end
 
 local function _policy_shuffle()
     if #FilteredColorNamesList > 0 then
-        local i = numbers.random(#FilteredColorNamesList)
+        local i = numbers.random(#FilteredColorNamesList) --[[@as integer]]
         local color = _get_next_color_name_by_idx(i)
         logging.get("colorbox"):debug(
             "|_policy_shuffle| color:%s, FilteredColorNamesList:%s (%d), i:%d",
@@ -244,22 +244,16 @@ local function _policy_shuffle()
             vim.inspect(#FilteredColorNamesList),
             vim.inspect(i)
         )
-        local ok, err = pcall(
-            vim.cmd --[[@as function]],
-            string.format([[color %s]], color)
-        )
-        assert(ok, err)
+        vim.cmd(string.format([[color %s]], color))
     end
 end
 
 local function _policy_in_order()
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
-        local i = previous_track ~= nil and previous_track.color_number or 1
+        local i = previous_track ~= nil and previous_track.color_number or 0
         local color = _get_next_color_name_by_idx(i)
-        ---@diagnostic disable-next-line: param-type-mismatch
-        local ok, err = pcall(vim.cmd, string.format([[color %s]], color))
-        assert(ok, err)
+        vim.cmd(string.format([[color %s]], color))
     end
 end
 
@@ -269,25 +263,17 @@ local function _policy_reverse_order()
         local i = previous_track ~= nil and previous_track.color_number
             or (#FilteredColorNamesList + 1)
         local color = _get_prev_color_name_by_idx(i)
-        ---@diagnostic disable-next-line: param-type-mismatch
-        local ok, err = pcall(vim.cmd, string.format([[color %s]], color))
-        assert(ok, err)
+        vim.cmd(string.format([[color %s]], color))
     end
 end
 
 local function _policy_single()
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
-        local color = nil
-        if previous_track then
-            color = previous_track.color_name
-        else
-            color = _get_next_color_name_by_idx(1)
-        end
+        local color = previous_track ~= nil and previous_track.color_name
+            or _get_next_color_name_by_idx(0)
         if color ~= vim.g.colors_name then
-            ---@diagnostic disable-next-line: param-type-mismatch
-            local ok, err = pcall(vim.cmd, string.format([[color %s]], color))
-            assert(ok, err)
+            vim.cmd(string.format([[color %s]], color))
         end
     end
 end
