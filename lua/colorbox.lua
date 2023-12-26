@@ -80,25 +80,36 @@ local FilteredColorNamesList = {}
 --- @type table<string, integer>
 local FilteredColorNameToIndexMap = {}
 
+local function _minimal_color_name_len(spec)
+    local n = numbers.INT32_MAX
+    for _, c in ipairs(spec.color_names) do
+        if string.len(c) < n then
+            n = string.len(c)
+        end
+    end
+    return n
+end
+
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
 local function _primary_color_name_filter(color_name, spec)
+    local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
     local unique = #spec.color_names <= 1
-    local shortest = string.len(color_name)
-        == numbers.min(string.len, unpack(spec.color_names))
-    local handle_splits =
-        vim.split(spec.handle, "/", { plain = true, trimempty = true })
+    local current_name_len = string.len(color_name)
+    local minimal_name_len = _minimal_color_name_len(spec)
+    local shortest = current_name_len == minimal_name_len
+    local handle_splits = strings.split(spec.handle, "/")
     local matched = handle_splits[1]:lower() == color_name:lower()
         or handle_splits[2]:lower() == color_name:lower()
-    -- logger.debug(
-    --     "|colorbox._primary_color_name_filter| color:%s, spec:%s, unique:%s, shortest: %s, matched:%s",
-    --     vim.inspect(color_name),
-    --     vim.inspect(spec),
-    --     vim.inspect(unique),
-    --     vim.inspect(shortest),
-    --     vim.inspect(matched)
-    -- )
+    logger:debug(
+        "|_primary_color_name_filter| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
+        vim.inspect(unique),
+        vim.inspect(shortest),
+        vim.inspect(current_name_len),
+        vim.inspect(minimal_name_len),
+        vim.inspect(matched)
+    )
     return not unique and not shortest and not matched
 end
 
@@ -787,6 +798,11 @@ local function setup(opts)
     _timing()
 end
 
-local M = { setup = setup, update = update, install = install }
+local M = {
+    setup = setup,
+    update = update,
+    install = install,
+    _primary_color_name_filter = _primary_color_name_filter,
+}
 
 return M

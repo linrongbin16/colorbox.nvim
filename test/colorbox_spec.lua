@@ -11,11 +11,37 @@ describe("colorbox", function()
 
     local github_actions = os.getenv("GITHUB_ACTIONS") == "true"
     local colorbox = require("colorbox")
-    describe("[setup]", function()
-        it("setup", function()
+    local db = require("colorbox.db")
+    colorbox.setup({
+        debug = true,
+        file_log = true,
+    })
+
+    describe("[update]", function()
+        it("update", function()
             if not github_actions then
                 colorbox.update()
-                colorbox.setup()
+            end
+        end)
+    end)
+    describe("[utils]", function()
+        it("_primary_color_name_filter", function()
+            local ColorNameToColorSpecsMap =
+                db.get_color_name_to_color_specs_map()
+            local input_color = "tokyonight"
+            local input_spec = ColorNameToColorSpecsMap[input_color]
+            for _, c in ipairs(input_spec.color_names) do
+                local actual =
+                    colorbox._primary_color_name_filter(c, input_spec)
+                print(
+                    string.format(
+                        "input color:%s, current color:%s, actual:%s\n",
+                        vim.inspect(input_color),
+                        vim.inspect(c),
+                        vim.inspect(actual)
+                    )
+                )
+                assert_eq(actual, input_color ~= c)
             end
         end)
     end)
