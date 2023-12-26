@@ -801,6 +801,11 @@ local M = {
     _get_prev_color_name_by_idx = _get_prev_color_name_by_idx,
     _get_filtered_color_names_list = _get_filtered_color_names_list,
     _get_filtered_color_name_to_index_map = _get_filtered_color_name_to_index_map,
+    _policy_shuffle = _policy_shuffle,
+    _policy_in_order = _policy_in_order,
+    _policy_reverse_order = _policy_reverse_order,
+    _policy_single = _policy_single,
+    _policy = _policy,
 }
 
 return M
