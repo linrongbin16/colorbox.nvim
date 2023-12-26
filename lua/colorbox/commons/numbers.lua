@@ -126,13 +126,21 @@ end
 
 --- @param m integer?
 --- @param n integer?
---- @return number?, string?
+--- @return number
 M.random = function(m, n)
   local rand_result, rand_err = require("colorbox.commons.uv").random(4)
   if rand_result == nil then
-    return nil, rand_err
+    if m == nil and n == nil then
+      return math.random()
+    elseif m ~= nil and n == nil then
+      return math.random(m)
+    else
+      return math.random(m --[[@as integer]], n --[[@as integer]])
+    end
   end
-  local bytes = { string.byte(rand_result, 1, -1) }
+  local bytes = {
+    string.byte(rand_result --[[@as string]], 1, -1),
+  }
   local total = 0
   for _, b in ipairs(bytes) do
     total = M.mod(total * 256 + b, M.INT32_MAX)
