@@ -22,7 +22,7 @@ local Defaults = {
     --- @type colorbox.PolicyConfig
     policy = "shuffle",
 
-    --- @type "startup"|"interval"|"bufferchanged"
+    --- @type "startup"|"interval"|"filetype"
     timing = "startup",
 
     -- (Optional) filters that disable some colors that you don't want.
@@ -340,18 +340,15 @@ local function _policy_by_filetype()
 
         if Configs.policy.mapping[ft] then
             local ok, err = pcall(
-                ---@diagnostic disable-next-line: param-type-mismatch
-                vim.cmd,
+                vim.cmd --[[@as function]],
                 string.format([[color %s]], Configs.policy.mapping[ft])
             )
             assert(ok, err)
         else
-            local ok, err =
-                ---@diagnostic disable-next-line: param-type-mismatch
-                pcall(
-                    vim.cmd,
-                    string.format([[color %s]], Configs.policy.fallback)
-                )
+            local ok, err = pcall(
+                vim.cmd --[[@as function]],
+                string.format([[color %s]], Configs.policy.fallback)
+            )
             assert(ok, err)
         end
         _force_sync_syntax()
@@ -374,7 +371,8 @@ local function _policy()
         _policy_fixed_interval()
     elseif
         Configs.timing == "bufferchanged"
-        and _is_by_filetype_policy(Configs.policy)
+        or Configs.timing == "filetype"
+            and _is_by_filetype_policy(Configs.policy)
     then
         _policy_by_filetype()
     end
@@ -404,11 +402,13 @@ local function _timing()
             )
         )
         _policy_fixed_interval()
-    elseif Configs.timing == "bufferchanged" then
+    elseif
+        Configs.timing == "bufferchanged" or Configs.timing == "filetype"
+    then
         assert(
             _is_by_filetype_policy(Configs.policy),
             string.format(
-                "invalid policy %s for 'bufferchanged' timing!",
+                "invalid policy %s for 'filetype' timing!",
                 vim.inspect(Configs.policy)
             )
         )
