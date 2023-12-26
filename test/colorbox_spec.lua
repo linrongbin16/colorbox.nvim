@@ -74,4 +74,35 @@ describe("colorbox", function()
             end
         end)
     end)
+    describe(
+        "[_get_next_color_name_by_idx/_get_prev_color_name_by_idx]",
+        function()
+            it("_get_next_color_name_by_idx", function()
+                local colornames = colorbox._get_filtered_color_names_list()
+                local colorindexes =
+                    colorbox._get_filtered_color_name_to_index_map()
+                for i, c in ipairs(colornames) do
+                    local actual = colorbox._get_next_color_name_by_idx(i)
+                    if i == #colornames then
+                        assert_eq(colorindexes[actual], 1)
+                    else
+                        assert_eq(i + 1, colorindexes[actual])
+                    end
+                end
+            end)
+            it("_get_prev_color_name_by_idx", function()
+                local colornames = colorbox._get_filtered_color_names_list()
+                local colorindexes =
+                    colorbox._get_filtered_color_name_to_index_map()
+                for i, c in ipairs(colornames) do
+                    local actual = colorbox._get_prev_color_name_by_idx(i)
+                    if i == 1 then
+                        assert_eq(colorindexes[actual], #colornames)
+                    else
+                        assert_eq(i - 1, colorindexes[actual])
+                    end
+                end
+            end)
+        end
+    )
 end)

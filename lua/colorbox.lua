@@ -282,7 +282,7 @@ local function _policy_single()
         if previous_track then
             color = previous_track.color_name
         else
-            color = _get_next_color_name_by_idx(0)
+            color = _get_next_color_name_by_idx(1)
         end
         if color ~= vim.g.colors_name then
             ---@diagnostic disable-next-line: param-type-mismatch
@@ -794,6 +794,14 @@ local function setup(opts)
     _timing()
 end
 
+local function _get_filtered_color_names_list()
+    return FilteredColorNamesList
+end
+
+local function _get_filtered_color_name_to_index_map()
+    return FilteredColorNameToIndexMap
+end
+
 local M = {
     setup = setup,
     update = update,
@@ -803,6 +811,10 @@ local M = {
     _force_sync_syntax = _force_sync_syntax,
     _save_track = _save_track,
     _load_previous_track = _load_previous_track,
+    _get_next_color_name_by_idx = _get_next_color_name_by_idx,
+    _get_prev_color_name_by_idx = _get_prev_color_name_by_idx,
+    _get_filtered_color_names_list = _get_filtered_color_names_list,
+    _get_filtered_color_name_to_index_map = _get_filtered_color_name_to_index_map,
 }
 
 return M
