@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.14.0...v1.14.1) (2023-12-27)
+
+
+### Performance Improvements
+
+* **command:** improve 'info' sub command behavior ([#150](https://github.com/linrongbin16/colorbox.nvim/issues/150)) ([801326c](https://github.com/linrongbin16/colorbox.nvim/commit/801326ceb388961dbd9fbab5272bddcfe98a4e1c))
+
 ## [1.14.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.9...v1.14.0) (2023-12-27)
 
 
