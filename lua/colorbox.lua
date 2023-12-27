@@ -452,18 +452,20 @@ end
 --- @param opts {concurrency:integer}?
 local function update(opts)
     opts = opts or { concurrency = 4 }
-    opts.concurrency = type(opts.concurrency) == "number"
-            and math.max(opts.concurrency, 1)
+    opts.concurrency = type(opts.concurrency) == "string"
+            and math.max(tonumber(opts.concurrency) or 4, 1)
         or 4
 
-    logging.setup({
-        name = "colorbox-update",
-        level = LogLevels.DEBUG,
-        console_log = true,
-        file_log = true,
-        file_log_name = "colorbox_update.log",
-        file_log_mode = "w",
-    })
+    if logging.get("colorbox-update") == nil then
+        logging.setup({
+            name = "colorbox-update",
+            level = LogLevels.DEBUG,
+            console_log = true,
+            file_log = true,
+            file_log_name = "colorbox_update.log",
+            file_log_mode = "w",
+        })
+    end
     local logger = logging.get("colorbox-update") --[[@as commons.logging.Logger]]
 
     local home_dir = vim.fn["colorbox#base_dir"]()
@@ -687,13 +689,24 @@ end
 
 --- @param args string?
 --- @return colorbox.Options?
-local function _parse_update_args(args)
+local function _parse_args(args)
     local opts = nil
-    if type(args) == "string" and string.len(vim.trim(args)) > 0 then
-        local args_splits =
-            vim.split(args, "=", { plain = true, trimempty = true })
-        if args_splits[1] == "concurrency" then
-            opts = { concurrency = tonumber(args_splits[2]) }
+    logging.get("colorbox"):debug("|_parse_args| args:%s", vim.inspect(args))
+    if strings.not_blank(args) then
+        local args_splits = strings.split(
+            vim.trim(args --[[@as string]]),
+            " ",
+            { trimempty = true }
+        )
+        for _, arg_split in ipairs(args_splits) do
+            local item_splits =
+                strings.split(vim.trim(arg_split), "=", { trimempty = true })
+            if strings.not_blank(item_splits[1]) then
+                if opts == nil then
+                    opts = {}
+                end
+                opts[vim.trim(item_splits[1])] = vim.trim(item_splits[2])
+            end
         end
     end
     return opts
@@ -701,21 +714,27 @@ end
 
 --- @param args string
 local function _update(args)
-    update(_parse_update_args(args))
+    update(_parse_args(args))
 end
 
 --- @param args string
 local function _reinstall(args)
     _clean()
-    update(_parse_update_args(args))
+    update(_parse_args(args))
 end
 
 --- @param args string
 local function _info(args)
+    local opts = _parse_args(args)
+    opts = opts or { scale = 0.7 }
+    opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7)
+        or 0.7
+    logging.get("colorbox"):debug("|_info| opts:%s", vim.inspect(opts))
+
     local total_width = vim.o.columns
     local total_height = vim.o.lines
-    local width = math.floor(total_width * 0.7)
-    local height = math.floor(total_height * 0.7)
+    local width = math.floor(total_width * opts.scale)
+    local height = math.floor(total_height * opts.scale)
 
     local function get_shift(totalsize, modalsize, offset)
         local base = math.floor((totalsize - modalsize) * 0.5)
@@ -755,14 +774,35 @@ local function _info(args)
     table.sort(color_specs_list, function(a, b)
         return a.github_stars > b.github_stars
     end)
+    local total_plugins = 0
+    local total_colors = 0
+    local enabled_plugins = 0
+    local enabled_colors = 0
+    for i, spec in ipairs(color_specs_list) do
+        total_plugins = total_plugins + 1
+        local plugin_enabled = false
+        for j, color in ipairs(spec.color_names) do
+            total_colors = total_colors + 1
+            local color_enabled = FilteredColorNameToIndexMap[color] ~= nil
+            if color_enabled then
+                enabled_colors = enabled_colors + 1
+                plugin_enabled = true
+            end
+        end
+        if plugin_enabled then
+            enabled_plugins = enabled_plugins + 1
+        end
+    end
 
-    vim.api.nvim_buf_set_lines(
-        bufnr,
-        0,
-        0,
-        true,
-        { string.format("# ColorSchemes List (%d)", #color_specs_list) }
-    )
+    vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, {
+        string.format(
+            "# ColorSchemes List (total(colors/plugins): %d/%d, enabled(colors/plugins): %d/%d)",
+            total_colors,
+            total_plugins,
+            enabled_colors,
+            enabled_plugins
+        ),
+    })
     local lineno = 1
     for i, spec in ipairs(color_specs_list) do
         vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
@@ -789,6 +829,9 @@ local function _info(args)
             lineno = lineno + 1
         end
     end
+    vim.schedule(function()
+        vim.cmd(string.format([[call setpos('.', [%d, 1, 1])]], bufnr))
+    end)
 end
 
 local CONTROLLERS_MAP = {
@@ -942,6 +985,9 @@ local M = {
     _policy_reverse_order = _policy_reverse_order,
     _policy_single = _policy_single,
     _policy = _policy,
+
+    -- command
+    _parse_args = _parse_args,
 }
 
 return M
