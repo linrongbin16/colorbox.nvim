@@ -259,7 +259,7 @@ end
 --- @param idx integer
 --- @return string
 local function _get_next_color_name_by_idx(idx)
-    assert(type(idx) == "number" and idx > 0)
+    assert(type(idx) == "number")
     idx = idx + 1
     if idx > #FilteredColorNamesList then
         idx = 1
@@ -270,7 +270,7 @@ end
 --- @param idx integer
 --- @return string
 local function _get_prev_color_name_by_idx(idx)
-    assert(type(idx) == "number" and idx > 0)
+    assert(type(idx) == "number")
     idx = idx - 1
     if idx < 1 then
         idx = #FilteredColorNamesList
@@ -279,6 +279,12 @@ local function _get_prev_color_name_by_idx(idx)
 end
 
 local function _policy_shuffle()
+    print(
+        string.format(
+            "shuffle, #FilteredColorNamesList: %s\n",
+            vim.inspect(#FilteredColorNamesList)
+        )
+    )
     if #FilteredColorNamesList > 0 then
         local i = numbers.random(#FilteredColorNamesList) --[[@as integer]]
         local color = _get_next_color_name_by_idx(i)
@@ -294,6 +300,12 @@ local function _policy_shuffle()
 end
 
 local function _policy_in_order()
+    print(
+        string.format(
+            "inorder, #FilteredColorNamesList: %s\n",
+            vim.inspect(#FilteredColorNamesList)
+        )
+    )
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
         local i = previous_track ~= nil and previous_track.color_number or 0
@@ -303,6 +315,12 @@ local function _policy_in_order()
 end
 
 local function _policy_reverse_order()
+    print(
+        string.format(
+            "reverse order, #FilteredColorNamesList: %s\n",
+            vim.inspect(#FilteredColorNamesList)
+        )
+    )
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
         local i = previous_track ~= nil and previous_track.color_number
@@ -313,6 +331,12 @@ local function _policy_reverse_order()
 end
 
 local function _policy_single()
+    print(
+        string.format(
+            "single, #FilteredColorNamesList: %s",
+            vim.inspect(#FilteredColorNamesList)
+        )
+    )
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
         local color = previous_track ~= nil and previous_track.color_name
