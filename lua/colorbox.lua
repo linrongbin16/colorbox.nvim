@@ -691,9 +691,10 @@ local function _parse_update_args(args)
     local opts = nil
     if type(args) == "string" and string.len(vim.trim(args)) > 0 then
         local args_splits =
-            vim.split(args, "=", { plain = true, trimempty = true })
-        if args_splits[1] == "concurrency" then
-            opts = { concurrency = tonumber(args_splits[2]) }
+            strings.split(strings.trim(args), "=", { trimempty = true })
+        if strings.trim(args_splits[1]) == "concurrency" then
+            local value = strings.trim(args_splits[2])
+            opts = { concurrency = tonumber(value) }
         end
     end
     return opts
@@ -723,8 +724,9 @@ local function _parse_info_args(args)
             "=",
             { trimempty = true }
         )
-        if args_splits[1] == "scale" then
-            opts = { scale = tonumber(args_splits[2]) }
+        if strings.trim(args_splits[1]) == "scale" then
+            local value = strings.trim(args_splits[2])
+            opts = { scale = tonumber(value) }
         end
     end
     return opts
@@ -991,6 +993,10 @@ local M = {
     _policy_reverse_order = _policy_reverse_order,
     _policy_single = _policy_single,
     _policy = _policy,
+
+    -- command
+    _parse_update_args = _parse_update_args,
+    _parse_info_args = _parse_info_args,
 }
 
 return M

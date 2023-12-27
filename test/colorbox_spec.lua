@@ -167,4 +167,28 @@ describe("colorbox", function()
             colorbox._policy()
         end)
     end)
+    describe("[_command]", function()
+        it("_parse_update_args", function()
+            assert_eq(colorbox._parse_update_args(""), nil)
+            assert_true(
+                vim.deep_equal(
+                    colorbox._parse_update_args("concurrency=4"),
+                    { concurrency = 4 }
+                )
+            )
+            assert_true(
+                vim.deep_equal(
+                    colorbox._parse_update_args(" concurrency = 9"),
+                    { concurrency = 9 }
+                )
+            )
+        end)
+        it("_parse_info_args", function()
+            assert_eq(colorbox._parse_info_args(""), nil)
+            local actual1 = colorbox._parse_info_args(" scale = 0.7")
+            assert_eq(actual1.scale, 0.7)
+            local actual2 = colorbox._parse_info_args(" scale = 0.1")
+            assert_eq(actual2.scale, 0.1)
+        end)
+    end)
 end)
