@@ -171,6 +171,7 @@ You can use command `Colorbox` to control the player with below subcommands:
 - `update`: Update all git submodules.
 - `reinstall`: Clean & re-install all git submodules.
   - **Note:** use `concurrency=1` to specify the `concurrency` parameters.
+- `info`: Show detailed information and configured status.
 
 > [!NOTE]
 >
