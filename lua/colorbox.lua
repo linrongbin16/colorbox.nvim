@@ -279,12 +279,6 @@ local function _get_prev_color_name_by_idx(idx)
 end
 
 local function _policy_shuffle()
-    print(
-        string.format(
-            "shuffle, #FilteredColorNamesList: %s\n",
-            vim.inspect(#FilteredColorNamesList)
-        )
-    )
     if #FilteredColorNamesList > 0 then
         local i = numbers.random(#FilteredColorNamesList) --[[@as integer]]
         local color = _get_next_color_name_by_idx(i)
@@ -300,12 +294,6 @@ local function _policy_shuffle()
 end
 
 local function _policy_in_order()
-    print(
-        string.format(
-            "inorder, #FilteredColorNamesList: %s\n",
-            vim.inspect(#FilteredColorNamesList)
-        )
-    )
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
         local i = previous_track ~= nil and previous_track.color_number or 0
@@ -315,32 +303,16 @@ local function _policy_in_order()
 end
 
 local function _policy_reverse_order()
-    print(
-        string.format(
-            "reverse order, #FilteredColorNamesList: %s\n",
-            vim.inspect(#FilteredColorNamesList)
-        )
-    )
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
-        print(string.format("reverse order-1\n"))
         local i = previous_track ~= nil and previous_track.color_number
             or (#FilteredColorNamesList + 1)
-        print(string.format("reverse order-2\n"))
         local color = _get_prev_color_name_by_idx(i)
-        print(string.format("reverse order-3, color:%s\n", vim.inspect(color)))
         vim.cmd(string.format([[color %s]], color))
-        print(string.format("reverse order-4\n"))
     end
 end
 
 local function _policy_single()
-    print(
-        string.format(
-            "single, #FilteredColorNamesList: %s",
-            vim.inspect(#FilteredColorNamesList)
-        )
-    )
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
         local color = previous_track ~= nil and previous_track.color_name
