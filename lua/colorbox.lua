@@ -264,7 +264,7 @@ local function _get_next_color_name_by_idx(idx)
     if idx > #FilteredColorNamesList then
         idx = 1
     end
-    return FilteredColorNamesList[idx]
+    return FilteredColorNamesList[numbers.bound(idx, 1, #FilteredColorNamesList)]
 end
 
 --- @param idx integer
@@ -275,7 +275,7 @@ local function _get_prev_color_name_by_idx(idx)
     if idx < 1 then
         idx = #FilteredColorNamesList
     end
-    return FilteredColorNamesList[idx]
+    return FilteredColorNamesList[numbers.bound(idx, 1, #FilteredColorNamesList)]
 end
 
 local function _policy_shuffle()
@@ -323,10 +323,14 @@ local function _policy_reverse_order()
     )
     if #FilteredColorNamesList > 0 then
         local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
+        print(string.format("reverse order-1\n"))
         local i = previous_track ~= nil and previous_track.color_number
             or (#FilteredColorNamesList + 1)
+        print(string.format("reverse order-2\n"))
         local color = _get_prev_color_name_by_idx(i)
+        print(string.format("reverse order-3, color:%s\n", vim.inspect(color)))
         vim.cmd(string.format([[color %s]], color))
+        print(string.format("reverse order-4\n"))
     end
 end
 
