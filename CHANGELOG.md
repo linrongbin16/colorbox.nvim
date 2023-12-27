@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.14.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.9...v1.14.0) (2023-12-27)
+
+
+### Features
+
+* **collector:** collect more (&gt;= 500 stars) colors ([#148](https://github.com/linrongbin16/colorbox.nvim/issues/148)) ([83e31af](https://github.com/linrongbin16/colorbox.nvim/commit/83e31afb7b89817d7b7bb3442165a01188489982))
+* **command:** add 'info' sub command for detailed info ([#148](https://github.com/linrongbin16/colorbox.nvim/issues/148)) ([83e31af](https://github.com/linrongbin16/colorbox.nvim/commit/83e31afb7b89817d7b7bb3442165a01188489982))
+
+
+### Bug Fixes
+
+* **policy:** fix reverse order exceptions ([#148](https://github.com/linrongbin16/colorbox.nvim/issues/148)) ([83e31af](https://github.com/linrongbin16/colorbox.nvim/commit/83e31afb7b89817d7b7bb3442165a01188489982))
+
+
+### Performance Improvements
+
+* **test:** improve test cases ([#148](https://github.com/linrongbin16/colorbox.nvim/issues/148)) ([83e31af](https://github.com/linrongbin16/colorbox.nvim/commit/83e31afb7b89817d7b7bb3442165a01188489982))
+
 ## [1.13.9](https://github.com/linrongbin16/colorbox.nvim/compare/v1.13.8...v1.13.9) (2023-12-26)
 
 
