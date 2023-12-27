@@ -755,14 +755,35 @@ local function _info(args)
     table.sort(color_specs_list, function(a, b)
         return a.github_stars > b.github_stars
     end)
+    local total_plugins = 0
+    local total_colors = 0
+    local enabled_plugins = 0
+    local enabled_colors = 0
+    for i, spec in ipairs(color_specs_list) do
+        total_plugins = total_plugins + 1
+        local plugin_enabled = false
+        for j, color in ipairs(spec.color_names) do
+            total_colors = total_colors + 1
+            local color_enabled = FilteredColorNameToIndexMap[color] ~= nil
+            if color_enabled then
+                enabled_colors = enabled_colors + 1
+                plugin_enabled = true
+            end
+        end
+        if plugin_enabled then
+            enabled_plugins = enabled_plugins + 1
+        end
+    end
 
-    vim.api.nvim_buf_set_lines(
-        bufnr,
-        0,
-        0,
-        true,
-        { string.format("# ColorSchemes List (%d)", #color_specs_list) }
-    )
+    vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, {
+        string.format(
+            "# ColorSchemes List (total(colors/plugins): %d/%d, enabled(colors/plugins): %d/%d)",
+            total_colors,
+            total_plugins,
+            enabled_colors,
+            enabled_plugins
+        ),
+    })
     local lineno = 1
     for i, spec in ipairs(color_specs_list) do
         vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
@@ -789,6 +810,9 @@ local function _info(args)
             lineno = lineno + 1
         end
     end
+    vim.schedule(function()
+        vim.cmd(string.format([[call setpos('.', [%d, 1, 1])]], bufnr))
+    end)
 end
 
 local CONTROLLERS_MAP = {
