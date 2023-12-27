@@ -710,12 +710,37 @@ local function _reinstall(args)
     update(_parse_update_args(args))
 end
 
+--- @param args string?
+--- @return colorbox.Options?
+local function _parse_info_args(args)
+    local opts = nil
+    logging
+        .get("colorbox")
+        :debug("|_parse_info_args| args:%s", vim.inspect(args))
+    if strings.not_blank(args) then
+        local args_splits = strings.split(
+            strings.trim(args --[[@as string]]),
+            "=",
+            { trimempty = true }
+        )
+        if args_splits[1] == "scale" then
+            opts = { scale = tonumber(args_splits[2]) }
+        end
+    end
+    return opts
+end
+
 --- @param args string
 local function _info(args)
+    local opts = _parse_info_args(args)
+    opts = opts or { scale = 0.7 }
+    opts.scale = type(opts.scale) == "number" and opts.scale or 0.7
+    logging.get("colorbox"):debug("|_info| opts:%s", vim.inspect(opts))
+
     local total_width = vim.o.columns
     local total_height = vim.o.lines
-    local width = math.floor(total_width * 0.7)
-    local height = math.floor(total_height * 0.7)
+    local width = math.floor(total_width * opts.scale)
+    local height = math.floor(total_height * opts.scale)
 
     local function get_shift(totalsize, modalsize, offset)
         local base = math.floor((totalsize - modalsize) * 0.5)
