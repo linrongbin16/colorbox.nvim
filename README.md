@@ -4,7 +4,7 @@
 
 <p align="center">
 <a href="https://github.com/neovim/neovim/releases/v0.8.0"><img alt="Neovim" src="https://img.shields.io/badge/Neovim-v0.8+-57A143?logo=neovim&logoColor=57A143" /></a>
-<a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://custom-icon-badges.demolab.com/badge/Power_by-commons.nvim-teal?logo=heart&logoColor=fff&labelColor=deeppink" /></a>
+<a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://custom-icon-badges.demolab.com/badge/Powered_by-commons.nvim-teal?logo=heart&logoColor=fff&labelColor=deeppink" /></a>
 <a href="https://luarocks.org/modules/linrongbin16/colorbox.nvim"><img alt="luarocks" src="https://custom-icon-badges.demolab.com/luarocks/v/linrongbin16/colorbox.nvim?label=LuaRocks&labelColor=2C2D72&logo=tag&logoColor=fff&color=blue" /></a>
 <a href="https://github.com/linrongbin16/gitlinker.nvim/actions/workflows/ci.yml"><img alt="ci.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/ci.yml?label=GitHub%20CI&labelColor=181717&logo=github&logoColor=fff" /></a>
 <a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim?logo=codecov&logoColor=F01F7A&label=Codecov" /></a>
@@ -39,7 +39,7 @@ It use offline github actions to weekly collect and update the most popular Vim/
 >
 > with below conditions:
 >
-> 1. Github stars &ge; 800.
+> 1. Github stars &ge; 500 (default config only enables stars &ge; 800, please modify the `filter` option to choose any colors (see [Configuration](#-configuration))).
 > 2. Last git commit in 3 years.
 > 3. For multiple plugins that contain the same color name, choose the one in following rules:
 >    1. **Awesome-neovim** wins **vimcolorsheme**, since they usually has modern Neovim features (lua, lsp, treesitter) and support more third-party plugins.
@@ -181,12 +181,20 @@ You can use command `Colorbox` to control the player with below subcommands:
 ```lua
 require('colorbox').setup({
     -- Disable those colors you don't want from the candidates list.
-    filter = "primary",
+    -- By default only enable primary colorscheme and GitHub stars >= 800.
+    filter = {
+        "primary",
+        function(color, spec)
+            return spec.github_stars < 800
+        end,
+    },
 
     -- Choose a colorscheme from the filtered candidates.
+    -- By default randomly select color on nvim start.
     policy = "shuffle",
 
     -- Decide when to switch to next colorscheme.
+    -- By default randomly select color on nvim start.
     timing = "startup",
 
     -- (Optional) setup plugin before running `colorscheme {color}`.

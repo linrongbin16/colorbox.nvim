@@ -20,7 +20,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from tinydb import Query, TinyDB
 
 # github
-GITHUB_STARS = 800
+GITHUB_STARS = 500
 LAST_GIT_COMMIT = 3 * 365 * 24 * 3600  # 3 years * 365 days * 24 hours * 3600 seconds
 BLACKLIST = [
     "rafi/awesome-vim-colorschemes",
@@ -230,7 +230,7 @@ class ColorSpec:
             logging.debug(f"add new repo: {self}")
         else:
             ColorSpec.DB.update(obj, q.handle == self.handle)
-            logging.debug(f"add(udpate) existed repo: {self}")
+            logging.debug(f"add(update) existed repo: {self}")
 
     def update_last_git_commit(self, last_git_commit: datetime.datetime) -> None:
         q = Query()
@@ -556,12 +556,15 @@ class Builder:
         # dedup candidates
         deduped_specs = self._dedup()
 
+        total = 0
         for spec in ColorSpec.all():
             if not spec in deduped_specs:
                 logging.debug(f"remove for duplicate - repo:{spec}")
                 spec.remove()
+            else:
+                total += 1
 
-        md = MdUtils(file_name="COLORSCHEMES", title="ColorSchemes List")
+        md = MdUtils(file_name="COLORSCHEMES", title=f"ColorSchemes List ({total})")
         for spec in ColorSpec.all():
             logging.info(f"collect spec:{spec}")
             color_names = spec.get_vim_color_names()
