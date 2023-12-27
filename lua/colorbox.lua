@@ -452,18 +452,20 @@ end
 --- @param opts {concurrency:integer}?
 local function update(opts)
     opts = opts or { concurrency = 4 }
-    opts.concurrency = type(opts.concurrency) == "number"
-            and math.max(opts.concurrency, 1)
+    opts.concurrency = type(opts.concurrency) == "string"
+            and math.max(tonumber(opts.concurrency) or 4, 1)
         or 4
 
-    logging.setup({
-        name = "colorbox-update",
-        level = LogLevels.DEBUG,
-        console_log = true,
-        file_log = true,
-        file_log_name = "colorbox_update.log",
-        file_log_mode = "w",
-    })
+    if logging.get("colorbox-update") == nil then
+        logging.setup({
+            name = "colorbox-update",
+            level = LogLevels.DEBUG,
+            console_log = true,
+            file_log = true,
+            file_log_name = "colorbox_update.log",
+            file_log_mode = "w",
+        })
+    end
     local logger = logging.get("colorbox-update") --[[@as commons.logging.Logger]]
 
     local home_dir = vim.fn["colorbox#base_dir"]()
@@ -687,14 +689,24 @@ end
 
 --- @param args string?
 --- @return colorbox.Options?
-local function _parse_update_args(args)
+local function _parse_args(args)
     local opts = nil
-    if type(args) == "string" and string.len(vim.trim(args)) > 0 then
-        local args_splits =
-            strings.split(strings.trim(args), "=", { trimempty = true })
-        if strings.trim(args_splits[1]) == "concurrency" then
-            local value = strings.trim(args_splits[2])
-            opts = { concurrency = tonumber(value) }
+    logging.get("colorbox"):debug("|_parse_args| args:%s", vim.inspect(args))
+    if strings.not_blank(args) then
+        local args_splits = strings.split(
+            vim.trim(args --[[@as string]]),
+            " ",
+            { trimempty = true }
+        )
+        for _, arg_split in ipairs(args_splits) do
+            local item_splits =
+                strings.split(vim.trim(arg_split), "=", { trimempty = true })
+            if strings.not_blank(item_splits[1]) then
+                if opts == nil then
+                    opts = {}
+                end
+                opts[vim.trim(item_splits[1])] = vim.trim(item_splits[2])
+            end
         end
     end
     return opts
@@ -702,41 +714,21 @@ end
 
 --- @param args string
 local function _update(args)
-    update(_parse_update_args(args))
+    update(_parse_args(args))
 end
 
 --- @param args string
 local function _reinstall(args)
     _clean()
-    update(_parse_update_args(args))
-end
-
---- @param args string?
---- @return colorbox.Options?
-local function _parse_info_args(args)
-    local opts = nil
-    logging
-        .get("colorbox")
-        :debug("|_parse_info_args| args:%s", vim.inspect(args))
-    if strings.not_blank(args) then
-        local args_splits = strings.split(
-            strings.trim(args --[[@as string]]),
-            "=",
-            { trimempty = true }
-        )
-        if strings.trim(args_splits[1]) == "scale" then
-            local value = strings.trim(args_splits[2])
-            opts = { scale = tonumber(value) }
-        end
-    end
-    return opts
+    update(_parse_args(args))
 end
 
 --- @param args string
 local function _info(args)
-    local opts = _parse_info_args(args)
+    local opts = _parse_args(args)
     opts = opts or { scale = 0.7 }
-    opts.scale = type(opts.scale) == "number" and opts.scale or 0.7
+    opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7)
+        or 0.7
     logging.get("colorbox"):debug("|_info| opts:%s", vim.inspect(opts))
 
     local total_width = vim.o.columns
@@ -995,8 +987,7 @@ local M = {
     _policy = _policy,
 
     -- command
-    _parse_update_args = _parse_update_args,
-    _parse_info_args = _parse_info_args,
+    _parse_args = _parse_args,
 }
 
 return M
