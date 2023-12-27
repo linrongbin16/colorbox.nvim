@@ -31,8 +31,7 @@ describe("colorbox", function()
             local input_color = "tokyonight"
             local input_spec = ColorNameToColorSpecsMap[input_color]
             for _, c in ipairs(input_spec.color_names) do
-                local actual =
-                    colorbox._primary_color_name_filter(c, input_spec)
+                local actual = colorbox._builtin_filter_primary(c, input_spec)
                 print(
                     string.format(
                         "input color:%s, current color:%s, actual:%s\n",
@@ -45,12 +44,66 @@ describe("colorbox", function()
             end
         end)
     end)
-    describe("[_should_filter]", function()
-        it("test", function()
+    describe("[filter]", function()
+        it("_builtin_filter", function()
             local ColorNameToColorSpecsMap =
                 db.get_color_name_to_color_specs_map()
             for color, spec in pairs(ColorNameToColorSpecsMap) do
-                local actual = colorbox._should_filter(color, spec)
+                local actual = colorbox._builtin_filter("primary", color, spec)
+                assert_eq(type(actual), "boolean")
+            end
+        end)
+        it("_function_filter", function()
+            local ColorNameToColorSpecsMap =
+                db.get_color_name_to_color_specs_map()
+            for color, spec in pairs(ColorNameToColorSpecsMap) do
+                local actual = colorbox._function_filter(function(c, s)
+                    return true
+                end, color, spec)
+                assert_eq(type(actual), "boolean")
+                assert_true(actual)
+            end
+            for color, spec in pairs(ColorNameToColorSpecsMap) do
+                local actual = colorbox._function_filter(function(c, s)
+                    return false
+                end, color, spec)
+                assert_eq(type(actual), "boolean")
+                assert_false(actual)
+            end
+        end)
+        it("_any_filter", function()
+            local ColorNameToColorSpecsMap =
+                db.get_color_name_to_color_specs_map()
+            for color, spec in pairs(ColorNameToColorSpecsMap) do
+                local actual = colorbox._any_filter({
+                    function(c, s)
+                        return true
+                    end,
+                    function(c, s)
+                        return true
+                    end,
+                }, color, spec)
+                assert_eq(type(actual), "boolean")
+                assert_true(actual)
+            end
+            for color, spec in pairs(ColorNameToColorSpecsMap) do
+                local actual = colorbox._any_filter({
+                    function(c, s)
+                        return false
+                    end,
+                    function(c, s)
+                        return false
+                    end,
+                }, color, spec)
+                assert_eq(type(actual), "boolean")
+                assert_false(actual)
+            end
+        end)
+        it("_filter", function()
+            local ColorNameToColorSpecsMap =
+                db.get_color_name_to_color_specs_map()
+            for color, spec in pairs(ColorNameToColorSpecsMap) do
+                local actual = colorbox._filter(color, spec)
                 assert_eq(type(actual), "boolean")
             end
         end)

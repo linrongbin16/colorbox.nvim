@@ -5,6 +5,7 @@ local uv = require("colorbox.commons.uv")
 local numbers = require("colorbox.commons.numbers")
 local fileios = require("colorbox.commons.fileios")
 local strings = require("colorbox.commons.strings")
+local apis = require("colorbox.commons.apis")
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
@@ -38,7 +39,12 @@ local Defaults = {
     ---
     --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AnyFilterConfig
     --- @type colorbox.FilterConfig?
-    filter = "primary",
+    filter = {
+        "primary",
+        function(color, spec)
+            return spec.github_stars < 800
+        end,
+    },
 
     --- @type table<string, function>
     setup = {
@@ -93,7 +99,7 @@ end
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-local function _primary_color_name_filter(color_name, spec)
+local function _builtin_filter_primary(color_name, spec)
     local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
     local unique = #spec.color_names <= 1
     local current_name_len = string.len(color_name)
@@ -103,7 +109,7 @@ local function _primary_color_name_filter(color_name, spec)
     local matched = handle_splits[1]:lower() == color_name:lower()
         or handle_splits[2]:lower() == color_name:lower()
     logger:debug(
-        "|_primary_color_name_filter| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
+        "|_builtin_filter_primary| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
         vim.inspect(unique),
         vim.inspect(shortest),
         vim.inspect(current_name_len),
@@ -113,32 +119,71 @@ local function _primary_color_name_filter(color_name, spec)
     return not unique and not shortest and not matched
 end
 
+--- @param f colorbox.BuiltinFilterConfig
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-local function _should_filter(color_name, spec)
-    if Configs.filter == nil or type(Configs.filter) == "boolean" then
-        return Configs.filter or false
+local function _builtin_filter(f, color_name, spec)
+    if f == "primary" then
+        return _builtin_filter_primary(color_name, spec)
     end
-    if Configs.filter == "primary" then
-        return _primary_color_name_filter(color_name, spec)
-    elseif type(Configs.filter) == "function" then
-        return Configs.filter(color_name)
-    elseif type(Configs.filter) == "table" then
-        for _, f in ipairs(Configs.filter) do
-            if f(color_name, spec) then
-                return true
+    return false
+end
+
+--- @param f colorbox.FunctionFilterConfig
+--- @param color_name string
+--- @param spec colorbox.ColorSpec
+--- @return boolean
+local function _function_filter(f, color_name, spec)
+    if type(f) == "function" then
+        local ok, result = pcall(f, color_name, spec)
+        if ok and type(result) == "boolean" then
+            return result
+        else
+            logging
+                .get("colorbox")
+                :warn(
+                    "failed to invoke function filter, please check your config!"
+                )
+        end
+    end
+    return false
+end
+
+--- @param f colorbox.AnyFilterConfig
+--- @param color_name string
+--- @param spec colorbox.ColorSpec
+--- @return boolean
+local function _any_filter(f, color_name, spec)
+    if type(f) == "table" then
+        for _, f1 in ipairs(f) do
+            if type(f1) == "string" then
+                local result = _builtin_filter(f1, color_name, spec)
+                if result then
+                    return result
+                end
+            elseif type(f1) == "function" then
+                local result = _function_filter(f1, color_name, spec)
+                if result then
+                    return result
+                end
             end
         end
-        return false
     end
-    assert(
-        false,
-        string.format(
-            "unknown 'filter' option: %s",
-            vim.inspect(Configs.filter)
-        )
-    )
+    return false
+end
+
+--- @param color_name string
+--- @param spec colorbox.ColorSpec
+--- @return boolean
+local function _filter(color_name, spec)
+    if type(Configs.filter) == "string" then
+        return _builtin_filter(Configs.filter, color_name, spec)
+    elseif type(Configs.filter) == "function" then
+        return _function_filter(Configs.filter, color_name, spec)
+    elseif type(Configs.filter) == "table" then
+        return _any_filter(Configs.filter, color_name, spec)
+    end
     return false
 end
 
@@ -165,7 +210,7 @@ local function _init()
     for _, color_name in pairs(ColorNamesList) do
         local spec = ColorNameToColorSpecsMap[color_name]
         local pack_exist = uv.fs_stat(spec.full_pack_path) ~= nil
-        if not _should_filter(color_name, spec) and pack_exist then
+        if not _filter(color_name, spec) and pack_exist then
             table.insert(FilteredColorNamesList, color_name)
         end
     end
@@ -214,23 +259,23 @@ end
 --- @param idx integer
 --- @return string
 local function _get_next_color_name_by_idx(idx)
-    assert(type(idx) == "number" and idx > 0)
+    assert(type(idx) == "number")
     idx = idx + 1
     if idx > #FilteredColorNamesList then
         idx = 1
     end
-    return FilteredColorNamesList[idx]
+    return FilteredColorNamesList[numbers.bound(idx, 1, #FilteredColorNamesList)]
 end
 
 --- @param idx integer
 --- @return string
 local function _get_prev_color_name_by_idx(idx)
-    assert(type(idx) == "number" and idx > 0)
+    assert(type(idx) == "number")
     idx = idx - 1
     if idx < 1 then
         idx = #FilteredColorNamesList
     end
-    return FilteredColorNamesList[idx]
+    return FilteredColorNamesList[numbers.bound(idx, 1, #FilteredColorNamesList)]
 end
 
 local function _policy_shuffle()
@@ -665,9 +710,91 @@ local function _reinstall(args)
     update(_parse_update_args(args))
 end
 
+--- @param args string
+local function _info(args)
+    local total_width = vim.o.columns
+    local total_height = vim.o.lines
+    local width = math.floor(total_width * 0.7)
+    local height = math.floor(total_height * 0.7)
+
+    local function get_shift(totalsize, modalsize, offset)
+        local base = math.floor((totalsize - modalsize) * 0.5)
+        local shift = offset > -1
+                and math.ceil((totalsize - modalsize) * offset)
+            or offset
+        return numbers.bound(base + shift, 0, totalsize - modalsize)
+    end
+
+    local row = get_shift(total_height, height, 0)
+    local col = get_shift(total_width, width, 0)
+
+    local win_config = {
+        anchor = "NW",
+        relative = "editor",
+        width = width,
+        height = height,
+        row = row,
+        col = col,
+        style = "minimal",
+        border = "rounded",
+        zindex = 51,
+    }
+
+    local bufnr = vim.api.nvim_create_buf(false, true)
+    apis.set_buf_option(bufnr, "bufhidden", "wipe")
+    apis.set_buf_option(bufnr, "buflisted", false)
+    apis.set_buf_option(bufnr, "filetype", "markdown")
+    local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
+
+    local HandleToColorSpecsMap =
+        require("colorbox.db").get_handle_to_color_specs_map()
+    local color_specs_list = {}
+    for handle, spec in pairs(HandleToColorSpecsMap) do
+        table.insert(color_specs_list, spec)
+    end
+    table.sort(color_specs_list, function(a, b)
+        return a.github_stars > b.github_stars
+    end)
+
+    vim.api.nvim_buf_set_lines(
+        bufnr,
+        0,
+        0,
+        true,
+        { string.format("# ColorSchemes List (%d)", #color_specs_list) }
+    )
+    local lineno = 1
+    for i, spec in ipairs(color_specs_list) do
+        vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
+            string.format(
+                "- %s (stars: %s, last update at: %s)",
+                vim.inspect(spec.handle),
+                vim.inspect(spec.github_stars),
+                vim.inspect(spec.last_git_commit)
+            ),
+        })
+        lineno = lineno + 1
+        local colornames = vim.deepcopy(spec.color_names)
+        table.sort(colornames, function(a, b)
+            local a_enabled = FilteredColorNameToIndexMap[a] ~= nil
+            return a_enabled
+        end)
+
+        for _, color in ipairs(colornames) do
+            local enabled = FilteredColorNameToIndexMap[color] ~= nil
+            local content = enabled
+                    and string.format("  - %s (**enabled**)", color)
+                or string.format("  - %s (disabled)", color)
+            vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, { content })
+            lineno = lineno + 1
+        end
+    end
+end
+
 local CONTROLLERS_MAP = {
     update = _update,
     reinstall = _reinstall,
+    info = _info,
 }
 
 --- @param opts colorbox.Options?
@@ -731,7 +858,7 @@ local function setup(opts)
             bang = true,
             desc = Configs.command.desc,
             complete = function(ArgLead, CmdLine, CursorPos)
-                return { "update", "reinstall" }
+                return { "update", "reinstall", "info" }
             end,
         }
     )
@@ -792,8 +919,15 @@ local M = {
     setup = setup,
     update = update,
     install = install,
-    _primary_color_name_filter = _primary_color_name_filter,
-    _should_filter = _should_filter,
+
+    -- filter
+    _builtin_filter_primary = _builtin_filter_primary,
+    _builtin_filter = _builtin_filter,
+    _function_filter = _function_filter,
+    _any_filter = _any_filter,
+    _filter = _filter,
+
+    -- misc
     _force_sync_syntax = _force_sync_syntax,
     _save_track = _save_track,
     _load_previous_track = _load_previous_track,
@@ -801,6 +935,8 @@ local M = {
     _get_prev_color_name_by_idx = _get_prev_color_name_by_idx,
     _get_filtered_color_names_list = _get_filtered_color_names_list,
     _get_filtered_color_name_to_index_map = _get_filtered_color_name_to_index_map,
+
+    -- policy
     _policy_shuffle = _policy_shuffle,
     _policy_in_order = _policy_in_order,
     _policy_reverse_order = _policy_reverse_order,
