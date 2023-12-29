@@ -134,7 +134,7 @@ scoop install uutils-coreutils     # rm
 
 > [!WARNING]
 >
-> The [mcchrish/zenbones.nvim](https://github.com/mcchrish/zenbones.nvim) color requires [rktjmp/lush.nvim](https://github.com/rktjmp/lush.nvim) as plugin dependency.
+> The [mcchrish/zenbones.nvim](https://github.com/linrongbin16/colorbox.nvim/blob/de0e6ddb750f88c8c29da8ae7b75dba2df08a6ec/COLORSCHEMES.md?plain=1#L124) color requires [rktjmp/lush.nvim](https://github.com/rktjmp/lush.nvim) as plugin dependency.
 >
 > Please manually add the dependency if you enabled 'zenbones' colors.
 
