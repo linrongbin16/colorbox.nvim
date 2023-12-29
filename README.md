@@ -138,7 +138,8 @@ scoop install uutils-coreutils     # rm
 >
 > Please manually add the dependency if you enabled 'zenbones' colors.
 
-### [lazy.nvim](https://github.com/folke/lazy.nvim)
+<details>
+<summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></b></summary>
 
 ```lua
 require('lazy').setup({
@@ -160,7 +161,10 @@ require('lazy').setup({
 })
 ```
 
-### [pckr.nvim](https://github.com/lewis6991/pckr.nvim)
+</details>
+
+<details>
+<summary><b>With <a href="https://github.com/lewis6991/pckr.nvim">pckr.nvim</a></b></summary>
 
 ```lua
 require('pckr').add({
@@ -175,6 +179,8 @@ require('pckr').add({
     };
 })
 ```
+
+</details>
 
 If you have issues on running multiple git clone/pull commands, try set `concurrency=1` in the `update` API:
 
