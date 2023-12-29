@@ -68,8 +68,6 @@ And multiple trigger timings (colorschemes don't have end time):
 
 - [Requirement](#-requirement)
 - [Install](#-install)
-  - [lazy.nvim](#lazynvim)
-  - [pckr.nvim](#pckrnvim)
 - [Command](#-command)
 - [Configuration](#-configuration)
   - [Filter](#filter)
