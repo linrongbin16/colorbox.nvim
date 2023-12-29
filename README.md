@@ -125,10 +125,18 @@ scoop install uutils-coreutils     # rm
 
 ## 📦 Install
 
-**Warning:** if this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
+> [!WARNING]
+>
+> If this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
+>
+> 1. Don't lazy this plugin (it only takes ~4 ms to load).
+> 2. Load this plugin before all other start plugins.
 
-1. Don't lazy this plugin (it only takes ~4 ms to load).
-2. Load this plugin before all other start plugins.
+> [!WARNING]
+>
+> The [mcchrish/zenbones.nvim](https://github.com/mcchrish/zenbones.nvim) color requires [rktjmp/lush.nvim](https://github.com/rktjmp/lush.nvim) as plugin dependency.
+>
+> Please manually add the dependency if you enabled 'zenbones' colors.
 
 ### [lazy.nvim](https://github.com/folke/lazy.nvim)
 
@@ -136,8 +144,16 @@ scoop install uutils-coreutils     # rm
 require('lazy').setup({
     {
         'linrongbin16/colorbox.nvim',
-        lazy = false, -- don't lazy load
-        priority = 1000, -- load at first
+
+        -- don't lazy load
+        lazy = false,
+
+        -- load with highest priority
+        priority = 1000,
+
+        -- required by 'mcchrish/zenbones.nvim'
+        dependencies = "rktjmp/lush.nvim",
+
         build = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
@@ -150,9 +166,13 @@ require('lazy').setup({
 require('pckr').add({
     {
         'linrongbin16/colorbox.nvim',
+
+        -- required by 'mcchrish/zenbones.nvim'
+        requires = "rktjmp/lush.nvim",
+
         run = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
-    }
+    };
 })
 ```
 
