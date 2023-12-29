@@ -125,44 +125,68 @@ scoop install uutils-coreutils     # rm
 
 ## 📦 Install
 
-**Warning:** if this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
+> [!WARNING]
+>
+> If this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
+>
+> 1. Don't lazy this plugin (it only takes ~4 ms to load).
+> 2. Load this plugin before all other start plugins.
 
-1. Don't lazy this plugin (it only takes ~4 ms to load).
-2. Load this plugin before all other start plugins.
+> [!WARNING]
+>
+> The [mcchrish/zenbones.nvim](https://github.com/linrongbin16/colorbox.nvim/blob/de0e6ddb750f88c8c29da8ae7b75dba2df08a6ec/COLORSCHEMES.md?plain=1#L124) color requires [rktjmp/lush.nvim](https://github.com/rktjmp/lush.nvim) as plugin dependency.
+>
+> Please manually add the dependency if you enabled 'zenbones' colors.
 
-### [lazy.nvim](https://github.com/folke/lazy.nvim)
+<details>
+<summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></b></summary>
 
 ```lua
 require('lazy').setup({
     {
         'linrongbin16/colorbox.nvim',
-        lazy = false, -- don't lazy load
-        priority = 1000, -- load at first
+
+        -- don't lazy load
+        lazy = false,
+
+        -- load with highest priority
+        priority = 1000,
+
+        -- required by 'mcchrish/zenbones.nvim'
+        dependencies = "rktjmp/lush.nvim",
+
         build = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
 })
 ```
 
-### [pckr.nvim](https://github.com/lewis6991/pckr.nvim)
+</details>
+
+<details>
+<summary><b>With <a href="https://github.com/lewis6991/pckr.nvim">pckr.nvim</a></b></summary>
 
 ```lua
 require('pckr').add({
     {
         'linrongbin16/colorbox.nvim',
+
+        -- required by 'mcchrish/zenbones.nvim'
+        requires = "rktjmp/lush.nvim",
+
         run = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
-    }
+    };
 })
 ```
 
-If you have issues on running multiple git clone/pull commands, try set `concurrency=1` in the `update` API:
+</details>
 
-```lua
-require('colorbox').update({
-    concurrency = 4,
-})
-```
+> [!NOTE]
+>
+> If you have issues on running multiple git clone/pull commands, try set `concurrency=1` in the `update` API:
+>
+> `require('colorbox').update({ concurrency = 1 })`
 
 ## 🚀 Command
 
