@@ -66,7 +66,7 @@ And multiple trigger timings (colorschemes don't have end time):
 
 ## 📖 Table of contents
 
-- [Requirement](#-requirement)
+- [Requirements](#-requirements)
 - [Install](#-install)
 - [Command](#-command)
 - [Configuration](#-configuration)
@@ -77,7 +77,7 @@ And multiple trigger timings (colorschemes don't have end time):
 - [Development](#-development)
 - [Contribute](#-contribute)
 
-## ✅ Requirement
+## ✅ Requirements
 
 - neovim &ge; 0.8.
 - [git](https://git-scm.com/).
