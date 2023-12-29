@@ -182,13 +182,11 @@ require('pckr').add({
 
 </details>
 
-If you have issues on running multiple git clone/pull commands, try set `concurrency=1` in the `update` API:
-
-```lua
-require('colorbox').update({
-    concurrency = 4,
-})
-```
+> [!NOTE]
+>
+> If you have issues on running multiple git clone/pull commands, try set `concurrency=1` in the `update` API:
+>
+> `require('colorbox').update({ concurrency = 1 })`
 
 ## 🚀 Command
 
