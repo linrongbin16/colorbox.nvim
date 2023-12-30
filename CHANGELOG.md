@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.2](https://github.com/linrongbin16/colorbox.nvim/compare/v1.14.1...v1.14.2) (2023-12-30)
+
+
+### Bug Fixes
+
+* **info:** safe scale refactor ([#155](https://github.com/linrongbin16/colorbox.nvim/issues/155)) ([6809503](https://github.com/linrongbin16/colorbox.nvim/commit/6809503f906b508ebfe70bd03dd2e1ddda252dfb))
+
 ## [1.14.1](https://github.com/linrongbin16/colorbox.nvim/compare/v1.14.0...v1.14.1) (2023-12-27)
 
 
