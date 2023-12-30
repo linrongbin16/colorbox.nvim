@@ -729,6 +729,7 @@ local function _info(args)
     opts = opts or { scale = 0.7 }
     opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7)
         or 0.7
+    opts.scale = numbers.bound(opts.scale, 0, 1)
     logging.get("colorbox"):debug("|_info| opts:%s", vim.inspect(opts))
 
     local total_width = vim.o.columns
