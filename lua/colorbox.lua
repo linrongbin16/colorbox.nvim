@@ -6,7 +6,7 @@ local numbers = require("colorbox.commons.numbers")
 local fileios = require("colorbox.commons.fileios")
 local strings = require("colorbox.commons.strings")
 local apis = require("colorbox.commons.apis")
-local async = require("colorbox.async")
+local async = require("colorbox.commons.async")
 
 --- @alias colorbox.Options table<any, any>
 --- @type colorbox.Options
@@ -481,11 +481,15 @@ local function update()
     end
     logger:info("started %s jobs", vim.inspect(prepared_count))
 
-    local async_spawn_run = function(acmd, aopts)
-        return coroutine.yield(
-            require("colorbox.commons.spawn").run(acmd, aopts, async.callback())
+    local async_spawn_run = async.wrap(function(acmd, aopts, callback)
+        require("colorbox.commons.spawn").run(
+            acmd,
+            aopts,
+            function(completed_obj)
+                callback(completed_obj)
+            end
         )
-    end
+    end, 3)
 
     async.run(function()
         local finished_count = 0
@@ -532,9 +536,8 @@ local function update()
                     },
                 }
             end
-            local exit_result = async_spawn_run(param.cmd, param.opts)
-            async.schedule()
-            logger:debug("|update| exit_result:%s", vim.inspect(exit_result))
+            async_spawn_run(param.cmd, param.opts)
+            async.scheduler()
             finished_count = finished_count + 1
         end
         return finished_count
