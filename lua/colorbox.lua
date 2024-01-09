@@ -487,68 +487,60 @@ local function update()
         )
     end
 
-    local jobs_queue = {}
-    local finished_count = 0
-    for handle, spec in pairs(HandleToColorSpecsMap) do
-        local function _on_output(line)
-            if strings.not_blank(line) then
-                logger:info("%s: %s", handle, line)
-            end
-        end
-        local param = nil
-        if
-            vim.fn.isdirectory(spec.full_pack_path) > 0
-            and vim.fn.isdirectory(spec.full_pack_path .. "/.git") > 0
-        then
-            param = {
-                cmd = { "git", "pull" },
-                opts = {
-                    cwd = spec.full_pack_path,
-                    on_stdout = _on_output,
-                    on_stderr = _on_output,
-                },
-            }
-        else
-            param = {
-                cmd = strings.not_empty(spec.git_branch) and {
-                    "git",
-                    "clone",
-                    "--branch",
-                    spec.git_branch,
-                    "--depth=1",
-                    spec.url,
-                    spec.pack_path,
-                } or {
-                    "git",
-                    "clone",
-                    "--depth=1",
-                    spec.url,
-                    spec.pack_path,
-                },
-                opts = {
-                    cwd = home_dir,
-                    on_stdout = _on_output,
-                    on_stderr = _on_output,
-                },
-            }
-        end
-        table.insert(jobs_queue, handle)
-        async.run(function()
-            local exit_result = async_spawn_run(param.cmd, param.opts)
-            logger:debug("|update| exit_result:%s", vim.inspect(exit_result))
-            return handle
-        end, function(ahandle)
-            finished_count = finished_count + 1
-            for job_idx, job_handle in ipairs(jobs_queue) do
-                if job_handle == ahandle then
-                    table.remove(jobs_queue, job_idx)
+    async.run(function()
+        local finished_count = 0
+        for handle, spec in pairs(HandleToColorSpecsMap) do
+            local function _on_output(line)
+                if strings.not_blank(line) then
+                    logger:info("%s: %s", handle, line)
                 end
             end
-            if #jobs_queue == 0 then
-                logger:info("finished %s jobs", vim.inspect(finished_count))
+            local param = nil
+            if
+                vim.fn.isdirectory(spec.full_pack_path) > 0
+                and vim.fn.isdirectory(spec.full_pack_path .. "/.git") > 0
+            then
+                param = {
+                    cmd = { "git", "pull" },
+                    opts = {
+                        cwd = spec.full_pack_path,
+                        on_stdout = _on_output,
+                        on_stderr = _on_output,
+                    },
+                }
+            else
+                param = {
+                    cmd = strings.not_empty(spec.git_branch) and {
+                        "git",
+                        "clone",
+                        "--branch",
+                        spec.git_branch,
+                        "--depth=1",
+                        spec.url,
+                        spec.pack_path,
+                    } or {
+                        "git",
+                        "clone",
+                        "--depth=1",
+                        spec.url,
+                        spec.pack_path,
+                    },
+                    opts = {
+                        cwd = home_dir,
+                        on_stdout = _on_output,
+                        on_stderr = _on_output,
+                    },
+                }
             end
-        end)
-    end
+            local exit_result = async_spawn_run(param.cmd, param.opts)
+            async.schedule()
+            logger:debug("|update| exit_result:%s", vim.inspect(exit_result))
+            finished_count = finished_count + 1
+        end
+        return finished_count
+    end, function(finished_count)
+        logger:info("finished %s jobs", vim.inspect(finished_count))
+    end)
 end
 
 local function _clean()
