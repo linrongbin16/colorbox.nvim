@@ -491,8 +491,8 @@ local function update()
         )
     end, 3)
 
+    local finished_count = 0
     async.run(function()
-        local finished_count = 0
         for handle, spec in pairs(HandleToColorSpecsMap) do
             local function _on_output(line)
                 if strings.not_blank(line) then
@@ -540,8 +540,7 @@ local function update()
             async.scheduler()
             finished_count = finished_count + 1
         end
-        return finished_count
-    end, function(finished_count)
+    end, function()
         logger:info("finished %s jobs", vim.inspect(finished_count))
     end)
 end
