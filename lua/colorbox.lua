@@ -481,12 +481,12 @@ local function update()
     end
     logger:info("started %s jobs", vim.inspect(prepared_count))
 
-    local async_spawn_run = async.wrap(function(acmd, aopts, callback)
+    local async_spawn_run = async.wrap(function(acmd, aopts, cb)
         require("colorbox.commons.spawn").run(
             acmd,
             aopts,
             function(completed_obj)
-                callback(completed_obj)
+                cb(completed_obj)
             end
         )
     end, 3)
