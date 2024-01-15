@@ -1,22 +1,22 @@
----@mod commons.micro-async
+---@mod micro-async
 
----@alias commons.micro-async.SelectOpts { prompt: string?, format_item: nil|fun(item: any): string, kind: string? }
+---@alias micro-async.SelectOpts { prompt: string?, format_item: nil|fun(item: any): string, kind: string? }
 
----@alias commons.micro-async.InputOpts { prompt: string?, default: string?, completion: string?, highlight: fun(text: string) }
+---@alias micro-async.InputOpts { prompt: string?, default: string?, completion: string?, highlight: fun(text: string) }
 
----@class commons.micro-async.Cancellable
----@field cancel fun(self: commons.micro-async.Cancellable)
----@field is_cancelled fun(self: commons.micro-async.Cancellable): boolean
+---@class micro-async.Cancellable
+---@field cancel fun(self: micro-async.Cancellable)
+---@field is_cancelled fun(self: micro-async.Cancellable): boolean
 
----@class commons.micro-async.Task: commons.micro-async.Cancellable
+---@class micro-async.Task: micro-async.Cancellable
 ---@field thread thread
----@field resume fun(self: commons.micro-async.Task, ...: any):commons.micro-async.Cancellable?
+---@field resume fun(self: micro-async.Task, ...: any):micro-async.Cancellable?
 
 local yield = coroutine.yield
 local resume = coroutine.resume
 local running = coroutine.running
 
----@type table<thread, commons.micro-async.Task>
+---@type table<thread, micro-async.Task>
 ---@private
 local handles = setmetatable({}, {
     __mode = "k",
@@ -30,7 +30,7 @@ local function is_cancellable(task)
 end
 
 ---@param fn fun(...): ...
----@return commons.micro-async.Task
+---@return micro-async.Task
 ---@private
 local function new_task(fn)
     local thread = coroutine.create(fn)
@@ -97,7 +97,7 @@ end
 ---Cannot return values as it is non-blocking.
 ---
 ---@param fn fun(...):...
----@return fun(...): commons.micro-async.Task
+---@return fun(...): micro-async.Task
 function Async.void(fn)
     local task = new_task(fn)
     return function(...)
@@ -111,7 +111,7 @@ end
 ---@param fn fun(...):...
 ---@param cb fun(...)
 ---@param ... any
----@return commons.micro-async.Task
+---@return micro-async.Task
 function Async.run(fn, cb, ...)
     local task = new_task(function(...)
         cb(fn(...))
@@ -248,7 +248,7 @@ Async.ui = {}
 
 ---@async
 ---@param items any[]
----@param opts commons.micro-async.SelectOpts
+---@param opts micro-async.SelectOpts
 ---@return any|nil, integer|nil
 Async.ui.select = function(items, opts)
     vim.ui.select(items, opts, Async.callback())
@@ -268,7 +268,7 @@ Async.ui.select = function(items, opts)
 end
 
 ---@async
----@param opts commons.micro-async.InputOpts
+---@param opts micro-async.InputOpts
 ---@return string|nil
 Async.ui.input = function(opts)
     return yield(vim.ui.input(opts, Async.scheduled_callback()))

@@ -1,4 +1,4 @@
----@mod commons.micro-async.lsp
+---@mod micro-async.lsp
 
 local wrap = require("colorbox.commons.micro-async").wrap
 

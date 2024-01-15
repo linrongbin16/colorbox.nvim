@@ -1,4 +1,4 @@
----@mod commons.micro-async.uv
+---@mod micro-async.uv
 
 local a = require("colorbox.commons.micro-async")
 
