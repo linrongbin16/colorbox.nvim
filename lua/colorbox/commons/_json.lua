@@ -76,7 +76,7 @@ if debug and debug.upvalueid then
     -- Generate a lightuserdata
     json.null = debug.upvalueid(json.createEmptyObject, 1)
 else
-    json.null = function() end
+    json.null = function () end
 end
 
 -- json.encode --
@@ -86,9 +86,9 @@ local statusBuilder
 local encode_map = {}
 
 local encode_escape_map = {
-    ['"'] = '\\"',
+    ["\""] = "\\\"",
     ["\\"] = "\\\\",
-    ["/"] = "\\/",
+    ["/"]  = "\\/",
     ["\b"] = "\\b",
     ["\f"] = "\\f",
     ["\n"] = "\\n",
@@ -112,10 +112,10 @@ end
 
 local function encode(v)
     local res = encode_map[type(v)](v)
-    statusBuilder[#statusBuilder + 1] = res
+    statusBuilder[#statusBuilder+1] = res
 end
 
-encode_map["nil"] = function()
+encode_map["nil"] = function ()
     return "null"
 end
 
@@ -124,8 +124,8 @@ local function encode_string(v)
 end
 
 function encode_map.string(v)
-    statusBuilder[#statusBuilder + 1] = '"'
-    statusBuilder[#statusBuilder + 1] = encode_string(v)
+    statusBuilder[#statusBuilder+1] = '"'
+    statusBuilder[#statusBuilder+1] = encode_string(v)
     return '"'
 end
 
@@ -146,7 +146,7 @@ end
 
 function encode_map.number(v)
     if v ~= v or v <= tiny or v >= huge then
-        error("unexpected number value '" .. tostring(v) .. "'")
+        error("unexpected number value '"..tostring(v).."'")
     end
     if math_type(v) == "integer" then
         return string_format("%d", v)
@@ -179,23 +179,23 @@ function encode_map.table(t)
         local keys = {}
         for k in next, t do
             if type(k) ~= "string" then
-                error("invalid table: mixed or invalid key types: " .. k)
+                error("invalid table: mixed or invalid key types: "..k)
             end
-            keys[#keys + 1] = k
+            keys[#keys+1] = k
         end
         table_sort(keys)
         do
             local k = keys[1]
-            statusBuilder[#statusBuilder + 1] = '{"'
-            statusBuilder[#statusBuilder + 1] = encode_string(k)
-            statusBuilder[#statusBuilder + 1] = '":'
+            statusBuilder[#statusBuilder+1] = '{"'
+            statusBuilder[#statusBuilder+1] = encode_string(k)
+            statusBuilder[#statusBuilder+1] = '":'
             encode(t[k])
         end
         for i = 2, #keys do
             local k = keys[i]
-            statusBuilder[#statusBuilder + 1] = ',"'
-            statusBuilder[#statusBuilder + 1] = encode_string(k)
-            statusBuilder[#statusBuilder + 1] = '":'
+            statusBuilder[#statusBuilder+1] = ',"'
+            statusBuilder[#statusBuilder+1] = encode_string(k)
+            statusBuilder[#statusBuilder+1] = '":'
             encode(t[k])
         end
         statusVisited[t] = nil
@@ -204,16 +204,16 @@ function encode_map.table(t)
         local max = 0
         for k in next, t do
             if math_type(k) ~= "integer" or k <= 0 then
-                error("invalid table: mixed or invalid key types: " .. k)
+                error("invalid table: mixed or invalid key types: "..k)
             end
             if max < k then
                 max = k
             end
         end
-        statusBuilder[#statusBuilder + 1] = "["
+        statusBuilder[#statusBuilder+1] = "["
         encode(t[1])
         for i = 2, max do
-            statusBuilder[#statusBuilder + 1] = ","
+            statusBuilder[#statusBuilder+1] = ","
             encode(t[i])
         end
         statusVisited[t] = nil
@@ -224,13 +224,13 @@ function encode_map.table(t)
         end
         if jit and t[0] ~= nil then
             -- 0 is the first index in luajit
-            error("invalid table: mixed or invalid key types: " .. 0)
+            error("invalid table: mixed or invalid key types: "..0)
         end
-        statusBuilder[#statusBuilder + 1] = "["
+        statusBuilder[#statusBuilder+1] = "["
         encode(t[1])
         local count = 2
         while t[count] ~= nil do
-            statusBuilder[#statusBuilder + 1] = ","
+            statusBuilder[#statusBuilder+1] = ","
             encode(t[count])
             count = count + 1
         end
@@ -239,7 +239,7 @@ function encode_map.table(t)
             if type(k) == "number" then
                 error("invalid table: sparse array is not supported")
             else
-                error("invalid table: mixed or invalid key types: " .. k)
+                error("invalid table: mixed or invalid key types: "..k)
             end
         end
         statusVisited[t] = nil
@@ -251,7 +251,7 @@ local function encode_unexpected(v)
     if v == json.null then
         return "null"
     else
-        error("unexpected type '" .. type(v) .. "'")
+        error("unexpected type '"..type(v).."'")
     end
 end
 encode_map["function"] = encode_unexpected
@@ -327,11 +327,7 @@ local function expect_byte(c)
 end
 
 local function decode_unicode_surrogate(s1, s2)
-    return utf8_char(
-        0x10000
-            + (tonumber(s1, 16) - 0xd800) * 0x400
-            + (tonumber(s2, 16) - 0xdc00)
-    )
+    return utf8_char(0x10000 + (tonumber(s1, 16) - 0xd800) * 0x400 + (tonumber(s2, 16) - 0xdc00))
 end
 
 local function decode_unicode_escape(s)
@@ -345,27 +341,19 @@ local function decode_string()
     while true do
         i = string_find(statusBuf, '[%z\1-\31\\"]', i)
         if not i then
-            decode_error("expected closing quote for string")
+            decode_error "expected closing quote for string"
         end
         local x = string_byte(statusBuf, i)
         if x < 32 then
             statusPos = i
-            decode_error("control character in string")
+            decode_error "control character in string"
         end
-        if
-            x == 34 --[[ '"' ]]
-        then
+        if x == 34 --[[ '"' ]] then
             local s = string_sub(statusBuf, statusPos + 1, i - 1)
             if has_unicode_escape then
-                s = string_gsub(
-                    string_gsub(
-                        s,
-                        "\\u([dD][89aAbB]%x%x)\\u([dD][c-fC-F]%x%x)",
-                        decode_unicode_surrogate
-                    ),
-                    "\\u(%x%x%x%x)",
-                    decode_unicode_escape
-                )
+                s = string_gsub(string_gsub(s
+                , "\\u([dD][89aAbB]%x%x)\\u([dD][c-fC-F]%x%x)", decode_unicode_surrogate)
+                , "\\u(%x%x%x%x)", decode_unicode_escape)
             end
             if has_escape then
                 s = string_gsub(s, "\\.", decode_escape_map)
@@ -375,23 +363,17 @@ local function decode_string()
         end
         --assert(x == 92 --[[ "\\" ]])
         local nx = string_byte(statusBuf, i + 1)
-        if
-            nx == 117 --[[ "u" ]]
-        then
+        if nx == 117 --[[ "u" ]] then
             if not string_match(statusBuf, "^%x%x%x%x", i + 2) then
                 statusPos = i
-                decode_error("invalid unicode escape in string")
+                decode_error "invalid unicode escape in string"
             end
             has_unicode_escape = true
             i = i + 6
         else
             if not decode_escape_set[nx] then
                 statusPos = i
-                decode_error(
-                    "invalid escape char '"
-                        .. (nx and string_char(nx) or "<eol>")
-                        .. "' in string"
-                )
+                decode_error("invalid escape char '"..(nx and string_char(nx) or "<eol>").."' in string")
             end
             has_escape = true
             i = i + 2
@@ -400,21 +382,14 @@ local function decode_string()
 end
 
 local function decode_number()
-    local num, c =
-        string_match(statusBuf, "^([0-9]+%.?[0-9]*)([eE]?)", statusPos)
-    if
-        not num or string_byte(num, -1) == 0x2E --[[ "." ]]
-    then
-        decode_error("invalid number '" .. get_word() .. "'")
+    local num, c = string_match(statusBuf, "^([0-9]+%.?[0-9]*)([eE]?)", statusPos)
+    if not num or string_byte(num, -1) == 0x2E --[[ "." ]] then
+        decode_error("invalid number '"..get_word().."'")
     end
     if c ~= "" then
-        num = string_match(
-            statusBuf,
-            "^([^eE]*[eE][-+]?[0-9]+)[ \t\r\n%]},]",
-            statusPos
-        )
+        num = string_match(statusBuf, "^([^eE]*[eE][-+]?[0-9]+)[ \t\r\n%]},]", statusPos)
         if not num then
-            decode_error("invalid number '" .. get_word() .. "'")
+            decode_error("invalid number '"..get_word().."'")
         end
     end
     statusPos = statusPos + #num
@@ -423,21 +398,13 @@ end
 
 local function decode_number_zero()
     local num, c = string_match(statusBuf, "^(.%.?[0-9]*)([eE]?)", statusPos)
-    if
-        not num
-        or string_byte(num, -1) == 0x2E --[[ "." ]]
-        or string_match(statusBuf, "^.[0-9]+", statusPos)
-    then
-        decode_error("invalid number '" .. get_word() .. "'")
+    if not num or string_byte(num, -1) == 0x2E --[[ "." ]] or string_match(statusBuf, "^.[0-9]+", statusPos) then
+        decode_error("invalid number '"..get_word().."'")
     end
     if c ~= "" then
-        num = string_match(
-            statusBuf,
-            "^([^eE]*[eE][-+]?[0-9]+)[ \t\r\n%]},]",
-            statusPos
-        )
+        num = string_match(statusBuf, "^([^eE]*[eE][-+]?[0-9]+)[ \t\r\n%]},]", statusPos)
         if not num then
-            decode_error("invalid number '" .. get_word() .. "'")
+            decode_error("invalid number '"..get_word().."'")
         end
     end
     statusPos = statusPos + #num
@@ -454,12 +421,12 @@ local function decode_number_negative()
             return -decode_number()
         end
     end
-    decode_error("invalid number '" .. get_word() .. "'")
+    decode_error("invalid number '"..get_word().."'")
 end
 
 local function decode_true()
     if string_sub(statusBuf, statusPos, statusPos + 3) ~= "true" then
-        decode_error("invalid literal '" .. get_word() .. "'")
+        decode_error("invalid literal '"..get_word().."'")
     end
     statusPos = statusPos + 4
     return true
@@ -467,7 +434,7 @@ end
 
 local function decode_false()
     if string_sub(statusBuf, statusPos, statusPos + 4) ~= "false" then
-        decode_error("invalid literal '" .. get_word() .. "'")
+        decode_error("invalid literal '"..get_word().."'")
     end
     statusPos = statusPos + 5
     return false
@@ -475,7 +442,7 @@ end
 
 local function decode_null()
     if string_sub(statusBuf, statusPos, statusPos + 3) ~= "null" then
-        decode_error("invalid literal '" .. get_word() .. "'")
+        decode_error("invalid literal '"..get_word().."'")
     end
     statusPos = statusPos + 4
     return json.null
@@ -483,7 +450,7 @@ end
 
 local function decode_array()
     statusPos = statusPos + 1
-    if consume_byte("^[ \t\r\n]*%]") then
+    if consume_byte "^[ \t\r\n]*%]" then
         return {}
     end
     local res = {}
@@ -495,7 +462,7 @@ end
 
 local function decode_object()
     statusPos = statusPos + 1
-    if consume_byte("^[ \t\r\n]*}") then
+    if consume_byte "^[ \t\r\n]*}" then
         return json.createEmptyObject()
     end
     local res = {}
@@ -506,30 +473,26 @@ local function decode_object()
 end
 
 local decode_uncompleted_map = {
-    [string_byte('"')] = decode_string,
-    [string_byte("0")] = decode_number_zero,
-    [string_byte("1")] = decode_number,
-    [string_byte("2")] = decode_number,
-    [string_byte("3")] = decode_number,
-    [string_byte("4")] = decode_number,
-    [string_byte("5")] = decode_number,
-    [string_byte("6")] = decode_number,
-    [string_byte("7")] = decode_number,
-    [string_byte("8")] = decode_number,
-    [string_byte("9")] = decode_number,
-    [string_byte("-")] = decode_number_negative,
-    [string_byte("t")] = decode_true,
-    [string_byte("f")] = decode_false,
-    [string_byte("n")] = decode_null,
-    [string_byte("[")] = decode_array,
-    [string_byte("{")] = decode_object,
+    [string_byte '"'] = decode_string,
+    [string_byte "0"] = decode_number_zero,
+    [string_byte "1"] = decode_number,
+    [string_byte "2"] = decode_number,
+    [string_byte "3"] = decode_number,
+    [string_byte "4"] = decode_number,
+    [string_byte "5"] = decode_number,
+    [string_byte "6"] = decode_number,
+    [string_byte "7"] = decode_number,
+    [string_byte "8"] = decode_number,
+    [string_byte "9"] = decode_number,
+    [string_byte "-"] = decode_number_negative,
+    [string_byte "t"] = decode_true,
+    [string_byte "f"] = decode_false,
+    [string_byte "n"] = decode_null,
+    [string_byte "["] = decode_array,
+    [string_byte "{"] = decode_object,
 }
 local function unexpected_character()
-    decode_error(
-        "unexpected character '"
-            .. string_sub(statusBuf, statusPos, statusPos)
-            .. "'"
-    )
+    decode_error("unexpected character '"..string_sub(statusBuf, statusPos, statusPos).."'")
 end
 local function unexpected_eol()
     decode_error("unexpected character '<eol>'")
@@ -549,11 +512,11 @@ local function decode_item()
     local top = statusTop
     local ref = statusRef[top]
     if statusAry[top] then
-        ref[#ref + 1] = decode()
+        ref[#ref+1] = decode()
     else
-        expect_byte('^[ \t\r\n]*"')
+        expect_byte '^[ \t\r\n]*"'
         local key = decode_string()
-        expect_byte("^[ \t\r\n]*:")
+        expect_byte "^[ \t\r\n]*:"
         statusPos = statusPos + 1
         ref[key] = decode()
     end
@@ -561,23 +524,13 @@ local function decode_item()
         repeat
             local chr = next_byte()
             statusPos = statusPos + 1
-            if
-                chr == 44 --[[ "," ]]
-            then
+            if chr == 44 --[[ "," ]] then
                 return
             end
             if statusAry[statusTop] then
-                if
-                    chr ~= 93 --[[ "]" ]]
-                then
-                    decode_error("expected ']' or ','")
-                end
+                if chr ~= 93 --[[ "]" ]] then decode_error "expected ']' or ','" end
             else
-                if
-                    chr ~= 125 --[[ "}" ]]
-                then
-                    decode_error("expected '}' or ','")
-                end
+                if chr ~= 125 --[[ "}" ]] then decode_error "expected '}' or ','" end
             end
             statusTop = statusTop - 1
         until statusTop == 0
@@ -586,7 +539,7 @@ end
 
 function json.decode(str)
     if type(str) ~= "string" then
-        error("expected argument of type string, got " .. type(str))
+        error("expected argument of type string, got "..type(str))
     end
     statusBuf = str
     statusPos = 1
@@ -596,7 +549,7 @@ function json.decode(str)
         decode_item()
     end
     if string_find(statusBuf, "[^ \t\r\n]", statusPos) then
-        decode_error("trailing garbage")
+        decode_error "trailing garbage"
     end
     return res
 end
