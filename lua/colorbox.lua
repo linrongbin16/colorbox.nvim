@@ -124,6 +124,10 @@ local function _primary_score(color_name, spec)
         handle2,
         normalized_color,
         { ignorecase = true }
+    ) or strings.endswith(handle1, normalized_color, { ignorecase = true }) or strings.endswith(
+        handle2,
+        normalized_color,
+        { ignorecase = true }
     )
     logger:debug(
         "|_primary_score| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
