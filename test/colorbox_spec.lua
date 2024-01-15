@@ -71,11 +71,11 @@ describe("colorbox", function()
                 assert_false(actual)
             end
         end)
-        it("_any_filter", function()
+        it("_all_filter", function()
             local ColorNameToColorSpecsMap =
                 db.get_color_name_to_color_specs_map()
             for color, spec in pairs(ColorNameToColorSpecsMap) do
-                local actual = colorbox._any_filter({
+                local actual = colorbox._all_filter({
                     function(c, s)
                         return true
                     end,
@@ -87,7 +87,7 @@ describe("colorbox", function()
                 assert_true(actual)
             end
             for color, spec in pairs(ColorNameToColorSpecsMap) do
-                local actual = colorbox._any_filter({
+                local actual = colorbox._all_filter({
                     function(c, s)
                         return false
                     end,
