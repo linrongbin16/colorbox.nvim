@@ -42,9 +42,9 @@ local Defaults = {
     --- @type colorbox.FilterConfig?
     filter = {
         "primary",
-        function(color, spec)
-            return spec.github_stars >= 800
-        end,
+        -- function(color, spec)
+        --     return spec.github_stars >= 800
+        -- end,
     },
 
     --- @type table<string, function>
@@ -99,32 +99,65 @@ end
 
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
---- @return boolean
-local function _builtin_filter_primary(color_name, spec)
+--- @return integer
+local function _primary_score(color_name, spec)
     local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+
+    -- unique
     local unique = #spec.color_names <= 1
+
+    -- shortest
     local current_name_len = string.len(color_name)
     local minimal_name_len = _minimal_color_name_len(spec)
     local shortest = current_name_len == minimal_name_len
+
+    -- match
     local handle_splits = strings.split(spec.handle, "/")
+    local handle1 = handle_splits[1]:gsub("%-", "_")
+    local handle2 = handle_splits[2]:gsub("%-", "_")
+    local normalized_color = color_name:gsub("%-", "_")
     local matched = strings.startswith(
-        handle_splits[1],
-        color_name,
+        handle1,
+        normalized_color,
         { ignorecase = true }
     ) or strings.startswith(
-        handle_splits[2],
-        color_name,
+        handle2,
+        normalized_color,
         { ignorecase = true }
     )
     logger:debug(
-        "|_builtin_filter_primary| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
+        "|_primary_score| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
         vim.inspect(unique),
         vim.inspect(shortest),
         vim.inspect(current_name_len),
         vim.inspect(minimal_name_len),
         vim.inspect(matched)
     )
-    return unique or shortest or matched
+    local n = 0
+    if unique then
+        n = n + 3
+    end
+    if matched then
+        n = n + 2
+    end
+    if shortest then
+        n = n + 1
+    end
+    return n
+end
+
+--- @param color_name string
+--- @param spec colorbox.ColorSpec
+--- @return boolean
+local function _builtin_filter_primary(color_name, spec)
+    local color_score = _primary_score(color_name, spec)
+    for _, other_color in ipairs(spec.color_names) do
+        local other_score = _primary_score(other_color, spec)
+        if color_score < other_score then
+            return false
+        end
+    end
+    return true
 end
 
 --- @param f colorbox.BuiltinFilterConfig
