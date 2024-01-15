@@ -47,7 +47,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --config-path .stylua.toml ./lua ./test
+          args: --config-path .stylua.toml ./lua ./spec
       - uses: stefanzweifel/git-auto-commit-action@v4
         if: ${{ github.ref != 'refs/heads/main' }}
         with:
@@ -71,15 +71,36 @@ jobs:
         with:
           luaVersion: "luajit-2.1.0-beta3"
       - uses: leafo/gh-actions-luarocks@v4
-      - name: Run test cases
+      - name: Run Tests
+        shell: bash
+        run: |
+          luarocks install luacheck
+          luarocks install vusted
+          vusted --shuffle ./spec
+  code_coverage:
+    name: Code Coverage
+    needs:
+      - luacheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rhysd/action-setup-vim@v1
+        id: vim
+        with:
+          neovim: true
+          version: stable
+      - uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "luajit-2.1.0-beta3"
+      - uses: leafo/gh-actions-luarocks@v4
+      - name: Run Tests
         shell: bash
         run: |
           luarocks install luacheck
           luarocks install luacov
-          luarocks install cluacov
           luarocks install vusted
-          vusted --coverage --shuffle ./test
-      - name: Generate coverage reports
+          vusted --coverage ./spec
+      - name: Generate Coverage Report
         shell: bash
         run: |
           echo "ls ."
