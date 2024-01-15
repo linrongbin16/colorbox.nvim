@@ -40,7 +40,7 @@ describe("colorbox", function()
                         vim.inspect(actual)
                     )
                 )
-                assert_eq(actual, input_color ~= c)
+                assert_eq(actual, input_color == c)
             end
         end)
     end)

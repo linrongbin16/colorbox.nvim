@@ -143,7 +143,7 @@ local function _function_filter(f, color_name, spec)
         else
             logging
                 .get("colorbox")
-                :warn(
+                :err(
                     "failed to invoke function filter, please check your config!"
                 )
         end
@@ -211,7 +211,7 @@ local function _init()
     for _, color_name in pairs(ColorNamesList) do
         local spec = ColorNameToColorSpecsMap[color_name]
         local pack_exist = uv.fs_stat(spec.full_pack_path) ~= nil
-        if not _filter(color_name, spec) and pack_exist then
+        if _filter(color_name, spec) and pack_exist then
             table.insert(FilteredColorNamesList, color_name)
         end
     end
