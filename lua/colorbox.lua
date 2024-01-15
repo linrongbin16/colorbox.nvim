@@ -42,9 +42,9 @@ local Defaults = {
     --- @type colorbox.FilterConfig?
     filter = {
         "primary",
-        -- function(color, spec)
-        --     return spec.github_stars >= 800
-        -- end,
+        function(color, spec)
+            return spec.github_stars >= 800
+        end,
     },
 
     --- @type table<string, function>
