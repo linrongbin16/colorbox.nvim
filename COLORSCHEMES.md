@@ -1,20 +1,20 @@
 
-ColorSchemes List (41)
+ColorSchemes List (43)
 ======================
   
-- [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim) (stars: 4500, last update: 2023-10-25)  
+- [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim) (stars: 4600, last update: 2023-10-25)  
   - tokyonight  
   - tokyonight-day  
   - tokyonight-moon  
   - tokyonight-night  
   - tokyonight-storm  
-- [catppuccin/nvim](https://github.com/catppuccin/nvim) (stars: 3900, last update: 2023-12-31)  
+- [catppuccin/nvim](https://github.com/catppuccin/nvim) (stars: 4000, last update: 2023-12-31)  
   - catppuccin  
   - catppuccin-frappe  
   - catppuccin-latte  
   - catppuccin-macchiato  
   - catppuccin-mocha  
-- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) (stars: 3100, last update: 2023-10-02)  
+- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) (stars: 3200, last update: 2023-10-02)  
   - kanagawa  
   - kanagawa-dragon  
   - kanagawa-lotus  
@@ -30,7 +30,7 @@ ColorSchemes List (41)
   - seoul256-light  
 - [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material) (stars: 1600, last update: 2023-11-22)  
   - gruvbox-material  
-- [rose-pine/neovim](https://github.com/rose-pine/neovim) (stars: 1500, last update: 2024-01-07)  
+- [rose-pine/neovim](https://github.com/rose-pine/neovim) (stars: 1600, last update: 2024-01-13)  
   - rose-pine  
   - rose-pine-dawn  
   - rose-pine-main  
@@ -45,7 +45,7 @@ ColorSchemes List (41)
   - onedark  
 - [jacoborus/tender.vim](https://github.com/jacoborus/tender.vim) (stars: 1085, last update: 2021-05-24)  
   - tender  
-- [lifepillar/vim-solarized8](https://github.com/lifepillar/vim-solarized8) (stars: 955, last update: 2023-08-13)  
+- [lifepillar/vim-solarized8](https://github.com/lifepillar/vim-solarized8) (stars: 955, last update: 2024-01-08)  
   - solarized8  
   - solarized8_flat  
   - solarized8_high  
@@ -53,7 +53,7 @@ ColorSchemes List (41)
 - [mhartington/oceanic-next](https://github.com/mhartington/oceanic-next) (stars: 1100, last update: 2023-05-01)  
   - OceanicNext  
   - OceanicNextLight  
-- [projekt0n/github-nvim-theme](https://github.com/projekt0n/github-nvim-theme) (stars: 1800, last update: 2024-01-04)  
+- [projekt0n/github-nvim-theme](https://github.com/projekt0n/github-nvim-theme) (stars: 1900, last update: 2024-01-04)  
   - github_dark  
   - github_dark_colorblind  
   - github_dark_default  
@@ -68,22 +68,22 @@ ColorSchemes List (41)
   - github_light_tritanopia  
 - [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim) (stars: 1400, last update: 2024-01-01)  
   - gruvbox  
-- [tomasiser/vim-code-dark](https://github.com/tomasiser/vim-code-dark) (stars: 882, last update: 2023-11-11)  
+- [tomasiser/vim-code-dark](https://github.com/tomasiser/vim-code-dark) (stars: 883, last update: 2023-11-11)  
   - codedark  
 - [jnurmine/zenburn](https://github.com/jnurmine/zenburn) (stars: 860, last update: 2022-08-08)  
   - zenburn  
 - [romainl/apprentice](https://github.com/romainl/apprentice) (stars: 865, last update: 2023-02-15)  
   - apprentice  
-- [marko-cerovac/material.nvim](https://github.com/marko-cerovac/material.nvim) (stars: 857, last update: 2023-12-13)  
+- [marko-cerovac/material.nvim](https://github.com/marko-cerovac/material.nvim) (stars: 862, last update: 2023-12-13)  
   - material  
   - material-darker  
   - material-deep-ocean  
   - material-lighter  
   - material-oceanic  
   - material-palenight  
-- [nyoom-engineering/oxocarbon.nvim](https://github.com/nyoom-engineering/oxocarbon.nvim) (stars: 835, last update: 2023-11-27)  
+- [nyoom-engineering/oxocarbon.nvim](https://github.com/nyoom-engineering/oxocarbon.nvim) (stars: 843, last update: 2023-11-27)  
   - oxocarbon  
-- [sainnhe/edge](https://github.com/sainnhe/edge) (stars: 800, last update: 2023-10-24)  
+- [sainnhe/edge](https://github.com/sainnhe/edge) (stars: 807, last update: 2023-10-24)  
   - edge  
 - [raphamorim/lucario](https://github.com/raphamorim/lucario) (stars: 781, last update: 2024-01-02)  
   - lucario  
@@ -93,17 +93,17 @@ ColorSchemes List (41)
   - spaceduck  
 - [ajmwagar/vim-deus](https://github.com/ajmwagar/vim-deus) (stars: 726, last update: 2021-03-28)  
   - deus  
-- [bluz71/vim-nightfly-colors](https://github.com/bluz71/vim-nightfly-colors) (stars: 714, last update: 2024-01-07)  
+- [bluz71/vim-nightfly-colors](https://github.com/bluz71/vim-nightfly-colors) (stars: 717, last update: 2024-01-07)  
   - nightfly  
-- [shaunsingh/nord.nvim](https://github.com/shaunsingh/nord.nvim) (stars: 702, last update: 2023-12-20)  
+- [shaunsingh/nord.nvim](https://github.com/shaunsingh/nord.nvim) (stars: 709, last update: 2023-12-20)  
   - nord  
-- [bluz71/vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) (stars: 686, last update: 2024-01-07)  
+- [bluz71/vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) (stars: 697, last update: 2024-01-07)  
   - moonfly  
 - [fenetikm/falcon](https://github.com/fenetikm/falcon) (stars: 680, last update: 2023-03-12)  
   - falcon  
 - [drewtempelmeyer/palenight.vim](https://github.com/drewtempelmeyer/palenight.vim) (stars: 646, last update: 2023-04-27)  
   - palenight  
-- [embark-theme/vim](https://github.com/embark-theme/vim) (stars: 600, last update: 2023-12-20)  
+- [embark-theme/vim](https://github.com/embark-theme/vim) (stars: 604, last update: 2024-01-14)  
   - embark  
 - [preservim/vim-colors-pencil](https://github.com/preservim/vim-colors-pencil) (stars: 593, last update: 2022-05-07)  
   - pencil  
@@ -111,7 +111,7 @@ ColorSchemes List (41)
   - challenger_deep  
 - [liuchengxu/space-vim-dark](https://github.com/liuchengxu/space-vim-dark) (stars: 563, last update: 2023-11-04)  
   - space-vim-dark  
-- [savq/melange-nvim](https://github.com/savq/melange-nvim) (stars: 548, last update: 2023-10-19)  
+- [savq/melange-nvim](https://github.com/savq/melange-nvim) (stars: 559, last update: 2023-10-19)  
   - melange  
 - [lunacookies/vim-colors-xcode](https://github.com/lunacookies/vim-colors-xcode) (stars: 536, last update: 2023-11-06)  
   - xcode  
@@ -121,7 +121,7 @@ ColorSchemes List (41)
   - xcodelight  
   - xcodelighthc  
   - xcodewwdc  
-- [mcchrish/zenbones.nvim](https://github.com/mcchrish/zenbones.nvim) (stars: 513, last update: 2024-01-06)  
+- [mcchrish/zenbones.nvim](https://github.com/mcchrish/zenbones.nvim) (stars: 532, last update: 2024-01-06)  
   - duckbones  
   - forestbones  
   - kanagawabones  
@@ -135,5 +135,15 @@ ColorSchemes List (41)
   - zenbones  
   - zenburned  
   - zenwritten  
-- [rigellute/rigel](https://github.com/rigellute/rigel) (stars: 507, last update: 2021-10-04)  
-  - rigel
+- [rigellute/rigel](https://github.com/rigellute/rigel) (stars: 507, last update: 2024-01-11)  
+  - rigel  
+- [Mofiqul/vscode.nvim](https://github.com/Mofiqul/vscode.nvim) (stars: 569, last update: 2023-12-21)  
+  - vscode  
+- [EdenEast/nightfox.nvim](https://github.com/EdenEast/nightfox.nvim) (stars: 2500, last update: 2024-01-11)  
+  - carbonfox  
+  - dawnfox  
+  - dayfox  
+  - duskfox  
+  - nightfox  
+  - nordfox  
+  - terafox
