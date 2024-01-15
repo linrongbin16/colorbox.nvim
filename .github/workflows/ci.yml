@@ -31,7 +31,6 @@ jobs:
           rm -rf ./lua/colorbox/commons
           cp -rf ~/.commons.nvim/lua/commons ./lua/colorbox/
           cp ~/.commons.nvim/version.txt ./lua/colorbox/commons/version.txt
-          cd ./lua/colorbox/commons
           find ./lua/colorbox/commons -type f -name '*.lua' -exec sed -i 's/"commons./"colorbox.commons./g' {} \;
       - uses: stevearc/nvim-typecheck-action@v1
         with:
