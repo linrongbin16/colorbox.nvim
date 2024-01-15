@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/linrongbin16/colorbox.nvim/compare/v1.14.2...v2.0.0) (2024-01-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* **filter:** enable color when filter returns true ([#158](https://github.com/linrongbin16/colorbox.nvim/issues/158))
+
+### Performance Improvements
+
+* **filter:** enable color when filter returns true ([#158](https://github.com/linrongbin16/colorbox.nvim/issues/158)) ([08b9d4b](https://github.com/linrongbin16/colorbox.nvim/commit/08b9d4b1439348bd11e625a98dbfaedbee1423cf))
+
 ## [1.14.2](https://github.com/linrongbin16/colorbox.nvim/compare/v1.14.1...v1.14.2) (2023-12-30)
 
 
