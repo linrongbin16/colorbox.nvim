@@ -32,10 +32,10 @@ local Defaults = {
     -- builtin filter
     --- @alias colorbox.BuiltinFilterConfig "primary"
     ---
-    -- function-based filter, disabled if function return true.
+    -- function-based filter, enabled if function returns true.
     --- @alias colorbox.FunctionFilterConfig fun(color:string, spec:colorbox.ColorSpec):boolean
     ---
-    ---list-based filter, disabled if any of filter hit the conditions.
+    -- list-based any filter, enabled if any of inside filters returns true.
     --- @alias colorbox.AnyFilterConfig (colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig)[]
     ---
     --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AnyFilterConfig
@@ -43,7 +43,7 @@ local Defaults = {
     filter = {
         "primary",
         function(color, spec)
-            return spec.github_stars < 800
+            return spec.github_stars >= 800
         end,
     },
 
@@ -117,7 +117,7 @@ local function _builtin_filter_primary(color_name, spec)
         vim.inspect(minimal_name_len),
         vim.inspect(matched)
     )
-    return not unique and not shortest and not matched
+    return unique or shortest or matched
 end
 
 --- @param f colorbox.BuiltinFilterConfig
