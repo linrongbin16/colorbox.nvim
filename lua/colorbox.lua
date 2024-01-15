@@ -160,18 +160,18 @@ local function _all_filter(f, color_name, spec)
         for _, f1 in ipairs(f) do
             if type(f1) == "string" then
                 local result = _builtin_filter(f1, color_name, spec)
-                if result then
+                if not result then
                     return result
                 end
             elseif type(f1) == "function" then
                 local result = _function_filter(f1, color_name, spec)
-                if result then
+                if not result then
                     return result
                 end
             end
         end
     end
-    return false
+    return true
 end
 
 --- @param color_name string
@@ -669,6 +669,12 @@ local function _info(args)
     apis.set_buf_option(bufnr, "bufhidden", "wipe")
     apis.set_buf_option(bufnr, "buflisted", false)
     apis.set_buf_option(bufnr, "filetype", "markdown")
+    vim.keymap.set(
+        { "n" },
+        "q",
+        ":\\<C-U>quit<CR>",
+        { silent = true, buffer = bufnr }
+    )
     local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
     local HandleToColorSpecsMap =
