@@ -24,9 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: lunarmodules/luacheck@v1
-        with:
-          args: lua --config .luacheckrc
       - name: Install commons.nvim
         if: ${{ github.ref != 'refs/heads/main' }}
         run: |
@@ -37,6 +34,15 @@ jobs:
           cp ~/.commons.nvim/version.txt ./lua/colorbox/commons/version.txt
           cd ./lua/colorbox/commons
           find . -type f -name '*.lua' -exec sed -i 's/"commons./"colorbox.commons./g' {} \;
+      - uses: stevearc/nvim-typecheck-action@v1
+        with:
+          path: lua
+          level: Information
+          configpath: ".luarc.json"
+          neodev-version: stable
+      - uses: lunarmodules/luacheck@v1
+        with:
+          args: lua --config .luacheckrc
       - uses: JohnnyMorganz/stylua-action@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
