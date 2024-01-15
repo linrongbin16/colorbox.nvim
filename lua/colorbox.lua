@@ -107,8 +107,15 @@ local function _builtin_filter_primary(color_name, spec)
     local minimal_name_len = _minimal_color_name_len(spec)
     local shortest = current_name_len == minimal_name_len
     local handle_splits = strings.split(spec.handle, "/")
-    local matched = handle_splits[1]:lower() == color_name:lower()
-        or handle_splits[2]:lower() == color_name:lower()
+    local matched = strings.startswith(
+        handle_splits[1],
+        color_name,
+        { ignorecase = true }
+    ) or strings.startswith(
+        handle_splits[2],
+        color_name,
+        { ignorecase = true }
+    )
     logger:debug(
         "|_builtin_filter_primary| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
         vim.inspect(unique),
