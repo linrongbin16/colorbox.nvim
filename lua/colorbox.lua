@@ -752,7 +752,7 @@ local function _info(args)
 
     vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, {
         string.format(
-            "# ColorSchemes List (total(colors/plugins): %d/%d, enabled(colors/plugins): %d/%d)",
+            "# ColorSchemes List, total: %d(colors)/%d(plugins), enabled: %d(colors)/%d(plugins)",
             total_colors,
             total_plugins,
             enabled_colors,
