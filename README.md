@@ -39,7 +39,7 @@ It use offline github actions to weekly collect and update the most popular Vim/
 >
 > with below conditions:
 >
-> 1. Github stars &ge; 500 (default config only enables stars &ge; 800, please modify the `filter` option to choose any colors (see [Configuration](#-configuration))).
+> 1. Github stars &ge; 500 (default config only enables stars &ge; 800, please modify the `filter` option to choose any colors, see [Configuration](#-configuration)).
 > 2. Last git commit in 3 years.
 > 3. For multiple plugins that contain the same color name, choose the one in following rules:
 >    1. **Awesome-neovim** wins **vimcolorsheme**, since they usually has modern Neovim features (lua, lsp, treesitter) and support more third-party plugins.
@@ -197,12 +197,13 @@ You can use command `Colorbox` to control the player with below subcommands:
 
 ```lua
 require('colorbox').setup({
-    -- Disable those colors you don't want from the candidates list.
+    -- Only enable those colors you want from the candidates list.
+    -- Enable color when the (all of those) filter returns `true`.
     -- By default only enable primary colorscheme and GitHub stars >= 800.
     filter = {
         "primary",
         function(color, spec)
-            return spec.github_stars < 800
+            return spec.github_stars >= 800
         end,
     },
 
@@ -247,7 +248,7 @@ require('colorbox').setup({
 
 When choosing a colorscheme, this plugin will run following steps:
 
-- Run the filter, disable those colors you don't want from candidates list. See [Filter](#filter).
+- Run the filter, only enable those colors you want from candidates list. See [Filter](#filter).
 - Run the policy at a proper timing, and choose a colorscheme. See [Timing & Policy](#timing--policy).
 - Refresh the `background` option. See [Background](#background).
 - Run the `colorscheme` command to actually change to the colorscheme.
@@ -277,8 +278,8 @@ There're 3 types of filter configs:
   >
   > Returns:
   >
-  > - To disable a color, returns `true`.
-  > - To enable a color, returns `false`.
+  > - To enable a color, returns `true`.
+  > - To disable a color, returns `false`.
   >
   > ```lua
   > --- @class colorbox.ColorSpec
@@ -295,7 +296,7 @@ There're 3 types of filter configs:
   > --- @field full_pack_path string "Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"
   > ```
 
-- List filters: A lua list that contains multiple other filters. A color will be disabled if any of those filters returns true.
+- List filters: A lua list that contains multiple other filters. A color will only be enabled if **_all_** of those filters returns true.
 
 ### Timing & Policy
 

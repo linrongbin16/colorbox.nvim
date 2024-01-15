@@ -35,10 +35,10 @@ local Defaults = {
     -- function-based filter, enabled if function returns true.
     --- @alias colorbox.FunctionFilterConfig fun(color:string, spec:colorbox.ColorSpec):boolean
     ---
-    -- list-based any filter, enabled if any of inside filters returns true.
-    --- @alias colorbox.AnyFilterConfig (colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig)[]
+    -- list-based all of filter, a color is enabled if all of inside filters returns true.
+    --- @alias colorbox.AllFilterConfig (colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig)[]
     ---
-    --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AnyFilterConfig
+    --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AllFilterConfig
     --- @type colorbox.FilterConfig?
     filter = {
         "primary",
@@ -151,11 +151,11 @@ local function _function_filter(f, color_name, spec)
     return false
 end
 
---- @param f colorbox.AnyFilterConfig
+--- @param f colorbox.AllFilterConfig
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-local function _any_filter(f, color_name, spec)
+local function _all_filter(f, color_name, spec)
     if type(f) == "table" then
         for _, f1 in ipairs(f) do
             if type(f1) == "string" then
@@ -183,7 +183,7 @@ local function _filter(color_name, spec)
     elseif type(Configs.filter) == "function" then
         return _function_filter(Configs.filter, color_name, spec)
     elseif type(Configs.filter) == "table" then
-        return _any_filter(Configs.filter, color_name, spec)
+        return _all_filter(Configs.filter, color_name, spec)
     end
     return false
 end
@@ -872,7 +872,7 @@ local M = {
     _builtin_filter_primary = _builtin_filter_primary,
     _builtin_filter = _builtin_filter,
     _function_filter = _function_filter,
-    _any_filter = _any_filter,
+    _all_filter = _all_filter,
     _filter = _filter,
 
     -- misc
