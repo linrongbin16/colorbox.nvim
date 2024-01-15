@@ -32,18 +32,18 @@ local Defaults = {
     -- builtin filter
     --- @alias colorbox.BuiltinFilterConfig "primary"
     ---
-    -- function-based filter, disabled if function return true.
+    -- function-based filter, enabled if function returns true.
     --- @alias colorbox.FunctionFilterConfig fun(color:string, spec:colorbox.ColorSpec):boolean
     ---
-    ---list-based filter, disabled if any of filter hit the conditions.
-    --- @alias colorbox.AnyFilterConfig (colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig)[]
+    -- list-based all of filter, a color is enabled if all of inside filters returns true.
+    --- @alias colorbox.AllFilterConfig (colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig)[]
     ---
-    --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AnyFilterConfig
+    --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AllFilterConfig
     --- @type colorbox.FilterConfig?
     filter = {
         "primary",
         function(color, spec)
-            return spec.github_stars < 800
+            return spec.github_stars >= 800
         end,
     },
 
@@ -99,25 +99,69 @@ end
 
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
---- @return boolean
-local function _builtin_filter_primary(color_name, spec)
+--- @return integer
+local function _primary_score(color_name, spec)
     local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+
+    -- unique
     local unique = #spec.color_names <= 1
+
+    -- shortest
     local current_name_len = string.len(color_name)
     local minimal_name_len = _minimal_color_name_len(spec)
     local shortest = current_name_len == minimal_name_len
+
+    -- match
     local handle_splits = strings.split(spec.handle, "/")
-    local matched = handle_splits[1]:lower() == color_name:lower()
-        or handle_splits[2]:lower() == color_name:lower()
+    local handle1 = handle_splits[1]:gsub("%-", "_")
+    local handle2 = handle_splits[2]:gsub("%-", "_")
+    local normalized_color = color_name:gsub("%-", "_")
+    local matched = strings.startswith(
+        handle1,
+        normalized_color,
+        { ignorecase = true }
+    ) or strings.startswith(
+        handle2,
+        normalized_color,
+        { ignorecase = true }
+    ) or strings.endswith(handle1, normalized_color, { ignorecase = true }) or strings.endswith(
+        handle2,
+        normalized_color,
+        { ignorecase = true }
+    )
     logger:debug(
-        "|_builtin_filter_primary| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
+        "|_primary_score| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
         vim.inspect(unique),
         vim.inspect(shortest),
         vim.inspect(current_name_len),
         vim.inspect(minimal_name_len),
         vim.inspect(matched)
     )
-    return not unique and not shortest and not matched
+    local n = 0
+    if unique then
+        n = n + 3
+    end
+    if matched then
+        n = n + 2
+    end
+    if shortest then
+        n = n + 1
+    end
+    return n
+end
+
+--- @param color_name string
+--- @param spec colorbox.ColorSpec
+--- @return boolean
+local function _builtin_filter_primary(color_name, spec)
+    local color_score = _primary_score(color_name, spec)
+    for _, other_color in ipairs(spec.color_names) do
+        local other_score = _primary_score(other_color, spec)
+        if color_score < other_score then
+            return false
+        end
+    end
+    return true
 end
 
 --- @param f colorbox.BuiltinFilterConfig
@@ -143,7 +187,7 @@ local function _function_filter(f, color_name, spec)
         else
             logging
                 .get("colorbox")
-                :warn(
+                :err(
                     "failed to invoke function filter, please check your config!"
                 )
         end
@@ -151,27 +195,27 @@ local function _function_filter(f, color_name, spec)
     return false
 end
 
---- @param f colorbox.AnyFilterConfig
+--- @param f colorbox.AllFilterConfig
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-local function _any_filter(f, color_name, spec)
+local function _all_filter(f, color_name, spec)
     if type(f) == "table" then
         for _, f1 in ipairs(f) do
             if type(f1) == "string" then
                 local result = _builtin_filter(f1, color_name, spec)
-                if result then
+                if not result then
                     return result
                 end
             elseif type(f1) == "function" then
                 local result = _function_filter(f1, color_name, spec)
-                if result then
+                if not result then
                     return result
                 end
             end
         end
     end
-    return false
+    return true
 end
 
 --- @param color_name string
@@ -183,7 +227,7 @@ local function _filter(color_name, spec)
     elseif type(Configs.filter) == "function" then
         return _function_filter(Configs.filter, color_name, spec)
     elseif type(Configs.filter) == "table" then
-        return _any_filter(Configs.filter, color_name, spec)
+        return _all_filter(Configs.filter, color_name, spec)
     end
     return false
 end
@@ -211,7 +255,7 @@ local function _init()
     for _, color_name in pairs(ColorNamesList) do
         local spec = ColorNameToColorSpecsMap[color_name]
         local pack_exist = uv.fs_stat(spec.full_pack_path) ~= nil
-        if not _filter(color_name, spec) and pack_exist then
+        if _filter(color_name, spec) and pack_exist then
             table.insert(FilteredColorNamesList, color_name)
         end
     end
@@ -669,6 +713,12 @@ local function _info(args)
     apis.set_buf_option(bufnr, "bufhidden", "wipe")
     apis.set_buf_option(bufnr, "buflisted", false)
     apis.set_buf_option(bufnr, "filetype", "markdown")
+    vim.keymap.set(
+        { "n" },
+        "q",
+        ":\\<C-U>quit<CR>",
+        { silent = true, buffer = bufnr }
+    )
     local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
     local HandleToColorSpecsMap =
@@ -702,7 +752,7 @@ local function _info(args)
 
     vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, {
         string.format(
-            "# ColorSchemes List (total(colors/plugins): %d/%d, enabled(colors/plugins): %d/%d)",
+            "# ColorSchemes List, total: %d(colors)/%d(plugins), enabled: %d(colors)/%d(plugins)",
             total_colors,
             total_plugins,
             enabled_colors,
@@ -872,7 +922,7 @@ local M = {
     _builtin_filter_primary = _builtin_filter_primary,
     _builtin_filter = _builtin_filter,
     _function_filter = _function_filter,
-    _any_filter = _any_filter,
+    _all_filter = _all_filter,
     _filter = _filter,
 
     -- misc

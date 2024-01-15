@@ -1,4 +1,19 @@
 {
-  "diagnostics.globals": ["vim", "describe", "before_each", "it", "jit"],
+  "diagnostics.globals": [
+    "vim",
+    "describe",
+    "before_each",
+    "it",
+    "jit",
+    "utf8"
+  ],
+  "diagnostics.disable": [
+    "undefined-field",
+    "inject-field",
+    "deprecated",
+    "luadoc-miss-module-name",
+    "undefined-doc-name"
+  ],
+  "runtime.version": "LuaJIT",
   "workspace.checkThirdParty": "Disable"
 }
