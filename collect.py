@@ -151,7 +151,7 @@ class ColorSpecConfig:
         return f"<ColorSpecConfig git_branch:{self.git_branch if isinstance(self.git_branch, str) else 'None'}>"
 
 
-REPO_META_CONFIG = {"lifepillar/vim-solarized8": ColorSpecConfig(git_branch="neovim")}
+REPO_META_CONFIG = {"lifepillar/vim-solarized8": ColorSpecConfig(git_branch="neovim"), "lifepillar/vim-gruvbox8": ColorSpecConfig(git_branch="neovim")}
 
 
 class ColorSpec:
