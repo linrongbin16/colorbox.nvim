@@ -627,8 +627,8 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt):
     if not skip_fetch_opt:
         vcs = VimColorSchemes()
         vcs.fetch()
-        # asn = AwesomeNeovimColorScheme()
-        # asn.fetch()
+        asn = AwesomeNeovimColorScheme()
+        asn.fetch()
         filter_color_specs()
     builder = Builder(False if debug_opt else True)
     builder.build()
