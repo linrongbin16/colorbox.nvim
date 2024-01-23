@@ -80,7 +80,7 @@ And multiple trigger timings (colorschemes don't have end time):
 
 ## ✅ Requirements
 
-- neovim &ge; 0.8.
+- neovim &ge; 0.7.
 - [git](https://git-scm.com/).
 - [rm](https://man7.org/linux/man-pages/man1/rm.1.html) (optional for `reinstall` command on Windows).
 
