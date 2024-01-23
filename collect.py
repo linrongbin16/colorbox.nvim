@@ -33,7 +33,7 @@ BLACKLIST = [
 
 
 # chrome webdriver
-WEBDRIVER_HEADLESS = False
+WEBDRIVER_HEADLESS = True
 WEBDRIVER_TIMEOUT = 30
 
 # git object
@@ -188,6 +188,7 @@ class ColorSpec:
             if isinstance(config.git_branch, str):
                 self.git_branch = config.git_branch
         self.color_names: list[str] = []
+        logging.debug(f"initialize ColorSpec:{self}")
 
     def _init_url(self, handle: str) -> str:
         handle = handle.strip()
@@ -290,6 +291,7 @@ class ColorSpec:
                 clone_cmd = f"git clone --depth=1 --single-branch --branch {self.git_branch} {self.url} {self.candidate_path}"
             else:
                 clone_cmd = f"git clone --depth=1 {self.url} {self.candidate_path}"
+            logging.debug(f"self:{self}, candidate_path:{self.candidate_path}")
             candidate_dir = pathlib.Path(f"{self.candidate_path}")
             logging.debug(
                 f"{candidate_dir} exist: {candidate_dir.exists()}, isdir: {candidate_dir.is_dir()}"
@@ -620,9 +622,9 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt):
         vcs.fetch()
         # asn = AwesomeNeovimColorScheme()
         # asn.fetch()
-    #     filter_color_specs()
-    # builder = Builder(False if debug_opt else True)
-    # builder.build()
+        filter_color_specs()
+    builder = Builder(False if debug_opt else True)
+    builder.build()
 
 
 if __name__ == "__main__":
