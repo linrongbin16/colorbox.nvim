@@ -418,19 +418,20 @@ class VimColorSchemes:
                 need_more_scan = False
                 for element in find_elements(driver, "//article[@class='card']"):
                     spec = self._parse_spec(element, page_url)
-                    logging.debug(f"vsc repo:{spec}")
+                    self.counter = self.counter + 1
+                    logging.debug(f"vsc repo-{self.counter}:{spec}")
                     if spec is None:
+                        logging.info(f"skip for parsing failure - (vcs) spec-{self.counter}:{spec}")
                         continue
                     if len(spec.handle.split("/")) != 2:
-                        logging.debug(f"skip for invalid handle - (vcs) spec:{spec}")
+                        logging.info(f"skip for invalid handle - (vcs) spec-{self.counter}:{spec}")
                         continue
                     if spec.github_stars < GITHUB_STARS:
-                        logging.debug(f"skip for lower stars - (vcs) spec:{spec}")
+                        logging.info(f"skip for lower stars - (vcs) spec-{self.counter}:{spec}")
                         continue
                     logging.info(f"fetch (vcs) spec-{self.counter}:{spec}")
                     need_more_scan = True
                     spec.save()
-                    self.counter = self.counter + 1
                 if not need_more_scan:
                     logging.debug(f"no more enough github stars, exit...")
                     break
@@ -465,15 +466,16 @@ class AwesomeNeovimColorScheme:
                 e,
                 f"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme#{tag_id}",
             )
+            self.counter = self.counter + 1
+            logging.debug(f"asn repo-{self.counter}:{spec}")
             if len(spec.handle.split("/")) != 2:
-                logging.debug(f"skip for invalid handle - (asn) spec:{spec}")
+                logging.info(f"skip for invalid handle - (asn) spec-{self.counter}:{spec}")
                 continue
             if spec.github_stars < GITHUB_STARS:
-                logging.debug(f"skip for lower stars - (asn) spec:{spec}")
+                logging.info(f"skip for lower stars - (asn) spec-{self.counter}:{spec}")
                 continue
             logging.info(f"fetch (asn) repo-{self.counter}:{spec}")
             repos.append(spec)
-            self.counter = self.counter + 1
         return repos
 
     def fetch(self) -> None:
