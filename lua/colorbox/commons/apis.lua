@@ -1,18 +1,9 @@
 local NVIM_VERSION_0_8 = false
+local NVIM_VERSION_0_9 = false
 
 do
-  if
-    vim.is_callable(vim.version)
-    and type(vim.version) == "table"
-    and vim.is_callable(vim.version.gt)
-    and vim.is_callable(vim.version.eq)
-  then
-    local _0_8 = { 0, 8, 0 }
-    NVIM_VERSION_0_8 = vim.version.gt(vim.version(), _0_8)
-      or vim.version.eq(vim.version(), _0_8)
-  else
-    NVIM_VERSION_0_8 = vim.fn.has("nvim-0.8") > 0
-  end
+  NVIM_VERSION_0_8 = require("colorbox.commons.versions").ge({ 0, 8 })
+  NVIM_VERSION_0_9 = require("colorbox.commons.versions").ge({ 0, 9 })
 end
 
 local M = {}
@@ -69,5 +60,32 @@ M.set_win_option = function(winnr, name, value)
 end
 
 -- window }
+
+-- highlight {
+
+--- @param hl string
+--- @return {fg:integer?,bg:integer?,ctermfg:integer?,ctermbg:integer?}
+M.get_hl = function(hl)
+  if NVIM_VERSION_0_9 then
+    return vim.api.nvim_get_hl(0, { name = hl, link = false })
+  else
+    local rgb_hldef = vim.api.nvim_get_hl_by_name(hl, true)
+    local cterm_hldef = vim.api.nvim_get_hl_by_name(hl, false)
+    local result = vim.tbl_deep_extend("force", rgb_hldef, {
+      ctermfg = cterm_hldef.foreground,
+      ctermbg = cterm_hldef.background,
+      cterm = cterm_hldef,
+    })
+    result.cterm.foreground = nil
+    result.cterm.background = nil
+    result.sp = result.special
+    result.special = nil
+    result.cterm.sp = result.cterm.special
+    result.cterm.special = nil
+    return result
+  end
+end
+
+-- highlight }
 
 return M
