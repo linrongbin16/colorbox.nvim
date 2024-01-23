@@ -43,8 +43,8 @@ DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S"
 DATE_FORMAT = "%Y-%m-%d"
 CANDIDATE_DIR = "candidate"
 
-if os.path.exists("db.json"):
-    os.remove("db.json")
+if os.path.exists("autoload/db.json"):
+    os.remove("autoload/db.json")
 
 
 def init_logging(level: typing.Optional[int]) -> None:
@@ -155,7 +155,7 @@ REPO_META_CONFIG = {"lifepillar/vim-solarized8": ColorSpecConfig(git_branch="neo
 
 
 class ColorSpec:
-    DB = TinyDB("db.json")
+    DB = TinyDB("autoload/db.json")
     HANDLE = "handle"
     URL = "url"
     GITHUB_STARS = "github_stars"
@@ -620,10 +620,7 @@ class Builder:
 )
 @click.option("--no-headless", "no_headless_opt", is_flag=True, help="disable headless")
 @click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetching")
-@click.option(
-    "--skip-remove-db", "skip_remove_db_opt", is_flag=True, help="skip removing db.json"
-)
-def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_remove_db_opt):
+def collect(debug_opt, no_headless_opt, skip_fetch_opt):
     global WEBDRIVER_HEADLESS
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
     logging.debug(f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}")
