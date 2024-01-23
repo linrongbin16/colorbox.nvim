@@ -30,6 +30,7 @@ BLACKLIST = [
     "mini.nvim#colorschemes",
     "olimorris/onedarkpro.nvim",
     "text-to-colorscheme",
+    "RRethy/nvim-base16",
 ]
 
 
