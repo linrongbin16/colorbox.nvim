@@ -188,6 +188,7 @@ class ColorSpec:
             if isinstance(config.git_branch, str):
                 self.git_branch = config.git_branch
         self.color_names: list[str] = []
+        logging.debug(f"initialize ColorSpec:{self}")
 
     def _init_url(self, handle: str) -> str:
         handle = handle.strip()
@@ -270,15 +271,17 @@ class ColorSpec:
     def all() -> list:
         try:
             records = ColorSpec.DB.all()
+            for i, r in enumerate(records):
+                logging.debug(f"all records-{i}:{r}")
             return [
                 ColorSpec(
-                    handle=j[ColorSpec.HANDLE],
-                    github_stars=j[ColorSpec.GITHUB_STARS],
-                    last_git_commit=datetime_fromstring(j[ColorSpec.LAST_GIT_COMMIT]),
-                    priority=j[ColorSpec.PRIORITY],
-                    source=j[ColorSpec.SOURCE],
+                    handle=r[ColorSpec.HANDLE],
+                    github_stars=r[ColorSpec.GITHUB_STARS],
+                    last_git_commit=datetime_fromstring(r[ColorSpec.LAST_GIT_COMMIT]),
+                    priority=r[ColorSpec.PRIORITY],
+                    source=r[ColorSpec.SOURCE],
                 )
-                for j in records
+                for r in records
             ]
         except:
             return []
@@ -290,6 +293,7 @@ class ColorSpec:
                 clone_cmd = f"git clone --depth=1 --single-branch --branch {self.git_branch} {self.url} {self.candidate_path}"
             else:
                 clone_cmd = f"git clone --depth=1 {self.url} {self.candidate_path}"
+            logging.debug(f"self:{self}, candidate_path:{self.candidate_path}")
             candidate_dir = pathlib.Path(f"{self.candidate_path}")
             logging.debug(
                 f"{candidate_dir} exist: {candidate_dir.exists()}, isdir: {candidate_dir.is_dir()}"
@@ -351,6 +355,9 @@ def make_driver() -> Chrome:
 
 # https://vimcolorschemes.com/top
 class VimColorSchemes:
+    def __init__(self) -> None:
+        self.counter = 1
+
     def _pages(self) -> typing.Iterable[str]:
         i = 0
         while True:
@@ -360,53 +367,70 @@ class VimColorSchemes:
                 yield f"https://vimcolorschemes.com/top/page/{i+1}"
             i += 1
 
-    def _parse_spec(self, element: WebElement) -> ColorSpec:
-        handle = "/".join(
-            element.find_element(By.XPATH, "./a[@class='card__link']")
-            .get_attribute("href")
-            .split("/")[-2:]
-        )
-        github_stars = int(
-            element.find_element(
+    def _parse_spec(
+        self, element: WebElement, source: str
+    ) -> typing.Optional[ColorSpec]:
+        logging.debug(f"parsing (vsc) spec element:{element}")
+        try:
+            url = element.find_element(
+                By.XPATH, "./a[@class='card__link']"
+            ).get_attribute("href")
+            if url.endswith("/"):
+                url = url[:-1]
+            logging.debug(f"parsing (vsc) spec handle_elem:{url}")
+            handle = "/".join(url.split("/")[-2:])
+            logging.debug(f"parsing (vsc) spec handle:{handle}")
+            github_stars = int(
+                element.find_element(
+                    By.XPATH,
+                    "./a/section/header[@class='meta-header']//div[@class='meta-header__statistic']//b",
+                ).text
+            )
+            logging.debug(f"parsing (vsc) spec github_stars:{github_stars}")
+            creates_updates = element.find_elements(
                 By.XPATH,
-                "./a/section/header[@class='meta-header']//div[@class='meta-header__statistic']//b",
-            ).text
-        )
-        creates_updates = element.find_elements(
-            By.XPATH,
-            "./a/section/footer[@class='meta-footer']//div[@class='meta-footer__column']//p[@class='meta-footer__row']",
-        )
-        last_git_commit = datetime.datetime.strptime(
-            creates_updates[1]
-            .find_element(By.XPATH, "./b/time")
-            .get_attribute("datetime"),
-            "%Y-%m-%dT%H:%M:%S.%fZ",
-        )
-        return ColorSpec(
-            handle,
-            github_stars,
-            last_git_commit=last_git_commit,
-            priority=0,
-            source="vimcolorschemes",
-        )
+                "./a/section/footer[@class='meta-footer']//div[@class='meta-footer__column']//p[@class='meta-footer__row']",
+            )
+            logging.debug(f"parsing (vsc) spec creates_updates:{creates_updates}")
+            last_git_commit = datetime.datetime.strptime(
+                creates_updates[1]
+                .find_element(By.XPATH, "./b/time")
+                .get_attribute("datetime"),
+                "%Y-%m-%dT%H:%M:%S.%fZ",
+            )
+            logging.debug(f"parsing (vsc) spec last_git_commit:{last_git_commit}")
+            return ColorSpec(
+                handle,
+                github_stars,
+                last_git_commit=last_git_commit,
+                priority=0,
+                source=source,
+            )
+        except Exception as e:
+            logging.debug(e)
+            return None
 
     def fetch(self) -> None:
         with make_driver() as driver:
             for page_url in self._pages():
                 driver.get(page_url)
+                driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
                 need_more_scan = False
                 for element in find_elements(driver, "//article[@class='card']"):
-                    spec = self._parse_spec(element)
+                    spec = self._parse_spec(element, page_url)
                     logging.debug(f"vsc repo:{spec}")
+                    if spec is None:
+                        continue
                     if len(spec.handle.split("/")) != 2:
                         logging.debug(f"skip for invalid handle - (vcs) spec:{spec}")
                         continue
                     if spec.github_stars < GITHUB_STARS:
                         logging.debug(f"skip for lower stars - (vcs) spec:{spec}")
                         continue
-                    logging.debug(f"get (vcs) spec:{spec}")
+                    logging.info(f"fetch (vcs) spec-{self.counter}:{spec}")
                     need_more_scan = True
                     spec.save()
+                    self.counter = self.counter + 1
                 if not need_more_scan:
                     logging.debug(f"no more enough github stars, exit...")
                     break
@@ -414,7 +438,10 @@ class VimColorSchemes:
 
 # https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme
 class AwesomeNeovimColorScheme:
-    def _parse_spec(self, element: WebElement) -> ColorSpec:
+    def __init__(self) -> None:
+        self.counter = 1
+
+    def _parse_spec(self, element: WebElement, source: str) -> ColorSpec:
         a = element.find_element(By.XPATH, "./a").text
         a_splits = a.split("(")
         handle = a_splits[0]
@@ -424,7 +451,7 @@ class AwesomeNeovimColorScheme:
             github_stars,
             last_git_commit=None,
             priority=100,
-            source="awesome-neovim",
+            source=source,
         )
 
     def _parse_colors_list(self, driver: Chrome, tag_id: str) -> list[ColorSpec]:
@@ -434,15 +461,19 @@ class AwesomeNeovimColorScheme:
             f"//h3[@id='{tag_id}']/following-sibling::p/following-sibling::ul",
         )
         for e in colors_group.find_elements(By.XPATH, "./li"):
-            spec = self._parse_spec(e)
+            spec = self._parse_spec(
+                e,
+                f"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme#{tag_id}",
+            )
             if len(spec.handle.split("/")) != 2:
                 logging.debug(f"skip for invalid handle - (asn) spec:{spec}")
                 continue
             if spec.github_stars < GITHUB_STARS:
                 logging.debug(f"skip for lower stars - (asn) spec:{spec}")
                 continue
-            logging.debug(f"get (asn) repo:{spec}")
+            logging.info(f"fetch (asn) repo-{self.counter}:{spec}")
             repos.append(spec)
+            self.counter = self.counter + 1
         return repos
 
     def fetch(self) -> None:
@@ -450,6 +481,7 @@ class AwesomeNeovimColorScheme:
             driver.get(
                 "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme"
             )
+            driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
             treesitter_specs = self._parse_colors_list(
                 driver, "tree-sitter-supported-colorscheme"
             )
@@ -565,7 +597,8 @@ class Builder:
                 total += 1
 
         md = MdUtils(file_name="COLORSCHEMES", title=f"ColorSchemes List ({total})")
-        for spec in ColorSpec.all():
+        all_specs = sorted(ColorSpec.all(), key=lambda s: s.github_stars, reverse=True)
+        for spec in all_specs:
             logging.info(f"collect spec:{spec}")
             color_names = spec.get_vim_color_names()
             color_names = sorted(color_names)
@@ -587,12 +620,17 @@ class Builder:
 )
 @click.option("--no-headless", "no_headless_opt", is_flag=True, help="disable headless")
 @click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetching")
-def collect(debug_opt, no_headless_opt, skip_fetch_opt):
+@click.option(
+    "--skip-remove-db", "skip_remove_db_opt", is_flag=True, help="skip removing db.json"
+)
+def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_remove_db_opt):
     global WEBDRIVER_HEADLESS
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
     logging.debug(f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}")
     if no_headless_opt:
         WEBDRIVER_HEADLESS = False
+    if not skip_remove_db_opt:
+        os.remove("db.json")
     if not skip_fetch_opt:
         vcs = VimColorSchemes()
         vcs.fetch()
