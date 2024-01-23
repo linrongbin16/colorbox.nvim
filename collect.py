@@ -392,17 +392,10 @@ class VimColorSchemes:
                 "./a/section/footer[@class='meta-footer']//div[@class='meta-footer__column']//p[@class='meta-footer__row']",
             )
             logging.debug(f"parsing (vsc) spec creates_updates:{creates_updates}")
-            last_git_commit = datetime.datetime.strptime(
-                creates_updates[1]
-                .find_element(By.XPATH, "./b/time")
-                .get_attribute("datetime"),
-                "%Y-%m-%dT%H:%M:%S.%fZ",
-            )
-            logging.debug(f"parsing (vsc) spec last_git_commit:{last_git_commit}")
             return ColorSpec(
                 handle,
                 github_stars,
-                last_git_commit=last_git_commit,
+                last_git_commit=None,
                 priority=0,
                 source=source,
             )
