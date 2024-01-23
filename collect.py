@@ -7,6 +7,7 @@ import pathlib
 import shutil
 import subprocess
 import sys
+import time
 import typing
 from dataclasses import dataclass
 
@@ -329,6 +330,7 @@ def find_element(driver: Chrome, xpath: str) -> WebElement:
     WebDriverWait(driver, WEBDRIVER_TIMEOUT).until(
         expected_conditions.presence_of_all_elements_located((By.XPATH, xpath))
     )
+    time.sleep(1.5)
     return driver.find_element(By.XPATH, xpath)
 
 
@@ -336,6 +338,7 @@ def find_elements(driver: Chrome, xpath: str) -> list[WebElement]:
     WebDriverWait(driver, WEBDRIVER_TIMEOUT).until(
         expected_conditions.presence_of_all_elements_located((By.XPATH, xpath))
     )
+    time.sleep(1.5)
     return driver.find_elements(By.XPATH, xpath)
 
 
