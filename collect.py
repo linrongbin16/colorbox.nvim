@@ -41,6 +41,9 @@ DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S"
 DATE_FORMAT = "%Y-%m-%d"
 CANDIDATE_DIR = "candidate"
 
+if os.path.exists("db.json"):
+    os.remove("db.json")
+
 
 def init_logging(level: typing.Optional[int]) -> None:
     assert isinstance(level, int) or level is None
@@ -622,8 +625,6 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_remove_db_opt):
     logging.debug(f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}")
     if no_headless_opt:
         WEBDRIVER_HEADLESS = False
-    if not skip_remove_db_opt:
-        os.remove("db.json")
     if not skip_fetch_opt:
         vcs = VimColorSchemes()
         vcs.fetch()
