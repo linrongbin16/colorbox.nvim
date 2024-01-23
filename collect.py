@@ -191,7 +191,7 @@ class ColorSpec:
             if isinstance(config.git_branch, str):
                 self.git_branch = config.git_branch
         self.color_names: list[str] = []
-        logging.debug(f"initialize ColorSpec:{self}")
+        # logging.debug(f"initialize ColorSpec:{self}")
 
     def _init_url(self, handle: str) -> str:
         handle = handle.strip()
@@ -274,8 +274,8 @@ class ColorSpec:
     def all() -> list:
         try:
             records = ColorSpec.DB.all()
-            for i, r in enumerate(records):
-                logging.debug(f"all records-{i}:{r}")
+            # for i, r in enumerate(records):
+            #     logging.debug(f"all records-{i}:{r}")
             return [
                 ColorSpec(
                     handle=r[ColorSpec.HANDLE],
@@ -296,7 +296,7 @@ class ColorSpec:
                 clone_cmd = f"git clone --depth=1 --single-branch --branch {self.git_branch} {self.url} {self.candidate_path}"
             else:
                 clone_cmd = f"git clone --depth=1 {self.url} {self.candidate_path}"
-            logging.debug(f"self:{self}, candidate_path:{self.candidate_path}")
+            # logging.debug(f"self:{self}, candidate_path:{self.candidate_path}")
             candidate_dir = pathlib.Path(f"{self.candidate_path}")
             logging.debug(
                 f"{candidate_dir} exist: {candidate_dir.exists()}, isdir: {candidate_dir.is_dir()}"
@@ -327,14 +327,14 @@ class ColorSpec:
 
 def find_element(driver: Chrome, xpath: str) -> WebElement:
     WebDriverWait(driver, WEBDRIVER_TIMEOUT).until(
-        expected_conditions.presence_of_element_located((By.XPATH, xpath))
+        expected_conditions.presence_of_all_elements_located((By.XPATH, xpath))
     )
     return driver.find_element(By.XPATH, xpath)
 
 
 def find_elements(driver: Chrome, xpath: str) -> list[WebElement]:
     WebDriverWait(driver, WEBDRIVER_TIMEOUT).until(
-        expected_conditions.presence_of_element_located((By.XPATH, xpath))
+        expected_conditions.presence_of_all_elements_located((By.XPATH, xpath))
     )
     return driver.find_elements(By.XPATH, xpath)
 
