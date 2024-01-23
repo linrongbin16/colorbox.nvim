@@ -618,12 +618,17 @@ class Builder:
 )
 @click.option("--no-headless", "no_headless_opt", is_flag=True, help="disable headless")
 @click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetching")
-def collect(debug_opt, no_headless_opt, skip_fetch_opt):
+@click.option(
+    "--skip-remove-db", "skip_remove_db_opt", is_flag=True, help="skip removing db.json"
+)
+def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_remove_db_opt):
     global WEBDRIVER_HEADLESS
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
     logging.debug(f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}")
     if no_headless_opt:
         WEBDRIVER_HEADLESS = False
+    if not skip_remove_db_opt:
+        os.remove("db.json")
     if not skip_fetch_opt:
         vcs = VimColorSchemes()
         vcs.fetch()
