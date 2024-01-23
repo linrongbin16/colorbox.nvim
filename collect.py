@@ -406,7 +406,7 @@ class VimColorSchemes:
                 source=source,
             )
         except Exception as e:
-            logging.debug(e)
+            logging.exception(f"failed to fetch vsc element: {element}", e)
             return None
 
     def fetch(self) -> None:
