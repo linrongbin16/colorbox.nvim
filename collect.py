@@ -271,15 +271,17 @@ class ColorSpec:
     def all() -> list:
         try:
             records = ColorSpec.DB.all()
+            for i, r in enumerate(records):
+                logging.debug(f"all records-{i}:{r}")
             return [
                 ColorSpec(
-                    handle=j[ColorSpec.HANDLE],
-                    github_stars=j[ColorSpec.GITHUB_STARS],
-                    last_git_commit=datetime_fromstring(j[ColorSpec.LAST_GIT_COMMIT]),
-                    priority=j[ColorSpec.PRIORITY],
-                    source=j[ColorSpec.SOURCE],
+                    handle=r[ColorSpec.HANDLE],
+                    github_stars=r[ColorSpec.GITHUB_STARS],
+                    last_git_commit=datetime_fromstring(r[ColorSpec.LAST_GIT_COMMIT]),
+                    priority=r[ColorSpec.PRIORITY],
+                    source=r[ColorSpec.SOURCE],
                 )
-                for j in records
+                for r in records
             ]
         except:
             return []
@@ -365,7 +367,9 @@ class VimColorSchemes:
                 yield f"https://vimcolorschemes.com/top/page/{i+1}"
             i += 1
 
-    def _parse_spec(self, element: WebElement) -> typing.Optional[ColorSpec]:
+    def _parse_spec(
+        self, element: WebElement, source: str
+    ) -> typing.Optional[ColorSpec]:
         logging.debug(f"parsing (vsc) spec element:{element}")
         try:
             url = element.find_element(
@@ -400,7 +404,7 @@ class VimColorSchemes:
                 github_stars,
                 last_git_commit=last_git_commit,
                 priority=0,
-                source="vimcolorschemes",
+                source=source,
             )
         except Exception as e:
             logging.exception(e)
@@ -412,7 +416,7 @@ class VimColorSchemes:
                 driver.get(page_url)
                 need_more_scan = False
                 for element in find_elements(driver, "//article[@class='card']"):
-                    spec = self._parse_spec(element)
+                    spec = self._parse_spec(element, page_url)
                     logging.debug(f"vsc repo:{spec}")
                     if spec is None:
                         continue
@@ -436,7 +440,7 @@ class AwesomeNeovimColorScheme:
     def __init__(self) -> None:
         self.counter = 1
 
-    def _parse_spec(self, element: WebElement) -> ColorSpec:
+    def _parse_spec(self, element: WebElement, source: str) -> ColorSpec:
         a = element.find_element(By.XPATH, "./a").text
         a_splits = a.split("(")
         handle = a_splits[0]
@@ -446,7 +450,7 @@ class AwesomeNeovimColorScheme:
             github_stars,
             last_git_commit=None,
             priority=100,
-            source="awesome-neovim",
+            source=source,
         )
 
     def _parse_colors_list(self, driver: Chrome, tag_id: str) -> list[ColorSpec]:
@@ -456,7 +460,10 @@ class AwesomeNeovimColorScheme:
             f"//h3[@id='{tag_id}']/following-sibling::p/following-sibling::ul",
         )
         for e in colors_group.find_elements(By.XPATH, "./li"):
-            spec = self._parse_spec(e)
+            spec = self._parse_spec(
+                e,
+                f"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme#{tag_id}",
+            )
             if len(spec.handle.split("/")) != 2:
                 logging.debug(f"skip for invalid handle - (asn) spec:{spec}")
                 continue
