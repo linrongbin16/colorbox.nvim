@@ -65,7 +65,7 @@ And multiple trigger timings (colorschemes don't have end time):
 - Date time (todo).
 - By filetype.
 
-## 📖 Table of contents
+## 📖 Table of Contents
 
 - [Requirements](#-requirements)
 - [Install](#-install)
