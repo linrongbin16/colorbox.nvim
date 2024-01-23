@@ -365,11 +365,11 @@ class VimColorSchemes:
 
     def _parse_spec(self, element: WebElement) -> ColorSpec:
         logging.debug(f"parsing (vsc) spec element:{element}")
-        handle = "/".join(
-            element.find_element(By.XPATH, "./a[@class='card__link']")
-            .get_attribute("href")
-            .split("/")[-2:]
-        )
+        handle_elem = element.find_element(
+            By.XPATH, "./a[@class='card__link']"
+        ).get_attribute("href")
+        logging.debug(f"parsing (vsc) spec handle_elem:{handle_elem}")
+        handle = "/".join(handle_elem.split("/")[-2:])
         logging.debug(f"parsing (vsc) spec handle:{handle}")
         github_stars = int(
             element.find_element(
