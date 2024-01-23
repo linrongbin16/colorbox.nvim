@@ -363,40 +363,46 @@ class VimColorSchemes:
                 yield f"https://vimcolorschemes.com/top/page/{i+1}"
             i += 1
 
-    def _parse_spec(self, element: WebElement) -> ColorSpec:
+    def _parse_spec(self, element: WebElement) -> typing.Optional[ColorSpec]:
         logging.debug(f"parsing (vsc) spec element:{element}")
-        handle_elem = element.find_element(
-            By.XPATH, "./a[@class='card__link']"
-        ).get_attribute("href")
-        logging.debug(f"parsing (vsc) spec handle_elem:{handle_elem}")
-        handle = "/".join(handle_elem.split("/")[-2:])
-        logging.debug(f"parsing (vsc) spec handle:{handle}")
-        github_stars = int(
-            element.find_element(
+        try:
+            url = element.find_element(
+                By.XPATH, "./a[@class='card__link']"
+            ).get_attribute("href")
+            if url.endswith("/"):
+                url = url[:-1]
+            logging.debug(f"parsing (vsc) spec handle_elem:{url}")
+            handle = "/".join(url.split("/")[-2:])
+            logging.debug(f"parsing (vsc) spec handle:{handle}")
+            github_stars = int(
+                element.find_element(
+                    By.XPATH,
+                    "./a/section/header[@class='meta-header']//div[@class='meta-header__statistic']//b",
+                ).text
+            )
+            logging.debug(f"parsing (vsc) spec github_stars:{github_stars}")
+            creates_updates = element.find_elements(
                 By.XPATH,
-                "./a/section/header[@class='meta-header']//div[@class='meta-header__statistic']//b",
-            ).text
-        )
-        logging.debug(f"parsing (vsc) spec github_stars:{github_stars}")
-        creates_updates = element.find_elements(
-            By.XPATH,
-            "./a/section/footer[@class='meta-footer']//div[@class='meta-footer__column']//p[@class='meta-footer__row']",
-        )
-        logging.debug(f"parsing (vsc) spec creates_updates:{creates_updates}")
-        last_git_commit = datetime.datetime.strptime(
-            creates_updates[1]
-            .find_element(By.XPATH, "./b/time")
-            .get_attribute("datetime"),
-            "%Y-%m-%dT%H:%M:%S.%fZ",
-        )
-        logging.debug(f"parsing (vsc) spec last_git_commit:{last_git_commit}")
-        return ColorSpec(
-            handle,
-            github_stars,
-            last_git_commit=last_git_commit,
-            priority=0,
-            source="vimcolorschemes",
-        )
+                "./a/section/footer[@class='meta-footer']//div[@class='meta-footer__column']//p[@class='meta-footer__row']",
+            )
+            logging.debug(f"parsing (vsc) spec creates_updates:{creates_updates}")
+            last_git_commit = datetime.datetime.strptime(
+                creates_updates[1]
+                .find_element(By.XPATH, "./b/time")
+                .get_attribute("datetime"),
+                "%Y-%m-%dT%H:%M:%S.%fZ",
+            )
+            logging.debug(f"parsing (vsc) spec last_git_commit:{last_git_commit}")
+            return ColorSpec(
+                handle,
+                github_stars,
+                last_git_commit=last_git_commit,
+                priority=0,
+                source="vimcolorschemes",
+            )
+        except Exception as e:
+            logging.exception(e)
+            return None
 
     def fetch(self) -> None:
         with make_driver() as driver:
@@ -406,6 +412,8 @@ class VimColorSchemes:
                 for element in find_elements(driver, "//article[@class='card']"):
                     spec = self._parse_spec(element)
                     logging.debug(f"vsc repo:{spec}")
+                    if spec is None:
+                        continue
                     if len(spec.handle.split("/")) != 2:
                         logging.debug(f"skip for invalid handle - (vcs) spec:{spec}")
                         continue
