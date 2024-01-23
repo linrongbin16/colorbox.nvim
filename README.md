@@ -40,10 +40,10 @@ It use offline github actions to weekly collect and update the most popular Vim/
 >
 > with below conditions:
 >
-> 1. Github stars &ge; 500 (default config only enable &ge; 800, please modify the `filter` option to choose any colors, see [Configuration](#-configuration)).
-> 2. Last git commit in 3 years.
+> 1. Github stars &ge; 400 (default config only enable &ge; 800, please modify the `filter` option to choose any colors, see [Configuration](#-configuration)).
+> 2. Last git commit in 5 years.
 > 3. For multiple plugins that contain the same color name, choose the one in following rules:
->    1. **Awesome-neovim** wins **vimcolorsheme**, since they usually has modern Neovim features (lua, lsp, treesitter) and support more third-party plugins.
+>    1. **Awesome-neovim** wins **vimcolorsheme** (since they usually has modern Neovim features: lua, lsp, treesitter, and support more third-party plugins).
 >    2. More github stars.
 >    3. Newer git commits.
 >
