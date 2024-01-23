@@ -33,7 +33,7 @@ BLACKLIST = [
 
 
 # chrome webdriver
-WEBDRIVER_HEADLESS = True
+WEBDRIVER_HEADLESS = False
 WEBDRIVER_TIMEOUT = 30
 
 # git object
@@ -351,6 +351,9 @@ def make_driver() -> Chrome:
 
 # https://vimcolorschemes.com/top
 class VimColorSchemes:
+    def __init__(self) -> None:
+        self.counter = 1
+
     def _pages(self) -> typing.Iterable[str]:
         i = 0
         while True:
@@ -361,27 +364,32 @@ class VimColorSchemes:
             i += 1
 
     def _parse_spec(self, element: WebElement) -> ColorSpec:
+        logging.debug(f"parsing (vsc) spec element:{element}")
         handle = "/".join(
             element.find_element(By.XPATH, "./a[@class='card__link']")
             .get_attribute("href")
             .split("/")[-2:]
         )
+        logging.debug(f"parsing (vsc) spec handle:{handle}")
         github_stars = int(
             element.find_element(
                 By.XPATH,
                 "./a/section/header[@class='meta-header']//div[@class='meta-header__statistic']//b",
             ).text
         )
+        logging.debug(f"parsing (vsc) spec github_stars:{github_stars}")
         creates_updates = element.find_elements(
             By.XPATH,
             "./a/section/footer[@class='meta-footer']//div[@class='meta-footer__column']//p[@class='meta-footer__row']",
         )
+        logging.debug(f"parsing (vsc) spec creates_updates:{creates_updates}")
         last_git_commit = datetime.datetime.strptime(
             creates_updates[1]
             .find_element(By.XPATH, "./b/time")
             .get_attribute("datetime"),
             "%Y-%m-%dT%H:%M:%S.%fZ",
         )
+        logging.debug(f"parsing (vsc) spec last_git_commit:{last_git_commit}")
         return ColorSpec(
             handle,
             github_stars,
@@ -404,9 +412,10 @@ class VimColorSchemes:
                     if spec.github_stars < GITHUB_STARS:
                         logging.debug(f"skip for lower stars - (vcs) spec:{spec}")
                         continue
-                    logging.info(f"fetch (vcs) spec:{spec}")
+                    logging.info(f"fetch (vcs) spec-{self.counter}:{spec}")
                     need_more_scan = True
                     spec.save()
+                    self.counter = self.counter + 1
                 if not need_more_scan:
                     logging.debug(f"no more enough github stars, exit...")
                     break
@@ -414,6 +423,9 @@ class VimColorSchemes:
 
 # https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme
 class AwesomeNeovimColorScheme:
+    def __init__(self) -> None:
+        self.counter = 1
+
     def _parse_spec(self, element: WebElement) -> ColorSpec:
         a = element.find_element(By.XPATH, "./a").text
         a_splits = a.split("(")
@@ -441,8 +453,9 @@ class AwesomeNeovimColorScheme:
             if spec.github_stars < GITHUB_STARS:
                 logging.debug(f"skip for lower stars - (asn) spec:{spec}")
                 continue
-            logging.info(f"fetch (asn) repo:{spec}")
+            logging.info(f"fetch (asn) repo-{self.counter}:{spec}")
             repos.append(spec)
+            self.counter = self.counter + 1
         return repos
 
     def fetch(self) -> None:
@@ -597,11 +610,11 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt):
     if not skip_fetch_opt:
         vcs = VimColorSchemes()
         vcs.fetch()
-        asn = AwesomeNeovimColorScheme()
-        asn.fetch()
-        filter_color_specs()
-    builder = Builder(False if debug_opt else True)
-    builder.build()
+        # asn = AwesomeNeovimColorScheme()
+        # asn.fetch()
+    #     filter_color_specs()
+    # builder = Builder(False if debug_opt else True)
+    # builder.build()
 
 
 if __name__ == "__main__":
