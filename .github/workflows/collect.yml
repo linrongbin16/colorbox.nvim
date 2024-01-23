@@ -2,6 +2,7 @@ name: Collector
 on:
   schedule:
     - cron: "53 0 * * 1"
+  workflow_dispatch:
 concurrency:
   group: ${{ github.ref }}-collect
   cancel-in-progress: true
