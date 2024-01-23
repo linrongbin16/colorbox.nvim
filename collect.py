@@ -21,8 +21,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from tinydb import Query, TinyDB
 
 # github
-GITHUB_STARS = 500
-LAST_GIT_COMMIT = 3 * 365 * 24 * 3600  # 3 years * 365 days * 24 hours * 3600 seconds
+GITHUB_STARS = 400
+LAST_GIT_COMMIT = 5 * 365 * 24 * 3600  # 5 years * 365 days * 24 hours * 3600 seconds
 BLACKLIST = [
     "rafi/awesome-vim-colorschemes",
     "sonph/onehalf",
@@ -30,6 +30,7 @@ BLACKLIST = [
     "mini.nvim#colorschemes",
     "olimorris/onedarkpro.nvim",
     "text-to-colorscheme",
+    "rafi/awesome-vim-colorschemes",
 ]
 
 
