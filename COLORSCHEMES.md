@@ -8,7 +8,7 @@ ColorSchemes List (54)
   - tokyonight-moon  
   - tokyonight-night  
   - tokyonight-storm  
-- [catppuccin/nvim](https://github.com/catppuccin/nvim) (stars: 4000, last update: 2024-01-22)  
+- [catppuccin/nvim](https://github.com/catppuccin/nvim) (stars: 4000, last update: 2024-01-23)  
   - catppuccin  
   - catppuccin-frappe  
   - catppuccin-latte  
