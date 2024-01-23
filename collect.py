@@ -404,7 +404,7 @@ class VimColorSchemes:
                     if spec.github_stars < GITHUB_STARS:
                         logging.debug(f"skip for lower stars - (vcs) spec:{spec}")
                         continue
-                    logging.debug(f"get (vcs) spec:{spec}")
+                    logging.info(f"fetch (vcs) spec:{spec}")
                     need_more_scan = True
                     spec.save()
                 if not need_more_scan:
@@ -441,7 +441,7 @@ class AwesomeNeovimColorScheme:
             if spec.github_stars < GITHUB_STARS:
                 logging.debug(f"skip for lower stars - (asn) spec:{spec}")
                 continue
-            logging.debug(f"get (asn) repo:{spec}")
+            logging.info(f"fetch (asn) repo:{spec}")
             repos.append(spec)
         return repos
 
@@ -565,7 +565,8 @@ class Builder:
                 total += 1
 
         md = MdUtils(file_name="COLORSCHEMES", title=f"ColorSchemes List ({total})")
-        for spec in ColorSpec.all():
+        all_specs = sorted(ColorSpec.all(), key=lambda s: s.github_stars, reverse=True)
+        for spec in all_specs:
             logging.info(f"collect spec:{spec}")
             color_names = spec.get_vim_color_names()
             color_names = sorted(color_names)
