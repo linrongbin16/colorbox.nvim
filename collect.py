@@ -503,15 +503,13 @@ def filter_color_specs() -> None:
     for spec in ColorSpec.all():
         logging.debug(f"process filtering on spec:{spec}")
         if spec.github_stars < GITHUB_STARS:
-            logging.debug(f"skip for lower stars - spec:{spec}")
+            logging.info(f"skip for lower stars - spec:{spec}")
             spec.remove()
             continue
         if blacklist(spec):
-            logging.debug(f"skip for blacklist - spec:{spec}")
+            logging.info(f"skip for blacklist - spec:{spec}")
             spec.remove()
             continue
-        else:
-            logging.debug(f"no-skip for blacklist - spec:{spec}")
 
 
 class Builder:
@@ -539,13 +537,13 @@ class Builder:
                 spec.last_git_commit.timestamp() + LAST_GIT_COMMIT
                 < datetime.datetime.now().timestamp()
             ):
-                logging.debug(f"skip for too old git commit - spec:{spec}")
+                logging.info(f"skip for too old git commit - spec:{spec}")
                 spec.remove()
                 continue
             color_names = spec.get_vim_color_names()
             spec.update_color_names(color_names)
             if len(color_names) == 0:
-                logging.debug(f"skip for no color files (.vim,.lua) - spec:{spec}")
+                logging.info(f"skip for no color files (.vim,.lua) - spec:{spec}")
                 spec.remove()
                 continue
 
@@ -569,12 +567,12 @@ class Builder:
                 # detect duplicated color
                 if color in specs_map:
                     old_spec = specs_map[color]
-                    logging.debug(
-                        f"detect duplicated color({color}), new:{spec}, old:{old_spec}"
+                    logging.info(
+                        f"detect duplicated color({color}), new spec:{spec}, old spec:{old_spec}"
                     )
                     # replace old repo if new repo has higher priority
                     if greater_than(spec, old_spec):
-                        logging.debug(f"replace old repo({old_spec}) with new({spec})")
+                        logging.info(f"replace old spec({old_spec}) with new({spec})")
                         specs_map[color] = spec
                         specs_set.add(spec)
                         specs_set.remove(old_spec)
