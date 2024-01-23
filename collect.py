@@ -407,13 +407,14 @@ class VimColorSchemes:
                 source=source,
             )
         except Exception as e:
-            logging.exception(e)
+            logging.debug(e)
             return None
 
     def fetch(self) -> None:
         with make_driver() as driver:
             for page_url in self._pages():
                 driver.get(page_url)
+                driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
                 need_more_scan = False
                 for element in find_elements(driver, "//article[@class='card']"):
                     spec = self._parse_spec(element, page_url)
