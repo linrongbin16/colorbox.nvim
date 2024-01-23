@@ -363,7 +363,7 @@ def make_driver() -> Chrome:
 # https://vimcolorschemes.com/top
 class VimColorSchemes:
     def __init__(self) -> None:
-        self.counter = 1
+        self.counter = 0
 
     def _pages(self) -> typing.Iterable[str]:
         i = 0
@@ -440,7 +440,7 @@ class VimColorSchemes:
 # https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme
 class AwesomeNeovimColorScheme:
     def __init__(self) -> None:
-        self.counter = 1
+        self.counter = 0
 
     def _parse_spec(self, element: WebElement, source: str) -> ColorSpec:
         a = element.find_element(By.XPATH, "./a").text
