@@ -11,9 +11,9 @@
 <a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim?logo=codecov&logoColor=F01F7A&label=Codecov" /></a>
 </p>
 
-I'm greedy that I want all the **most popular** Neovim colorschemes than only one, I'm playful that I want to change colorscheme from time to time. Are you like me?
+I'm greedy that I want all the **most popular** (Neo)vim colorschemes than only one, I'm playful that I want to change colorscheme from time to time. Are you like me?
 
-Let's load all the ultra colorschemes into your Neovim player!
+Let's load all the ultra colorschemes into the Neovim player!
 
 https://github.com/linrongbin16/colorbox.nvim/assets/6496887/8fff55ea-749d-4064-90b8-a3799519898d
 
