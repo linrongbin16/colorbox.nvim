@@ -594,8 +594,8 @@ class Builder:
 
         md = MdUtils(file_name="COLORSCHEMES", title=f"ColorSchemes List ({total})")
         all_specs = sorted(ColorSpec.all(), key=lambda s: s.github_stars, reverse=True)
-        for spec in all_specs:
-            logging.info(f"collect spec:{spec}")
+        for i, spec in enumerate(all_specs):
+            logging.info(f"collect spec-{i}:{spec}")
             color_names = spec.get_vim_color_names()
             color_names = sorted(color_names)
             md.new_line(
