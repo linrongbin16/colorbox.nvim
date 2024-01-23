@@ -481,6 +481,7 @@ class AwesomeNeovimColorScheme:
             driver.get(
                 "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme"
             )
+            driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
             treesitter_specs = self._parse_colors_list(
                 driver, "tree-sitter-supported-colorscheme"
             )
