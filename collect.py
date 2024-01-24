@@ -28,7 +28,6 @@ BLACKLIST = [
     "sonph/onehalf",
     "mini.nvim#minischeme",
     "mini.nvim#colorschemes",
-    "olimorris/onedarkpro.nvim",
     "text-to-colorscheme",
     "RRethy/nvim-base16",
 ]
@@ -151,7 +150,10 @@ class ColorSpecConfig:
         return f"<ColorSpecConfig git_branch:{self.git_branch if isinstance(self.git_branch, str) else 'None'}>"
 
 
-REPO_META_CONFIG = {"lifepillar/vim-solarized8": ColorSpecConfig(git_branch="neovim"), "lifepillar/vim-gruvbox8": ColorSpecConfig(git_branch="neovim")}
+REPO_META_CONFIG = {
+    "lifepillar/vim-solarized8": ColorSpecConfig(git_branch="neovim"),
+    "lifepillar/vim-gruvbox8": ColorSpecConfig(git_branch="neovim"),
+}
 
 
 class ColorSpec:
@@ -421,13 +423,19 @@ class VimColorSchemes:
                     self.counter = self.counter + 1
                     logging.debug(f"vsc repo-{self.counter}:{spec}")
                     if spec is None:
-                        logging.info(f"skip for parsing failure - (vcs) spec-{self.counter}:{spec}")
+                        logging.info(
+                            f"skip for parsing failure - (vcs) spec-{self.counter}:{spec}"
+                        )
                         continue
                     if len(spec.handle.split("/")) != 2:
-                        logging.info(f"skip for invalid handle - (vcs) spec-{self.counter}:{spec}")
+                        logging.info(
+                            f"skip for invalid handle - (vcs) spec-{self.counter}:{spec}"
+                        )
                         continue
                     if spec.github_stars < GITHUB_STARS:
-                        logging.info(f"skip for lower stars - (vcs) spec-{self.counter}:{spec}")
+                        logging.info(
+                            f"skip for lower stars - (vcs) spec-{self.counter}:{spec}"
+                        )
                         continue
                     logging.info(f"fetch (vcs) spec-{self.counter}:{spec}")
                     need_more_scan = True
@@ -469,7 +477,9 @@ class AwesomeNeovimColorScheme:
             self.counter = self.counter + 1
             logging.debug(f"asn repo-{self.counter}:{spec}")
             if len(spec.handle.split("/")) != 2:
-                logging.info(f"skip for invalid handle - (asn) spec-{self.counter}:{spec}")
+                logging.info(
+                    f"skip for invalid handle - (asn) spec-{self.counter}:{spec}"
+                )
                 continue
             if spec.github_stars < GITHUB_STARS:
                 logging.info(f"skip for lower stars - (asn) spec-{self.counter}:{spec}")
