@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.2](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.1...v2.0.2) (2024-01-24)
+
+
+### Bug Fixes
+
+* **install:** move 'db.json' to autoload to fix luarocks package ([#173](https://github.com/linrongbin16/colorbox.nvim/issues/173)) ([e16accd](https://github.com/linrongbin16/colorbox.nvim/commit/e16accd3721f5ed660256c7140c6002542dd1d6b))
+
+
+### Performance Improvements
+
+* **collector:** add more colors ([#173](https://github.com/linrongbin16/colorbox.nvim/issues/173)) ([e16accd](https://github.com/linrongbin16/colorbox.nvim/commit/e16accd3721f5ed660256c7140c6002542dd1d6b))
+
 ## [2.0.1](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.0...v2.0.1) (2024-01-23)
 
 
