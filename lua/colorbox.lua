@@ -52,8 +52,13 @@ local Defaults = {
         ["projekt0n/github-nvim-theme"] = function()
             require("github-theme").setup()
         end,
-        ["sonph/onehalf"] = function()
-            require("github-theme").setup()
+        ["sonph/onehalf"] = function(plugin_dir, color_spec)
+            vim.opt.packpath:append(
+                plugin_dir
+                    .. "/pack/colorbox/start/"
+                    .. color_spec.git_path
+                    .. "/vim"
+            )
         end,
     },
 
@@ -885,7 +890,12 @@ local function setup(opts)
                 type(Configs.setup) == "table"
                 and type(Configs.setup[spec.handle]) == "function"
             then
-                local ok, setup_err = pcall(Configs.setup[spec.handle])
+                local home_dir = vim.fn["colorbox#base_dir"]()
+                local ok, setup_err = pcall(
+                    Configs.setup[spec.handle],
+                    home_dir,
+                    vim.deepcopy(spec)
+                )
                 if not ok then
                     local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
                     logger:err(
