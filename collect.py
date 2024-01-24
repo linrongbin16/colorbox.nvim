@@ -25,7 +25,6 @@ GITHUB_STARS = 400
 LAST_GIT_COMMIT = 5 * 365 * 24 * 3600  # 5 years * 365 days * 24 hours * 3600 seconds
 BLACKLIST = [
     "rafi/awesome-vim-colorschemes",
-    "sonph/onehalf",
     "mini.nvim#minischeme",
     "mini.nvim#colorschemes",
     "text-to-colorscheme",

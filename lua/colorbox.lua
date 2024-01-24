@@ -52,6 +52,9 @@ local Defaults = {
         ["projekt0n/github-nvim-theme"] = function()
             require("github-theme").setup()
         end,
+        ["sonph/onehalf"] = function()
+            require("github-theme").setup()
+        end,
     },
 
     --- @type "dark"|"light"|nil
@@ -882,7 +885,15 @@ local function setup(opts)
                 type(Configs.setup) == "table"
                 and type(Configs.setup[spec.handle]) == "function"
             then
-                Configs.setup[spec.handle]()
+                local ok, setup_err = pcall(Configs.setup[spec.handle])
+                if not ok then
+                    local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+                    logger:err(
+                        "failed to setup colorscheme:%s, error:%s",
+                        vim.inspect(spec.handle),
+                        vim.inspect(setup_err)
+                    )
+                end
             end
             if
                 Configs.background == "dark"
