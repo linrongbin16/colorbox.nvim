@@ -1,5 +1,5 @@
 
-ColorSchemes List (55)
+ColorSchemes List (70)
 ======================
   
 - [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim) (stars: 4600, last update: 2024-01-21)  
@@ -54,8 +54,6 @@ ColorSchemes List (55)
   - rose-pine-moon  
 - [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material) (stars: 1600, last update: 2024-01-24)  
   - gruvbox-material  
-- [ku1ik/vim-monokai](https://github.com/ku1ik/vim-monokai) (stars: 1421, last update: 2022-02-09)  
-  - monokai  
 - [sainnhe/sonokai](https://github.com/sainnhe/sonokai) (stars: 1400, last update: 2024-01-24)  
   - sonokai  
 - [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim) (stars: 1400, last update: 2024-01-02)  
@@ -174,4 +172,46 @@ ColorSchemes List (55)
 - [alessandroyorba/alduin](https://github.com/alessandroyorba/alduin) (stars: 412, last update: 2022-08-02)  
   - alduin  
 - [keitanakamura/neodark.vim](https://github.com/keitanakamura/neodark.vim) (stars: 410, last update: 2024-01-12)  
-  - neodark
+  - neodark  
+- [jonathanfilip/vim-lucius](https://github.com/jonathanfilip/vim-lucius) (stars: 394, last update: 2020-06-19)  
+  - lucius  
+- [tiagovla/tokyodark.nvim](https://github.com/tiagovla/tokyodark.nvim) (stars: 387, last update: 2024-01-02)  
+  - tokyodark  
+- [patstockwell/vim-monokai-tasty](https://github.com/patstockwell/vim-monokai-tasty) (stars: 376, last update: 2024-01-08)  
+  - vim-monokai-tasty  
+- [cormacrelf/vim-colors-github](https://github.com/cormacrelf/vim-colors-github) (stars: 372, last update: 2021-02-16)  
+  - github  
+- [hzchirs/vim-material](https://github.com/hzchirs/vim-material) (stars: 369, last update: 2023-08-25)  
+  - vim-material  
+- [craftzdog/solarized-osaka.nvim](https://github.com/craftzdog/solarized-osaka.nvim) (stars: 361, last update: 2024-01-16)  
+  - solarized-osaka  
+  - solarized-osaka-day  
+  - solarized-osaka-moon  
+  - solarized-osaka-night  
+  - solarized-osaka-storm  
+- [doums/darcula](https://github.com/doums/darcula) (stars: 345, last update: 2021-04-09)  
+  - darcula  
+- [connorholyday/vim-snazzy](https://github.com/connorholyday/vim-snazzy) (stars: 338, last update: 2020-04-20)  
+  - snazzy  
+- [luisiacc/gruvbox-baby](https://github.com/luisiacc/gruvbox-baby) (stars: 335, last update: 2023-12-15)  
+  - gruvbox-baby  
+- [wuelnerdotexe/vim-enfocado](https://github.com/wuelnerdotexe/vim-enfocado) (stars: 333, last update: 2023-10-21)  
+  - enfocado  
+- [danilo-augusto/vim-afterglow](https://github.com/danilo-augusto/vim-afterglow) (stars: 319, last update: 2020-07-02)  
+  - afterglow  
+- [robertmeta/nofrils](https://github.com/robertmeta/nofrils) (stars: 316, last update: 2020-09-09)  
+  - nofrils-acme  
+  - nofrils-dark  
+  - nofrils-light  
+  - nofrils-sepia  
+- [tanvirtin/monokai.nvim](https://github.com/tanvirtin/monokai.nvim) (stars: 315, last update: 2023-01-18)  
+  - monokai  
+  - monokai_pro  
+  - monokai_ristretto  
+  - monokai_soda  
+- [nvimdev/zephyr-nvim](https://github.com/nvimdev/zephyr-nvim) (stars: 313, last update: 2022-12-31)  
+  - zephyr  
+- [tpope/vim-vividchalk](https://github.com/tpope/vim-vividchalk) (stars: 310, last update: 2019-11-06)  
+  - vividchalk  
+- [everblush/everblush.vim](https://github.com/everblush/everblush.vim) (stars: 307, last update: 2023-06-20)  
+  - everblush

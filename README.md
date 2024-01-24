@@ -40,7 +40,7 @@ It use offline github actions to weekly collect and update the most popular Vim/
 >
 > with below conditions:
 >
-> 1. Github stars &ge; 400 (default config only enable &ge; 800, please modify the `filter` option to choose any colors, see [Configuration](#-configuration)).
+> 1. Github stars &ge; 300 (default config only enable &ge; 800, please modify the `filter` option to choose any colors, see [Configuration](#-configuration)).
 > 2. Last git commit in 5 years.
 > 3. For multiple plugins that contain the same color name, choose the one in following rules:
 >    1. **Awesome-neovim** wins **vimcolorsheme** (since they usually has modern Neovim features: lua, lsp, treesitter, and support more third-party plugins).
@@ -124,20 +124,20 @@ scoop install uutils-coreutils     # rm
 
 ## 📦 Install
 
-> [!WARNING]
+> [!IMPORTANT]
 >
-> If this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
+> If this plugin provides the main colorscheme (e.g. the colorscheme to show right after nvim start), then make sure:
 >
-> 1. Don't lazy this plugin (it only takes ~4 ms to load).
-> 2. Load this plugin before all other start plugins.
+> 1. Don't lazy load it (it only takes ~4 ms to load).
+> 2. Load it before all other plugins.
 
-> [!WARNING]
+> [!IMPORTANT]
 >
 > Some colorschemes have specific requirements:
 >
-> - [termguicolors](https://neovim.io/doc/user/options.html#'termguicolors').
-> - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter).
-> - [rktjmp/lush.nvim](https://github.com/rktjmp/lush.nvim).
+> - [termguicolors](https://neovim.io/doc/user/options.html#'termguicolors')
+> - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+> - [lush.nvim](https://github.com/rktjmp/lush.nvim)
 >
 > Please manually add these dependencies if you enable them.
 
