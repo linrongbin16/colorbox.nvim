@@ -96,7 +96,7 @@ local ColorNamesList = nil
 do
     if type(HandleToColorSpecsMap) ~= "table" then
         local cwd = vim.fn["colorbox#base_dir"]()
-        local file = string.format("%s/db.json", cwd)
+        local file = string.format("%s/autoload/db.json", cwd)
         local fp = io.open(file, "r")
         assert(fp, string.format("failed to read %s", vim.inspect(file)))
         local content = fp:read("*a")

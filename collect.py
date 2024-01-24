@@ -21,15 +21,14 @@ from selenium.webdriver.support.wait import WebDriverWait
 from tinydb import Query, TinyDB
 
 # github
-GITHUB_STARS = 500
-LAST_GIT_COMMIT = 3 * 365 * 24 * 3600  # 3 years * 365 days * 24 hours * 3600 seconds
+GITHUB_STARS = 300
+LAST_GIT_COMMIT = 5 * 365 * 24 * 3600  # 5 years * 365 days * 24 hours * 3600 seconds
 BLACKLIST = [
     "rafi/awesome-vim-colorschemes",
-    "sonph/onehalf",
     "mini.nvim#minischeme",
     "mini.nvim#colorschemes",
-    "olimorris/onedarkpro.nvim",
     "text-to-colorscheme",
+    "RRethy/nvim-base16",
 ]
 
 
@@ -42,8 +41,8 @@ DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S"
 DATE_FORMAT = "%Y-%m-%d"
 CANDIDATE_DIR = "candidate"
 
-if os.path.exists("db.json"):
-    os.remove("db.json")
+if os.path.exists("autoload/db.json"):
+    os.remove("autoload/db.json")
 
 
 def init_logging(level: typing.Optional[int]) -> None:
@@ -150,11 +149,14 @@ class ColorSpecConfig:
         return f"<ColorSpecConfig git_branch:{self.git_branch if isinstance(self.git_branch, str) else 'None'}>"
 
 
-REPO_META_CONFIG = {"lifepillar/vim-solarized8": ColorSpecConfig(git_branch="neovim")}
+REPO_META_CONFIG = {
+    "lifepillar/vim-solarized8": ColorSpecConfig(git_branch="neovim"),
+    "lifepillar/vim-gruvbox8": ColorSpecConfig(git_branch="neovim"),
+}
 
 
 class ColorSpec:
-    DB = TinyDB("db.json")
+    DB = TinyDB("autoload/db.json")
     HANDLE = "handle"
     URL = "url"
     GITHUB_STARS = "github_stars"
@@ -362,7 +364,7 @@ def make_driver() -> Chrome:
 # https://vimcolorschemes.com/top
 class VimColorSchemes:
     def __init__(self) -> None:
-        self.counter = 1
+        self.counter = 0
 
     def _pages(self) -> typing.Iterable[str]:
         i = 0
@@ -417,19 +419,26 @@ class VimColorSchemes:
                 need_more_scan = False
                 for element in find_elements(driver, "//article[@class='card']"):
                     spec = self._parse_spec(element, page_url)
-                    logging.debug(f"vsc repo:{spec}")
+                    self.counter = self.counter + 1
+                    logging.debug(f"vsc repo-{self.counter}:{spec}")
                     if spec is None:
+                        logging.info(
+                            f"skip for parsing failure - (vcs) spec-{self.counter}:{spec}"
+                        )
                         continue
                     if len(spec.handle.split("/")) != 2:
-                        logging.debug(f"skip for invalid handle - (vcs) spec:{spec}")
+                        logging.info(
+                            f"skip for invalid handle - (vcs) spec-{self.counter}:{spec}"
+                        )
                         continue
                     if spec.github_stars < GITHUB_STARS:
-                        logging.debug(f"skip for lower stars - (vcs) spec:{spec}")
+                        logging.info(
+                            f"skip for lower stars - (vcs) spec-{self.counter}:{spec}"
+                        )
                         continue
                     logging.info(f"fetch (vcs) spec-{self.counter}:{spec}")
                     need_more_scan = True
                     spec.save()
-                    self.counter = self.counter + 1
                 if not need_more_scan:
                     logging.debug(f"no more enough github stars, exit...")
                     break
@@ -438,7 +447,7 @@ class VimColorSchemes:
 # https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme
 class AwesomeNeovimColorScheme:
     def __init__(self) -> None:
-        self.counter = 1
+        self.counter = 0
 
     def _parse_spec(self, element: WebElement, source: str) -> ColorSpec:
         a = element.find_element(By.XPATH, "./a").text
@@ -464,15 +473,18 @@ class AwesomeNeovimColorScheme:
                 e,
                 f"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme#{tag_id}",
             )
+            self.counter = self.counter + 1
+            logging.debug(f"asn repo-{self.counter}:{spec}")
             if len(spec.handle.split("/")) != 2:
-                logging.debug(f"skip for invalid handle - (asn) spec:{spec}")
+                logging.info(
+                    f"skip for invalid handle - (asn) spec-{self.counter}:{spec}"
+                )
                 continue
             if spec.github_stars < GITHUB_STARS:
-                logging.debug(f"skip for lower stars - (asn) spec:{spec}")
+                logging.info(f"skip for lower stars - (asn) spec-{self.counter}:{spec}")
                 continue
             logging.info(f"fetch (asn) repo-{self.counter}:{spec}")
             repos.append(spec)
-            self.counter = self.counter + 1
         return repos
 
     def fetch(self) -> None:
@@ -500,15 +512,13 @@ def filter_color_specs() -> None:
     for spec in ColorSpec.all():
         logging.debug(f"process filtering on spec:{spec}")
         if spec.github_stars < GITHUB_STARS:
-            logging.debug(f"skip for lower stars - spec:{spec}")
+            logging.info(f"skip for lower stars - spec:{spec}")
             spec.remove()
             continue
         if blacklist(spec):
-            logging.debug(f"skip for blacklist - spec:{spec}")
+            logging.info(f"skip for blacklist - spec:{spec}")
             spec.remove()
             continue
-        else:
-            logging.debug(f"no-skip for blacklist - spec:{spec}")
 
 
 class Builder:
@@ -536,13 +546,13 @@ class Builder:
                 spec.last_git_commit.timestamp() + LAST_GIT_COMMIT
                 < datetime.datetime.now().timestamp()
             ):
-                logging.debug(f"skip for too old git commit - spec:{spec}")
+                logging.info(f"skip for too old git commit - spec:{spec}")
                 spec.remove()
                 continue
             color_names = spec.get_vim_color_names()
             spec.update_color_names(color_names)
             if len(color_names) == 0:
-                logging.debug(f"skip for no color files (.vim,.lua) - spec:{spec}")
+                logging.info(f"skip for no color files (.vim,.lua) - spec:{spec}")
                 spec.remove()
                 continue
 
@@ -566,12 +576,12 @@ class Builder:
                 # detect duplicated color
                 if color in specs_map:
                     old_spec = specs_map[color]
-                    logging.debug(
-                        f"detect duplicated color({color}), new:{spec}, old:{old_spec}"
+                    logging.info(
+                        f"detect duplicated color({color}), new spec:{spec}, old spec:{old_spec}"
                     )
                     # replace old repo if new repo has higher priority
                     if greater_than(spec, old_spec):
-                        logging.debug(f"replace old repo({old_spec}) with new({spec})")
+                        logging.info(f"replace old spec({old_spec}) with new({spec})")
                         specs_map[color] = spec
                         specs_set.add(spec)
                         specs_set.remove(old_spec)
@@ -619,10 +629,7 @@ class Builder:
 )
 @click.option("--no-headless", "no_headless_opt", is_flag=True, help="disable headless")
 @click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetching")
-@click.option(
-    "--skip-remove-db", "skip_remove_db_opt", is_flag=True, help="skip removing db.json"
-)
-def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_remove_db_opt):
+def collect(debug_opt, no_headless_opt, skip_fetch_opt):
     global WEBDRIVER_HEADLESS
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
     logging.debug(f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}")

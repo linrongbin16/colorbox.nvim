@@ -882,7 +882,20 @@ local function setup(opts)
                 type(Configs.setup) == "table"
                 and type(Configs.setup[spec.handle]) == "function"
             then
-                Configs.setup[spec.handle]()
+                local home_dir = vim.fn["colorbox#base_dir"]()
+                local ok, setup_err = pcall(
+                    Configs.setup[spec.handle],
+                    home_dir,
+                    vim.deepcopy(spec)
+                )
+                if not ok then
+                    local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+                    logger:err(
+                        "failed to setup colorscheme:%s, error:%s",
+                        vim.inspect(spec.handle),
+                        vim.inspect(setup_err)
+                    )
+                end
             end
             if
                 Configs.background == "dark"

@@ -3,11 +3,11 @@
 <!-- query a github file last update timestamp: https://stackoverflow.com/a/50204589/4438921 -->
 
 <p align="center">
-<a href="https://github.com/neovim/neovim/releases/v0.8.0"><img alt="Neovim" src="https://img.shields.io/badge/Neovim-v0.8+-57A143?logo=neovim&logoColor=57A143" /></a>
+<a href="https://github.com/neovim/neovim/releases/v0.7.0"><img alt="Neovim" src="https://img.shields.io/badge/Neovim-v0.7+-57A143?logo=neovim&logoColor=57A143" /></a>
 <a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://img.shields.io/badge/Powered_by-commons.nvim-teal?logo=githubsponsors&logoColor=fff&labelColor=EA4AAA" /></a>
 <a href="https://luarocks.org/modules/linrongbin16/colorbox.nvim"><img alt="luarocks" src="https://custom-icon-badges.demolab.com/luarocks/v/linrongbin16/colorbox.nvim?label=LuaRocks&labelColor=2C2D72&logo=tag&logoColor=fff&color=blue" /></a>
 <a href="https://github.com/linrongbin16/colorbox.nvim/actions/workflows/ci.yml"><img alt="ci.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/ci.yml?label=GitHub%20CI&labelColor=181717&logo=github&logoColor=fff" /></a>
-<a href="https://github.com/linrongbin16/colorbox.nvim/actions/workflows/collect.yml"><img alt="collect.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/collect.yml?label=Collector&labelColor=FF4500&logo=githubactions&logoColor=fff" /></a>
+<a href="https://github.com/linrongbin16/colorbox.nvim/actions/workflows/collect.yml"><img alt="collect.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/collect.yml?label=Collect%20Pipeline&labelColor=indianred&logo=githubactions&logoColor=fff" /></a>
 <a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim?logo=codecov&logoColor=F01F7A&label=Codecov" /></a>
 </p>
 
@@ -40,10 +40,10 @@ It use offline github actions to weekly collect and update the most popular Vim/
 >
 > with below conditions:
 >
-> 1. Github stars &ge; 500 (default config only enable &ge; 800, please modify the `filter` option to choose any colors, see [Configuration](#-configuration)).
-> 2. Last git commit in 3 years.
+> 1. Github stars &ge; 300 (default config only enable &ge; 800, please modify the `filter` option to choose any colors, see [Configuration](#-configuration)).
+> 2. Last git commit in 5 years.
 > 3. For multiple plugins that contain the same color name, choose the one in following rules:
->    1. **Awesome-neovim** wins **vimcolorsheme**, since they usually has modern Neovim features (lua, lsp, treesitter) and support more third-party plugins.
+>    1. **Awesome-neovim** wins **vimcolorsheme** (since they usually has modern Neovim features: lua, lsp, treesitter, and support more third-party plugins).
 >    2. More github stars.
 >    3. Newer git commits.
 >
@@ -65,7 +65,7 @@ And multiple trigger timings (colorschemes don't have end time):
 - Date time (todo).
 - By filetype.
 
-## 📖 Table of contents
+## 📖 Table of Contents
 
 - [Requirements](#-requirements)
 - [Install](#-install)
@@ -80,7 +80,7 @@ And multiple trigger timings (colorschemes don't have end time):
 
 ## ✅ Requirements
 
-- neovim &ge; 0.8.
+- neovim &ge; 0.7.
 - [git](https://git-scm.com/).
 - [rm](https://man7.org/linux/man-pages/man1/rm.1.html) (optional for `reinstall` command on Windows).
 
@@ -124,18 +124,22 @@ scoop install uutils-coreutils     # rm
 
 ## 📦 Install
 
-> [!WARNING]
+> [!IMPORTANT]
 >
-> If this plugin provides the main colorscheme (e.g. the `colorscheme` command right after nvim start), then make sure:
+> If this plugin provides the main colorscheme (e.g. the colorscheme to show right after nvim start), then make sure:
 >
-> 1. Don't lazy this plugin (it only takes ~4 ms to load).
-> 2. Load this plugin before all other start plugins.
+> 1. Don't lazy load it (it only takes ~4 ms to load).
+> 2. Load it before all other plugins.
 
-> [!WARNING]
+> [!IMPORTANT]
 >
-> The [mcchrish/zenbones.nvim](https://github.com/linrongbin16/colorbox.nvim/blob/de0e6ddb750f88c8c29da8ae7b75dba2df08a6ec/COLORSCHEMES.md?plain=1#L124) color requires [rktjmp/lush.nvim](https://github.com/rktjmp/lush.nvim) as plugin dependency.
+> Some colorschemes have specific requirements:
 >
-> Please manually add the dependency if you enabled 'zenbones' colors.
+> - [termguicolors](https://neovim.io/doc/user/options.html#'termguicolors')
+> - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+> - [lush.nvim](https://github.com/rktjmp/lush.nvim)
+>
+> Please manually add these dependencies if you enable them.
 
 <details>
 <summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></b></summary>

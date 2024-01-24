@@ -4,12 +4,12 @@ on:
     - cron: "53 0 * * 1"
   workflow_dispatch:
 concurrency:
-  group: ${{ github.ref }}-collect
+  group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 jobs:
   pipeline:
     name: Pipeline
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - shell: bash
