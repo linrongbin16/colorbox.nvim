@@ -52,14 +52,6 @@ local Defaults = {
         ["projekt0n/github-nvim-theme"] = function()
             require("github-theme").setup()
         end,
-        ["sonph/onehalf"] = function(plugin_dir, color_spec)
-            vim.opt.packpath:append(
-                plugin_dir
-                    .. "/pack/colorbox/start/"
-                    .. color_spec.git_path
-                    .. "/vim"
-            )
-        end,
     },
 
     --- @type "dark"|"light"|nil
