@@ -155,9 +155,6 @@ require('lazy').setup({
         -- load with highest priority
         priority = 1000,
 
-        -- required by 'mcchrish/zenbones.nvim'
-        dependencies = "rktjmp/lush.nvim",
-
         build = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
     }
@@ -173,9 +170,6 @@ require('lazy').setup({
 require('pckr').add({
     {
         'linrongbin16/colorbox.nvim',
-
-        -- required by 'mcchrish/zenbones.nvim'
-        requires = "rktjmp/lush.nvim",
 
         run = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
