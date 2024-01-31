@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.3](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.2...v2.0.3) (2024-01-31)
+
+
+### Bug Fixes
+
+* deepcopy exception in ColorSchemePre ([#176](https://github.com/linrongbin16/colorbox.nvim/issues/176)) ([2e18e51](https://github.com/linrongbin16/colorbox.nvim/commit/2e18e514a467da265a714583a5ce3cd48780e5eb))
+
 ## [2.0.2](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.1...v2.0.2) (2024-01-24)
 
 
