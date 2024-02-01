@@ -7,7 +7,7 @@
 <a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://img.shields.io/badge/power_by-commons.nvim-pink" /></a>
 <a href="https://luarocks.org/modules/linrongbin16/colorbox.nvim"><img alt="luarocks" src="https://img.shields.io/luarocks/v/linrongbin16/colorbox.nvim" /></a>
 <a href="https://github.com/linrongbin16/colorbox.nvim/actions/workflows/ci.yml"><img alt="ci.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/ci.yml?label=ci" /></a>
-<a href="https://github.com/linrongbin16/colorbox.nvim/actions/workflows/collect.yml"><img alt="collect.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/collect.yml?label=Collect%20Pipeline&labelColor=indianred&logo=githubactions&logoColor=fff" /></a>
+<a href="https://github.com/linrongbin16/colorbox.nvim/actions/workflows/collect.yml"><img alt="collect.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/collect.yml?label=collect" /></a>
 <a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim?logo=codecov&logoColor=F01F7A&label=Codecov" /></a>
 </p>
 
