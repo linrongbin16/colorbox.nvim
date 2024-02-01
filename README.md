@@ -2,7 +2,7 @@
 
 <!-- query a github file last update timestamp: https://stackoverflow.com/a/50204589/4438921 -->
 
-<p align="center">
+<p>
 <a href="https://github.com/neovim/neovim/releases/v0.7.0"><img alt="Neovim" src="https://img.shields.io/badge/require-0.7%2B-blue" /></a>
 <a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://img.shields.io/badge/Powered_by-commons.nvim-teal?logo=githubsponsors&logoColor=fff&labelColor=EA4AAA" /></a>
 <a href="https://luarocks.org/modules/linrongbin16/colorbox.nvim"><img alt="luarocks" src="https://custom-icon-badges.demolab.com/luarocks/v/linrongbin16/colorbox.nvim?label=LuaRocks&labelColor=2C2D72&logo=tag&logoColor=fff&color=blue" /></a>
