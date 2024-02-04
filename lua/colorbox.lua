@@ -439,7 +439,7 @@ local function _policy_by_filetype()
             assert(ok, err)
         end
         _force_sync_syntax()
-    end, 200)
+    end, 100)
 end
 
 local function _policy()
