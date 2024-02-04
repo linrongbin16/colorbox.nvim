@@ -472,19 +472,16 @@ local function _timing_startup()
 end
 
 local function _timing_filetype()
-    vim.api.nvim_create_autocmd(
-        {
-            "BufEnter",
-            "BufReadPost",
-            "FileReadPost",
-            "FocusGained",
-            "WinEnter",
-            "WinNew",
-        },
-        {
-            callback = _policy,
-        }
-    )
+    vim.api.nvim_create_autocmd({
+        "BufEnter",
+        "BufReadPost",
+        "FileReadPost",
+        "FocusGained",
+        "WinEnter",
+        "WinNew",
+    }, {
+        callback = _policy,
+    })
 end
 
 local function _timing()
