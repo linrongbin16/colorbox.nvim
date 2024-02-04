@@ -15,7 +15,7 @@ local Defaults = {
     --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single"
     ---
     -- by filetype policy: buffer filetype => color name
-    --- @alias colorbox.ByFileTypePolicyConfig {mapping:table<string, string>,fallback:string}
+    --- @alias colorbox.ByFileTypePolicyConfig {mapping:table<string, string>,empty:string?,fallback:string?}
     ---
     -- fixed interval seconds
     --- @alias colorbox.FixedIntervalPolicyConfig {seconds:integer,implement:colorbox.BuiltinPolicyConfig}
@@ -406,8 +406,11 @@ end
 local function _is_by_filetype_policy(po)
     return type(po) == "table"
         and type(po.mapping) == "table"
-        and type(po.fallback) == "string"
-        and string.len(po.fallback) > 0
+        and ((type(po.empty) == "string" and string.len(po.empty) > 0) or po.empty == nil)
+        and (
+            (type(po.fallback) == "string" and string.len(po.fallback) > 0)
+            or po.fallback == nil
+        )
 end
 
 local function _policy_by_filetype()
@@ -420,7 +423,15 @@ local function _policy_by_filetype()
                 string.format([[color %s]], Configs.policy.mapping[ft])
             )
             assert(ok, err)
-        else
+        elseif
+            strings.empty(ft) and strings.not_empty(Configs.policy.empty)
+        then
+            local ok, err = pcall(
+                vim.cmd --[[@as function]],
+                string.format([[color %s]], Configs.policy.empty)
+            )
+            assert(ok, err)
+        elseif strings.not_empty(Configs.policy.fallback) then
             local ok, err = pcall(
                 vim.cmd --[[@as function]],
                 string.format([[color %s]], Configs.policy.fallback)
