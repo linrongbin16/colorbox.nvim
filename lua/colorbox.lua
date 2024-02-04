@@ -439,7 +439,7 @@ local function _policy_by_filetype()
             assert(ok, err)
         end
         _force_sync_syntax()
-    end, 100)
+    end, 10)
 end
 
 local function _policy()
@@ -466,15 +466,25 @@ local function _policy()
 end
 
 local function _timing_startup()
-    vim.api.nvim_create_autocmd("VimEnter", {
+    vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter" }, {
         callback = _policy,
     })
 end
 
 local function _timing_filetype()
-    vim.api.nvim_create_autocmd({ "BufNew", "BufReadPre", "BufNewFile" }, {
-        callback = _policy,
-    })
+    vim.api.nvim_create_autocmd(
+        {
+            "BufEnter",
+            "BufReadPost",
+            "FileReadPost",
+            "FocusGained",
+            "WinEnter",
+            "WinNew",
+        },
+        {
+            callback = _policy,
+        }
+    )
 end
 
 local function _timing()
