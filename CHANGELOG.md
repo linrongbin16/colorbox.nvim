@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.4](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.3...v2.0.4) (2024-02-04)
+
+
+### Bug Fixes
+
+* **filetype policy:** listen to more events for correctly timely trigger ([#180](https://github.com/linrongbin16/colorbox.nvim/issues/180)) ([fefc64d](https://github.com/linrongbin16/colorbox.nvim/commit/fefc64d558d13ded814edf5499d5b4316738860b))
+
+
+### Performance Improvements
+
+* **filetype policy:** add 'empty' option for empty filetype ([#180](https://github.com/linrongbin16/colorbox.nvim/issues/180)) ([fefc64d](https://github.com/linrongbin16/colorbox.nvim/commit/fefc64d558d13ded814edf5499d5b4316738860b))
+* **filetype policy:** make 'fallback' optional ([#180](https://github.com/linrongbin16/colorbox.nvim/issues/180)) ([fefc64d](https://github.com/linrongbin16/colorbox.nvim/commit/fefc64d558d13ded814edf5499d5b4316738860b))
+
 ## [2.0.3](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.2...v2.0.3) (2024-01-31)
 
 
