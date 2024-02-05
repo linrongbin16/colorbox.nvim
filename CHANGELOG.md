@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.5](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.4...v2.0.5) (2024-02-05)
+
+
+### Bug Fixes
+
+* **timing:** remove 'UIEnter' from on nvim start ([#182](https://github.com/linrongbin16/colorbox.nvim/issues/182)) ([187cc48](https://github.com/linrongbin16/colorbox.nvim/commit/187cc488adbca13d1b4510bbb365f4ae2eab5c69))
+
 ## [2.0.4](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.3...v2.0.4) (2024-02-04)
 
 
