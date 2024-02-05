@@ -6,3 +6,8 @@ coverage:
     patch:
       default:
         threshold: 90%
+ignore:
+  - "lua/commons/*.lua"
+  - "lua/commons/**/*.lua"
+  - "lua/commons/**/**/*.lua"
+  - "lua/commons/**/**/**/*.lua"

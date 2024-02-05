@@ -116,19 +116,10 @@ local function _primary_score(color_name, spec)
     local handle1 = handle_splits[1]:gsub("%-", "_")
     local handle2 = handle_splits[2]:gsub("%-", "_")
     local normalized_color = color_name:gsub("%-", "_")
-    local matched = strings.startswith(
-        handle1,
-        normalized_color,
-        { ignorecase = true }
-    ) or strings.startswith(
-        handle2,
-        normalized_color,
-        { ignorecase = true }
-    ) or strings.endswith(handle1, normalized_color, { ignorecase = true }) or strings.endswith(
-        handle2,
-        normalized_color,
-        { ignorecase = true }
-    )
+    local matched = strings.startswith(handle1, normalized_color, { ignorecase = true })
+        or strings.startswith(handle2, normalized_color, { ignorecase = true })
+        or strings.endswith(handle1, normalized_color, { ignorecase = true })
+        or strings.endswith(handle2, normalized_color, { ignorecase = true })
     logger:debug(
         "|_primary_score| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
         vim.inspect(unique),
@@ -187,9 +178,7 @@ local function _function_filter(f, color_name, spec)
         else
             logging
                 .get("colorbox")
-                :err(
-                    "failed to invoke function filter, please check your config!"
-                )
+                :err("failed to invoke function filter, please check your config!")
         end
     end
     return false
@@ -249,8 +238,7 @@ local function _init()
     -- vim.cmd([[packadd catppuccin-nvim]])
 
     local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
-    local ColorNameToColorSpecsMap =
-        require("colorbox.db").get_color_name_to_color_specs_map()
+    local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
     local ColorNamesList = require("colorbox.db").get_color_names_list()
     for _, color_name in pairs(ColorNamesList) do
         local spec = ColorNameToColorSpecsMap[color_name]
@@ -262,14 +250,8 @@ local function _init()
     for i, color_name in ipairs(FilteredColorNamesList) do
         FilteredColorNameToIndexMap[color_name] = i
     end
-    logger:debug(
-        "|_init| FilteredColorNamesList:%s",
-        vim.inspect(FilteredColorNamesList)
-    )
-    logger:debug(
-        "|_init| FilteredColorNameToIndexMap:%s",
-        vim.inspect(FilteredColorNameToIndexMap)
-    )
+    logger:debug("|_init| FilteredColorNamesList:%s", vim.inspect(FilteredColorNamesList))
+    logger:debug("|_init| FilteredColorNameToIndexMap:%s", vim.inspect(FilteredColorNameToIndexMap))
 end
 
 local function _force_sync_syntax()
@@ -407,10 +389,7 @@ local function _is_by_filetype_policy(po)
     return type(po) == "table"
         and type(po.mapping) == "table"
         and ((type(po.empty) == "string" and string.len(po.empty) > 0) or po.empty == nil)
-        and (
-            (type(po.fallback) == "string" and string.len(po.fallback) > 0)
-            or po.fallback == nil
-        )
+        and ((type(po.fallback) == "string" and string.len(po.fallback) > 0) or po.fallback == nil)
 end
 
 local function _policy_by_filetype()
@@ -423,13 +402,9 @@ local function _policy_by_filetype()
                 string.format([[color %s]], Configs.policy.mapping[ft])
             )
             assert(ok, err)
-        elseif
-            strings.empty(ft) and strings.not_empty(Configs.policy.empty)
-        then
-            local ok, err = pcall(
-                vim.cmd --[[@as function]],
-                string.format([[color %s]], Configs.policy.empty)
-            )
+        elseif strings.empty(ft) and strings.not_empty(Configs.policy.empty) then
+            local ok, err =
+                pcall(vim.cmd --[[@as function]], string.format([[color %s]], Configs.policy.empty))
             assert(ok, err)
         elseif strings.not_empty(Configs.policy.fallback) then
             local ok, err = pcall(
@@ -451,22 +426,18 @@ local function _policy()
         _policy_reverse_order()
     elseif Configs.policy == "single" then
         _policy_single()
-    elseif
-        Configs.timing == "interval"
-        and _is_fixed_interval_policy(Configs.policy)
-    then
+    elseif Configs.timing == "interval" and _is_fixed_interval_policy(Configs.policy) then
         _policy_fixed_interval()
     elseif
         Configs.timing == "bufferchanged"
-        or Configs.timing == "filetype"
-            and _is_by_filetype_policy(Configs.policy)
+        or Configs.timing == "filetype" and _is_by_filetype_policy(Configs.policy)
     then
         _policy_by_filetype()
     end
 end
 
 local function _timing_startup()
-    vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter" }, {
+    vim.api.nvim_create_autocmd({ "VimEnter" }, {
         callback = _policy,
     })
 end
@@ -492,21 +463,13 @@ local function _timing()
     elseif Configs.timing == "interval" then
         assert(
             _is_fixed_interval_policy(Configs.policy),
-            string.format(
-                "invalid policy %s for 'interval' timing!",
-                vim.inspect(Configs.policy)
-            )
+            string.format("invalid policy %s for 'interval' timing!", vim.inspect(Configs.policy))
         )
         _policy_fixed_interval()
-    elseif
-        Configs.timing == "bufferchanged" or Configs.timing == "filetype"
-    then
+    elseif Configs.timing == "bufferchanged" or Configs.timing == "filetype" then
         assert(
             _is_by_filetype_policy(Configs.policy),
-            string.format(
-                "invalid policy %s for 'filetype' timing!",
-                vim.inspect(Configs.policy)
-            )
+            string.format("invalid policy %s for 'filetype' timing!", vim.inspect(Configs.policy))
         )
         _timing_filetype()
     else
@@ -536,8 +499,7 @@ local function update()
     -- )
     vim.opt.packpath:append(home_dir)
 
-    local HandleToColorSpecsMap =
-        require("colorbox.db").get_handle_to_color_specs_map()
+    local HandleToColorSpecsMap = require("colorbox.db").get_handle_to_color_specs_map()
 
     local prepared_count = 0
     for _, _ in pairs(HandleToColorSpecsMap) do
@@ -546,13 +508,9 @@ local function update()
     logger:info("started %s jobs", vim.inspect(prepared_count))
 
     local async_spawn_run = async.wrap(function(acmd, aopts, cb)
-        require("colorbox.commons.spawn").run(
-            acmd,
-            aopts,
-            function(completed_obj)
-                cb(completed_obj)
-            end
-        )
+        require("colorbox.commons.spawn").run(acmd, aopts, function(completed_obj)
+            cb(completed_obj)
+        end)
     end, 3)
 
     local finished_count = 0
@@ -664,14 +622,10 @@ local function _parse_args(args)
     local opts = nil
     logging.get("colorbox"):debug("|_parse_args| args:%s", vim.inspect(args))
     if strings.not_blank(args) then
-        local args_splits = strings.split(
-            vim.trim(args --[[@as string]]),
-            " ",
-            { trimempty = true }
-        )
+        local args_splits =
+            strings.split(vim.trim(args --[[@as string]]), " ", { trimempty = true })
         for _, arg_split in ipairs(args_splits) do
-            local item_splits =
-                strings.split(vim.trim(arg_split), "=", { trimempty = true })
+            local item_splits = strings.split(vim.trim(arg_split), "=", { trimempty = true })
             if strings.not_blank(item_splits[1]) then
                 if opts == nil then
                     opts = {}
@@ -696,8 +650,7 @@ end
 local function _info(args)
     local opts = _parse_args(args)
     opts = opts or { scale = 0.7 }
-    opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7)
-        or 0.7
+    opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7) or 0.7
     opts.scale = numbers.bound(opts.scale, 0, 1)
     logging.get("colorbox"):debug("|_info| opts:%s", vim.inspect(opts))
 
@@ -708,9 +661,7 @@ local function _info(args)
 
     local function get_shift(totalsize, modalsize, offset)
         local base = math.floor((totalsize - modalsize) * 0.5)
-        local shift = offset > -1
-                and math.ceil((totalsize - modalsize) * offset)
-            or offset
+        local shift = offset > -1 and math.ceil((totalsize - modalsize) * offset) or offset
         return numbers.bound(base + shift, 0, totalsize - modalsize)
     end
 
@@ -733,16 +684,10 @@ local function _info(args)
     apis.set_buf_option(bufnr, "bufhidden", "wipe")
     apis.set_buf_option(bufnr, "buflisted", false)
     apis.set_buf_option(bufnr, "filetype", "markdown")
-    vim.keymap.set(
-        { "n" },
-        "q",
-        ":\\<C-U>quit<CR>",
-        { silent = true, buffer = bufnr }
-    )
+    vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
     local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
-    local HandleToColorSpecsMap =
-        require("colorbox.db").get_handle_to_color_specs_map()
+    local HandleToColorSpecsMap = require("colorbox.db").get_handle_to_color_specs_map()
     local color_specs_list = {}
     for handle, spec in pairs(HandleToColorSpecsMap) do
         table.insert(color_specs_list, spec)
@@ -798,8 +743,7 @@ local function _info(args)
 
         for _, color in ipairs(colornames) do
             local enabled = FilteredColorNameToIndexMap[color] ~= nil
-            local content = enabled
-                    and string.format("  - %s (**enabled**)", color)
+            local content = enabled and string.format("  - %s (**enabled**)", color)
                 or string.format("  - %s (disabled)", color)
             vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, { content })
             lineno = lineno + 1
@@ -831,56 +775,47 @@ local function setup(opts)
     -- cache
     assert(
         vim.fn.filereadable(Configs.cache_dir) <= 0,
-        string.format(
-            "%s (cache_dir option) already exist but not a directory!",
-            Configs.cache_dir
-        )
+        string.format("%s (cache_dir option) already exist but not a directory!", Configs.cache_dir)
     )
     vim.fn.mkdir(Configs.cache_dir, "p")
-    Configs.previous_track_cache =
-        string.format("%s/previous_track_cache", Configs.cache_dir)
+    Configs.previous_track_cache = string.format("%s/previous_track_cache", Configs.cache_dir)
 
     _init()
 
-    vim.api.nvim_create_user_command(
-        Configs.command.name,
-        function(command_opts)
-            local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+    vim.api.nvim_create_user_command(Configs.command.name, function(command_opts)
+        local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
 
-            -- logger.debug(
-            --     "|colorbox.setup| command opts:%s",
-            --     vim.inspect(command_opts)
-            -- )
-            local args = vim.trim(command_opts.args)
-            local args_splits =
-                vim.split(args, " ", { plain = true, trimempty = true })
-            -- logger.debug(
-            --     "|colorbox.setup| command args:%s, splits:%s",
-            --     vim.inspect(args),
-            --     vim.inspect(args_splits)
-            -- )
-            if #args_splits == 0 then
-                logger:warn("missing parameter.")
-                return
-            end
-            if type(CONTROLLERS_MAP[args_splits[1]]) == "function" then
-                local fn = CONTROLLERS_MAP[args_splits[1]]
-                local sub_args = args:sub(string.len(args_splits[1]) + 1)
-                fn(sub_args)
-            else
-                logger:warn("unknown parameter %s.", args_splits[1])
-            end
+        -- logger.debug(
+        --     "|colorbox.setup| command opts:%s",
+        --     vim.inspect(command_opts)
+        -- )
+        local args = vim.trim(command_opts.args)
+        local args_splits = vim.split(args, " ", { plain = true, trimempty = true })
+        -- logger.debug(
+        --     "|colorbox.setup| command args:%s, splits:%s",
+        --     vim.inspect(args),
+        --     vim.inspect(args_splits)
+        -- )
+        if #args_splits == 0 then
+            logger:warn("missing parameter.")
+            return
+        end
+        if type(CONTROLLERS_MAP[args_splits[1]]) == "function" then
+            local fn = CONTROLLERS_MAP[args_splits[1]]
+            local sub_args = args:sub(string.len(args_splits[1]) + 1)
+            fn(sub_args)
+        else
+            logger:warn("unknown parameter %s.", args_splits[1])
+        end
+    end, {
+        nargs = "*",
+        range = false,
+        bang = true,
+        desc = Configs.command.desc,
+        complete = function(ArgLead, CmdLine, CursorPos)
+            return { "update", "reinstall", "info" }
         end,
-        {
-            nargs = "*",
-            range = false,
-            bang = true,
-            desc = Configs.command.desc,
-            complete = function(ArgLead, CmdLine, CursorPos)
-                return { "update", "reinstall", "info" }
-            end,
-        }
-    )
+    })
 
     vim.api.nvim_create_autocmd("ColorSchemePre", {
         callback = function(event)
@@ -890,10 +825,7 @@ local function setup(opts)
             -- )
             local ColorNameToColorSpecsMap =
                 require("colorbox.db").get_color_name_to_color_specs_map()
-            if
-                type(event) ~= "table"
-                or ColorNameToColorSpecsMap[event.match] == nil
-            then
+            if type(event) ~= "table" or ColorNameToColorSpecsMap[event.match] == nil then
                 return
             end
             local spec = ColorNameToColorSpecsMap[event.match]
@@ -903,8 +835,7 @@ local function setup(opts)
                 and type(Configs.setup[spec.handle]) == "function"
             then
                 local home_dir = vim.fn["colorbox#base_dir"]()
-                local ok, setup_err =
-                    pcall(Configs.setup[spec.handle], home_dir, spec)
+                local ok, setup_err = pcall(Configs.setup[spec.handle], home_dir, spec)
                 if not ok then
                     local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
                     logger:err(
@@ -914,10 +845,7 @@ local function setup(opts)
                     )
                 end
             end
-            if
-                Configs.background == "dark"
-                or Configs.background == "light"
-            then
+            if Configs.background == "dark" or Configs.background == "light" then
                 vim.opt.background = Configs.background
             end
         end,

@@ -57,8 +57,7 @@ M.render = function(text, name, hl)
   local strings = require("colorbox.commons.strings")
 
   local fgfmt = nil
-  local hlcodes = strings.not_empty(hl)
-      and require("colorbox.commons.apis").get_hl(hl --[[@as string]])
+  local hlcodes = strings.not_empty(hl) and require("colorbox.commons.apis").get_hl(hl --[[@as string]])
     or nil
   local fgcode = type(hlcodes) == "table" and hlcodes.fg or nil
   if type(fgcode) == "number" then

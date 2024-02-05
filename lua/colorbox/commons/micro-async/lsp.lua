@@ -16,43 +16,43 @@ lsp.buf_request_all = wrap(vim.lsp.buf_request_all, 4)
 lsp.request = {}
 
 lsp.request.references = function(buf, params)
-    return lsp.buf_request(buf, "textDocument/references", params)
+  return lsp.buf_request(buf, "textDocument/references", params)
 end
 
 lsp.request.definition = function(buf, params)
-    return lsp.buf_request(buf, "textDocument/definition", params)
+  return lsp.buf_request(buf, "textDocument/definition", params)
 end
 
 lsp.request.type_definition = function(buf, params)
-    return lsp.buf_request(buf, "textDocument/typeDefinition", params)
+  return lsp.buf_request(buf, "textDocument/typeDefinition", params)
 end
 
 lsp.request.implementation = function(buf, params)
-    return lsp.buf_request(buf, "textDocument/implementation", params)
+  return lsp.buf_request(buf, "textDocument/implementation", params)
 end
 
 lsp.request.rename = function(buf, params)
-    return lsp.buf_request(buf, "textDocument/rename", params)
+  return lsp.buf_request(buf, "textDocument/rename", params)
 end
 
 lsp.request.signature_help = function(buf, params)
-    return lsp.buf_request(buf, "textDocument/signatureHelp", params)
+  return lsp.buf_request(buf, "textDocument/signatureHelp", params)
 end
 
 lsp.request.document_symbols = function(buf, params)
-    return lsp.buf_request(buf, "textDocument/documentSymbol", params)
+  return lsp.buf_request(buf, "textDocument/documentSymbol", params)
 end
 
 lsp.request.hover = function(buf, params)
-    return lsp.buf_request(buf, "textDocument/hover", params)
+  return lsp.buf_request(buf, "textDocument/hover", params)
 end
 
 lsp.request.inlay_hint = function(buf, params)
-    return lsp.buf_request(buf, "textDocument/inlayHint", params)
+  return lsp.buf_request(buf, "textDocument/inlayHint", params)
 end
 
 lsp.request.code_actions = function(buf, params)
-    return lsp.buf_request(buf, "textDocument/codeAction", params)
+  return lsp.buf_request(buf, "textDocument/codeAction", params)
 end
 
 return lsp

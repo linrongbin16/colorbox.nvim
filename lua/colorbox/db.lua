@@ -47,11 +47,7 @@ function ColorSpec:new(
         git_branch = git_branch,
         color_names = color_names,
         pack_path = string.format("pack/colorbox/start/%s", git_path),
-        full_pack_path = string.format(
-            "%s/pack/colorbox/start/%s",
-            cwd,
-            git_path
-        ),
+        full_pack_path = string.format("%s/pack/colorbox/start/%s", cwd, git_path),
     }
     setmetatable(o, self)
     self.__index = self
