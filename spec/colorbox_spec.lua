@@ -26,8 +26,7 @@ describe("colorbox", function()
     end)
     describe("[_primary_color_name_filter]", function()
         it("test", function()
-            local ColorNameToColorSpecsMap =
-                db.get_color_name_to_color_specs_map()
+            local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
             local input_color = "tokyonight"
             local input_spec = ColorNameToColorSpecsMap[input_color]
             for _, c in ipairs(input_spec.color_names) do
@@ -46,16 +45,14 @@ describe("colorbox", function()
     end)
     describe("[filter]", function()
         it("_builtin_filter", function()
-            local ColorNameToColorSpecsMap =
-                db.get_color_name_to_color_specs_map()
+            local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
             for color, spec in pairs(ColorNameToColorSpecsMap) do
                 local actual = colorbox._builtin_filter("primary", color, spec)
                 assert_eq(type(actual), "boolean")
             end
         end)
         it("_function_filter", function()
-            local ColorNameToColorSpecsMap =
-                db.get_color_name_to_color_specs_map()
+            local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
             for color, spec in pairs(ColorNameToColorSpecsMap) do
                 local actual = colorbox._function_filter(function(c, s)
                     return true
@@ -72,8 +69,7 @@ describe("colorbox", function()
             end
         end)
         it("_all_filter", function()
-            local ColorNameToColorSpecsMap =
-                db.get_color_name_to_color_specs_map()
+            local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
             for color, spec in pairs(ColorNameToColorSpecsMap) do
                 local actual = colorbox._all_filter({
                     function(c, s)
@@ -100,8 +96,7 @@ describe("colorbox", function()
             end
         end)
         it("_filter", function()
-            local ColorNameToColorSpecsMap =
-                db.get_color_name_to_color_specs_map()
+            local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
             for color, spec in pairs(ColorNameToColorSpecsMap) do
                 local actual = colorbox._filter(color, spec)
                 assert_eq(type(actual), "boolean")
@@ -117,9 +112,7 @@ describe("colorbox", function()
         it("test", function()
             colorbox._save_track("tokyonight")
             local actual = colorbox._load_previous_track() --[[@as colorbox.PreviousTrack]]
-            print(
-                string.format("load previous track:%s\n", vim.inspect(actual))
-            )
+            print(string.format("load previous track:%s\n", vim.inspect(actual)))
             if actual ~= nil then
                 assert_eq(type(actual), "table")
                 assert_eq(type(actual.color_name), "string")
@@ -127,37 +120,32 @@ describe("colorbox", function()
             end
         end)
     end)
-    describe(
-        "[_get_next_color_name_by_idx/_get_prev_color_name_by_idx]",
-        function()
-            it("_get_next_color_name_by_idx", function()
-                local colornames = colorbox._get_filtered_color_names_list()
-                local colorindexes =
-                    colorbox._get_filtered_color_name_to_index_map()
-                for i, c in ipairs(colornames) do
-                    local actual = colorbox._get_next_color_name_by_idx(i)
-                    if i == #colornames then
-                        assert_eq(colorindexes[actual], 1)
-                    else
-                        assert_eq(i + 1, colorindexes[actual])
-                    end
+    describe("[_get_next_color_name_by_idx/_get_prev_color_name_by_idx]", function()
+        it("_get_next_color_name_by_idx", function()
+            local colornames = colorbox._get_filtered_color_names_list()
+            local colorindexes = colorbox._get_filtered_color_name_to_index_map()
+            for i, c in ipairs(colornames) do
+                local actual = colorbox._get_next_color_name_by_idx(i)
+                if i == #colornames then
+                    assert_eq(colorindexes[actual], 1)
+                else
+                    assert_eq(i + 1, colorindexes[actual])
                 end
-            end)
-            it("_get_prev_color_name_by_idx", function()
-                local colornames = colorbox._get_filtered_color_names_list()
-                local colorindexes =
-                    colorbox._get_filtered_color_name_to_index_map()
-                for i, c in ipairs(colornames) do
-                    local actual = colorbox._get_prev_color_name_by_idx(i)
-                    if i == 1 then
-                        assert_eq(colorindexes[actual], #colornames)
-                    else
-                        assert_eq(i - 1, colorindexes[actual])
-                    end
+            end
+        end)
+        it("_get_prev_color_name_by_idx", function()
+            local colornames = colorbox._get_filtered_color_names_list()
+            local colorindexes = colorbox._get_filtered_color_name_to_index_map()
+            for i, c in ipairs(colornames) do
+                local actual = colorbox._get_prev_color_name_by_idx(i)
+                if i == 1 then
+                    assert_eq(colorindexes[actual], #colornames)
+                else
+                    assert_eq(i - 1, colorindexes[actual])
                 end
-            end)
-        end
-    )
+            end
+        end)
+    end)
     describe("[_policy]", function()
         it("test", function()
             colorbox._policy_shuffle()
