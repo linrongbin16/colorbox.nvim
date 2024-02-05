@@ -466,7 +466,7 @@ local function _policy()
 end
 
 local function _timing_startup()
-    vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter" }, {
+    vim.api.nvim_create_autocmd({ "VimEnter" }, {
         callback = _policy,
     })
 end
