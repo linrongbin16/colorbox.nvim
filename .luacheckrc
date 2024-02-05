@@ -4,4 +4,7 @@ unused = false
 unused_args = false
 exclude_files = {
     "lua/colorbox/commons/*.lua",
+    "lua/colorbox/commons/*/*.lua",
+    "lua/colorbox/commons/*/*/*.lua",
+    "lua/colorbox/commons/*/*/*/*.lua",
 }

@@ -1,1 +1,3 @@
 lua/colorbox/commons/*.lua
+lua/colorbox/commons/**/*.lua
+lua/colorbox/commons/**/**/*.lua
