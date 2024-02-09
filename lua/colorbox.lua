@@ -829,6 +829,7 @@ local function setup(opts)
                 return
             end
             local spec = ColorNameToColorSpecsMap[event.match]
+            local autoload_dir = string.format("%s/autoload", spec.full_pack_path)
             vim.cmd(string.format([[packadd %s]], spec.git_path))
             if
                 type(Configs.setup) == "table"
