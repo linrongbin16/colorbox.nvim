@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.6](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.5...v2.0.6) (2024-02-09)
+
+
+### Bug Fixes
+
+* **pack:** add plugin 'autoload' to rtp ([#184](https://github.com/linrongbin16/colorbox.nvim/issues/184)) ([b5f1ca3](https://github.com/linrongbin16/colorbox.nvim/commit/b5f1ca379058ce1bd5cfa430eb651e4a3002d800))
+
 ## [2.0.5](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.4...v2.0.5) (2024-02-05)
 
 
