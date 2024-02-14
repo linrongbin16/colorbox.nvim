@@ -120,14 +120,14 @@ local function _primary_score(color_name, spec)
         or strings.startswith(handle2, normalized_color, { ignorecase = true })
         or strings.endswith(handle1, normalized_color, { ignorecase = true })
         or strings.endswith(handle2, normalized_color, { ignorecase = true })
-    logger:debug(
-        "|_primary_score| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
-        vim.inspect(unique),
-        vim.inspect(shortest),
-        vim.inspect(current_name_len),
-        vim.inspect(minimal_name_len),
-        vim.inspect(matched)
-    )
+    -- logger:debug(
+    --     "|_primary_score| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
+    --     vim.inspect(unique),
+    --     vim.inspect(shortest),
+    --     vim.inspect(current_name_len),
+    --     vim.inspect(minimal_name_len),
+    --     vim.inspect(matched)
+    -- )
     local n = 0
     if unique then
         n = n + 3
@@ -250,8 +250,8 @@ local function _init()
     for i, color_name in ipairs(FilteredColorNamesList) do
         FilteredColorNameToIndexMap[color_name] = i
     end
-    logger:debug("|_init| FilteredColorNamesList:%s", vim.inspect(FilteredColorNamesList))
-    logger:debug("|_init| FilteredColorNameToIndexMap:%s", vim.inspect(FilteredColorNameToIndexMap))
+    -- logger:debug("|_init| FilteredColorNamesList:%s", vim.inspect(FilteredColorNamesList))
+    -- logger:debug("|_init| FilteredColorNameToIndexMap:%s", vim.inspect(FilteredColorNameToIndexMap))
 end
 
 local function _force_sync_syntax()
@@ -819,10 +819,8 @@ local function setup(opts)
 
     vim.api.nvim_create_autocmd("ColorSchemePre", {
         callback = function(event)
-            -- logger.debug(
-            --     "|colorbox.setup| ColorSchemePre event:%s",
-            --     vim.inspect(event)
-            -- )
+            local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+            logger:debug("|colorbox.setup| ColorSchemePre event:%s", vim.inspect(event))
             local ColorNameToColorSpecsMap =
                 require("colorbox.db").get_color_name_to_color_specs_map()
             if type(event) ~= "table" or ColorNameToColorSpecsMap[event.match] == nil then
@@ -859,7 +857,9 @@ local function setup(opts)
             --     "|colorbox.setup| ColorScheme event:%s",
             --     vim.inspect(event)
             -- )
-            _save_track(event.match)
+            vim.schedule(function()
+                _save_track(vim.g.colors_name)
+            end)
         end,
     })
 
