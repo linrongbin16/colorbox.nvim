@@ -837,7 +837,6 @@ local function setup(opts)
                 local home_dir = vim.fn["colorbox#base_dir"]()
                 local ok, setup_err = pcall(Configs.setup[spec.handle], home_dir, spec)
                 if not ok then
-                    local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
                     logger:err(
                         "failed to setup colorscheme:%s, error:%s",
                         vim.inspect(spec.handle),
