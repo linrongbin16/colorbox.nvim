@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.7](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.6...v2.0.7) (2024-02-14)
+
+
+### Bug Fixes
+
+* fix bad colorscheme name in 'ColorScheme' event ([#186](https://github.com/linrongbin16/colorbox.nvim/issues/186)) ([1045168](https://github.com/linrongbin16/colorbox.nvim/commit/1045168d5ff103725aa37a7ed1d2884b89f73476))
+
 ## [2.0.6](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.5...v2.0.6) (2024-02-09)
 
 
