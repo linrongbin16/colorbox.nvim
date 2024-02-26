@@ -19,7 +19,7 @@ jobs:
       - uses: ytanikin/PRConventionalCommits@1.1.0
         with:
           task_types: '["feat","fix","docs","test","ci","refactor","perf","chore","revert","break"]'
-  luacheck:
+  lint:
     name: Lua check
     runs-on: ubuntu-latest
     steps:
@@ -43,9 +43,11 @@ jobs:
           level: Information
           configpath: ".luarc.json"
           neodev-version: stable
-      - uses: lunarmodules/luacheck@v1
-        with:
-          args: lua --config .luacheckrc
+      - uses: cargo-bins/cargo-binstall@main
+      - name: Selene
+        run: |
+          cargo binstall --no-confirm selene
+          selene --config selene.toml ./lua
       - uses: stefanzweifel/git-auto-commit-action@v4
         if: ${{ github.ref != 'refs/heads/main' }}
         with:
@@ -53,7 +55,7 @@ jobs:
   unit_test:
     name: Unit Test
     needs:
-      - luacheck
+      - lint
     strategy:
       matrix:
         nvim_version: [stable, nightly, v0.7.0]
@@ -72,13 +74,12 @@ jobs:
       - name: Run Tests
         shell: bash
         run: |
-          luarocks install luacheck
           luarocks install vusted
           vusted --shuffle ./spec
   code_coverage:
     name: Code Coverage
     needs:
-      - luacheck
+      - lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -94,7 +95,6 @@ jobs:
       - name: Run Tests
         shell: bash
         run: |
-          luarocks install luacheck
           luarocks install luacov
           luarocks install vusted
           vusted --coverage ./spec
