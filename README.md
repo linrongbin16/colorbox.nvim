@@ -1,7 +1,5 @@
 # 🌈 colorbox.nvim
 
-<!-- query a github file last update timestamp: https://stackoverflow.com/a/50204589/4438921 -->
-
 <p>
 <a href="https://github.com/neovim/neovim/releases/v0.7.0"><img alt="require" src="https://img.shields.io/badge/require-0.7%2B-blue" /></a>
 <a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://img.shields.io/badge/power_by-commons.nvim-pink" /></a>
@@ -11,9 +9,9 @@
 <a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim/main?label=codecov" /></a>
 </p>
 
-I'm greedy that I want all the **most popular** (Neo)vim colorschemes than only one, I'm playful that I want to change colorscheme from time to time. Are you like me?
+Do you want all the **most popular** (Neo)vim colorschemes than only one? Do you want to change colorscheme from time to time?
 
-Let's load all the ultra colorschemes into the Neovim player!
+This is it! Let's load all the ultra colorschemes into the Neovim player!
 
 https://github.com/linrongbin16/colorbox.nvim/assets/6496887/8fff55ea-749d-4064-90b8-a3799519898d
 
@@ -29,27 +27,27 @@ require('colorbox').setup({
 
 </details>
 
-It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
+It use offline github actions to weekly collect/update the colorscheme list.
 
 > [!NOTE]
 >
 > The **most popular** colorschemes are picked from below websites:
 >
-> - [vimcolorschemes.com/top](https://vimcolorschemes.com/top)
-> - [rockerBOO/awesome-neovim](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
+> - [vimcolorschemes.com](https://vimcolorschemes.com)
+> - [www.trackawesomelist.com - awesome-neovim](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
 >
 > with below conditions:
 >
-> 1. Github stars &ge; 300 (default config only enable &ge; 800, please modify the `filter` option to choose any colors, see [Configuration](#-configuration)).
+> 1. Github stars &ge; 300 (default config only enable &ge; 800, see [Configuration](#-configuration)).
 > 2. Last git commit in 5 years.
-> 3. For multiple plugins that contain the same color name, choose the one in following rules:
->    1. **Awesome-neovim** wins **vimcolorsheme** (since they usually has modern Neovim features: lua, lsp, treesitter, and support more third-party plugins).
+> 3. For multiple plugins that contain the same color name, pick by following rules:
+>    1. **Awesome-neovim** wins **vimcolorsheme** (they usually support modern Neovim features).
 >    2. More github stars.
 >    3. Newer git commits.
 >
 > Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorschemes list.
 
-It install color plugins via git submodules instead of copy-paste source code, so you get continuously updates from original authors instead of me, e.g. it only transport and manage, not produce.
+It install via git submodules instead of copy-paste source code, so you get continuously updates from original authors.
 
 It allow you play them with multiple playback settings (policies):
 
@@ -58,7 +56,7 @@ It allow you play them with multiple playback settings (policies):
 - Play in reverse order.
 - Single cycle.
 
-And multiple trigger timings (colorschemes don't have end time):
+And multiple trigger timings:
 
 - On startup.
 - Fixed interval.
@@ -126,9 +124,9 @@ scoop install uutils-coreutils     # rm
 
 > [!IMPORTANT]
 >
-> If this plugin provides the main colorscheme (e.g. the colorscheme to show right after nvim start), then make sure:
+> If this plugin provides the main colorscheme (e.g. the color show right after nvim start), then make sure:
 >
-> 1. Don't lazy load it (it only takes ~4 ms to load).
+> 1. Don't lazy load it.
 > 2. Load it before all other plugins.
 
 > [!IMPORTANT]
@@ -151,12 +149,8 @@ require('lazy').setup({
 
         -- don't lazy load
         lazy = false,
-
         -- load with highest priority
         priority = 1000,
-
-        -- required by 'mcchrish/zenbones.nvim'
-        dependencies = "rktjmp/lush.nvim",
 
         build = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
@@ -173,9 +167,6 @@ require('lazy').setup({
 require('pckr').add({
     {
         'linrongbin16/colorbox.nvim',
-
-        -- required by 'mcchrish/zenbones.nvim'
-        requires = "rktjmp/lush.nvim",
 
         run = function() require('colorbox').update() end,
         config = function() require('colorbox').setup() end,
