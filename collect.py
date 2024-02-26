@@ -41,9 +41,6 @@ DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S"
 DATE_FORMAT = "%Y-%m-%d"
 CANDIDATE_DIR = "candidate"
 
-if os.path.exists("autoload/db.json"):
-    os.remove("autoload/db.json")
-
 
 def init_logging(level: typing.Optional[int]) -> None:
     assert isinstance(level, int) or level is None
@@ -202,7 +199,7 @@ class ColorSpec:
             handle = handle[1:]
         while handle.endswith("/"):
             handle = handle[:-1]
-        return handle
+        return handle.lower()
 
     def _init_config(self, handle: str) -> typing.Optional[ColorSpecConfig]:
         return REPO_META_CONFIG[handle] if handle in REPO_META_CONFIG else None
@@ -507,7 +504,7 @@ def filter_color_specs() -> None:
     # logging.debug(f"before filter:{[str(s) for s in specs]}")
 
     def blacklist(sp: ColorSpec) -> bool:
-        return any([True for b in BLACKLIST if sp.url.find(b) >= 0])
+        return any([True for b in BLACKLIST if sp.url.lower().find(b.lower()) >= 0])
 
     for spec in ColorSpec.all():
         logging.debug(f"process filtering on spec:{spec}")
@@ -572,6 +569,9 @@ class Builder:
         for spec in ColorSpec.all():
             color_names = spec.get_vim_color_names()
             logging.debug(f"process dedup spec:{spec}, color names:{color_names}")
+            found_duplicate = False
+            drop_target = None
+            replace_target = None
             for color in color_names:
                 # detect duplicated color
                 if color in specs_map:
@@ -581,14 +581,40 @@ class Builder:
                     )
                     # replace old repo if new repo has higher priority
                     if greater_than(spec, old_spec):
-                        logging.info(f"replace old spec({old_spec}) with new({spec})")
+                        logging.info(
+                            f"replace old spec({old_spec}) with new spec({spec})"
+                        )
                         specs_map[color] = spec
                         specs_set.add(spec)
                         specs_set.remove(old_spec)
+
+                        replace_target = spec
+                        drop_target = old_spec
+                    else:
+                        logging.info(
+                            f"keep old spec({old_spec}), drop new spec({spec})"
+                        )
+
+                        replace_target = old_spec
+                        drop_target = spec
+
+                    found_duplicate = True
+                    break
                 else:
                     # add new color
                     specs_map[color] = spec
                     specs_set.add(spec)
+            if found_duplicate and drop_target and replace_target:
+                if drop_target in specs_set:
+                    specs_set.remove(drop_target)
+                if replace_target not in specs_set:
+                    specs_set.add(replace_target)
+                for color in drop_target.get_vim_color_names():
+                    if color in specs_map:
+                        specs_map.pop(color)
+                for color in replace_target.get_vim_color_names():
+                    specs_map[color] = replace_target
+
         logging.debug(f"after dedup: {[str(s) for s in specs_set]}")
         return list(specs_set)
 
@@ -636,6 +662,7 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt):
     if no_headless_opt:
         WEBDRIVER_HEADLESS = False
     if not skip_fetch_opt:
+        ColorSpec.truncate()
         vcs = VimColorSchemes()
         vcs.fetch()
         asn = AwesomeNeovimColorScheme()

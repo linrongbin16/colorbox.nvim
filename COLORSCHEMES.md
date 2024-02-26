@@ -1,5 +1,5 @@
 
-ColorSchemes List (72)
+ColorSchemes List (74)
 ======================
   
 - [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim) (stars: 4800, last update: 2024-01-31)  
@@ -19,6 +19,14 @@ ColorSchemes List (72)
   - kanagawa-dragon  
   - kanagawa-lotus  
   - kanagawa-wave  
+- [edeneast/nightfox.nvim](https://github.com/edeneast/nightfox.nvim) (stars: 2600, last update: 2024-01-31)  
+  - carbonfox  
+  - dawnfox  
+  - dayfox  
+  - duskfox  
+  - nightfox  
+  - nordfox  
+  - terafox  
 - [nlknguyen/papercolor-theme](https://github.com/nlknguyen/papercolor-theme) (stars: 2591, last update: 2022-06-08)  
   - PaperColor  
 - [sainnhe/everforest](https://github.com/sainnhe/everforest) (stars: 2400, last update: 2024-02-10)  
@@ -113,17 +121,14 @@ ColorSchemes List (72)
   - falcon  
 - [drewtempelmeyer/palenight.vim](https://github.com/drewtempelmeyer/palenight.vim) (stars: 648, last update: 2023-04-27)  
   - palenight  
-- [olimorris/onedarkpro.nvim](https://github.com/olimorris/onedarkpro.nvim) (stars: 642, last update: 2024-02-24)  
-  - onedark  
-  - onedark_dark  
-  - onedark_vivid  
-  - onelight  
 - [embark-theme/vim](https://github.com/embark-theme/vim) (stars: 607, last update: 2024-02-14)  
   - embark  
 - [preservim/vim-colors-pencil](https://github.com/preservim/vim-colors-pencil) (stars: 596, last update: 2022-05-07)  
   - pencil  
 - [savq/melange-nvim](https://github.com/savq/melange-nvim) (stars: 582, last update: 2024-02-14)  
   - melange  
+- [mofiqul/vscode.nvim](https://github.com/mofiqul/vscode.nvim) (stars: 577, last update: 2024-02-25)  
+  - vscode  
 - [challenger-deep-theme/vim](https://github.com/challenger-deep-theme/vim) (stars: 577, last update: 2022-04-25)  
   - challenger_deep  
 - [liuchengxu/space-vim-dark](https://github.com/liuchengxu/space-vim-dark) (stars: 568, last update: 2023-11-04)  
@@ -155,6 +160,8 @@ ColorSchemes List (72)
   - hybrid_reverse  
 - [rigellute/rigel](https://github.com/rigellute/rigel) (stars: 505, last update: 2024-01-11)  
   - rigel  
+- [alexvzyl/nordic.nvim](https://github.com/alexvzyl/nordic.nvim) (stars: 500, last update: 2024-02-08)  
+  - nordic  
 - [wadackel/vim-dogrun](https://github.com/wadackel/vim-dogrun) (stars: 499, last update: 2024-02-20)  
   - dogrun  
 - [lifepillar/vim-gruvbox8](https://github.com/lifepillar/vim-gruvbox8) (stars: 495, last update: 2023-08-04)  
