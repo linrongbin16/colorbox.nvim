@@ -421,8 +421,7 @@ To develop the project and make PR, please setup with:
 
 - [lua_ls](https://github.com/LuaLS/lua-language-server).
 - [stylua](https://github.com/JohnnyMorganz/StyLua).
-- [luarocks](https://luarocks.org/).
-- [luacheck](https://github.com/mpeterv/luacheck).
+- [selene](https://github.com/Kampfkarren/selene).
 
 To run unit tests, please install below dependencies:
 
