@@ -27,27 +27,27 @@ require('colorbox').setup({
 
 </details>
 
-It use offline github actions to weekly collect and update the most popular Vim/Neovim colorscheme list.
+It use offline github actions to weekly collect/update the colorscheme list.
 
 > [!NOTE]
 >
 > The **most popular** colorschemes are picked from below websites:
 >
-> - [vimcolorschemes.com/top](https://vimcolorschemes.com/top)
-> - [rockerBOO/awesome-neovim](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
+> - [vimcolorschemes.com](https://vimcolorschemes.com)
+> - [www.trackawesomelist.com - awesome-neovim](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
 >
 > with below conditions:
 >
-> 1. Github stars &ge; 300 (default config only enable &ge; 800, please modify the `filter` option to choose any colors, see [Configuration](#-configuration)).
+> 1. Github stars &ge; 300 (default config only enable &ge; 800, see [Configuration](#-configuration)).
 > 2. Last git commit in 5 years.
-> 3. For multiple plugins that contain the same color name, choose the one in following rules:
->    1. **Awesome-neovim** wins **vimcolorsheme** (since they usually has modern Neovim features: lua, lsp, treesitter, and support more third-party plugins).
+> 3. For multiple plugins that contain the same color name, pick by following rules:
+>    1. **Awesome-neovim** wins **vimcolorsheme** (they usually support modern Neovim features).
 >    2. More github stars.
 >    3. Newer git commits.
 >
 > Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorschemes list.
 
-It install color plugins via git submodules instead of copy-paste source code, so you get continuously updates from original authors instead of me, e.g. it only transport and manage, not produce.
+It install them via git submodules instead of copy-paste source code, so you get continuously updates from original authors.
 
 It allow you play them with multiple playback settings (policies):
 
@@ -56,7 +56,7 @@ It allow you play them with multiple playback settings (policies):
 - Play in reverse order.
 - Single cycle.
 
-And multiple trigger timings (colorschemes don't have end time):
+And multiple trigger timings:
 
 - On startup.
 - Fixed interval.
