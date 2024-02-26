@@ -97,11 +97,7 @@ def trim_quotes(s: str) -> str:
 def datetime_tostring(
     value: typing.Optional[datetime.datetime],
 ) -> typing.Optional[str]:
-    return (
-        value.strftime(DATETIME_FORMAT)
-        if isinstance(value, datetime.datetime)
-        else None
-    )
+    return value.strftime(DATETIME_FORMAT) if isinstance(value, datetime.datetime) else None
 
 
 def date_tostring(value: typing.Optional[datetime.datetime]) -> typing.Optional[str]:
@@ -211,9 +207,7 @@ class ColorSpec:
         return hash(self.handle.lower())
 
     def __eq__(self, other):
-        return (
-            isinstance(other, ColorSpec) and self.handle.lower() == other.handle.lower()
-        )
+        return isinstance(other, ColorSpec) and self.handle.lower() == other.handle.lower()
 
     def save(self) -> None:
         q = Query()
@@ -372,14 +366,10 @@ class VimColorSchemes:
                 yield f"https://vimcolorschemes.com/top/page/{i+1}"
             i += 1
 
-    def _parse_spec(
-        self, element: WebElement, source: str
-    ) -> typing.Optional[ColorSpec]:
+    def _parse_spec(self, element: WebElement, source: str) -> typing.Optional[ColorSpec]:
         logging.debug(f"parsing (vsc) spec element:{element}")
         try:
-            url = element.find_element(
-                By.XPATH, "./a[@class='card__link']"
-            ).get_attribute("href")
+            url = element.find_element(By.XPATH, "./a[@class='card__link']").get_attribute("href")
             if url.endswith("/"):
                 url = url[:-1]
             logging.debug(f"parsing (vsc) spec handle_elem:{url}")
@@ -419,19 +409,13 @@ class VimColorSchemes:
                     self.counter = self.counter + 1
                     logging.debug(f"vsc repo-{self.counter}:{spec}")
                     if spec is None:
-                        logging.info(
-                            f"skip for parsing failure - (vcs) spec-{self.counter}:{spec}"
-                        )
+                        logging.info(f"skip for parsing failure - (vcs) spec-{self.counter}:{spec}")
                         continue
                     if len(spec.handle.split("/")) != 2:
-                        logging.info(
-                            f"skip for invalid handle - (vcs) spec-{self.counter}:{spec}"
-                        )
+                        logging.info(f"skip for invalid handle - (vcs) spec-{self.counter}:{spec}")
                         continue
                     if spec.github_stars < GITHUB_STARS:
-                        logging.info(
-                            f"skip for lower stars - (vcs) spec-{self.counter}:{spec}"
-                        )
+                        logging.info(f"skip for lower stars - (vcs) spec-{self.counter}:{spec}")
                         continue
                     logging.info(f"fetch (vcs) spec-{self.counter}:{spec}")
                     need_more_scan = True
@@ -473,9 +457,7 @@ class AwesomeNeovimColorScheme:
             self.counter = self.counter + 1
             logging.debug(f"asn repo-{self.counter}:{spec}")
             if len(spec.handle.split("/")) != 2:
-                logging.info(
-                    f"skip for invalid handle - (asn) spec-{self.counter}:{spec}"
-                )
+                logging.info(f"skip for invalid handle - (asn) spec-{self.counter}:{spec}")
                 continue
             if spec.github_stars < GITHUB_STARS:
                 logging.info(f"skip for lower stars - (asn) spec-{self.counter}:{spec}")
@@ -486,13 +468,9 @@ class AwesomeNeovimColorScheme:
 
     def fetch(self) -> None:
         with make_driver() as driver:
-            driver.get(
-                "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme"
-            )
+            driver.get("https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme")
             driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
-            treesitter_specs = self._parse_colors_list(
-                driver, "tree-sitter-supported-colorscheme"
-            )
+            treesitter_specs = self._parse_colors_list(driver, "tree-sitter-supported-colorscheme")
             for spec in treesitter_specs:
                 spec.save()
             lua_specs = self._parse_colors_list(driver, "lua-colorscheme")
@@ -534,9 +512,7 @@ class Builder:
             logging.debug(f"download spec:{spec}")
             assert isinstance(spec, ColorSpec)
             spec.download_git_object()
-            last_update = retrieve_last_git_commit_datetime(
-                pathlib.Path(spec.candidate_path)
-            )
+            last_update = retrieve_last_git_commit_datetime(pathlib.Path(spec.candidate_path))
             spec.update_last_git_commit(last_update)
             assert isinstance(spec.last_git_commit, datetime.datetime)
             if (
@@ -581,9 +557,7 @@ class Builder:
                     )
                     # replace old repo if new repo has higher priority
                     if greater_than(spec, old_spec):
-                        logging.info(
-                            f"replace old spec({old_spec}) with new spec({spec})"
-                        )
+                        logging.info(f"replace old spec({old_spec}) with new spec({spec})")
                         specs_map[color] = spec
                         specs_set.add(spec)
                         specs_set.remove(old_spec)
@@ -591,9 +565,7 @@ class Builder:
                         replace_target = spec
                         drop_target = old_spec
                     else:
-                        logging.info(
-                            f"keep old spec({old_spec}), drop new spec({spec})"
-                        )
+                        logging.info(f"keep old spec({old_spec}), drop new spec({spec})")
 
                         replace_target = old_spec
                         drop_target = spec
