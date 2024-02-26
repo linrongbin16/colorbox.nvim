@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.8](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.7...v2.0.8) (2024-02-26)
+
+
+### Bug Fixes
+
+* **collector:** fix duplicate color detect ([#189](https://github.com/linrongbin16/colorbox.nvim/issues/189)) ([c32ff65](https://github.com/linrongbin16/colorbox.nvim/commit/c32ff65df108c9923da36446b12502640173f19d))
+
 ## [2.0.7](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.6...v2.0.7) (2024-02-14)
 
 
