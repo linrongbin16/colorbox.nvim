@@ -29,10 +29,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --config-path .stylua.toml ./lua ./spec
-      - uses: chartboost/ruff-action@v1
-        with:
-          args: format
-          src: "./collect.py"
       - name: Install commons.nvim
         if: ${{ github.ref != 'refs/heads/main' }}
         run: |
