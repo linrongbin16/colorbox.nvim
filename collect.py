@@ -437,7 +437,7 @@ class VimColorSchemes:
                     need_more_scan = True
                     spec.save()
                 if not need_more_scan:
-                    logging.debug(f"no more enough github stars, exit...")
+                    logging.debug("no more enough github stars, exit...")
                     break
 
 
@@ -625,7 +625,7 @@ class Builder:
 
         total = 0
         for spec in ColorSpec.all():
-            if not spec in deduped_specs:
+            if spec not in deduped_specs:
                 logging.debug(f"remove for duplicate - repo:{spec}")
                 spec.remove()
             else:
