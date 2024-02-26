@@ -124,7 +124,7 @@ scoop install uutils-coreutils     # rm
 
 > [!IMPORTANT]
 >
-> If this plugin provides the main colorscheme (e.g. the colorscheme to show right after nvim start), then make sure:
+> If this plugin provides the main colorscheme (e.g. the color show right after nvim start), then make sure:
 >
 > 1. Don't lazy load it.
 > 2. Load it before all other plugins.
