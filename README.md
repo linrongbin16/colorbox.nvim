@@ -47,7 +47,7 @@ It use offline github actions to weekly collect/update the colorscheme list.
 >
 > Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorschemes list.
 
-It install them via git submodules instead of copy-paste source code, so you get continuously updates from original authors.
+It install via git submodules instead of copy-paste source code, so you get continuously updates from original authors.
 
 It allow you play them with multiple playback settings (policies):
 
