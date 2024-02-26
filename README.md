@@ -428,7 +428,7 @@ To run unit tests, please install below dependencies:
 
 - [vusted](https://github.com/notomo/vusted).
 
-Then test with `vusted ./test`.
+Then test with `vusted ./spec`.
 
 ## 🎁 Contribute
 
