@@ -1,7 +1,5 @@
 # 🌈 colorbox.nvim
 
-<!-- query a github file last update timestamp: https://stackoverflow.com/a/50204589/4438921 -->
-
 <p>
 <a href="https://github.com/neovim/neovim/releases/v0.7.0"><img alt="require" src="https://img.shields.io/badge/require-0.7%2B-blue" /></a>
 <a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://img.shields.io/badge/power_by-commons.nvim-pink" /></a>
@@ -11,9 +9,9 @@
 <a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim/main?label=codecov" /></a>
 </p>
 
-I'm greedy that I want all the **most popular** (Neo)vim colorschemes than only one, I'm playful that I want to change colorscheme from time to time. Are you like me?
+Do you want all the **most popular** (Neo)vim colorschemes than only one? Do you want to change colorscheme from time to time?
 
-Let's load all the ultra colorschemes into the Neovim player!
+This is it! Let's load all the ultra colorschemes into the Neovim player!
 
 https://github.com/linrongbin16/colorbox.nvim/assets/6496887/8fff55ea-749d-4064-90b8-a3799519898d
 
