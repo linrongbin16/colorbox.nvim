@@ -220,7 +220,7 @@ class ColorSpec:
 
     def save(self) -> None:
         q = Query()
-        count = ColorSpec.DB.search(q.handle == self.handle)
+        count = ColorSpec.DB.search(q.handle.lower() == self.handle.lower())
         obj = {
             ColorSpec.HANDLE: self.handle,
             ColorSpec.URL: self.url,

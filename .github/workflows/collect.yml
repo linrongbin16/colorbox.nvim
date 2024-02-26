@@ -12,18 +12,8 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
-      - shell: bash
-        run: |
-          echo " start at"
-          echo $PWD
       - uses: actions/checkout@v4
-      - name: Install Python3
-        shell: bash
-        run: |
-          sudo apt-get install -y python3 python3-dev python3-venv python3-pip python3-docutils
-          python3 -m pip install --user -r requirements.txt
       - name: Install Google-Chrome
-        shell: bash
         run: |
           wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo dpkg -i google-chrome-stable_current_amd64.deb
@@ -38,9 +28,12 @@ jobs:
           chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
       - name: Collect Colors
-        shell: bash
         run: |
           export PYTHONPATH="$PWD:$PYTHONPATH"
+          sudo apt-get install -y python3 python3-dev python3-venv python3-pip python3-docutils
+          python3 -m venv venv
+          . venv/bin/activate
+          python3 -m pip install -r requirements.txt
           python3 collect.py
       - name: Auto Commit
         uses: stefanzweifel/git-auto-commit-action@v4
