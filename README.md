@@ -300,7 +300,7 @@ There're 3 types of filter configs:
   > - `pack_path`: Relative path as a nvim pack, `string` type, for example `"pack/colorbox/start/folke-tokyonight.nvim"`.
   > - `full_pack_path`: Absolute path as a nvim pack, `string` type, for example `"Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"`.
 
-- List filters: A lua list that contains multiple other filters. A color will only be enabled if **_all_** of those filters returns true.
+- List filters: A lua list that contains multiple other filters. A color will only be enabled if **all** filters returns `true`.
 
 ### Timing & Policy
 
