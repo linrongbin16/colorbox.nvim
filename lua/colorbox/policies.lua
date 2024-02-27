@@ -10,7 +10,6 @@ local async = require("colorbox.commons.async")
 
 local M = {}
 
-
 --- @param spec colorbox.ColorSpec
 --- @return integer
 M._minimal_color_name_len = function(spec)
