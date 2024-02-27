@@ -380,7 +380,7 @@ It automatically `set background=dark` before run a `colorscheme` command.
 
 ## 📝 Receipts
 
-### 1. Choose a fixed colorscheme on nvim start
+### 1. Choose fixed color on nvim start
 
 ```lua
 require('colorbox').setup({
@@ -389,17 +389,7 @@ require('colorbox').setup({
 })
 ```
 
-### 2. Choose a random colorscheme on nvim start with dark background
-
-```lua
-require('colorbox').setup({
-    background = 'dark',
-    policy = 'shuffle',
-    timing = 'startup',
-})
-```
-
-### 3. Change to a random colorscheme per seconds
+### 3. Change random color per second
 
 ```lua
 require('colorbox').setup({
@@ -408,7 +398,7 @@ require('colorbox').setup({
 })
 ```
 
-### 4. Enable all collected colors, disable the filters
+### 4. Enable all colors
 
 ```lua
 require('colorbox').setup({
@@ -416,7 +406,7 @@ require('colorbox').setup({
 })
 ```
 
-### 5. Enable only github stars &ge; 1000 & primary colors
+### 5. Enable only top stars (&ge; 1000) & primary colors
 
 ```lua
 require('colorbox').setup({
@@ -429,7 +419,7 @@ require('colorbox').setup({
 })
 ```
 
-### 6. Disable color by name
+### 6. Disable by name
 
 ```lua
 local function colorname_disabled(colorname)
@@ -458,7 +448,7 @@ require('colorbox').setup({
 })
 ```
 
-### 7. Disable color by plugin
+### 7. Disable by plugin
 
 ```lua
 local function plugin_disabled(spec)
