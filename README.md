@@ -254,17 +254,29 @@ Returns:
 
 The `colorbox.ColorSpec` type is a lua table that has below fields:
 
-- `handle`: Unique plugin name, `string` type, for example `"folke/tokyonight.nvim"`.
-- `url`: GitHub url, `string` type, for example `"https://github.com/folke/tokyonight.nvim"`.
-- `github_stars`: Github stars, `integer` type, for example `4300`.
-- `last_git_commit`: Last git commit date and time, `string` type, for example `"2023-10-25T18:20:36"`
-- `priority`: Plugin priority, `integer` type, for example **awesome-neovim** is `100`, **vimcolorschemes** is `0`.
-- `source`: Data source, `string` type, for example **awesome-neovim** is `"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"`.
-- `git_path`: Git submodule file path, `string` type, for example `"folke-tokyonight.nvim"`.
-- `git_branch`: Optional git branch of plugin (most plugins use default main/master branch, while some have specific branch), `string?` type, for example `"neovim"`.
-- `color_names`: Color names that plugin contains, `string[]` type, for example `["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]`.
-- `pack_path`: Relative path as a nvim pack, `string` type, for example `"pack/colorbox/start/folke-tokyonight.nvim"`.
-- `full_pack_path`: Absolute path as a nvim pack, `string` type, for example `"Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"`.
+- `handle`: Unique plugin name, `string` type, for example:
+  - `"folke/tokyonight.nvim"`
+- `url`: GitHub url, `string` type, for example:
+  - `"https://github.com/folke/tokyonight.nvim"`
+- `github_stars`: Github stars, `integer` type, for example:
+  - `4300`
+- `last_git_commit`: Last git commit date and time, `string` type, for example:
+  - `"2023-10-25T18:20:36"`
+- `priority`: Plugin priority, `integer` type, for example:
+  - **awesome-neovim** is `100`
+  - **vimcolorschemes** is `0`
+- `source`: Data source, `string` type, for example:
+  - **awesome-neovim** is `"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"`
+- `git_path`: Git submodule file path, `string` type, for example:
+  - `"folke-tokyonight.nvim"`
+- `git_branch`: Optional git branch of plugin (most plugins use default main/master branch, while some have specific branch), `string?` type, for example:
+  - `"neovim"`
+- `color_names`: Color names that plugin contains, `string[]` type, for example:
+  - `["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]`
+- `pack_path`: Relative path as a nvim pack, `string` type, for example:
+  - `"pack/colorbox/start/folke-tokyonight.nvim"`
+- `full_pack_path`: Absolute path as a nvim pack, `string` type, for example:
+  - `"Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"`
 
 #### 3. List Filters
 
