@@ -72,6 +72,9 @@ And multiple trigger timings:
 - [Usage](#-usage)
 - [Configuration](#-configuration)
   - [Filter](#filter)
+    - [1. Builtin Filters](#1-builtin-filters)
+    - [2. Function Filters](#2-function-filters)
+    - [3. List Filters](#3-list-filters)
   - [Timing & Policy](#timing--policy)
     - [On Nvim Start](#on-nvim-start)
     - [By Fixed Interval Time](#by-fixed-interval-time)
@@ -227,41 +230,45 @@ For complete default options, please see [configs.lua](https://github.com/linron
 
 There're 3 types of filter configs:
 
-1. Builtin filters:
+#### 1. Builtin Filters
 
-   - `"primary"`: Only enables the main color (if there are multiple colors in one plugin).
+- `"primary"`: Only enables the main color (if there are multiple colors in one plugin).
 
-2. Function filters: Lua function that decide whether to enable/disable a color. It has below signature:
+#### 2. Function Filters
 
-   ```lua
-   function(color:string, spec:colorbox.ColorSpec):boolean
-   ```
+Lua function that decide whether to enable/disable a color. It has below signature:
 
-   Parameters:
+```lua
+function(color:string, spec:colorbox.ColorSpec):boolean
+```
 
-   - `color`: Color name.
-   - `spec`: Colorscheme meta info, which is the `colorbox.ColorSpec` type, see below.
+Parameters:
 
-   Returns:
+- `color`: Color name.
+- `spec`: Colorscheme meta info, which is the `colorbox.ColorSpec` type, see below.
 
-   - To enable a color, returns `true`.
-   - To disable a color, returns `false`.
+Returns:
 
-   The `colorbox.ColorSpec` type is a lua table that has below fields:
+- To enable a color, returns `true`.
+- To disable a color, returns `false`.
 
-   - `handle`: Unique plugin name, `string` type, for example `"folke/tokyonight.nvim"`.
-   - `url`: GitHub url, `string` type, for example `"https://github.com/folke/tokyonight.nvim"`.
-   - `github_stars`: Github stars, `integer` type, for example `4300`.
-   - `last_git_commit`: Last git commit date and time, `string` type, for example `"2023-10-25T18:20:36"`
-   - `priority`: Plugin priority, `integer` type, for example **awesome-neovim** is `100`, **vimcolorschemes** is `0`.
-   - `source`: Data source, `string` type, for example **awesome-neovim** is `"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"`.
-   - `git_path`: Git submodule file path, `string` type, for example `"folke-tokyonight.nvim"`.
-   - `git_branch`: Optional git branch of plugin (most plugins use default main/master branch, while some have specific branch), `string?` type, for example `"neovim"`.
-   - `color_names`: Color names that plugin contains, `string[]` type, for example `["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]`.
-   - `pack_path`: Relative path as a nvim pack, `string` type, for example `"pack/colorbox/start/folke-tokyonight.nvim"`.
-   - `full_pack_path`: Absolute path as a nvim pack, `string` type, for example `"Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"`.
+The `colorbox.ColorSpec` type is a lua table that has below fields:
 
-3. List filters: A lua list that contains multiple other filters. A color will only be enabled if **all** filters returns `true`.
+- `handle`: Unique plugin name, `string` type, for example `"folke/tokyonight.nvim"`.
+- `url`: GitHub url, `string` type, for example `"https://github.com/folke/tokyonight.nvim"`.
+- `github_stars`: Github stars, `integer` type, for example `4300`.
+- `last_git_commit`: Last git commit date and time, `string` type, for example `"2023-10-25T18:20:36"`
+- `priority`: Plugin priority, `integer` type, for example **awesome-neovim** is `100`, **vimcolorschemes** is `0`.
+- `source`: Data source, `string` type, for example **awesome-neovim** is `"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"`.
+- `git_path`: Git submodule file path, `string` type, for example `"folke-tokyonight.nvim"`.
+- `git_branch`: Optional git branch of plugin (most plugins use default main/master branch, while some have specific branch), `string?` type, for example `"neovim"`.
+- `color_names`: Color names that plugin contains, `string[]` type, for example `["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]`.
+- `pack_path`: Relative path as a nvim pack, `string` type, for example `"pack/colorbox/start/folke-tokyonight.nvim"`.
+- `full_pack_path`: Absolute path as a nvim pack, `string` type, for example `"Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"`.
+
+#### 3. List Filters
+
+A lua list that contains multiple other filters. A color will only be enabled if **all** filters returns `true`.
 
 ### Timing & Policy
 
