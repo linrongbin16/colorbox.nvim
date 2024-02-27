@@ -69,7 +69,7 @@ And multiple trigger timings:
 
 - [Requirements](#-requirements)
 - [Install](#-install)
-- [Command](#-command)
+- [Usage](#-usage)
 - [Configuration](#-configuration)
   - [Filter](#filter)
   - [Timing & Policy](#timing--policy)
@@ -187,9 +187,20 @@ require('pckr').add({
 
 </details>
 
-## 🚀 Command
+## 🚀 Usage
 
-You can use command `Colorbox` to control the player with below subcommands:
+When loading plugin, it will run following steps:
+
+1. Run the filters, only enable the colors you choose from candidate list. See [Filter](#filter).
+2. Register triggers to invoke related policies at a proper timing. See [Timing & Policy](#timing--policy).
+
+When a timing is triggered, it will run following steps:
+
+1. Run registered policy and choose a colorscheme. See [Timing & Policy](#timing--policy).
+2. Refresh the `background` option. See [Background](#background).
+3. Run `colorscheme` command to actually apply the colorscheme.
+
+You can also use command `Colorbox` to control the player with below subcommands:
 
 - `update`: Update all git submodules.
 - `reinstall`: Clean & re-install all git submodules.
@@ -210,18 +221,7 @@ require("colorbox").setup(opts)
 
 The `opts` is an optional lua table that override the default options.
 
-For complete default options, please see [config.lua](https://github.com/linrongbin16/fzfx.nvim/blob/main/lua/fzfx/config.lua).
-
-When loading plugin, it will run following steps:
-
-1. Run the filters, only enable the colors you choose from candidate list. See [Filter](#filter).
-2. Register triggers to invoke related policies at a proper timing. See [Timing & Policy](#timing--policy).
-
-When a timing is triggered, it will run following steps:
-
-1. Run registered policy and choose a colorscheme. See [Timing & Policy](#timing--policy).
-2. Refresh the `background` option. See [Background](#background).
-3. Run `colorscheme` command to actually apply the colorscheme.
+For complete default options, please see [configs.lua](https://github.com/linrongbin16/colorbox.nvim/blob/main/lua/colorbox/configs.lua).
 
 ### Filter
 
