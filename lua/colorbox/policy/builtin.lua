@@ -80,4 +80,15 @@ M.primary = function(color_name, spec)
     return true
 end
 
+--- @param f colorbox.BuiltinFilterConfig
+--- @param color_name string
+--- @param spec colorbox.ColorSpec
+--- @return boolean
+M.filter = function(f, color_name, spec)
+    if f == "primary" then
+        return M.primary(color_name, spec)
+    end
+    return false
+end
+
 return M
