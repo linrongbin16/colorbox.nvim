@@ -21,7 +21,7 @@ https://github.com/linrongbin16/colorbox.nvim/assets/6496887/8fff55ea-749d-4064-
 <summary><i>Click here to see how to configure</i></summary>
 
 ```lua
-require('colorbox').setup({
+require("colorbox").setup({
   policy = { seconds = 1, implement = "shuffle" },
   timing = "interval",
 })
@@ -163,8 +163,8 @@ require('lazy').setup({
         -- load with highest priority
         priority = 1000,
 
-        build = function() require('colorbox').update() end,
-        config = function() require('colorbox').setup() end,
+        build = function() require("colorbox").update() end,
+        config = function() require("colorbox").setup() end,
     }
 })
 ```
@@ -179,8 +179,8 @@ require('pckr').add({
     {
         'linrongbin16/colorbox.nvim',
 
-        run = function() require('colorbox').update() end,
-        config = function() require('colorbox').setup() end,
+        run = function() require("colorbox").update() end,
+        config = function() require("colorbox").setup() end,
     };
 })
 ```
@@ -203,7 +203,7 @@ You can use command `Colorbox` to control the player with below subcommands:
 ## 🔧 Configuration
 
 ```lua
-require('colorbox').setup({
+require("colorbox").setup({
     -- Only enable those colors you want from the candidates list.
     -- Enable color when the (all of those) filter returns `true`.
     -- By default only enable primary colorscheme and GitHub stars >= 800.
@@ -315,9 +315,9 @@ There're 3 types of filter configs:
 To choose a color on nvim start, please use:
 
 ```lua
-require('colorbox').setup({
-    timing = 'startup',
-    policy = ...,
+require("colorbox").setup({
+    timing = "startup",
+    policy = "shuffle",
 })
 ```
 
@@ -333,8 +333,8 @@ There're 4 builtin policies to work with `startup` timing:
 To choose a color on a fixed interval time, please use:
 
 ```lua
-require('colorbox').setup({
-    timing = 'interval',
+require("colorbox").setup({
+    timing = "interval",
     policy = { seconds = 60, implement = "in_order" },
 })
 ```
@@ -349,7 +349,7 @@ The fixed interval timing needs to specify below 2 fields in its policy:
 To choose a color on buffer's file type change, please use:
 
 ```lua
-require('colorbox').setup({
+require("colorbox").setup({
     timing = "filetype",
     policy = {
         mapping = {
@@ -377,8 +377,8 @@ There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light
 If you want to bring the dark-able colors back to `dark`, please use:
 
 ```lua
-require('colorbox').setup({
-    background = 'dark',
+require("colorbox").setup({
+    background = "dark",
 })
 ```
 
@@ -389,25 +389,25 @@ It automatically `set background=dark` before run a `colorscheme` command.
 ### 1. Choose fixed color on nvim start
 
 ```lua
-require('colorbox').setup({
-    policy = 'single',
-    timing = 'startup',
+require("colorbox").setup({
+    policy = "single",
+    timing = "startup",
 })
 ```
 
 ### 2. Change random color per second
 
 ```lua
-require('colorbox').setup({
+require("colorbox").setup({
     policy = { seconds = 1, implement = "shuffle" },
-    timing = 'interval',
+    timing = "interval",
 })
 ```
 
 ### 3. Enable all colors
 
 ```lua
-require('colorbox').setup({
+require("colorbox").setup({
     filter = false,
 })
 ```
@@ -415,7 +415,7 @@ require('colorbox').setup({
 ### 4. Enable only top stars (&ge; 1000) & primary colors
 
 ```lua
-require('colorbox').setup({
+require("colorbox").setup({
     filter = {
         "primary",
         function(color, spec)
@@ -442,7 +442,7 @@ local function colorname_disabled(colorname)
     return false
 end
 
-require('colorbox').setup({
+require("colorbox").setup({
     filter = function(color, spec)
         for _, c in ipairs(spec.color_names) do
             if colorname_disabled(c) then
@@ -471,7 +471,7 @@ local function plugin_disabled(spec)
     return false
 end
 
-require('colorbox').setup({
+require("colorbox").setup({
     filter = function(color, spec)
         return not plugin_disabled(spec)
     end
