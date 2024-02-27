@@ -1,3 +1,13 @@
+local logging = require("colorbox.commons.logging")
+local LogLevels = require("colorbox.commons.logging").LogLevels
+local jsons = require("colorbox.commons.jsons")
+local uv = require("colorbox.commons.uv")
+local numbers = require("colorbox.commons.numbers")
+local fileios = require("colorbox.commons.fileios")
+local strings = require("colorbox.commons.strings")
+local apis = require("colorbox.commons.apis")
+local async = require("colorbox.commons.async")
+
 local function _minimal_color_name_len(spec)
     local n = numbers.INT32_MAX
     for _, c in ipairs(spec.color_names) do
