@@ -78,6 +78,12 @@ And multiple trigger timings:
     - [By File Type](#by-file-type)
   - [Background](#background)
 - [Receipts](#-receipts)
+  - [1. Choose fixed color on nvim start](#1-choose-fixed-color-on-nvim-start)
+  - [2. Change random color per second](#2-change-random-color-per-second)
+  - [3. Enable all colors](#3-enable-all-colors)
+  - [4. Enable only top stars (&ge; 1000) & primary colors](#4-enable-only-top-stars--1000--primary-colors)
+  - [5. Disable by name](#5-disable-by-name)
+  - [6. Disable by plugin](#6-disable-by-plugin)
 - [Development](#-development)
 - [Contribute](#-contribute)
 
@@ -389,7 +395,7 @@ require('colorbox').setup({
 })
 ```
 
-### 3. Change random color per second
+### 2. Change random color per second
 
 ```lua
 require('colorbox').setup({
@@ -398,7 +404,7 @@ require('colorbox').setup({
 })
 ```
 
-### 4. Enable all colors
+### 3. Enable all colors
 
 ```lua
 require('colorbox').setup({
@@ -406,7 +412,7 @@ require('colorbox').setup({
 })
 ```
 
-### 5. Enable only top stars (&ge; 1000) & primary colors
+### 4. Enable only top stars (&ge; 1000) & primary colors
 
 ```lua
 require('colorbox').setup({
@@ -419,7 +425,7 @@ require('colorbox').setup({
 })
 ```
 
-### 6. Disable by name
+### 5. Disable by name
 
 ```lua
 local function colorname_disabled(colorname)
@@ -448,7 +454,7 @@ require('colorbox').setup({
 })
 ```
 
-### 7. Disable by plugin
+### 6. Disable by plugin
 
 ```lua
 local function plugin_disabled(spec)
