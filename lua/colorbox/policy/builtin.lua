@@ -69,7 +69,7 @@ end
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-M.builtin_primary = function(color_name, spec)
+M.primary = function(color_name, spec)
     local color_score = M._primary_score(color_name, spec)
     for _, other_color in ipairs(spec.color_names) do
         local other_score = M._primary_score(other_color, spec)
