@@ -8,6 +8,9 @@ local strings = require("colorbox.commons.strings")
 local apis = require("colorbox.commons.apis")
 local async = require("colorbox.commons.async")
 
+local M = {}
+
+
 --- @param spec colorbox.ColorSpec
 --- @return integer
 M._minimal_color_name_len = function(spec)
@@ -31,7 +34,7 @@ local function _primary_score(color_name, spec)
 
     -- shortest
     local current_name_len = string.len(color_name)
-    local minimal_name_len = _minimal_color_name_len(spec)
+    local minimal_name_len = M._minimal_color_name_len(spec)
     local shortest = current_name_len == minimal_name_len
 
     -- match
@@ -77,3 +80,5 @@ local function _builtin_filter_primary(color_name, spec)
     end
     return true
 end
+
+return M
