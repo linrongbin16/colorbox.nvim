@@ -77,7 +77,7 @@ And multiple trigger timings:
     - [By Fixed Interval Time](#by-fixed-interval-time)
     - [By File Type](#by-file-type)
   - [Background](#background)
-- [Receipts](#receipts)
+- [Receipts](#-receipts)
 - [Development](#-development)
 - [Contribute](#-contribute)
 
@@ -378,9 +378,9 @@ require('colorbox').setup({
 
 It automatically `set background=dark` before run a `colorscheme` command.
 
-## Receipts
+## 📝 Receipts
 
-To choose a fixed colorscheme on nvim start, please use:
+### 1. Choose a fixed colorscheme on nvim start
 
 ```lua
 require('colorbox').setup({
@@ -389,7 +389,7 @@ require('colorbox').setup({
 })
 ```
 
-To choose a random colorscheme on nvim start with dark background, please use:
+### 2. Choose a random colorscheme on nvim start with dark background
 
 ```lua
 require('colorbox').setup({
@@ -399,24 +399,7 @@ require('colorbox').setup({
 })
 ```
 
-To choose a colorscheme by file type, please use:
-
-```lua
-require('colorbox').setup({
-    policy = {
-        mapping = {
-            lua = "PaperColor",
-            yaml = "everforest",
-            markdown = "kanagawa",
-            python = "iceberg",
-        },
-        fallback = "solarized8",
-    },
-    timing = "filetype",
-})
-```
-
-To choose a colorscheme on fixed interval per seconds, please use:
+### 3. Change to a random colorscheme per seconds
 
 ```lua
 require('colorbox').setup({
@@ -425,7 +408,7 @@ require('colorbox').setup({
 })
 ```
 
-To disable filters, please use:
+### 4. Enable all collected colors, disable the filters
 
 ```lua
 require('colorbox').setup({
@@ -433,24 +416,69 @@ require('colorbox').setup({
 })
 ```
 
-To enable only primary colors (default config), please use:
-
-```lua
-require('colorbox').setup({
-    filter = 'primary',
-})
-```
-
-To enable only github stars &ge; 1000 & primary colors, please use:
+### 5. Enable only github stars &ge; 1000 & primary colors
 
 ```lua
 require('colorbox').setup({
     filter = {
         "primary",
         function(color, spec)
-            return spec.github_stars < 1000
+            return spec.github_stars >= 1000
         end
     },
+})
+```
+
+### 6. Disable color by name
+
+```lua
+local function colorname_disabled(colorname)
+    for _, c in ipairs({
+        "iceberg",
+        "ayu",
+        "edge",
+        "nord",
+    }) do
+        if string.lower(c) == string.lower(colorname) then
+            return true
+        end
+    end
+    return false
+end
+
+require('colorbox').setup({
+    filter = function(color, spec)
+        for _, c in ipairs(spec.color_names) do
+            if colorname_disabled(c) then
+                return false
+            end
+        end
+        return true
+    end
+})
+```
+
+### 7. Disable color by plugin
+
+```lua
+local function plugin_disabled(spec)
+    for _, p in ipairs({
+        "cocopon/iceberg.vim",
+        "folke/tokyonight.nvim",
+        "ayu-theme/ayu-vim",
+        "shaunsingh/nord.nvim",
+    }) do
+        if string.lower(p) == string.lower(spec.handle) then
+            return true
+        end
+    end
+    return false
+end
+
+require('colorbox').setup({
+    filter = function(color, spec)
+        return not plugin_disabled(spec)
+    end
 })
 ```
 
