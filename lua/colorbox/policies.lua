@@ -25,7 +25,7 @@ end
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return integer
-local function _primary_score(color_name, spec)
+M._primary_score = function(color_name, spec)
     local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
 
     -- unique
@@ -69,10 +69,10 @@ end
 --- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-local function _builtin_filter_primary(color_name, spec)
-    local color_score = _primary_score(color_name, spec)
+M.builtin_primary = function(color_name, spec)
+    local color_score = M._primary_score(color_name, spec)
     for _, other_color in ipairs(spec.color_names) do
-        local other_score = _primary_score(other_color, spec)
+        local other_score = M._primary_score(other_color, spec)
         if color_score < other_score then
             return false
         end
