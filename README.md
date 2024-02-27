@@ -335,7 +335,7 @@ To choose a color on a fixed interval time, please use:
 ```lua
 require('colorbox').setup({
     timing = 'interval',
-    policy = { seconds = ..., implement = ... },
+    policy = { seconds = 60, implement = "in_order" },
 })
 ```
 
