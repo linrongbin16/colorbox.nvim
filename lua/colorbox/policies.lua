@@ -8,7 +8,9 @@ local strings = require("colorbox.commons.strings")
 local apis = require("colorbox.commons.apis")
 local async = require("colorbox.commons.async")
 
-local function _minimal_color_name_len(spec)
+--- @param spec colorbox.ColorSpec
+--- @return integer
+M._minimal_color_name_len = function(spec)
     local n = numbers.INT32_MAX
     for _, c in ipairs(spec.color_names) do
         if string.len(c) < n then
