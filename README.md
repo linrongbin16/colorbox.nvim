@@ -73,6 +73,9 @@ And multiple trigger timings:
 - [Configuration](#-configuration)
   - [Filter](#filter)
   - [Timing & Policy](#timing--policy)
+    - [On Nvim Start](#on-nvim-start)
+    - [By Fixed Interval Time](#by-fixed-interval-time)
+    - [By File Type](#by-file-type)
   - [Background](#background)
 - [Receipts](#receipts)
 - [Development](#-development)
@@ -369,7 +372,7 @@ The filetype timing needs to specify below 2 fields in its policy:
 
 There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, e.g. they forced `set background=light` on loading. Thus the other following colors will continue use `light` background.
 
-If you want to bring the dark-able colors back to dark, please use:
+If you want to bring the dark-able colors back to `dark`, please use:
 
 ```lua
 require('colorbox').setup({
@@ -377,7 +380,7 @@ require('colorbox').setup({
 })
 ```
 
-It will automatically run `set background=dark` option before `colorscheme` command.
+It automatically `set background=dark` before run a `colorscheme` command.
 
 ## Receipts
 
