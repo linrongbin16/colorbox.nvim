@@ -202,56 +202,15 @@ You can use command `Colorbox` to control the player with below subcommands:
 
 ## 🔧 Configuration
 
+To configure options, please use:
+
 ```lua
-require("colorbox").setup({
-    -- Only enable those colors you want from the candidates list.
-    -- Enable color when the (all of those) filter returns `true`.
-    -- By default only enable primary colorscheme and GitHub stars >= 800.
-    filter = {
-        "primary",
-        function(color, spec)
-            return spec.github_stars >= 800
-        end,
-    },
-
-    -- Choose a colorscheme from the filtered candidates.
-    -- By default randomly select color on nvim start.
-    policy = "shuffle",
-
-    -- Decide when to switch to next colorscheme.
-    -- By default randomly select color on nvim start.
-    timing = "startup",
-
-    -- (Optional) setup plugin before running `colorscheme {color}`.
-    --- @type table<string, function>
-    setup = {
-        ["projekt0n/github-nvim-theme"] = function()
-            require("github-theme").setup()
-        end,
-    },
-
-    -- Set `background` before running `colorscheme {color}`.
-    --
-    --- @type "dark"|"light"|nil
-    background = nil,
-
-    -- Cache directory
-    -- * For macos/linux: $HOME/.local/share/nvim/colorbox.nvim
-    -- * For windows: $env:USERPROFILE\AppData\Local\nvim-data\colorbox.nvim
-    --
-    --- @type string
-    cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath('data')),
-
-    -- enable debug
-    debug = false,
-
-    -- print log to console (command line)
-    console_log = true,
-
-    -- print log to file.
-    file_log = false,
-})
+require("colorbox").setup(opts)
 ```
+
+The `opts` is an optional lua table that override the default options.
+
+For complete default options, please see [config.lua](https://github.com/linrongbin16/fzfx.nvim/blob/main/lua/fzfx/config.lua).
 
 When loading plugin, it will run following steps:
 
