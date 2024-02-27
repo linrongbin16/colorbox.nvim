@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD001 MD013 MD034 MD033 MD051 -->
+
 # 🌈 colorbox.nvim
 
 <p>
@@ -267,7 +269,9 @@ There're 3 types of filter configs:
   >
   > The lua function has below signature:
   >
-  > `function(color:string, spec:colorbox.ColorSpec):boolean`
+  > ```lua
+  > function(color:string, spec:colorbox.ColorSpec):boolean
+  > ```
   >
   > Parameters:
   >
@@ -281,10 +285,17 @@ There're 3 types of filter configs:
   >
   > The `colorbox.ColorSpec` type is a lua table that has below fields:
   >
-  > `handle`: Unique plugin name, `string` type, for example `"folke/tokyonight.nvim"`.
-  > `url`: GitHub url, `string` type, for example `"https://github.com/folke/tokyonight.nvim"` > `github_stars`: Github stars, `integer` type, for example `4300`.
-  > `last_git_commit`: Last git commit date and time, `string` type, for example `"2023-10-25T18:20:36"` > `priority`: Plugin priority, `integer` type, for example **awesome-neovim** is `100`, **vimcolorschemes** is `0`.
-  > `source`: Data source, `string` type, for example **awesome-neovim** is `"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"` > `git_path`: Git submodule file path, `string` type, for example `"folke-tokyonight.nvim"` > `git_branch`: Optional git branch of plugin (most plugins use default main/master branch, while some have specific branch), `string?` type, for example `"neovim"` > `color_names`: Color names that plugin contains, `string[]` type, for example `["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]` > `pack_path`: Relative path as a nvim pack, `string` type, for example `"pack/colorbox/start/folke-tokyonight.nvim"` > `full_pack_path`: Absolute path as a nvim pack, `string` type, for example `"Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"`
+  > - `handle`: Unique plugin name, `string` type, for example `"folke/tokyonight.nvim"`.
+  > - `url`: GitHub url, `string` type, for example `"https://github.com/folke/tokyonight.nvim"`.
+  > - `github_stars`: Github stars, `integer` type, for example `4300`.
+  > - `last_git_commit`: Last git commit date and time, `string` type, for example `"2023-10-25T18:20:36"`
+  > - `priority`: Plugin priority, `integer` type, for example **awesome-neovim** is `100`, **vimcolorschemes** is `0`.
+  > - `source`: Data source, `string` type, for example **awesome-neovim** is `"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"`.
+  > - `git_path`: Git submodule file path, `string` type, for example `"folke-tokyonight.nvim"`.
+  > - `git_branch`: Optional git branch of plugin (most plugins use default main/master branch, while some have specific branch), `string?` type, for example `"neovim"`.
+  > - `color_names`: Color names that plugin contains, `string[]` type, for example `["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]`.
+  > - `pack_path`: Relative path as a nvim pack, `string` type, for example `"pack/colorbox/start/folke-tokyonight.nvim"`.
+  > - `full_pack_path`: Absolute path as a nvim pack, `string` type, for example `"Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"`.
 
 - List filters: A lua list that contains multiple other filters. A color will only be enabled if **_all_** of those filters returns true.
 
@@ -294,34 +305,69 @@ There're 3 types of filter configs:
 >
 > Timing and policy have to work together.
 
-- `timing`:
+#### On Nvim Start
 
-  - `"startup"`: Choose a color on nvim's start.
-  - `"interval"`: Choose a color after a fixed interval time.
-  - `"filetype"`: Choose a color by file type.
+To choose a color on nvim start, please use:
 
-- `policy`:
+```lua
+require('colorbox').setup({
+    timing = 'startup',
+    policy = ...,
+})
+```
 
-  - Builtin policy, works with `timing = "startup"`.
+There're 4 builtin policies to work with `startup` timing:
 
-    - `"shuffle"`: Random choose next color.
-    - `"in_order"`: Choose next color in order, color names are ordered from 'A' to 'Z'.
-    - `"reverse_order"`: Choose next color in reversed order, color names are ordered from 'Z' to 'A'.
-    - `"single"`: Choose the fixed one color.
+- `shuffle`: Choose a random color.
+- `in_order`: Choose next color in order, color names are ordered from 'A' to 'Z'.
+- `reverse_order`: Choose next color in reversed order, color names are ordered from 'Z' to 'A'.
+- `single`: Choose a fixed color.
 
-  - Fixed interval time policy, works with `timing = "interval"`. The policy contains two fields:
+#### By Fixed Interval Time
 
-    - `seconds`: Fixed interval time by seconds.
-    - `implement`: Internal policy implementation, e.g. `shuffle`, `in_order`, `reverse_order`, `single` builtin policies.
+To choose a color on a fixed interval time, please use:
 
-  - By filetype policy, works with `timing = "filetype"`.
+```lua
+require('colorbox').setup({
+    timing = 'interval',
+    policy = { seconds = ..., implement = ... },
+})
+```
 
-    - `mapping`: A lua table to map file type to colorscheme.
-    - `fallback`: Default colorscheme when file type is not mapped.
+The fixed interval timing needs to specify below 2 fields in its policy:
+
+- `seconds`: Change to next color every X seconds.
+- `implement`: The builtin policies (mentioned above) to decide which color to choose.
+
+#### By File Type
+
+To choose a color on buffer's file type change, please use:
+
+```lua
+require('colorbox').setup({
+    timing = "filetype",
+    policy = {
+        mapping = {
+            lua = "PaperColor",
+            yaml = "everforest",
+            markdown = "kanagawa",
+            python = "iceberg",
+        },
+        empty = "tokyonight",
+        fallback = "solarized8",
+    },
+})
+```
+
+The filetype timing needs to specify below 2 fields in its policy:
+
+- `mapping`: Lua table that map from buffer's file type to color name.
+- `empty`: **Optional** color name if file type is empty (and surely not found in `mapping`), do nothing if `nil`.
+- `fallback`: **Optional** color name if file type is not found in `mapping`, do nothing if `nil`.
 
 ### Background
 
-There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, e.g. they forced the `set background=light` on loading.
+There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, e.g. they forced `set background=light` on loading. Thus the other following colors will continue use `light` background.
 
 If you want to bring the dark-able colors back to dark, please use:
 
