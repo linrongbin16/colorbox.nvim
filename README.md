@@ -72,9 +72,9 @@ And multiple trigger timings:
 - [Usage](#-usage)
 - [Configuration](#-configuration)
   - [Filter](#filter)
-    - [1. Builtin Filters](#1-builtin-filters)
-    - [2. Function Filters](#2-function-filters)
-    - [3. List Filters](#3-list-filters)
+    - [Builtin Filters](#builtin-filters)
+    - [Function Filters](#function-filters)
+    - [List Filters](#list-filters)
   - [Timing & Policy](#timing--policy)
     - [On Nvim Start](#on-nvim-start)
     - [By Fixed Interval Time](#by-fixed-interval-time)
@@ -230,11 +230,11 @@ For complete default options, please see [configs.lua](https://github.com/linron
 
 There're 3 types of filter configs:
 
-#### 1. Builtin Filters
+#### Builtin Filters
 
 - `"primary"`: Only enables the main color (if there are multiple colors in one plugin).
 
-#### 2. Function Filters
+#### Function Filters
 
 Lua function that decide whether to enable/disable a color. It has below signature:
 
@@ -278,7 +278,7 @@ The `colorbox.ColorSpec` type is a lua table that has below fields:
 - `full_pack_path`: Absolute path as a nvim pack, `string` type, for example:
   - `"Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"`
 
-#### 3. List Filters
+#### List Filters
 
 A lua list that contains multiple other filters. A color will only be enabled if **all** filters returns `true`.
 
