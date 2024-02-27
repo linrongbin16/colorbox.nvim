@@ -8,76 +8,7 @@ local strings = require("colorbox.commons.strings")
 local apis = require("colorbox.commons.apis")
 local async = require("colorbox.commons.async")
 
---- @alias colorbox.Options table<any, any>
---- @type colorbox.Options
-local Defaults = {
-    -- builtin policy
-    --- @alias colorbox.BuiltinPolicyConfig "shuffle"|"in_order"|"reverse_order"|"single"
-    ---
-    -- by filetype policy: buffer filetype => color name
-    --- @alias colorbox.ByFileTypePolicyConfig {mapping:table<string, string>,empty:string?,fallback:string?}
-    ---
-    -- fixed interval seconds
-    --- @alias colorbox.FixedIntervalPolicyConfig {seconds:integer,implement:colorbox.BuiltinPolicyConfig}
-    ---
-    --- @alias colorbox.PolicyConfig colorbox.BuiltinPolicyConfig|colorbox.ByFileTypePolicyConfig|colorbox.FixedIntervalPolicyConfig
-    --- @type colorbox.PolicyConfig
-    policy = "shuffle",
-
-    --- @type "startup"|"interval"|"filetype"
-    timing = "startup",
-
-    -- (Optional) filters that disable some colors that you don't want.
-    --
-    -- builtin filter
-    --- @alias colorbox.BuiltinFilterConfig "primary"
-    ---
-    -- function-based filter, enabled if function returns true.
-    --- @alias colorbox.FunctionFilterConfig fun(color:string, spec:colorbox.ColorSpec):boolean
-    ---
-    -- list-based all of filter, a color is enabled if all of inside filters returns true.
-    --- @alias colorbox.AllFilterConfig (colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig)[]
-    ---
-    --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AllFilterConfig
-    --- @type colorbox.FilterConfig?
-    filter = {
-        "primary",
-        function(color, spec)
-            return spec.github_stars >= 800
-        end,
-    },
-
-    --- @type table<string, function>
-    setup = {
-        ["projekt0n/github-nvim-theme"] = function()
-            require("github-theme").setup()
-        end,
-    },
-
-    --- @type "dark"|"light"|nil
-    background = nil,
-
-    --- @type colorbox.Options
-    command = {
-        name = "Colorbox",
-        desc = "Colorschemes player controller",
-    },
-
-    --- @type string
-    cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath("data")),
-
-    -- enable debug
-    debug = false,
-
-    -- print log to console (command line)
-    console_log = true,
-
-    -- print log to file.
-    file_log = false,
-}
-
---- @type colorbox.Options
-local Configs = {}
+local configs = require("colorbox.configs")
 
 -- filtered color names list
 --- @type string[]
@@ -211,12 +142,13 @@ end
 --- @param spec colorbox.ColorSpec
 --- @return boolean
 local function _filter(color_name, spec)
-    if type(Configs.filter) == "string" then
-        return _builtin_filter(Configs.filter, color_name, spec)
-    elseif type(Configs.filter) == "function" then
-        return _function_filter(Configs.filter, color_name, spec)
-    elseif type(Configs.filter) == "table" then
-        return _all_filter(Configs.filter, color_name, spec)
+    local confs = configs.get()
+    if type(confs.filter) == "string" then
+        return _builtin_filter(confs.filter, color_name, spec)
+    elseif type(confs.filter) == "function" then
+        return _function_filter(confs.filter, color_name, spec)
+    elseif type(confs.filter) == "table" then
+        return _all_filter(confs.filter, color_name, spec)
     end
     return false
 end
@@ -266,17 +198,19 @@ local function _save_track(color_name)
     end
     local color_number = FilteredColorNameToIndexMap[color_name] or 1
     vim.schedule(function()
+        local confs = configs.get()
         local content = jsons.encode({
             color_name = color_name,
             color_number = color_number,
         }) --[[@as string]]
-        fileios.writefile(Configs.previous_track_cache, content)
+        fileios.writefile(confs.previous_track_cache, content)
     end)
 end
 
 --- @return colorbox.PreviousTrack?
 local function _load_previous_track()
-    local content = fileios.readfile(Configs.previous_track_cache)
+    local confs = configs.get()
+    local content = fileios.readfile(confs.previous_track_cache)
     if content == nil then
         return nil
     end
@@ -361,20 +295,20 @@ local function _is_fixed_interval_policy(po)
 end
 
 local function _policy_fixed_interval()
-    local later = Configs.policy.seconds > 0 and (Configs.policy.seconds * 1000)
-        or numbers.INT32_MAX
+    local confs = configs.get()
+    local later = confs.policy.seconds > 0 and (confs.policy.seconds * 1000) or numbers.INT32_MAX
 
     local function impl()
-        if Configs.policy.implement == "shuffle" then
+        if confs.policy.implement == "shuffle" then
             _policy_shuffle()
             _force_sync_syntax()
-        elseif Configs.policy.implement == "in_order" then
+        elseif confs.policy.implement == "in_order" then
             _policy_in_order()
             _force_sync_syntax()
-        elseif Configs.policy.implement == "reverse_order" then
+        elseif confs.policy.implement == "reverse_order" then
             _policy_reverse_order()
             _force_sync_syntax()
-        elseif Configs.policy.implement == "single" then
+        elseif confs.policy.implement == "single" then
             _policy_single()
             _force_sync_syntax()
         end
@@ -394,22 +328,23 @@ end
 
 local function _policy_by_filetype()
     vim.defer_fn(function()
+        local confs = configs.get()
         local ft = vim.bo.filetype or ""
 
-        if Configs.policy.mapping[ft] then
+        if confs.policy.mapping[ft] then
             local ok, err = pcall(
                 vim.cmd --[[@as function]],
-                string.format([[color %s]], Configs.policy.mapping[ft])
+                string.format([[color %s]], confs.policy.mapping[ft])
             )
             assert(ok, err)
-        elseif strings.empty(ft) and strings.not_empty(Configs.policy.empty) then
+        elseif strings.empty(ft) and strings.not_empty(confs.policy.empty) then
             local ok, err =
-                pcall(vim.cmd --[[@as function]], string.format([[color %s]], Configs.policy.empty))
+                pcall(vim.cmd --[[@as function]], string.format([[color %s]], confs.policy.empty))
             assert(ok, err)
-        elseif strings.not_empty(Configs.policy.fallback) then
+        elseif strings.not_empty(confs.policy.fallback) then
             local ok, err = pcall(
                 vim.cmd --[[@as function]],
-                string.format([[color %s]], Configs.policy.fallback)
+                string.format([[color %s]], confs.policy.fallback)
             )
             assert(ok, err)
         end
@@ -418,19 +353,20 @@ local function _policy_by_filetype()
 end
 
 local function _policy()
-    if Configs.policy == "shuffle" then
+    local confs = configs.get()
+    if confs.policy == "shuffle" then
         _policy_shuffle()
-    elseif Configs.policy == "in_order" then
+    elseif confs.policy == "in_order" then
         _policy_in_order()
-    elseif Configs.policy == "reverse_order" then
+    elseif confs.policy == "reverse_order" then
         _policy_reverse_order()
-    elseif Configs.policy == "single" then
+    elseif confs.policy == "single" then
         _policy_single()
-    elseif Configs.timing == "interval" and _is_fixed_interval_policy(Configs.policy) then
+    elseif confs.timing == "interval" and _is_fixed_interval_policy(confs.policy) then
         _policy_fixed_interval()
     elseif
-        Configs.timing == "bufferchanged"
-        or Configs.timing == "filetype" and _is_by_filetype_policy(Configs.policy)
+        confs.timing == "bufferchanged"
+        or confs.timing == "filetype" and _is_by_filetype_policy(confs.policy)
     then
         _policy_by_filetype()
     end
@@ -458,22 +394,23 @@ local function _timing_filetype()
 end
 
 local function _timing()
-    if Configs.timing == "startup" then
+    local confs = configs.get()
+    if confs.timing == "startup" then
         _timing_startup()
-    elseif Configs.timing == "interval" then
+    elseif confs.timing == "interval" then
         assert(
-            _is_fixed_interval_policy(Configs.policy),
-            string.format("invalid policy %s for 'interval' timing!", vim.inspect(Configs.policy))
+            _is_fixed_interval_policy(confs.policy),
+            string.format("invalid policy %s for 'interval' timing!", vim.inspect(confs.policy))
         )
         _policy_fixed_interval()
-    elseif Configs.timing == "bufferchanged" or Configs.timing == "filetype" then
+    elseif confs.timing == "bufferchanged" or confs.timing == "filetype" then
         assert(
-            _is_by_filetype_policy(Configs.policy),
-            string.format("invalid policy %s for 'filetype' timing!", vim.inspect(Configs.policy))
+            _is_by_filetype_policy(confs.policy),
+            string.format("invalid policy %s for 'filetype' timing!", vim.inspect(confs.policy))
         )
         _timing_filetype()
     else
-        error(string.format("invalid timing %s!", vim.inspect(Configs.timing)))
+        error(string.format("invalid timing %s!", vim.inspect(confs.timing)))
     end
 end
 
@@ -762,27 +699,27 @@ local CONTROLLERS_MAP = {
 
 --- @param opts colorbox.Options?
 local function setup(opts)
-    Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
+    local confs = configs.setup(opts)
 
     logging.setup({
         name = "colorbox",
-        level = Configs.debug and LogLevels.DEBUG or LogLevels.INFO,
-        console_log = Configs.console_log,
-        file_log = Configs.file_log,
+        level = confs.debug and LogLevels.DEBUG or LogLevels.INFO,
+        console_log = confs.console_log,
+        file_log = confs.file_log,
         file_log_name = "colorbox.log",
     })
 
     -- cache
     assert(
-        vim.fn.filereadable(Configs.cache_dir) <= 0,
-        string.format("%s (cache_dir option) already exist but not a directory!", Configs.cache_dir)
+        vim.fn.filereadable(confs.cache_dir) <= 0,
+        string.format("%s (cache_dir option) already exist but not a directory!", confs.cache_dir)
     )
-    vim.fn.mkdir(Configs.cache_dir, "p")
-    Configs.previous_track_cache = string.format("%s/previous_track_cache", Configs.cache_dir)
+    vim.fn.mkdir(confs.cache_dir, "p")
+    confs.previous_track_cache = string.format("%s/previous_track_cache", confs.cache_dir)
 
     _init()
 
-    vim.api.nvim_create_user_command(Configs.command.name, function(command_opts)
+    vim.api.nvim_create_user_command(confs.command.name, function(command_opts)
         local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
 
         -- logger.debug(
@@ -811,7 +748,7 @@ local function setup(opts)
         nargs = "*",
         range = false,
         bang = true,
-        desc = Configs.command.desc,
+        desc = confs.command.desc,
         complete = function(ArgLead, CmdLine, CursorPos)
             return { "update", "reinstall", "info" }
         end,
@@ -830,12 +767,9 @@ local function setup(opts)
             local autoload = string.format("%s/autoload", spec.full_pack_path)
             vim.opt.runtimepath:append(autoload)
             vim.cmd(string.format([[packadd %s]], spec.git_path))
-            if
-                type(Configs.setup) == "table"
-                and type(Configs.setup[spec.handle]) == "function"
-            then
+            if type(confs.setup) == "table" and type(confs.setup[spec.handle]) == "function" then
                 local home_dir = vim.fn["colorbox#base_dir"]()
-                local ok, setup_err = pcall(Configs.setup[spec.handle], home_dir, spec)
+                local ok, setup_err = pcall(confs.setup[spec.handle], home_dir, spec)
                 if not ok then
                     logger:err(
                         "failed to setup colorscheme:%s, error:%s",
@@ -844,8 +778,8 @@ local function setup(opts)
                     )
                 end
             end
-            if Configs.background == "dark" or Configs.background == "light" then
-                vim.opt.background = Configs.background
+            if confs.background == "dark" or confs.background == "light" then
+                vim.opt.background = confs.background
             end
         end,
     })
