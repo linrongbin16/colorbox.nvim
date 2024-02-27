@@ -304,10 +304,6 @@ There're 3 types of filter configs:
 
 ### Timing & Policy
 
-> [!NOTE]
->
-> Timing and policy have to work together.
-
 #### On Nvim Start
 
 To choose a color on nvim start, please use:
