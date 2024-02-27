@@ -242,12 +242,15 @@ require('colorbox').setup({
 })
 ```
 
-When choosing a colorscheme, this plugin will run following steps:
+When loading plugin, it will run following steps:
+1. Run the filters, only enable the colors you choose from candidate list. See [Filter](#filter).
+2. Register triggers to invoke related policies at a proper timing. See [Timing & Policy](#timing--policy).
 
-- Run the filter, only enable those colors you want from candidates list. See [Filter](#filter).
-- Run the policy at a proper timing, and choose a colorscheme. See [Timing & Policy](#timing--policy).
+When a timing is triggered, it will run following steps:
+
+- Run registered policy and choose a colorscheme. See [Timing & Policy](#timing--policy).
 - Refresh the `background` option. See [Background](#background).
-- Run the `colorscheme` command to actually change to the colorscheme.
+- Run `colorscheme` command to actually apply the colorscheme.
 
 ### Filter
 
