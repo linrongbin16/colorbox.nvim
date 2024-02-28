@@ -9,6 +9,7 @@ describe("policy.builtin", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
+  local strings = require("colorbox.commons.strings")
   local builtin_policy = require("colorbox.policy.builtin")
   require("colorbox").setup({
     debug = true,
@@ -16,17 +17,12 @@ describe("policy.builtin", function()
   })
 
   describe("[builtin_policy]", function()
-    it("shuffle", function()
-      builtin_policy.shuffle()
-    end)
-    it("in_order", function()
-      builtin_policy.in_order()
-    end)
-    it("reverse_order", function()
-      builtin_policy.reverse_order()
-    end)
-    it("single", function()
-      builtin_policy.single()
+    it("test", function()
+      for k, fn in pairs(builtin_policy) do
+        if not strings.startswith(k, "_") and vim.is_callable(fn) then
+          fn()
+        end
+      end
     end)
   end)
 end)
