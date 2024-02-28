@@ -9,6 +9,7 @@ local apis = require("colorbox.commons.apis")
 local async = require("colorbox.commons.async")
 
 local configs = require("colorbox.configs")
+local filter = require("colorbox.filter")
 
 -- filtered color names list
 --- @type string[]
@@ -17,141 +18,6 @@ local FilteredColorNamesList = {}
 -- filtered color name to index map, the reverse of FilteredColorNamesList (index => name)
 --- @type table<string, integer>
 local FilteredColorNameToIndexMap = {}
-
-local function _minimal_color_name_len(spec)
-    local n = numbers.INT32_MAX
-    for _, c in ipairs(spec.color_names) do
-        if string.len(c) < n then
-            n = string.len(c)
-        end
-    end
-    return n
-end
-
---- @param color_name string
---- @param spec colorbox.ColorSpec
---- @return integer
-local function _primary_score(color_name, spec)
-    local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
-
-    -- unique
-    local unique = #spec.color_names <= 1
-
-    -- shortest
-    local current_name_len = string.len(color_name)
-    local minimal_name_len = _minimal_color_name_len(spec)
-    local shortest = current_name_len == minimal_name_len
-
-    -- match
-    local handle_splits = strings.split(spec.handle, "/")
-    local handle1 = handle_splits[1]:gsub("%-", "_")
-    local handle2 = handle_splits[2]:gsub("%-", "_")
-    local normalized_color = color_name:gsub("%-", "_")
-    local matched = strings.startswith(handle1, normalized_color, { ignorecase = true })
-        or strings.startswith(handle2, normalized_color, { ignorecase = true })
-        or strings.endswith(handle1, normalized_color, { ignorecase = true })
-        or strings.endswith(handle2, normalized_color, { ignorecase = true })
-    -- logger:debug(
-    --     "|_primary_score| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
-    --     vim.inspect(unique),
-    --     vim.inspect(shortest),
-    --     vim.inspect(current_name_len),
-    --     vim.inspect(minimal_name_len),
-    --     vim.inspect(matched)
-    -- )
-    local n = 0
-    if unique then
-        n = n + 3
-    end
-    if matched then
-        n = n + 2
-    end
-    if shortest then
-        n = n + 1
-    end
-    return n
-end
-
---- @param color_name string
---- @param spec colorbox.ColorSpec
---- @return boolean
-local function _builtin_filter_primary(color_name, spec)
-    local color_score = _primary_score(color_name, spec)
-    for _, other_color in ipairs(spec.color_names) do
-        local other_score = _primary_score(other_color, spec)
-        if color_score < other_score then
-            return false
-        end
-    end
-    return true
-end
-
---- @param f colorbox.BuiltinFilterConfig
---- @param color_name string
---- @param spec colorbox.ColorSpec
---- @return boolean
-local function _builtin_filter(f, color_name, spec)
-    if f == "primary" then
-        return _builtin_filter_primary(color_name, spec)
-    end
-    return false
-end
-
---- @param f colorbox.FunctionFilterConfig
---- @param color_name string
---- @param spec colorbox.ColorSpec
---- @return boolean
-local function _function_filter(f, color_name, spec)
-    if type(f) == "function" then
-        local ok, result = pcall(f, color_name, spec)
-        if ok and type(result) == "boolean" then
-            return result
-        else
-            logging
-                .get("colorbox")
-                :err("failed to invoke function filter, please check your config!")
-        end
-    end
-    return false
-end
-
---- @param f colorbox.AllFilterConfig
---- @param color_name string
---- @param spec colorbox.ColorSpec
---- @return boolean
-local function _all_filter(f, color_name, spec)
-    if type(f) == "table" then
-        for _, f1 in ipairs(f) do
-            if type(f1) == "string" then
-                local result = _builtin_filter(f1, color_name, spec)
-                if not result then
-                    return result
-                end
-            elseif type(f1) == "function" then
-                local result = _function_filter(f1, color_name, spec)
-                if not result then
-                    return result
-                end
-            end
-        end
-    end
-    return true
-end
-
---- @param color_name string
---- @param spec colorbox.ColorSpec
---- @return boolean
-local function _filter(color_name, spec)
-    local confs = configs.get()
-    if type(confs.filter) == "string" then
-        return _builtin_filter(confs.filter, color_name, spec)
-    elseif type(confs.filter) == "function" then
-        return _function_filter(confs.filter, color_name, spec)
-    elseif type(confs.filter) == "table" then
-        return _all_filter(confs.filter, color_name, spec)
-    end
-    return false
-end
 
 local function _init()
     local home_dir = vim.fn["colorbox#base_dir"]()
@@ -175,7 +41,7 @@ local function _init()
     for _, color_name in pairs(ColorNamesList) do
         local spec = ColorNameToColorSpecsMap[color_name]
         local pack_exist = uv.fs_stat(spec.full_pack_path) ~= nil
-        if _filter(color_name, spec) and pack_exist then
+        if filter.run(color_name, spec) and pack_exist then
             table.insert(FilteredColorNamesList, color_name)
         end
     end
