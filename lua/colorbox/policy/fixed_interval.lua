@@ -2,7 +2,7 @@ local logging = require("colorbox.commons.logging")
 local numbers = require("colorbox.commons.numbers")
 
 local configs = require("colorbox.configs")
-local builtin_policies = require("colorbox.policy.builtin")
+local builtin_policy = require("colorbox.policy.builtin")
 local policy_util = require("colorbox.policy.util")
 
 local M = {}
@@ -22,7 +22,7 @@ M.run = function()
   local later = confs.policy.seconds > 0 and (confs.policy.seconds * 1000) or numbers.INT32_MAX
 
   local function impl()
-    local f = builtin_policies[confs.policy.implement]
+    local f = builtin_policy[confs.policy.implement]
     if vim.is_callable(f) then
       f()
       policy_util.sync_syntax()
