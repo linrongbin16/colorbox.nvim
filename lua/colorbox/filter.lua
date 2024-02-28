@@ -1,3 +1,8 @@
+local logging = require("colorbox.commons.logging")
+
+local configs = require("colorbox.configs")
+local builtin_filters = require("colorbox.filter.builtin")
+
 local M = {}
 
 --- @param f colorbox.BuiltinFilterConfig
@@ -6,7 +11,7 @@ local M = {}
 --- @return boolean
 local function _builtin_filter(f, color_name, spec)
     if f == "primary" then
-        return _builtin_filter_primary(color_name, spec)
+        return builtin_filters.primary(color_name, spec)
     end
     return false
 end
