@@ -2,7 +2,7 @@ local logging = require("colorbox.commons.logging")
 local numbers = require("colorbox.commons.numbers")
 
 local configs = require("colorbox.configs")
-local policy_util = require("colorbox.policy.util")
+
 local builtin_policy = require("colorbox.policy.builtin")
 local fixed_interval_policy = require("colorbox.policy.fixed_interval")
 local filetype_policy = require("colorbox.policy.filetype")

@@ -16,11 +16,12 @@ end
 
 --- @alias colorbox.PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
---- @param color_number integer
-M.save_track = function(color_name, color_number)
-  if strings.blank(color_name) or not numbers.ge(color_number, 0) then
+M.save_track = function(color_name)
+  if strings.blank(color_name) then
     return
   end
+
+  local ColorNamesListIndex = colornames.colornames_index()
   vim.schedule(function()
     local confs = configs.get()
     local content = jsons.encode({

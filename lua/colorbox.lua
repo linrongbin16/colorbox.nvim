@@ -10,6 +10,9 @@ local async = require("colorbox.commons.async")
 
 local configs = require("colorbox.configs")
 local filter = require("colorbox.filter")
+local policy = require("colorbox.policy")
+local timing = require("colorbox.timing")
+local util = require("colorbox.util")
 
 -- filtered color names list
 --- @type string[]
@@ -52,190 +55,9 @@ local function _init()
   -- logger:debug("|_init| FilteredColorNameToIndexMap:%s", vim.inspect(FilteredColorNameToIndexMap))
 end
 
-local function _force_sync_syntax()
-  vim.cmd([[syntax sync fromstart]])
-end
-
---- @alias colorbox.PreviousTrack {color_name:string,color_number:integer}
---- @param color_name string
-local function _save_track(color_name)
-  if strings.blank(color_name) then
-    return
-  end
-  local color_number = FilteredColorNameToIndexMap[color_name] or 1
-  vim.schedule(function()
-    local confs = configs.get()
-    local content = jsons.encode({
-      color_name = color_name,
-      color_number = color_number,
-    }) --[[@as string]]
-    fileios.writefile(confs.previous_track_cache, content)
-  end)
-end
-
---- @return colorbox.PreviousTrack?
-local function _load_previous_track()
-  local confs = configs.get()
-  local content = fileios.readfile(confs.previous_track_cache)
-  if content == nil then
-    return nil
-  end
-  return jsons.decode(content) --[[@as colorbox.PreviousTrack?]]
-end
-
---- @param idx integer
---- @return string
-local function _get_next_color_name_by_idx(idx)
-  assert(type(idx) == "number")
-  idx = idx + 1
-  if idx > #FilteredColorNamesList then
-    idx = 1
-  end
-  return FilteredColorNamesList[numbers.bound(idx, 1, #FilteredColorNamesList)]
-end
-
---- @param idx integer
---- @return string
-local function _get_prev_color_name_by_idx(idx)
-  assert(type(idx) == "number")
-  idx = idx - 1
-  if idx < 1 then
-    idx = #FilteredColorNamesList
-  end
-  return FilteredColorNamesList[numbers.bound(idx, 1, #FilteredColorNamesList)]
-end
-
-local function _policy_shuffle()
-  if #FilteredColorNamesList > 0 then
-    local i = numbers.random(#FilteredColorNamesList) --[[@as integer]]
-    local color = _get_next_color_name_by_idx(i)
-    logging.get("colorbox"):debug(
-      "|_policy_shuffle| color:%s, FilteredColorNamesList:%s (%d), i:%d",
-      vim.inspect(color),
-      vim.inspect(FilteredColorNamesList),
-      vim.inspect(#FilteredColorNamesList),
-      vim.inspect(i)
-    )
-    vim.cmd(string.format([[color %s]], color))
-  end
-end
-
-local function _policy_in_order()
-  if #FilteredColorNamesList > 0 then
-    local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
-    local i = previous_track ~= nil and previous_track.color_number or 0
-    local color = _get_next_color_name_by_idx(i)
-    vim.cmd(string.format([[color %s]], color))
-  end
-end
-
-local function _policy_reverse_order()
-  if #FilteredColorNamesList > 0 then
-    local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
-    local i = previous_track ~= nil and previous_track.color_number or (#FilteredColorNamesList + 1)
-    local color = _get_prev_color_name_by_idx(i)
-    vim.cmd(string.format([[color %s]], color))
-  end
-end
-
-local function _policy_single()
-  if #FilteredColorNamesList > 0 then
-    local previous_track = _load_previous_track() --[[@as colorbox.PreviousTrack]]
-    local color = previous_track ~= nil and previous_track.color_name
-      or _get_next_color_name_by_idx(0)
-    if color ~= vim.g.colors_name then
-      vim.cmd(string.format([[color %s]], color))
-    end
-  end
-end
-
---- @param po colorbox.Options?
---- @return boolean
-local function _is_fixed_interval_policy(po)
-  return type(po) == "table"
-    and type(po.seconds) == "number"
-    and po.seconds >= 0
-    and type(po.implement) == "string"
-    and string.len(po.implement) > 0
-end
-
-local function _policy_fixed_interval()
-  local confs = configs.get()
-  local later = confs.policy.seconds > 0 and (confs.policy.seconds * 1000) or numbers.INT32_MAX
-
-  local function impl()
-    if confs.policy.implement == "shuffle" then
-      _policy_shuffle()
-      _force_sync_syntax()
-    elseif confs.policy.implement == "in_order" then
-      _policy_in_order()
-      _force_sync_syntax()
-    elseif confs.policy.implement == "reverse_order" then
-      _policy_reverse_order()
-      _force_sync_syntax()
-    elseif confs.policy.implement == "single" then
-      _policy_single()
-      _force_sync_syntax()
-    end
-    vim.defer_fn(impl, later)
-  end
-  impl()
-end
-
---- @param po colorbox.Options?
---- @return boolean
-local function _is_by_filetype_policy(po)
-  return type(po) == "table"
-    and type(po.mapping) == "table"
-    and ((type(po.empty) == "string" and string.len(po.empty) > 0) or po.empty == nil)
-    and ((type(po.fallback) == "string" and string.len(po.fallback) > 0) or po.fallback == nil)
-end
-
-local function _policy_by_filetype()
-  vim.defer_fn(function()
-    local confs = configs.get()
-    local ft = vim.bo.filetype or ""
-
-    if confs.policy.mapping[ft] then
-      local ok, err =
-        pcall(vim.cmd --[[@as function]], string.format([[color %s]], confs.policy.mapping[ft]))
-      assert(ok, err)
-    elseif strings.empty(ft) and strings.not_empty(confs.policy.empty) then
-      local ok, err =
-        pcall(vim.cmd --[[@as function]], string.format([[color %s]], confs.policy.empty))
-      assert(ok, err)
-    elseif strings.not_empty(confs.policy.fallback) then
-      local ok, err =
-        pcall(vim.cmd --[[@as function]], string.format([[color %s]], confs.policy.fallback))
-      assert(ok, err)
-    end
-    _force_sync_syntax()
-  end, 10)
-end
-
-local function _policy()
-  local confs = configs.get()
-  if confs.policy == "shuffle" then
-    _policy_shuffle()
-  elseif confs.policy == "in_order" then
-    _policy_in_order()
-  elseif confs.policy == "reverse_order" then
-    _policy_reverse_order()
-  elseif confs.policy == "single" then
-    _policy_single()
-  elseif confs.timing == "interval" and _is_fixed_interval_policy(confs.policy) then
-    _policy_fixed_interval()
-  elseif
-    confs.timing == "bufferchanged"
-    or confs.timing == "filetype" and _is_by_filetype_policy(confs.policy)
-  then
-    _policy_by_filetype()
-  end
-end
-
 local function _timing_startup()
   vim.api.nvim_create_autocmd({ "VimEnter" }, {
-    callback = _policy,
+    callback = require("colorbox.policy").run,
   })
 end
 
@@ -250,7 +72,7 @@ local function _timing_filetype()
     "TermEnter",
     "TermOpen",
   }, {
-    callback = _policy,
+    callback = require("colorbox.policy").run,
   })
 end
 
@@ -650,12 +472,12 @@ local function setup(opts)
       --     vim.inspect(event)
       -- )
       vim.schedule(function()
-        _save_track(vim.g.colors_name)
+        util.save_track(vim.g.colors_name)
       end)
     end,
   })
 
-  _timing()
+  timing.setup()
 end
 
 local function _get_filtered_color_names_list()
@@ -678,13 +500,6 @@ local M = {
   _get_prev_color_name_by_idx = _get_prev_color_name_by_idx,
   _get_filtered_color_names_list = _get_filtered_color_names_list,
   _get_filtered_color_name_to_index_map = _get_filtered_color_name_to_index_map,
-
-  -- policy
-  _policy_shuffle = _policy_shuffle,
-  _policy_in_order = _policy_in_order,
-  _policy_reverse_order = _policy_reverse_order,
-  _policy_single = _policy_single,
-  _policy = _policy,
 
   -- command
   _parse_args = _parse_args,
