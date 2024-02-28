@@ -3,6 +3,7 @@ local fileios = require("colorbox.commons.fileios")
 local jsons = require("colorbox.commons.jsons")
 local tables = require("colorbox.commons.tables")
 local logging = require("colorbox.commons.logging")
+local strings = require("colorbox.commons.strings")
 
 local configs = require("colorbox.configs")
 local filter = require("colorbox.filter")
@@ -54,7 +55,7 @@ M.setup = function()
   local found_cache = false
 
   if cache_content then
-    local colors_list = jsons.decode(cache_content) --[[@as string[] ]]
+    local colors_list = strings.split(cache_content, ",")
     logger:debug("|setup| colors_list:%s", vim.inspect(colors_list))
     if tables.list_not_empty(colors_list) then
       FilteredColorNamesList = colors_list
@@ -69,7 +70,7 @@ M.setup = function()
         local data = M._build_colors()
         fileios.asyncwritefile(
           confs.previous_colors_cache,
-          jsons.encode(data.colors_list) --[[@as string]],
+          table.concat(data.colors_list, ","),
           function()
             logger:debug("|setup| found cache, update cache - done")
           end
@@ -87,7 +88,7 @@ M.setup = function()
     vim.defer_fn(function()
       fileios.asyncwritefile(
         confs.previous_colors_cache,
-        jsons.encode(FilteredColorNamesList) --[[@as string]],
+        table.concat(FilteredColorNamesList, ","),
         function()
           logger:debug("|setup| not found cache, dump cache - done")
         end
