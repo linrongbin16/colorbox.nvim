@@ -4,6 +4,7 @@ local fileios = require("colorbox.commons.fileios")
 local strings = require("colorbox.commons.strings")
 
 local configs = require("colorbox.configs")
+local colornames = require("colorbox.colornames")
 
 local M = {}
 
@@ -43,10 +44,12 @@ end
 M.get_next_color_name_by_idx = function(idx)
   assert(type(idx) == "number")
   idx = idx + 1
-  if idx > #FilteredColorNamesList then
+  local ColorNamesList = colornames.colornames()
+  local n = #ColorNamesList
+  if idx > n then
     idx = 1
   end
-  return FilteredColorNamesList[numbers.bound(idx, 1, #FilteredColorNamesList)]
+  return ColorNamesList[numbers.bound(idx, 1, n)]
 end
 
 --- @param idx integer
@@ -54,10 +57,12 @@ end
 M.get_prev_color_name_by_idx = function(idx)
   assert(type(idx) == "number")
   idx = idx - 1
+  local ColorNamesList = colornames.colornames()
+  local n = #ColorNamesList
   if idx < 1 then
-    idx = #FilteredColorNamesList
+    idx = n
   end
-  return FilteredColorNamesList[numbers.bound(idx, 1, #FilteredColorNamesList)]
+  return ColorNamesList[numbers.bound(idx, 1, n)]
 end
 
 return M
