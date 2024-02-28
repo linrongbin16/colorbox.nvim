@@ -10,8 +10,9 @@ local M = {}
 --- @param spec colorbox.ColorSpec
 --- @return boolean
 M._builtin_filter = function(f, color_name, spec)
-  if f == "primary" then
-    return builtin_filters.primary(color_name, spec)
+  local fn = builtin_filters[f]
+  if vim.is_callable(fn) then
+    return fn(color_name, spec)
   end
   return false
 end
