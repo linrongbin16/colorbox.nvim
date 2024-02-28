@@ -57,20 +57,22 @@ M.setup = function()
   local found_cache = false
 
   if cache_content then
-    local cache_data = jsons.decode(cache_content)
-    logger:debug("|setup| cache_data:%s", vim.inspect(cache_data))
-    local colors_list = tables.tbl_get(cache_data, COLORS_LIST)
-    local colors_index = tables.tbl_get(cache_data, COLORS_INDEX)
-    if tables.list_not_empty(colors_list) and tables.tbl_not_empty(colors_index) then
+    local colors_list = jsons.decode(cache_content) --[[@as string[] ]]
+    logger:debug("|setup| colors_list:%s", vim.inspect(colors_list))
+    if tables.list_not_empty(colors_list) then
       FilteredColorNamesList = colors_list
-      FilteredColorNameToIndexMap = colors_index
+
+      FilteredColorNameToIndexMap = {}
+      for i, color_name in ipairs(colors_list) do
+        FilteredColorNameToIndexMap[color_name] = i
+      end
       found_cache = true
 
       vim.defer_fn(function()
         local data = M._build_colors()
         fileios.asyncwritefile(
           confs.previous_colors_cache,
-          jsons.encode(data) --[[@as string]],
+          jsons.encode(data.colors_list) --[[@as string]],
           function() end
         )
       end, 100)
@@ -86,7 +88,7 @@ M.setup = function()
     vim.defer_fn(function()
       fileios.asyncwritefile(
         confs.previous_colors_cache,
-        jsons.encode(data) --[[@as string]],
+        jsons.encode(FilteredColorNamesList) --[[@as string]],
         function() end
       )
     end, 100)
