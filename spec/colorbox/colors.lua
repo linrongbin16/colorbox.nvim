@@ -10,7 +10,6 @@ describe("colors", function()
   end)
 
   local strings = require("colorbox.commons.strings")
-  local builtin_policy = require("colorbox.policy.builtin")
   local tables = require("colorbox.commons.tables")
   local colors = require("colorbox.colors")
   require("colorbox").setup({
@@ -25,6 +24,13 @@ describe("colors", function()
       assert_true(tables.tbl_not_empty(tables.tbl_get(actual, "colors_index")))
       for i, color in ipairs(actual.colors_list) do
         assert_eq(actual.colors_index[color], i)
+      end
+    end)
+    it("colornames", function()
+      local colornames = colors.colornames()
+      local colornames_index = colors.colornames_index()
+      for i, color in ipairs(colornames) do
+        assert_eq(colornames_index[color], i)
       end
     end)
   end)
