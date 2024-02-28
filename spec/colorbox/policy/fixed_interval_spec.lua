@@ -11,6 +11,7 @@ describe("policy.fixed_interval", function()
 
   local strings = require("colorbox.commons.strings")
   local fixed_interval_policy = require("colorbox.policy.fixed_interval")
+  local configs = require("colorbox.configs")
   require("colorbox").setup({
     debug = true,
     file_log = true,
@@ -30,6 +31,22 @@ describe("policy.fixed_interval", function()
       }
       local actual2 = fixed_interval_policy.is_fixed_interval_policy(input2)
       assert_false(actual2)
+    end)
+    it("run", function()
+      local ok1, err1 = pcall(fixed_interval_policy.run)
+      assert_false(ok1)
+      print(string.format("run err1:%s\n", vim.inspect(err1)))
+
+      local confs = configs.get()
+      confs.policy = {
+        seconds = 1,
+        implement = "single",
+      }
+      configs.set(confs)
+
+      local ok2, err2 = pcall(fixed_interval_policy.run)
+      assert_true(ok2)
+      print(string.format("run err2:%s\n", vim.inspect(err2)))
     end)
   end)
 end)
