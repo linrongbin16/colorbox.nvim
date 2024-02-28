@@ -11,6 +11,7 @@ describe("util", function()
 
   local db = require("colorbox.db")
   local util = require("colorbox.util")
+  local colors = require("colorbox.colors")
   require("colorbox").setup({
     debug = true,
     file_log = true,
@@ -20,22 +21,18 @@ describe("util", function()
     it("sync_syntax", function()
       util.sync_syntax()
     end)
-    it("_minimal_color_name_len", function()
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
-      for _, spec in pairs(ColorNameToColorSpecsMap) do
-        local actual = builtin_filter._minimal_color_name_len(spec)
-        assert_eq(type(actual), "number")
-        assert_true(actual > 0)
+    it("save_track", function()
+      local ColorNamesList = colors.colornames()
+      for i, color in ipairs(ColorNamesList) do
+        util.save_track(color)
       end
     end)
-    it("_primary_score", function()
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
-      for _, spec in pairs(ColorNameToColorSpecsMap) do
-        for i, color in ipairs(spec.color_names) do
-          local actual = builtin_filter._primary_score(color, spec)
-          assert_eq(type(actual), "number")
-          assert_true(actual >= 0)
-        end
+    it("previous_track", function()
+      local track = util.save_track(color)
+      if track then
+        assert_eq(type(track), "table")
+        assert_true(string.len(track.color_name) > 0)
+        assert_true(track.color_number > 0)
       end
     end)
   end)
