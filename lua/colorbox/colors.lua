@@ -1,6 +1,5 @@
 local uv = require("colorbox.commons.uv")
 local fileios = require("colorbox.commons.fileios")
-local jsons = require("colorbox.commons.jsons")
 local tables = require("colorbox.commons.tables")
 local logging = require("colorbox.commons.logging")
 local strings = require("colorbox.commons.strings")
