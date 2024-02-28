@@ -1,13 +1,13 @@
 local logging = require("colorbox.commons.logging")
 local numbers = require("colorbox.commons.numbers")
 
-local colornames = require("colorbox.colornames")
+local colors = require("colorbox.colors")
 local util = require("colorbox.util")
 
 local M = {}
 
 M.shuffle = function()
-  local ColorNamesList = colornames.colornames()
+  local ColorNamesList = colors.colornames()
   if #ColorNamesList > 0 then
     local i = numbers.random(#ColorNamesList) --[[@as integer]]
     local color = util.get_next_color_name_by_idx(i)
@@ -23,7 +23,7 @@ M.shuffle = function()
 end
 
 M.in_order = function()
-  local ColorNamesList = colornames.colornames()
+  local ColorNamesList = colors.colornames()
   if #ColorNamesList > 0 then
     local previous_track = util.previous_track() --[[@as colorbox.PreviousTrack]]
     local i = previous_track ~= nil and previous_track.color_number or 0
@@ -33,7 +33,7 @@ M.in_order = function()
 end
 
 M.reverse_order = function()
-  local ColorNamesList = colornames.colornames()
+  local ColorNamesList = colors.colornames()
   if #ColorNamesList > 0 then
     local previous_track = util.previous_track() --[[@as colorbox.PreviousTrack]]
     local i = previous_track ~= nil and previous_track.color_number or (#ColorNamesList + 1)
@@ -43,7 +43,7 @@ M.reverse_order = function()
 end
 
 M.single = function()
-  local ColorNamesList = colornames.colornames()
+  local ColorNamesList = colors.colornames()
   if #ColorNamesList > 0 then
     local previous_track = util.previous_track() --[[@as colorbox.PreviousTrack]]
     local color = previous_track ~= nil and previous_track.color_name

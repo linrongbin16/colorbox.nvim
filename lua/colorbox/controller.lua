@@ -6,7 +6,7 @@ local strings = require("colorbox.commons.strings")
 local apis = require("colorbox.commons.apis")
 local async = require("colorbox.commons.async")
 
-local colornames = require("colorbox.colornames")
+local colors = require("colorbox.colors")
 
 local M = {}
 
@@ -219,7 +219,7 @@ M.info = function(args)
   vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
   local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
-  local ColorNamesIndex = colornames.colornames_index()
+  local ColorNamesIndex = colors.colornames_index()
   local HandleToColorSpecsMap = require("colorbox.db").get_handle_to_color_specs_map()
   local color_specs_list = {}
   for handle, spec in pairs(HandleToColorSpecsMap) do

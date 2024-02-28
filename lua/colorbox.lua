@@ -5,7 +5,7 @@ local strings = require("colorbox.commons.strings")
 local configs = require("colorbox.configs")
 local timing = require("colorbox.timing")
 local util = require("colorbox.util")
-local colornames = require("colorbox.colornames")
+local colors = require("colorbox.colors")
 local controller = require("colorbox.controller")
 
 --- @param opts colorbox.Options?
@@ -28,7 +28,7 @@ local function setup(opts)
   vim.fn.mkdir(confs.cache_dir, "p")
   confs.previous_track_cache = string.format("%s/previous_track_cache", confs.cache_dir)
 
-  colornames.setup()
+  colors.setup()
 
   vim.api.nvim_create_user_command(confs.command.name, function(command_opts)
     local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
