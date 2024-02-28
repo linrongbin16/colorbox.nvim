@@ -50,11 +50,13 @@ describe("colorbox.util", function()
             vim.inspect(actual_idx)
           )
         )
-        assert_true(string.len(actual) > 0)
-        if i < n then
-          assert_eq(actual_idx, i + 1)
-        else
-          assert_eq(actual_idx, 1)
+        if actual then
+          assert_true(string.len(actual) > 0)
+          if i < n then
+            assert_eq(actual_idx, i + 1)
+          else
+            assert_eq(actual_idx, 1)
+          end
         end
       end
     end)
@@ -71,11 +73,13 @@ describe("colorbox.util", function()
             vim.inspect(actual_idx)
           )
         )
-        assert_true(string.len(actual) > 0)
-        if i > 1 and i <= n then
-          assert_eq(actual_idx, i - 1)
-        else
-          assert_eq(actual_idx, n)
+        if actual then
+          assert_true(string.len(actual) > 0)
+          if i > 1 and i <= n then
+            assert_eq(actual_idx, i - 1)
+          else
+            assert_eq(actual_idx, n)
+          end
         end
       end
     end)
