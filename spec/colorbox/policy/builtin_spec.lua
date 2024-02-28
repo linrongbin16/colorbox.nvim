@@ -1,6 +1,6 @@
 local cwd = vim.fn.getcwd()
 
-describe("policy.builtin", function()
+describe("colorbox.policy.builtin", function()
   local assert_eq = assert.is_equal
   local assert_true = assert.is_true
   local assert_false = assert.is_false

@@ -1,6 +1,6 @@
 local cwd = vim.fn.getcwd()
 
-describe("filter", function()
+describe("colorbox.filter", function()
   local assert_eq = assert.is_equal
   local assert_true = assert.is_true
   local assert_false = assert.is_false
