@@ -140,7 +140,7 @@ scoop install uutils-coreutils     # rm
 >
 > If this plugin provides the main colorscheme (e.g. the color show right after nvim start), then make sure:
 >
-> 1. Don't lazy load it (it only takes ~5 ms to load).
+> 1. Don't lazy load it.
 > 2. Load it before all other plugins.
 
 > [!IMPORTANT]
