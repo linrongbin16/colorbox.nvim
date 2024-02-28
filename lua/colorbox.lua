@@ -6,6 +6,7 @@ local configs = require("colorbox.configs")
 local timing = require("colorbox.timing")
 local util = require("colorbox.util")
 local colornames = require("colorbox.colornames")
+local controller = require("colorbox.controller")
 
 --- @param opts colorbox.Options?
 local function setup(opts)
@@ -30,7 +31,6 @@ local function setup(opts)
   colornames.setup()
 
   vim.api.nvim_create_user_command(confs.command.name, function(command_opts)
-    local controller = require("colorbox.controller")
     local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
 
     -- logger.debug(
