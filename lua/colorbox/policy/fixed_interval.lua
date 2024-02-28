@@ -1,5 +1,6 @@
 local logging = require("colorbox.commons.logging")
 local numbers = require("colorbox.commons.numbers")
+local strings = require("colorbox.commons.strings")
 
 local configs = require("colorbox.configs")
 local builtin_policy = require("colorbox.policy.builtin")
@@ -10,11 +11,7 @@ local M = {}
 --- @param po colorbox.Options?
 --- @return boolean
 M.is_fixed_interval_policy = function(po)
-  return type(po) == "table"
-    and type(po.seconds) == "number"
-    and po.seconds >= 0
-    and type(po.implement) == "string"
-    and string.len(po.implement) > 0
+  return type(po) == "table" and numbers.gt(po.seconds, 0) and strings.not_empty(po.implement)
 end
 
 M.run = function()
