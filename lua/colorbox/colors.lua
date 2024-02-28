@@ -17,9 +17,6 @@ local FilteredColorNamesList = {}
 --- @type table<string, integer>
 local FilteredColorNameToIndexMap = {}
 
-local COLORS_LIST = "colors_list"
-local COLORS_INDEX = "colors_index"
-
 --- @return {colors_list:string[],colors_index:table<string,integer>}
 M._build_colors = function()
   local colors_list = {}
