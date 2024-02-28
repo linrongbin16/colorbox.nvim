@@ -26,7 +26,7 @@ describe("colors", function()
         assert_eq(actual.colors_index[color], i)
       end
     end)
-    it("colornames", function()
+    it("colornames/colornames_index", function()
       local colornames = colors.colornames()
       local colornames_index = colors.colornames_index()
       for i, color in ipairs(colornames) do
