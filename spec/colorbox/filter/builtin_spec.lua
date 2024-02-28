@@ -34,5 +34,23 @@ describe("filter.builtin", function()
         assert_eq(actual, input_color == c)
       end
     end)
+    it("_minimal_color_name_len", function()
+      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
+      for _, spec in pairs(ColorNameToColorSpecsMap) do
+        local actual = builtin_filter._minimal_color_name_len(spec)
+        assert_eq(type(actual), "number")
+        assert_true(actual > 0)
+      end
+    end)
+    it("_primary_score", function()
+      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
+      for _, spec in pairs(ColorNameToColorSpecsMap) do
+        for i, color in ipairs(spec.color_names) do
+          local actual = builtin_filter._primary_score(color, spec)
+          assert_eq(type(actual), "number")
+          assert_true(actual >= 0)
+        end
+      end
+    end)
   end)
 end)

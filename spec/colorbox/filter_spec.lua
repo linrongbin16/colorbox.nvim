@@ -27,7 +27,7 @@ describe("filter", function()
     it("_builtin_filter", function()
       local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
       for color, spec in pairs(ColorNameToColorSpecsMap) do
-        local actual = filter.builtin("primary", color, spec)
+        local actual = filter._builtin_filter("primary", color, spec)
         assert_eq(type(actual), "boolean")
       end
     end)
