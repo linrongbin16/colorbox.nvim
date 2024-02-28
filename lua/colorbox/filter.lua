@@ -21,7 +21,7 @@ end
 --- @param spec colorbox.ColorSpec
 --- @return boolean
 M._function_filter = function(f, color_name, spec)
-  if type(f) == "function" then
+  if vim.is_callable(f) then
     local ok, result = pcall(f, color_name, spec)
     if ok and type(result) == "boolean" then
       return result
