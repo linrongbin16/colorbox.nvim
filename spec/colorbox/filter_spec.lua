@@ -17,11 +17,32 @@ describe("filter", function()
   })
 
   describe("filter", function()
-    it("run", function()
+    it("run builtin primary", function()
+      require("colorbox").setup({
+        debug = true,
+        file_log = true,
+      })
       local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
       for color, spec in pairs(ColorNameToColorSpecsMap) do
         local actual = filter.run(color, spec)
         assert_eq(type(actual), "boolean")
+      end
+    end)
+    it("run lua function", function()
+      local i = 0
+      require("colorbox").setup({
+        debug = true,
+        file_log = true,
+        filter = function()
+          return i >= 5
+        end,
+      })
+      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
+      for color, spec in pairs(ColorNameToColorSpecsMap) do
+        local actual = filter.run(color, spec)
+        assert_eq(type(actual), "boolean")
+        assert_eq(actual, i >= 5)
+        i = i + 1
       end
     end)
     it("_builtin_filter", function()

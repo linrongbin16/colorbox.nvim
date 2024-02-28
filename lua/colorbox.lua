@@ -12,13 +12,15 @@ local controller = require("colorbox.controller")
 local function setup(opts)
   local confs = configs.setup(opts)
 
-  logging.setup({
-    name = "colorbox",
-    level = confs.debug and LogLevels.DEBUG or LogLevels.INFO,
-    console_log = confs.console_log,
-    file_log = confs.file_log,
-    file_log_name = "colorbox.log",
-  })
+  if not logging.has("colorbox") then
+    logging.setup({
+      name = "colorbox",
+      level = confs.debug and LogLevels.DEBUG or LogLevels.INFO,
+      console_log = confs.console_log,
+      file_log = confs.file_log,
+      file_log_name = "colorbox.log",
+    })
+  end
 
   -- cache
   assert(
