@@ -29,6 +29,7 @@ local function setup(opts)
   )
   vim.fn.mkdir(confs.cache_dir, "p")
   confs.previous_track_cache = string.format("%s/previous_track_cache", confs.cache_dir)
+  confs.previous_colors_cache = string.format("%s/previous_colors_cache", confs.cache_dir)
 
   colors.setup()
 
