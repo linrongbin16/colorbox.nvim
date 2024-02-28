@@ -60,5 +60,10 @@ describe("controller", function()
         controller.info("")
       end
     end)
+    it("reinstall", function()
+      if not github_actions then
+        controller.reinstall()
+      end
+    end)
   end)
 end)
