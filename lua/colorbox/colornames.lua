@@ -1,3 +1,13 @@
+local logging = require("colorbox.commons.logging")
+local LogLevels = require("colorbox.commons.logging").LogLevels
+local uv = require("colorbox.commons.uv")
+local numbers = require("colorbox.commons.numbers")
+local strings = require("colorbox.commons.strings")
+local apis = require("colorbox.commons.apis")
+local async = require("colorbox.commons.async")
+
+local filter = require("colorbox.filter")
+
 local M = {}
 
 -- filtered color names list
@@ -8,7 +18,27 @@ local FilteredColorNamesList = {}
 --- @type table<string, integer>
 local FilteredColorNameToIndexMap = {}
 
-M.setup = function() end
+M.setup = function()
+  -- local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+
+  local home_dir = vim.fn["colorbox#base_dir"]()
+  vim.opt.packpath:append(home_dir)
+
+  local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
+  local ColorNamesList = require("colorbox.db").get_color_names_list()
+  for _, color_name in pairs(ColorNamesList) do
+    local spec = ColorNameToColorSpecsMap[color_name]
+    local pack_exist = uv.fs_stat(spec.full_pack_path) ~= nil
+    if filter.run(color_name, spec) and pack_exist then
+      table.insert(FilteredColorNamesList, color_name)
+    end
+  end
+  for i, color_name in ipairs(FilteredColorNamesList) do
+    FilteredColorNameToIndexMap[color_name] = i
+  end
+  -- logger:debug("|_init| FilteredColorNamesList:%s", vim.inspect(FilteredColorNamesList))
+  -- logger:debug("|_init| FilteredColorNameToIndexMap:%s", vim.inspect(FilteredColorNameToIndexMap))
+end
 
 M.colornames = function()
   return FilteredColorNamesList
