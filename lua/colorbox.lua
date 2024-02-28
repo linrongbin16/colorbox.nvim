@@ -112,29 +112,8 @@ local function setup(opts)
   timing.setup()
 end
 
-local function _get_filtered_color_names_list()
-  return FilteredColorNamesList
-end
-
-local function _get_filtered_color_name_to_index_map()
-  return FilteredColorNameToIndexMap
-end
-
 local M = {
   setup = setup,
-  update = update,
-
-  -- misc
-  _force_sync_syntax = _force_sync_syntax,
-  _save_track = _save_track,
-  _load_previous_track = _load_previous_track,
-  _get_next_color_name_by_idx = _get_next_color_name_by_idx,
-  _get_prev_color_name_by_idx = _get_prev_color_name_by_idx,
-  _get_filtered_color_names_list = _get_filtered_color_names_list,
-  _get_filtered_color_name_to_index_map = _get_filtered_color_name_to_index_map,
-
-  -- command
-  _parse_args = _parse_args,
 }
 
 return M
