@@ -10,7 +10,6 @@ describe("filter.builtin", function()
   end)
 
   local db = require("colorbox.db")
-  local filter = require("colorbox.filter")
   local builtin_filter = require("colorbox.filter.builtin")
   require("colorbox").setup({
     debug = true,
@@ -33,66 +32,6 @@ describe("filter.builtin", function()
           )
         )
         assert_eq(actual, input_color == c)
-      end
-    end)
-  end)
-  describe("filter", function()
-    it("run", function()
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
-        local actual = filter.run(color, spec)
-        assert_eq(type(actual), "boolean")
-      end
-    end)
-    it("_builtin_filter", function()
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
-        local actual = filter.builtin("primary", color, spec)
-        assert_eq(type(actual), "boolean")
-      end
-    end)
-    it("_function_filter", function()
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
-        local actual = filter._function_filter(function(c, s)
-          return true
-        end, color, spec)
-        assert_eq(type(actual), "boolean")
-        assert_true(actual)
-      end
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
-        local actual = filter._function_filter(function(c, s)
-          return false
-        end, color, spec)
-        assert_eq(type(actual), "boolean")
-        assert_false(actual)
-      end
-    end)
-    it("_all_filter", function()
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
-        local actual = filter._all_filter({
-          function(c, s)
-            return true
-          end,
-          function(c, s)
-            return true
-          end,
-        }, color, spec)
-        assert_eq(type(actual), "boolean")
-        assert_true(actual)
-      end
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
-        local actual = filter._all_filter({
-          function(c, s)
-            return false
-          end,
-          function(c, s)
-            return false
-          end,
-        }, color, spec)
-        assert_eq(type(actual), "boolean")
-        assert_false(actual)
       end
     end)
   end)

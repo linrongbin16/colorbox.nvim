@@ -9,34 +9,13 @@ describe("filter", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
-  local colorbox = require("colorbox")
   local db = require("colorbox.db")
   local filter = require("colorbox.filter")
-  local builtin_filter = require("colorbox.filter.builtin")
-  colorbox.setup({
+  require("colorbox").setup({
     debug = true,
     file_log = true,
   })
 
-  describe("[builtin_filter]", function()
-    it("primary", function()
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
-      local input_color = "tokyonight"
-      local input_spec = ColorNameToColorSpecsMap[input_color]
-      for _, c in ipairs(input_spec.color_names) do
-        local actual = builtin_filter.primary(c, input_spec)
-        print(
-          string.format(
-            "input color:%s, current color:%s, actual:%s\n",
-            vim.inspect(input_color),
-            vim.inspect(c),
-            vim.inspect(actual)
-          )
-        )
-        assert_eq(actual, input_color == c)
-      end
-    end)
-  end)
   describe("filter", function()
     it("run", function()
       local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
