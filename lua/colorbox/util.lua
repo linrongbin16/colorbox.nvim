@@ -47,7 +47,7 @@ M.previous_track = function()
 end
 
 --- @param idx integer
---- @return string
+--- @return string, integer
 M.get_next_color_name_by_idx = function(idx)
   assert(type(idx) == "number")
   idx = idx + 1
@@ -56,11 +56,12 @@ M.get_next_color_name_by_idx = function(idx)
   if idx > n then
     idx = 1
   end
-  return ColorNamesList[numbers.bound(idx, 1, n)]
+  idx = numbers.bound(idx, 1, n)
+  return ColorNamesList[idx], idx
 end
 
 --- @param idx integer
---- @return string
+--- @return string, integer
 M.get_prev_color_name_by_idx = function(idx)
   assert(type(idx) == "number")
   idx = idx - 1
@@ -69,7 +70,8 @@ M.get_prev_color_name_by_idx = function(idx)
   if idx < 1 then
     idx = n
   end
-  return ColorNamesList[numbers.bound(idx, 1, n)]
+  idx = numbers.bound(idx, 1, n)
+  return ColorNamesList[idx], idx
 end
 
 return M

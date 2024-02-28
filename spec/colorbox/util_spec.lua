@@ -17,10 +17,12 @@ describe("util", function()
     file_log = true,
   })
 
-  describe("[util]", function()
-    it("sync_syntax", function()
+  describe("[sync_syntax]", function()
+    it("test", function()
       util.sync_syntax()
     end)
+  end)
+  describe("[track]", function()
     it("save_track", function()
       local ColorNamesList = colors.colornames()
       for i, color in ipairs(ColorNamesList) do
@@ -28,11 +30,53 @@ describe("util", function()
       end
     end)
     it("previous_track", function()
-      local track = util.save_track(color)
+      local track = util.previous_track()
       if track then
         assert_eq(type(track), "table")
         assert_true(string.len(track.color_name) > 0)
         assert_true(track.color_number > 0)
+      end
+    end)
+    it("next", function()
+      local ColorNamesList = colors.colornames()
+      local n = #ColorNamesList
+      for i = 1, 2 * n do
+        local actual, actual_idx = util.get_next_color_name_by_idx(i)
+        print(
+          string.format(
+            "get_next_color_name_by_idx(%s): %s, %s\n",
+            vim.inspect(i),
+            vim.inspect(actual),
+            vim.inspect(actual_idx)
+          )
+        )
+        assert_true(string.len(actual) > 0)
+        if i < n then
+          assert_eq(actual_idx, i + 1)
+        else
+          assert_eq(actual_idx, 1)
+        end
+      end
+    end)
+    it("prev", function()
+      local ColorNamesList = colors.colornames()
+      local n = #ColorNamesList
+      for i = 0, 2 * n do
+        local actual, actual_idx = util.get_prev_color_name_by_idx(i)
+        print(
+          string.format(
+            "get_next_color_name_by_idx(%s): %s, %s\n",
+            vim.inspect(i),
+            vim.inspect(actual),
+            vim.inspect(actual_idx)
+          )
+        )
+        assert_true(string.len(actual) > 0)
+        if i > 1 and i <= n then
+          assert_eq(actual_idx, i - 1)
+        else
+          assert_eq(actual_idx, n)
+        end
       end
     end)
   end)
