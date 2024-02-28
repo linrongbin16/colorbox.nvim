@@ -83,4 +83,11 @@ M.get = function()
   return Configs
 end
 
+--- @param confs colorbox.Options
+--- @return colorbox.Options
+M.set = function(confs)
+  Configs = confs
+  return Configs
+end
+
 return M

@@ -15,7 +15,7 @@ M.is_filetype_policy = function(po)
 end
 
 M.run = function()
-  local policy_config = configs.get().confs.policy
+  local policy_config = configs.get().policy
   assert(
     M.is_filetype_policy(policy_config),
     string.format("invalid policy %s for 'filetype' timing!", vim.inspect(policy_config))
