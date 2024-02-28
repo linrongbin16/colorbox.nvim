@@ -1,12 +1,6 @@
-local logging = require("colorbox.commons.logging")
-local LogLevels = require("colorbox.commons.logging").LogLevels
-local jsons = require("colorbox.commons.jsons")
-local uv = require("colorbox.commons.uv")
 local numbers = require("colorbox.commons.numbers")
-local fileios = require("colorbox.commons.fileios")
 local strings = require("colorbox.commons.strings")
-local apis = require("colorbox.commons.apis")
-local async = require("colorbox.commons.async")
+local logging = require("colorbox.commons.logging")
 
 local M = {}
 
@@ -26,7 +20,7 @@ end
 --- @param spec colorbox.ColorSpec
 --- @return integer
 M._primary_score = function(color_name, spec)
-    local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+    -- local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
 
     -- unique
     local unique = #spec.color_names <= 1
