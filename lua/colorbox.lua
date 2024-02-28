@@ -1,16 +1,13 @@
 local logging = require("colorbox.commons.logging")
 local LogLevels = require("colorbox.commons.logging").LogLevels
-local jsons = require("colorbox.commons.jsons")
 local uv = require("colorbox.commons.uv")
 local numbers = require("colorbox.commons.numbers")
-local fileios = require("colorbox.commons.fileios")
 local strings = require("colorbox.commons.strings")
 local apis = require("colorbox.commons.apis")
 local async = require("colorbox.commons.async")
 
 local configs = require("colorbox.configs")
 local filter = require("colorbox.filter")
-local policy = require("colorbox.policy")
 local timing = require("colorbox.timing")
 local util = require("colorbox.util")
 
@@ -23,22 +20,11 @@ local FilteredColorNamesList = {}
 local FilteredColorNameToIndexMap = {}
 
 local function _init()
-  local home_dir = vim.fn["colorbox#base_dir"]()
-  -- local pack_dir = "pack/colorbox/start"
-  -- local full_pack_dir = string.format("%s/%s", home_dir, pack_dir)
-  -- logger.debug(
-  --     "|colorbox.init| home_dir:%s, pack_dir:%s, full_pack_dir:%s",
-  --     vim.inspect(home_dir),
-  --     vim.inspect(pack_dir),
-  --     vim.inspect(full_pack_dir)
-  -- )
-  vim.opt.packpath:append(home_dir)
-  -- vim.opt.packpath:append(cwd .. "/pack")
-  -- vim.opt.packpath:append(cwd .. "/pack/colorbox")
-  -- vim.opt.packpath:append(cwd .. "/pack/colorbox/opt")
-  -- vim.cmd([[packadd catppuccin-nvim]])
+  -- local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
 
-  local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+  local home_dir = vim.fn["colorbox#base_dir"]()
+  vim.opt.packpath:append(home_dir)
+
   local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
   local ColorNamesList = require("colorbox.db").get_color_names_list()
   for _, color_name in pairs(ColorNamesList) do
@@ -53,48 +39,6 @@ local function _init()
   end
   -- logger:debug("|_init| FilteredColorNamesList:%s", vim.inspect(FilteredColorNamesList))
   -- logger:debug("|_init| FilteredColorNameToIndexMap:%s", vim.inspect(FilteredColorNameToIndexMap))
-end
-
-local function _timing_startup()
-  vim.api.nvim_create_autocmd({ "VimEnter" }, {
-    callback = require("colorbox.policy").run,
-  })
-end
-
-local function _timing_filetype()
-  vim.api.nvim_create_autocmd({
-    "BufEnter",
-    "BufReadPost",
-    "FileReadPost",
-    "FocusGained",
-    "WinEnter",
-    "WinNew",
-    "TermEnter",
-    "TermOpen",
-  }, {
-    callback = require("colorbox.policy").run,
-  })
-end
-
-local function _timing()
-  local confs = configs.get()
-  if confs.timing == "startup" then
-    _timing_startup()
-  elseif confs.timing == "interval" then
-    assert(
-      _is_fixed_interval_policy(confs.policy),
-      string.format("invalid policy %s for 'interval' timing!", vim.inspect(confs.policy))
-    )
-    _policy_fixed_interval()
-  elseif confs.timing == "bufferchanged" or confs.timing == "filetype" then
-    assert(
-      _is_by_filetype_policy(confs.policy),
-      string.format("invalid policy %s for 'filetype' timing!", vim.inspect(confs.policy))
-    )
-    _timing_filetype()
-  else
-    error(string.format("invalid timing %s!", vim.inspect(confs.timing)))
-  end
 end
 
 local function update()
@@ -466,11 +410,7 @@ local function setup(opts)
   })
 
   vim.api.nvim_create_autocmd("ColorScheme", {
-    callback = function(event)
-      -- logger.debug(
-      --     "|colorbox.setup| ColorScheme event:%s",
-      --     vim.inspect(event)
-      -- )
+    callback = function()
       vim.schedule(function()
         util.save_track(vim.g.colors_name)
       end)
