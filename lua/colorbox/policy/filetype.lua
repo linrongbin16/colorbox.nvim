@@ -10,8 +10,8 @@ local M = {}
 M.is_filetype_policy = function(po)
   return type(po) == "table"
     and type(po.mapping) == "table"
-    and ((type(po.empty) == "string" and string.len(po.empty) > 0) or po.empty == nil)
-    and ((type(po.fallback) == "string" and string.len(po.fallback) > 0) or po.fallback == nil)
+    and (strings.not_empty(po.empty) or po.empty == nil)
+    and (strings.not_empty(po.fallback) or po.fallback == nil)
 end
 
 M.run = function()
