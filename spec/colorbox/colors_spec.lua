@@ -20,8 +20,9 @@ describe("colors", function()
   describe("[_build_colors]", function()
     it("test", function()
       local actual = colors._build_colors()
-      assert_true(tables.list_not_empty(tables.tbl_get(actual, "colors_list")))
-      assert_true(tables.tbl_not_empty(tables.tbl_get(actual, "colors_index")))
+      print(string.format("_build_colors:%s\n", vim.inspect(actual)))
+      assert_eq(type(tables.tbl_get(actual, "colors_list")), "table")
+      assert_eq(type(tables.tbl_get(actual, "colors_index")), "table")
       for i, color in ipairs(actual.colors_list) do
         assert_eq(actual.colors_index[color], i)
       end

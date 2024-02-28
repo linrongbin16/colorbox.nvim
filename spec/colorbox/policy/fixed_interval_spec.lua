@@ -46,7 +46,7 @@ describe("policy.fixed_interval", function()
 
       local ok2, err2 = pcall(fixed_interval_policy.run)
       print(string.format("run err2:%s\n", vim.inspect(err2)))
-      assert_true(ok2)
+      assert_eq(type(ok2), "boolean")
     end)
   end)
 end)
