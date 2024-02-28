@@ -30,6 +30,7 @@ local function setup(opts)
   vim.fn.mkdir(confs.cache_dir, "p")
   confs.previous_track_cache = string.format("%s/previous_track_cache", confs.cache_dir)
   confs.previous_colors_cache = string.format("%s/previous_colors_cache", confs.cache_dir)
+  confs = configs.set(confs)
 
   colors.setup()
 
@@ -78,7 +79,7 @@ local function setup(opts)
   vim.api.nvim_create_autocmd("ColorSchemePre", {
     callback = function(event)
       local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
-      logger:debug("|colorbox.setup| ColorSchemePre event:%s", vim.inspect(event))
+      -- logger:debug("|colorbox.setup| ColorSchemePre event:%s", vim.inspect(event))
       local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
       if type(event) ~= "table" or ColorNameToColorSpecsMap[event.match] == nil then
         return

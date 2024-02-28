@@ -2,8 +2,9 @@ local uv = require("colorbox.commons.uv")
 local fileios = require("colorbox.commons.fileios")
 local jsons = require("colorbox.commons.jsons")
 local tables = require("colorbox.commons.tables")
+local logging = require("colorbox.commons.logging")
 
-local configs = require("colrobox.configs")
+local configs = require("colorbox.configs")
 local filter = require("colorbox.filter")
 
 local M = {}
@@ -44,39 +45,44 @@ M._build_colors = function()
 end
 
 M.setup = function()
-  -- local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+  local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
 
   local home_dir = vim.fn["colorbox#base_dir"]()
   vim.opt.packpath:append(home_dir)
 
   local confs = configs.get()
+  logger:debug("|setup| confs.previous_colors_cache:%s", vim.inspect(confs.previous_colors_cache))
   local cache_content = fileios.readfile(confs.previous_colors_cache, { trim = true })
+  logger:debug("|setup| cache_content:%s", vim.inspect(cache_content))
   local found_cache = false
 
   if cache_content then
     local cache_data = jsons.decode(cache_content)
+    logger:debug("|setup| cache_data:%s", vim.inspect(cache_data))
     local colors_list = tables.tbl_get(cache_data, COLORS_LIST)
     local colors_index = tables.tbl_get(cache_data, COLORS_INDEX)
     if tables.list_not_empty(colors_list) and tables.tbl_not_empty(colors_index) then
       FilteredColorNamesList = colors_list
       FilteredColorNameToIndexMap = colors_index
       found_cache = true
-      vim.defer_fn(function()
-        local data = M._build_colors()
-        fileios.asyncwritefile(
-          confs.previous_colors_cache,
-          jsons.encode(data) --[[@as string]],
-          function() end
-        )
-      end, 100)
     end
   end
 
   if not found_cache then
     local data = M._build_colors()
+    logger:debug("|setup| not found, data:%s", vim.inspect(data))
     FilteredColorNamesList = data.colors_list
     FilteredColorNameToIndexMap = data.colors_index
   end
+
+  vim.defer_fn(function()
+    local data = M._build_colors()
+    fileios.asyncwritefile(
+      confs.previous_colors_cache,
+      jsons.encode(data) --[[@as string]],
+      function() end
+    )
+  end, 100)
   -- logger:debug("|_init| FilteredColorNamesList:%s", vim.inspect(FilteredColorNamesList))
   -- logger:debug("|_init| FilteredColorNameToIndexMap:%s", vim.inspect(FilteredColorNameToIndexMap))
 end
