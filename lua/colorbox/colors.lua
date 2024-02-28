@@ -65,6 +65,15 @@ M.setup = function()
       FilteredColorNamesList = colors_list
       FilteredColorNameToIndexMap = colors_index
       found_cache = true
+
+      vim.defer_fn(function()
+        local data = M._build_colors()
+        fileios.asyncwritefile(
+          confs.previous_colors_cache,
+          jsons.encode(data) --[[@as string]],
+          function() end
+        )
+      end, 100)
     end
   end
 
@@ -73,16 +82,16 @@ M.setup = function()
     logger:debug("|setup| not found, data:%s", vim.inspect(data))
     FilteredColorNamesList = data.colors_list
     FilteredColorNameToIndexMap = data.colors_index
+
+    vim.defer_fn(function()
+      fileios.asyncwritefile(
+        confs.previous_colors_cache,
+        jsons.encode(data) --[[@as string]],
+        function() end
+      )
+    end, 100)
   end
 
-  vim.defer_fn(function()
-    local data = M._build_colors()
-    fileios.asyncwritefile(
-      confs.previous_colors_cache,
-      jsons.encode(data) --[[@as string]],
-      function() end
-    )
-  end, 100)
   -- logger:debug("|_init| FilteredColorNamesList:%s", vim.inspect(FilteredColorNamesList))
   -- logger:debug("|_init| FilteredColorNameToIndexMap:%s", vim.inspect(FilteredColorNameToIndexMap))
 end
