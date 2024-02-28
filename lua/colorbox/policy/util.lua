@@ -32,7 +32,7 @@ M.save_track = function(color_name, color_number)
 end
 
 --- @return colorbox.PreviousTrack?
-M.load_track = function()
+M.previous_track = function()
   local confs = configs.get()
   local content = fileios.readfile(confs.previous_track_cache)
   return strings.not_empty(content) and jsons.decode(content) --[[@as colorbox.PreviousTrack?]]
