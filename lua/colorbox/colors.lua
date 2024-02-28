@@ -70,7 +70,9 @@ M.setup = function()
         fileios.asyncwritefile(
           confs.previous_colors_cache,
           jsons.encode(data.colors_list) --[[@as string]],
-          function() end
+          function()
+            logger:debug("|setup| found cache, update cache - done")
+          end
         )
       end, 100)
     end
@@ -86,7 +88,9 @@ M.setup = function()
       fileios.asyncwritefile(
         confs.previous_colors_cache,
         jsons.encode(FilteredColorNamesList) --[[@as string]],
-        function() end
+        function()
+          logger:debug("|setup| not found cache, dump cache - done")
+        end
       )
     end, 100)
   end
