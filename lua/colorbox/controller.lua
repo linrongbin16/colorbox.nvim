@@ -162,7 +162,7 @@ M._parse_args = function(args)
         if opts == nil then
           opts = {}
         end
-        opts[vim.trim(item_splits[1])] = vim.trim(item_splits[2])
+        opts[vim.trim(item_splits[1])] = vim.trim(item_splits[2] or "")
       end
     end
   end
@@ -178,7 +178,7 @@ M.reinstall = function()
   M._update()
 end
 
---- @param args string
+--- @param args string?
 M.info = function(args)
   local opts = M._parse_args(args)
   opts = opts or { scale = 0.7 }
