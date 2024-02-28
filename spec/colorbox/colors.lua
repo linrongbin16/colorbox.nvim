@@ -33,5 +33,8 @@ describe("colors", function()
         assert_eq(colornames_index[color], i)
       end
     end)
+    it("setup", function()
+      colors.setup()
+    end)
   end)
 end)
