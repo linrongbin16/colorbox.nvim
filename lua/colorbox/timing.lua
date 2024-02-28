@@ -1,6 +1,5 @@
 local configs = require("colorbox.configs")
 local policy = require("colorbox.policy")
-local fixed_interval_policy = require("colorbox.policy.fixed_interval")
 
 local M = {}
 
