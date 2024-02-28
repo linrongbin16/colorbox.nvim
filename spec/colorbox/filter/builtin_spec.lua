@@ -1,6 +1,6 @@
 local cwd = vim.fn.getcwd()
 
-describe("filter", function()
+describe("filter.builtin", function()
   local assert_eq = assert.is_equal
   local assert_true = assert.is_true
   local assert_false = assert.is_false
@@ -9,11 +9,10 @@ describe("filter", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
-  local colorbox = require("colorbox")
   local db = require("colorbox.db")
   local filter = require("colorbox.filter")
   local builtin_filter = require("colorbox.filter.builtin")
-  colorbox.setup({
+  require("colorbox").setup({
     debug = true,
     file_log = true,
   })
