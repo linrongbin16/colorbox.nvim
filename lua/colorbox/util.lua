@@ -21,14 +21,17 @@ M.save_track = function(color_name)
     return
   end
 
-  local ColorNamesIndex = colors.colornames_index()
-  local color_number = ColorNamesIndex[color_name] or 1
   vim.schedule(function()
     local confs = configs.get()
+
+    local ColorNamesIndex = colors.colornames_index()
+    local color_number = ColorNamesIndex[color_name] or 1
+
     local content = jsons.encode({
       color_name = color_name,
       color_number = color_number,
     }) --[[@as string]]
+
     fileios.asyncwritefile(confs.previous_track_cache, content, function() end)
   end)
 end
@@ -37,8 +40,10 @@ end
 M.previous_track = function()
   local confs = configs.get()
   local content = fileios.readfile(confs.previous_track_cache)
-  return strings.not_empty(content) and jsons.decode(content) --[[@as colorbox.PreviousTrack?]]
-    or nil
+  if strings.empty(content) then
+    return nil
+  end
+  return jsons.decode(content) --[[@as colorbox.PreviousTrack?]]
 end
 
 --- @param idx integer
