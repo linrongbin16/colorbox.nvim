@@ -25,7 +25,7 @@ M.run = function()
     fixed_interval_policy.run()
   elseif
     confs.timing == "bufferchanged"
-    or confs.timing == "filetype" and fixed_interval_policy.is_filetype_policy(confs.policy)
+    or confs.timing == "filetype" and filetype_policy.is_filetype_policy(confs.policy)
   then
     filetype_policy.run()
   end
