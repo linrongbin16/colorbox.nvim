@@ -1,10 +1,4 @@
-local logging = require("colorbox.commons.logging")
-local LogLevels = require("colorbox.commons.logging").LogLevels
 local uv = require("colorbox.commons.uv")
-local numbers = require("colorbox.commons.numbers")
-local strings = require("colorbox.commons.strings")
-local apis = require("colorbox.commons.apis")
-local async = require("colorbox.commons.async")
 
 local filter = require("colorbox.filter")
 
