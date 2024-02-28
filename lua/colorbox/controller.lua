@@ -11,7 +11,7 @@ local colors = require("colorbox.colors")
 local M = {}
 
 M._update = function()
-  if logging.get("colorbox-update") == nil then
+  if not logging.has("colorbox-update") then
     logging.setup({
       name = "colorbox-update",
       level = LogLevels.DEBUG,
