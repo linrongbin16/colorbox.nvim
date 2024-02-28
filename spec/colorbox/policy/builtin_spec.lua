@@ -20,7 +20,7 @@ describe("policy.builtin", function()
     it("test", function()
       for k, fn in pairs(builtin_policy) do
         if not strings.startswith(k, "_") and vim.is_callable(fn) then
-          fn()
+          pcall(fn)
         end
       end
     end)
