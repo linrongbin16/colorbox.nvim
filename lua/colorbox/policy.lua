@@ -1,6 +1,3 @@
-local logging = require("colorbox.commons.logging")
-local numbers = require("colorbox.commons.numbers")
-
 local configs = require("colorbox.configs")
 
 local builtin_policy = require("colorbox.policy.builtin")
