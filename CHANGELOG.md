@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.11](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.10...v2.0.11) (2024-02-29)
+
+
+### Performance Improvements
+
+* **startup:** improve rendering on nvim start ([#202](https://github.com/linrongbin16/colorbox.nvim/issues/202)) ([86ccc6e](https://github.com/linrongbin16/colorbox.nvim/commit/86ccc6e4b6e8a2fdfd89cf779bb96fb4c7380366))
+
 ## [2.0.10](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.9...v2.0.10) (2024-02-29)
 
 
