@@ -15,4 +15,4 @@ endif
 
 function! colorbox#base_dir() abort
     return s:cb_base
-  endfunction
+endfunction
