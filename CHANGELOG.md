@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.12](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.11...v2.0.12) (2024-02-29)
+
+
+### Bug Fixes
+
+* **loader:** check pack exists before apply color ([#207](https://github.com/linrongbin16/colorbox.nvim/issues/207)) ([8e504ca](https://github.com/linrongbin16/colorbox.nvim/commit/8e504caf9bc16d457539eaa32ecf52181fd39a04))
+* **update:** fix missing 'update' api ([#205](https://github.com/linrongbin16/colorbox.nvim/issues/205)) ([42f896d](https://github.com/linrongbin16/colorbox.nvim/commit/42f896d18d1353bbe982acb9967d578362c4210f))
+
 ## [2.0.11](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.10...v2.0.11) (2024-02-29)
 
 
