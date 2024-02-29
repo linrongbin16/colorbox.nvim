@@ -55,10 +55,11 @@ M.setup = function()
   local found_cache = false
 
   if cache_content then
-    local cache_data = msgpack.unpack(cache_content) --[[@as table]]
-    logger:debug("|setup| cache_data:%s", vim.inspect(cache_data))
+    local ok, cache_data = pcall(msgpack.unpack, cache_content) --[[@as boolean, table]]
+    logger:debug("|setup| ok:%s, cache_data:%s", vim.inspect(ok), vim.inspect(cache_data))
     if
-      tables.list_not_empty(tables.tbl_get(cache_data, "colors_list"))
+      ok
+      and tables.list_not_empty(tables.tbl_get(cache_data, "colors_list"))
       and tables.tbl_not_empty(tables.tbl_get(cache_data, "colors_index"))
     then
       FilteredColorNamesList = cache_data.colors_list
