@@ -5,7 +5,7 @@ local M = {}
 
 M.startup = function()
   vim.api.nvim_create_autocmd({ "VimEnter" }, {
-    callback = vim.schedule_wrap(policy.run),
+    callback = policy.run,
   })
 end
 
@@ -16,12 +16,12 @@ M.filetype = function()
     "WinEnter",
     "TermEnter",
   }, {
-    callback = vim.schedule_wrap(policy.run),
+    callback = policy.run,
   })
 end
 
 M.fixed_interval = function()
-  vim.schedule_wrap(policy.run)()
+  policy.run()
 end
 
 M.setup = function()
