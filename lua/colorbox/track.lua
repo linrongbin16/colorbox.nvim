@@ -4,7 +4,7 @@ local fileios = require("colorbox.commons.fileios")
 local strings = require("colorbox.commons.strings")
 
 local configs = require("colorbox.configs")
-local colors = require("colorbox.colors")
+local runtime = require("colorbox.runtime")
 
 local M = {}
 
@@ -24,7 +24,7 @@ M.save_track = function(color_name)
   vim.schedule(function()
     local confs = configs.get()
 
-    local ColorNamesIndex = colors.colornames_index()
+    local ColorNamesIndex = runtime.colornames_index()
     local color_number = ColorNamesIndex[color_name] or 1
 
     local content = jsons.encode({
@@ -51,7 +51,7 @@ end
 M.get_next_color_name_by_idx = function(idx)
   assert(type(idx) == "number")
   idx = idx + 1
-  local ColorNamesList = colors.colornames()
+  local ColorNamesList = runtime.colornames()
   local n = #ColorNamesList
   if idx > n then
     idx = 1
@@ -65,7 +65,7 @@ end
 M.get_prev_color_name_by_idx = function(idx)
   assert(type(idx) == "number")
   idx = idx - 1
-  local ColorNamesList = colors.colornames()
+  local ColorNamesList = runtime.colornames()
   local n = #ColorNamesList
   if idx < 1 then
     idx = n

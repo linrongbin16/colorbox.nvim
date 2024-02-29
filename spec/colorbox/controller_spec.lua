@@ -11,7 +11,6 @@ describe("colorbox.controller", function()
 
   local strings = require("colorbox.commons.strings")
   local tables = require("colorbox.commons.tables")
-  local colors = require("colorbox.colors")
   local controller = require("colorbox.controller")
   require("colorbox").setup({
     debug = true,

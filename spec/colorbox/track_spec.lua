@@ -1,6 +1,6 @@
 local cwd = vim.fn.getcwd()
 
-describe("colorbox.util", function()
+describe("colorbox.track", function()
   local assert_eq = assert.is_equal
   local assert_true = assert.is_true
   local assert_false = assert.is_false
@@ -9,9 +9,8 @@ describe("colorbox.util", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
-  local db = require("colorbox.db")
-  local util = require("colorbox.util")
-  local colors = require("colorbox.colors")
+  local track = require("colorbox.track")
+  local runtime = require("colorbox.runtime")
   require("colorbox").setup({
     debug = true,
     file_log = true,
@@ -19,18 +18,18 @@ describe("colorbox.util", function()
 
   describe("[sync_syntax]", function()
     it("test", function()
-      util.sync_syntax()
+      track.sync_syntax()
     end)
   end)
   describe("[track]", function()
     it("save_track", function()
-      local ColorNamesList = colors.colornames()
+      local ColorNamesList = runtime.colornames()
       for i, color in ipairs(ColorNamesList) do
-        util.save_track(color)
+        track.save_track(color)
       end
     end)
     it("previous_track", function()
-      local track = util.previous_track()
+      local track = track.previous_track()
       if track then
         assert_eq(type(track), "table")
         assert_true(string.len(track.color_name) > 0)
@@ -38,10 +37,10 @@ describe("colorbox.util", function()
       end
     end)
     it("next", function()
-      local ColorNamesList = colors.colornames()
+      local ColorNamesList = runtime.colornames()
       local n = #ColorNamesList
       for i = 1, 2 * n do
-        local actual, actual_idx = util.get_next_color_name_by_idx(i)
+        local actual, actual_idx = track.get_next_color_name_by_idx(i)
         print(
           string.format(
             "get_next_color_name_by_idx(%s): %s, %s\n",
@@ -61,10 +60,10 @@ describe("colorbox.util", function()
       end
     end)
     it("prev", function()
-      local ColorNamesList = colors.colornames()
+      local ColorNamesList = runtime.colornames()
       local n = #ColorNamesList
       for i = 0, 2 * n do
-        local actual, actual_idx = util.get_prev_color_name_by_idx(i)
+        local actual, actual_idx = track.get_prev_color_name_by_idx(i)
         print(
           string.format(
             "get_next_color_name_by_idx(%s): %s, %s\n",

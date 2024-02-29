@@ -1,7 +1,7 @@
 local strings = require("colorbox.commons.strings")
 
 local configs = require("colorbox.configs")
-local util = require("colorbox.util")
+local track = require("colorbox.track")
 
 local M = {}
 
@@ -29,17 +29,17 @@ M.run = function()
       local ok, err =
         pcall(vim.cmd --[[@as function]], string.format([[color %s]], confs.policy.mapping[ft]))
       assert(ok, err)
-      util.sync_syntax()
+      track.sync_syntax()
     elseif strings.empty(ft) and strings.not_empty(confs.policy.empty) then
       local ok, err =
         pcall(vim.cmd --[[@as function]], string.format([[color %s]], confs.policy.empty))
       assert(ok, err)
-      util.sync_syntax()
+      track.sync_syntax()
     elseif strings.not_empty(confs.policy.fallback) then
       local ok, err =
         pcall(vim.cmd --[[@as function]], string.format([[color %s]], confs.policy.fallback))
       assert(ok, err)
-      util.sync_syntax()
+      track.sync_syntax()
     end
   end, 10)
 end

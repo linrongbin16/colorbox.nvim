@@ -1,6 +1,6 @@
 local cwd = vim.fn.getcwd()
 
-describe("colorbox.colors", function()
+describe("colorbox.runtime", function()
   local assert_eq = assert.is_equal
   local assert_true = assert.is_true
   local assert_false = assert.is_false
@@ -9,9 +9,8 @@ describe("colorbox.colors", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
-  local strings = require("colorbox.commons.strings")
   local tables = require("colorbox.commons.tables")
-  local colors = require("colorbox.colors")
+  local runtime = require("colorbox.runtime")
   require("colorbox").setup({
     debug = true,
     file_log = true,
@@ -19,7 +18,7 @@ describe("colorbox.colors", function()
 
   describe("[_build_colors]", function()
     it("test", function()
-      local actual = colors._build_colors()
+      local actual = runtime._build_colors()
       print(string.format("_build_colors:%s\n", vim.inspect(actual)))
       assert_eq(type(tables.tbl_get(actual, "colors_list")), "table")
       assert_eq(type(tables.tbl_get(actual, "colors_index")), "table")
@@ -28,14 +27,14 @@ describe("colorbox.colors", function()
       end
     end)
     it("colornames/colornames_index", function()
-      local colornames = colors.colornames()
-      local colornames_index = colors.colornames_index()
+      local colornames = runtime.colornames()
+      local colornames_index = runtime.colornames_index()
       for i, color in ipairs(colornames) do
         assert_eq(colornames_index[color], i)
       end
     end)
     it("setup", function()
-      colors.setup()
+      runtime.setup()
     end)
   end)
 end)
