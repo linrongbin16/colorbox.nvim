@@ -1,6 +1,7 @@
 local logging = require("colorbox.commons.logging")
 local strings = require("colorbox.commons.strings")
 local tables = require("colorbox.commons.tables")
+local uv = require("colorbox.commons.uv")
 
 local configs = require("colorbox.configs")
 
@@ -15,6 +16,10 @@ M.load = function(colorname)
   end
   local spec = ColorNameToColorSpecsMap[colorname]
   if tables.tbl_empty(spec) then
+    return
+  end
+  local pack_exist = uv.fs_stat(spec.full_pack_path) ~= nil
+  if not pack_exist then
     return
   end
 
