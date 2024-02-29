@@ -3,6 +3,7 @@ local fileios = require("colorbox.commons.fileios")
 local tables = require("colorbox.commons.tables")
 local logging = require("colorbox.commons.logging")
 local strings = require("colorbox.commons.strings")
+local msgpack = require("colorbox.commons.msgpack")
 
 local configs = require("colorbox.configs")
 local filter = require("colorbox.filter")
