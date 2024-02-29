@@ -82,8 +82,7 @@ local function setup(opts)
     callback = function(event)
       -- local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
       -- logger:debug("|colorbox.setup| ColorSchemePre event:%s", vim.inspect(event))
-      local colorname = tables.tbl_get(event, "match")
-      loader.load(colorname)
+      loader.load(tables.tbl_get(event, "match"))
     end,
   })
 
