@@ -9,9 +9,8 @@ describe("colorbox.util", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
-  local db = require("colorbox.db")
   local util = require("colorbox.util")
-  local colors = require("colorbox.colors")
+  local runtime = require("colorbox.runtime")
   require("colorbox").setup({
     debug = true,
     file_log = true,
@@ -24,7 +23,7 @@ describe("colorbox.util", function()
   end)
   describe("[track]", function()
     it("save_track", function()
-      local ColorNamesList = colors.colornames()
+      local ColorNamesList = runtime.colornames()
       for i, color in ipairs(ColorNamesList) do
         util.save_track(color)
       end
@@ -38,7 +37,7 @@ describe("colorbox.util", function()
       end
     end)
     it("next", function()
-      local ColorNamesList = colors.colornames()
+      local ColorNamesList = runtime.colornames()
       local n = #ColorNamesList
       for i = 1, 2 * n do
         local actual, actual_idx = util.get_next_color_name_by_idx(i)
@@ -61,7 +60,7 @@ describe("colorbox.util", function()
       end
     end)
     it("prev", function()
-      local ColorNamesList = colors.colornames()
+      local ColorNamesList = runtime.colornames()
       local n = #ColorNamesList
       for i = 0, 2 * n do
         local actual, actual_idx = util.get_prev_color_name_by_idx(i)
