@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.10](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.9...v2.0.10) (2024-02-29)
+
+
+### Bug Fixes
+
+* **pack:** fix lua module/autoload not found by 'vim.schedule' ([#199](https://github.com/linrongbin16/colorbox.nvim/issues/199)) ([ce0cd6d](https://github.com/linrongbin16/colorbox.nvim/commit/ce0cd6d54318ffecfda3567af0d65afa368127d3))
+
 ## [2.0.9](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.8...v2.0.9) (2024-02-28)
 
 
