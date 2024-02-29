@@ -80,8 +80,6 @@ local function setup(opts)
 
   vim.api.nvim_create_autocmd("ColorSchemePre", {
     callback = function(event)
-      -- local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
-      -- logger:debug("|colorbox.setup| ColorSchemePre event:%s", vim.inspect(event))
       loader.load(tables.tbl_get(event, "match"))
     end,
   })
