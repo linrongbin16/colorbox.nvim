@@ -3,6 +3,7 @@ local numbers = require("colorbox.commons.numbers")
 
 local runtime = require("colorbox.runtime")
 local track = require("colorbox.track")
+local loader = require("colorbox.loader")
 
 local M = {}
 
@@ -18,7 +19,8 @@ M.shuffle = function()
       vim.inspect(#ColorNamesList),
       vim.inspect(i)
     )
-    vim.cmd(string.format([[color %s]], color))
+
+    loader.load(color)
   end
 end
 
@@ -28,7 +30,8 @@ M.in_order = function()
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local i = previous_track ~= nil and previous_track.color_number or 0
     local color = track.get_next_color_name_by_idx(i)
-    vim.cmd(string.format([[color %s]], color))
+
+    loader.load(color)
   end
 end
 
@@ -38,7 +41,8 @@ M.reverse_order = function()
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local i = previous_track ~= nil and previous_track.color_number or (#ColorNamesList + 1)
     local color = track.get_prev_color_name_by_idx(i)
-    vim.cmd(string.format([[color %s]], color))
+
+    loader.load(color)
   end
 end
 
@@ -49,7 +53,7 @@ M.single = function()
     local color = previous_track ~= nil and previous_track.color_name
       or track.get_next_color_name_by_idx(0)
     if color ~= vim.g.colors_name then
-      vim.cmd(string.format([[color %s]], color))
+      loader.load(color)
     end
   end
 end

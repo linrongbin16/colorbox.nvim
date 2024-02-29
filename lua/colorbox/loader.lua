@@ -37,6 +37,8 @@ M.load = function(colorname)
   if confs.background == "dark" or confs.background == "light" then
     vim.opt.background = confs.background
   end
+
+  vim.cmd(string.format("colorscheme %s", colorname))
 end
 
 return M
