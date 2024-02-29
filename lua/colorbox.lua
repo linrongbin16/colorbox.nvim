@@ -1,12 +1,14 @@
 local logging = require("colorbox.commons.logging")
 local LogLevels = require("colorbox.commons.logging").LogLevels
 local strings = require("colorbox.commons.strings")
+local tables = require("colorbox.commons.tables")
 
 local configs = require("colorbox.configs")
 local timing = require("colorbox.timing")
 local track = require("colorbox.track")
 local runtime = require("colorbox.runtime")
 local controller = require("colorbox.controller")
+local loader = require("colorbox.loader")
 
 --- @param opts colorbox.Options?
 local function setup(opts)
@@ -78,30 +80,10 @@ local function setup(opts)
 
   vim.api.nvim_create_autocmd("ColorSchemePre", {
     callback = function(event)
-      local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+      -- local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
       -- logger:debug("|colorbox.setup| ColorSchemePre event:%s", vim.inspect(event))
-      local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
-      if type(event) ~= "table" or ColorNameToColorSpecsMap[event.match] == nil then
-        return
-      end
-      local spec = ColorNameToColorSpecsMap[event.match]
-      local autoload = string.format("%s/autoload", spec.full_pack_path)
-      vim.opt.runtimepath:append(autoload)
-      vim.cmd(string.format([[packadd %s]], spec.git_path))
-      if type(confs.setup) == "table" and type(confs.setup[spec.handle]) == "function" then
-        local home_dir = vim.fn["colorbox#base_dir"]()
-        local ok, setup_err = pcall(confs.setup[spec.handle], home_dir, spec)
-        if not ok then
-          logger:err(
-            "failed to setup colorscheme:%s, error:%s",
-            vim.inspect(spec.handle),
-            vim.inspect(setup_err)
-          )
-        end
-      end
-      if confs.background == "dark" or confs.background == "light" then
-        vim.opt.background = confs.background
-      end
+      local colorname = tables.tbl_get(event, "match")
+      loader.load(colorname)
     end,
   })
 
