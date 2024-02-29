@@ -5,7 +5,7 @@ local tables = require("colorbox.commons.tables")
 
 local configs = require("colorbox.configs")
 local builtin_policy = require("colorbox.policy.builtin")
-local util = require("colorbox.util")
+local track = require("colorbox.track")
 
 local M = {}
 
@@ -36,7 +36,7 @@ M.run = function()
 
   local function impl()
     fn()
-    util.sync_syntax()
+    track.sync_syntax()
     vim.defer_fn(impl, later)
   end
   impl()

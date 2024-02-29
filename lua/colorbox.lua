@@ -4,7 +4,7 @@ local strings = require("colorbox.commons.strings")
 
 local configs = require("colorbox.configs")
 local timing = require("colorbox.timing")
-local util = require("colorbox.util")
+local track = require("colorbox.track")
 local runtime = require("colorbox.runtime")
 local controller = require("colorbox.controller")
 
@@ -108,7 +108,7 @@ local function setup(opts)
   vim.api.nvim_create_autocmd("ColorScheme", {
     callback = function()
       vim.schedule(function()
-        util.save_track(vim.g.colors_name)
+        track.save_track(vim.g.colors_name)
       end)
     end,
   })
