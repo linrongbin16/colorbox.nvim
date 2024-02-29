@@ -1,12 +1,8 @@
 local logging = require("colorbox.commons.logging")
-local LogLevels = require("colorbox.commons.logging").LogLevels
 local strings = require("colorbox.commons.strings")
 local tables = require("colorbox.commons.tables")
 
 local configs = require("colorbox.configs")
-local timing = require("colorbox.timing")
-local track = require("colorbox.track")
-local runtime = require("colorbox.runtime")
 
 local M = {}
 
