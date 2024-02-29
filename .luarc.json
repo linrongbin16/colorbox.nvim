@@ -13,7 +13,9 @@
     "deprecated",
     "luadoc-miss-module-name",
     "undefined-doc-name",
-    "lowercase-global"
+    "lowercase-global",
+    "cast-local-type",
+    "param-type-mismatch"
   ],
   "runtime.version": "LuaJIT",
   "workspace.checkThirdParty": "Disable"
