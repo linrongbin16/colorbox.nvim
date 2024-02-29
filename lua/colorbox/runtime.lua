@@ -55,22 +55,21 @@ M.setup = function()
   local found_cache = false
 
   if cache_content then
-    local colors_list = strings.split(cache_content, ",")
-    logger:debug("|setup| colors_list:%s", vim.inspect(colors_list))
-    if tables.list_not_empty(colors_list) then
-      FilteredColorNamesList = colors_list
-
-      FilteredColorNameToIndexMap = {}
-      for i, color_name in ipairs(colors_list) do
-        FilteredColorNameToIndexMap[color_name] = i
-      end
+    local cache_data = msgpack.unpack(cache_content) --[[@as table]]
+    logger:debug("|setup| cache_data:%s", vim.inspect(cache_data))
+    if
+      tables.list_not_empty(tables.tbl_get(cache_data, "colors_list"))
+      and tables.tbl_not_empty(tables.tbl_get(cache_data, "colors_index"))
+    then
+      FilteredColorNamesList = cache_data.colors_list
+      FilteredColorNameToIndexMap = cache_data.colors_index
       found_cache = true
 
       vim.defer_fn(function()
         local data = M._build_colors()
         fileios.asyncwritefile(
           confs.previous_colors_cache,
-          table.concat(data.colors_list, ","),
+          msgpack.pack(data) --[[@as string]],
           function()
             logger:debug("|setup| found cache, update cache - done")
           end
@@ -88,7 +87,7 @@ M.setup = function()
     vim.defer_fn(function()
       fileios.asyncwritefile(
         confs.previous_colors_cache,
-        table.concat(FilteredColorNamesList, ","),
+        msgpack.pack(data) --[[@as string]],
         function()
           logger:debug("|setup| not found cache, dump cache - done")
         end
