@@ -14,7 +14,8 @@
     "luadoc-miss-module-name",
     "undefined-doc-name",
     "lowercase-global",
-    "cast-local-type"
+    "cast-local-type",
+    "param-type-mismatch"
   ],
   "runtime.version": "LuaJIT",
   "workspace.checkThirdParty": "Disable"
