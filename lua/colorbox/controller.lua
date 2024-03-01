@@ -261,10 +261,13 @@ M.info = function(args)
   for i, spec in ipairs(color_specs_list) do
     vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
       string.format(
-        "- %s (stars: %s, last update at: %s)",
+        "%d. %s (stars: %s, last update at: %s)",
+        i,
         vim.inspect(spec.handle),
         vim.inspect(spec.github_stars),
-        vim.inspect(spec.last_git_commit)
+        (strings.not_empty(spec.last_git_commit) and string.len(spec.last_git_commit) >= 10)
+            and string.sub(spec.last_git_commit, 1, 10)
+          or "?"
       ),
     })
     lineno = lineno + 1
