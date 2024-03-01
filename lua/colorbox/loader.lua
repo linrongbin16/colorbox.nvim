@@ -45,7 +45,7 @@ M.load = function(colorname, run_command)
   end
 
   run_command = type(run_command) == 'boolean' and run_command or true
-  if rum_command then
+  if run_command then
   vim.cmd(string.format("colorscheme %s", colorname))
   end
 
