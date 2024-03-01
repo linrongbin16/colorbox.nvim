@@ -293,10 +293,13 @@ end
 M.asyncreadlines = function(filename, opts)
   assert(type(opts) == "table")
   assert(type(opts.on_line) == "function")
+  ---@diagnostic disable-next-line: undefined-field
   local batchsize = opts.batchsize or 4096
 
   local function _handle_error(err, msg)
+    ---@diagnostic disable-next-line: undefined-field
     if type(opts.on_error) == "function" then
+      ---@diagnostic disable-next-line: undefined-field
       opts.on_error(err)
     else
       error(
@@ -388,7 +391,9 @@ M.asyncreadlines = function(filename, opts)
                     if close_complete_err then
                       _handle_error(close_complete_err, "fs_close complete")
                     end
+                    ---@diagnostic disable-next-line: undefined-field
                     if type(opts.on_complete) == "function" then
+                      ---@diagnostic disable-next-line: undefined-field
                       opts.on_complete(fsize)
                     end
                   end

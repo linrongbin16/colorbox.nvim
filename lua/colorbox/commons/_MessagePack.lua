@@ -1,3 +1,4 @@
+---@diagnostic disable: cast-local-type, deprecated, param-type-mismatch
 --
 -- lua-MessagePack : <https://fperrad.frama.io/lua-MessagePack/>
 --
