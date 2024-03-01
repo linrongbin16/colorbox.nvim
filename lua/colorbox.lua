@@ -80,7 +80,7 @@ local function setup(opts)
 
   vim.api.nvim_create_autocmd("ColorSchemePre", {
     callback = function(event)
-      loader.load(tables.tbl_get(event, "match"))
+      loader.load(tables.tbl_get(event, "match"), false)
     end,
   })
 

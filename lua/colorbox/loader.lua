@@ -8,7 +8,8 @@ local configs = require("colorbox.configs")
 local M = {}
 
 --- @param colorname string?
-M.load = function(colorname)
+--- @param run_command boolean?
+M.load = function(colorname, run_command)
   local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
 
   if strings.empty(colorname) then
@@ -43,7 +44,10 @@ M.load = function(colorname)
     vim.opt.background = confs.background
   end
 
-  vim.cmd(string.format("colorscheme %s", colorname))
+  run_command = type(run_command) == "boolean" and run_command or true
+  if run_command then
+    vim.cmd(string.format("colorscheme %s", colorname))
+  end
 end
 
 return M
