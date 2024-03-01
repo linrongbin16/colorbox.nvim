@@ -44,11 +44,10 @@ M.load = function(colorname, run_command)
     vim.opt.background = confs.background
   end
 
-  run_command = type(run_command) == 'boolean' and run_command or true
+  run_command = type(run_command) == "boolean" and run_command or true
   if run_command then
-  vim.cmd(string.format("colorscheme %s", colorname))
+    vim.cmd(string.format("colorscheme %s", colorname))
   end
-
 end
 
 return M
