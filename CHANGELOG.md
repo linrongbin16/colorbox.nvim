@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.13](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.12...v2.0.13) (2024-03-01)
+
+
+### Bug Fixes
+
+* **loader:** don't run command in ColorSchemePre ([#209](https://github.com/linrongbin16/colorbox.nvim/issues/209)) ([0b90486](https://github.com/linrongbin16/colorbox.nvim/commit/0b9048698fc7b1105bfc5cacc84f261612d48185))
+
 ## [2.0.12](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.11...v2.0.12) (2024-02-29)
 
 
