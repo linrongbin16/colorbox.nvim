@@ -9,7 +9,7 @@ describe("colorbox.runtime", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
-  local tables = require("colorbox.commons.tables")
+  local tbl = require("colorbox.commons.tbl")
   local runtime = require("colorbox.runtime")
   require("colorbox").setup({
     debug = true,
@@ -20,8 +20,8 @@ describe("colorbox.runtime", function()
     it("test", function()
       local actual = runtime._build_colors()
       print(string.format("_build_colors:%s\n", vim.inspect(actual)))
-      assert_eq(type(tables.tbl_get(actual, "colors_list")), "table")
-      assert_eq(type(tables.tbl_get(actual, "colors_index")), "table")
+      assert_eq(type(tbl.tbl_get(actual, "colors_list")), "table")
+      assert_eq(type(tbl.tbl_get(actual, "colors_index")), "table")
       for i, color in ipairs(actual.colors_list) do
         assert_eq(actual.colors_index[color], i)
       end

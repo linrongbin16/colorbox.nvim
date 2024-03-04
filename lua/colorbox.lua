@@ -1,7 +1,7 @@
 local logging = require("colorbox.commons.logging")
 local LogLevels = require("colorbox.commons.logging").LogLevels
-local strings = require("colorbox.commons.strings")
-local tables = require("colorbox.commons.tables")
+local str = require("colorbox.commons.str")
+local tbl = require("colorbox.commons.tbl")
 
 local configs = require("colorbox.configs")
 local timing = require("colorbox.timing")
@@ -69,7 +69,7 @@ local function setup(opts)
     complete = function(ArgLead, CmdLine, CursorPos)
       local complete_args = {}
       for k, v in pairs(controller) do
-        if not strings.startswith(k, "_") and vim.is_callable(v) then
+        if not str.startswith(k, "_") and vim.is_callable(v) then
           table.insert(complete_args, k)
         end
       end
@@ -80,7 +80,7 @@ local function setup(opts)
 
   vim.api.nvim_create_autocmd("ColorSchemePre", {
     callback = function(event)
-      loader.load(tables.tbl_get(event, "match"), false)
+      loader.load(tbl.tbl_get(event, "match"), false)
     end,
   })
 

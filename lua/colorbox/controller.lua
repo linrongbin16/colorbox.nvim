@@ -1,9 +1,9 @@
+local num = require("colorbox.commons.num")
+local str = require("colorbox.commons.str")
 local logging = require("colorbox.commons.logging")
 local LogLevels = require("colorbox.commons.logging").LogLevels
 local uv = require("colorbox.commons.uv")
-local numbers = require("colorbox.commons.numbers")
-local strings = require("colorbox.commons.strings")
-local apis = require("colorbox.commons.apis")
+local api = require("colorbox.commons.api")
 local async = require("colorbox.commons.async")
 
 local runtime = require("colorbox.runtime")
@@ -50,7 +50,7 @@ M._update = function()
   async.run(function()
     for handle, spec in pairs(HandleToColorSpecsMap) do
       local function _on_output(line)
-        if strings.not_blank(line) then
+        if str.not_blank(line) then
           logger:info("%s: %s", handle, line)
         end
       end
@@ -69,7 +69,7 @@ M._update = function()
         }
       else
         param = {
-          cmd = strings.not_empty(spec.git_branch) and {
+          cmd = str.not_empty(spec.git_branch) and {
             "git",
             "clone",
             "--branch",
@@ -154,11 +154,11 @@ end
 M._parse_args = function(args)
   local opts = nil
   logging.get("colorbox"):debug("|_parse_args| args:%s", vim.inspect(args))
-  if strings.not_blank(args) then
-    local args_splits = strings.split(vim.trim(args --[[@as string]]), " ", { trimempty = true })
+  if str.not_blank(args) then
+    local args_splits = str.split(vim.trim(args --[[@as string]]), " ", { trimempty = true })
     for _, arg_split in ipairs(args_splits) do
-      local item_splits = strings.split(vim.trim(arg_split), "=", { trimempty = true })
-      if strings.not_blank(item_splits[1]) then
+      local item_splits = str.split(vim.trim(arg_split), "=", { trimempty = true })
+      if str.not_blank(item_splits[1]) then
         if opts == nil then
           opts = {}
         end
@@ -183,7 +183,7 @@ M.info = function(args)
   local opts = M._parse_args(args)
   opts = opts or { scale = 0.7 }
   opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7) or 0.7
-  opts.scale = numbers.bound(opts.scale, 0, 1)
+  opts.scale = num.bound(opts.scale, 0, 1)
   logging.get("colorbox"):debug("|_info| opts:%s", vim.inspect(opts))
 
   local total_width = vim.o.columns
@@ -194,7 +194,7 @@ M.info = function(args)
   local function get_shift(totalsize, modalsize, offset)
     local base = math.floor((totalsize - modalsize) * 0.5)
     local shift = offset > -1 and math.ceil((totalsize - modalsize) * offset) or offset
-    return numbers.bound(base + shift, 0, totalsize - modalsize)
+    return num.bound(base + shift, 0, totalsize - modalsize)
   end
 
   local row = get_shift(total_height, height, 0)
@@ -213,9 +213,9 @@ M.info = function(args)
   }
 
   local bufnr = vim.api.nvim_create_buf(false, true)
-  apis.set_buf_option(bufnr, "bufhidden", "wipe")
-  apis.set_buf_option(bufnr, "buflisted", false)
-  apis.set_buf_option(bufnr, "filetype", "markdown")
+  api.set_buf_option(bufnr, "bufhidden", "wipe")
+  api.set_buf_option(bufnr, "buflisted", false)
+  api.set_buf_option(bufnr, "filetype", "markdown")
   vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
   local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 

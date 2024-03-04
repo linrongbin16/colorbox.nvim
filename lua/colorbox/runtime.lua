@@ -1,8 +1,8 @@
+local tbl = require("colorbox.commons.tbl")
+local str = require("colorbox.commons.str")
 local uv = require("colorbox.commons.uv")
-local fileios = require("colorbox.commons.fileios")
-local tables = require("colorbox.commons.tables")
+local fileios = require("colorbox.commons.fileio")
 local logging = require("colorbox.commons.logging")
-local strings = require("colorbox.commons.strings")
 
 local configs = require("colorbox.configs")
 local filter = require("colorbox.filter")
@@ -54,9 +54,9 @@ M.setup = function()
   local found_cache = false
 
   if cache_content then
-    local colors_list = strings.split(cache_content, ",")
+    local colors_list = str.split(cache_content, ",")
     logger:debug("|setup| colors_list:%s", vim.inspect(colors_list))
-    if tables.list_not_empty(colors_list) then
+    if tbl.list_not_empty(colors_list) then
       FilteredColorNamesList = colors_list
 
       FilteredColorNameToIndexMap = {}

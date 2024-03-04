@@ -1,5 +1,5 @@
+local num = require("colorbox.commons.num")
 local logging = require("colorbox.commons.logging")
-local numbers = require("colorbox.commons.numbers")
 
 local runtime = require("colorbox.runtime")
 local track = require("colorbox.track")
@@ -10,7 +10,7 @@ local M = {}
 M.shuffle = function()
   local ColorNamesList = runtime.colornames()
   if #ColorNamesList > 0 then
-    local i = numbers.random(#ColorNamesList) --[[@as integer]]
+    local i = num.random(#ColorNamesList) --[[@as integer]]
     local color = track.get_next_color_name_by_idx(i)
     logging.get("colorbox"):debug(
       "|_policy_shuffle| color:%s, ColorNamesList:%s (%d), i:%d",

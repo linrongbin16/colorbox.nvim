@@ -452,8 +452,9 @@ class AwesomeNeovimColorScheme:
         try:
             a = element.find_element(By.XPATH, "./a").text
             a_splits = a.split("(")
+            logging.debug(f"parse asn element.a:{a}, a_splits:{a_splits}")
             handle = a_splits[0]
-            github_stars = parse_number(a_splits[1])
+            github_stars = parse_number(a_splits[1]) if len(a_splits) > 1 else 0
             return ColorSpec(
                 handle,
                 github_stars,

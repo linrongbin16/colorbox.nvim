@@ -1,7 +1,7 @@
-local jsons = require("colorbox.commons.jsons")
-local numbers = require("colorbox.commons.numbers")
-local fileios = require("colorbox.commons.fileios")
-local strings = require("colorbox.commons.strings")
+local str = require("colorbox.commons.str")
+local num = require("colorbox.commons.num")
+local json = require("colorbox.commons.json")
+local fileio = require("colorbox.commons.fileio")
 
 local configs = require("colorbox.configs")
 local runtime = require("colorbox.runtime")
@@ -17,7 +17,7 @@ end
 --- @alias colorbox.PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
 M.save_track = function(color_name)
-  if strings.blank(color_name) then
+  if str.blank(color_name) then
     return
   end
 
@@ -27,23 +27,23 @@ M.save_track = function(color_name)
     local ColorNamesIndex = runtime.colornames_index()
     local color_number = ColorNamesIndex[color_name] or 1
 
-    local content = jsons.encode({
+    local content = json.encode({
       color_name = color_name,
       color_number = color_number,
     }) --[[@as string]]
 
-    fileios.asyncwritefile(confs.previous_track_cache, content, function() end)
+    fileio.asyncwritefile(confs.previous_track_cache, content, function() end)
   end)
 end
 
 --- @return colorbox.PreviousTrack?
 M.previous_track = function()
   local confs = configs.get()
-  local content = fileios.readfile(confs.previous_track_cache)
-  if strings.empty(content) then
+  local content = fileio.readfile(confs.previous_track_cache)
+  if str.empty(content) then
     return nil
   end
-  return jsons.decode(content) --[[@as colorbox.PreviousTrack?]]
+  return json.decode(content) --[[@as colorbox.PreviousTrack?]]
 end
 
 --- @param idx integer
@@ -56,7 +56,7 @@ M.get_next_color_name_by_idx = function(idx)
   if idx > n then
     idx = 1
   end
-  idx = numbers.bound(idx, 1, n)
+  idx = num.bound(idx, 1, n)
   return ColorNamesList[idx], idx
 end
 
@@ -70,7 +70,7 @@ M.get_prev_color_name_by_idx = function(idx)
   if idx < 1 then
     idx = n
   end
-  idx = numbers.bound(idx, 1, n)
+  idx = num.bound(idx, 1, n)
   return ColorNamesList[idx], idx
 end
 
