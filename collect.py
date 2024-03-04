@@ -446,18 +446,24 @@ class AwesomeNeovimColorScheme:
     def __init__(self) -> None:
         self.counter = 0
 
-    def _parse_spec(self, element: WebElement, source: str) -> ColorSpec:
-        a = element.find_element(By.XPATH, "./a").text
-        a_splits = a.split("(")
-        handle = a_splits[0]
-        github_stars = parse_number(a_splits[1])
-        return ColorSpec(
-            handle,
-            github_stars,
-            last_git_commit=None,
-            priority=100,
-            source=source,
-        )
+    def _parse_spec(
+        self, element: WebElement, source: str
+    ) -> typing.Optional[ColorSpec]:
+        try:
+            a = element.find_element(By.XPATH, "./a").text
+            a_splits = a.split("(")
+            handle = a_splits[0]
+            github_stars = parse_number(a_splits[1])
+            return ColorSpec(
+                handle,
+                github_stars,
+                last_git_commit=None,
+                priority=100,
+                source=source,
+            )
+        except Exception as e:
+            logging.exception(f"failed to fetch asn element: {element}", e)
+            return None
 
     def _parse_colors_list(self, driver: Chrome, tag_id: str) -> list[ColorSpec]:
         repos = []
@@ -472,6 +478,11 @@ class AwesomeNeovimColorScheme:
             )
             self.counter = self.counter + 1
             logging.debug(f"asn repo-{self.counter}:{spec}")
+            if spec is None:
+                logging.info(
+                    f"skip for parsing failure - (asn) spec-{self.counter}:{spec}"
+                )
+                continue
             if len(spec.handle.split("/")) != 2:
                 logging.info(
                     f"skip for invalid handle - (asn) spec-{self.counter}:{spec}"
