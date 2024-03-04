@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.14](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.13...v2.0.14) (2024-03-04)
+
+
+### Bug Fixes
+
+* **collector:** fix fetch exception during awesome-neovim ([#212](https://github.com/linrongbin16/colorbox.nvim/issues/212)) ([f952a14](https://github.com/linrongbin16/colorbox.nvim/commit/f952a144bce4b189d28f764dde8c16d544f91da2))
+
 ## [2.0.13](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.12...v2.0.13) (2024-03-01)
 
 
