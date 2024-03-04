@@ -9,7 +9,6 @@ describe("colorbox.policy.fixed_interval", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
-  local strings = require("colorbox.commons.strings")
   local fixed_interval_policy = require("colorbox.policy.fixed_interval")
   local configs = require("colorbox.configs")
   require("colorbox").setup({

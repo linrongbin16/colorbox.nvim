@@ -9,7 +9,6 @@ describe("colorbox.policy.filetype", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
-  local strings = require("colorbox.commons.strings")
   local filetype_policy = require("colorbox.policy.filetype")
   local configs = require("colorbox.configs")
   require("colorbox").setup({

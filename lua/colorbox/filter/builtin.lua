@@ -1,5 +1,5 @@
-local numbers = require("colorbox.commons.numbers")
-local strings = require("colorbox.commons.strings")
+local num = require("colorbox.commons.num")
+local str = require("colorbox.commons.str")
 local logging = require("colorbox.commons.logging")
 
 local M = {}
@@ -7,7 +7,7 @@ local M = {}
 --- @param spec colorbox.ColorSpec
 --- @return integer
 M._minimal_color_name_len = function(spec)
-  local n = numbers.INT32_MAX
+  local n = num.INT32_MAX
   for _, c in ipairs(spec.color_names) do
     if string.len(c) < n then
       n = string.len(c)
@@ -31,14 +31,14 @@ M._primary_score = function(color_name, spec)
   local shortest = current_name_len == minimal_name_len
 
   -- match
-  local handle_splits = strings.split(spec.handle, "/")
+  local handle_splits = str.split(spec.handle, "/")
   local handle1 = handle_splits[1]:gsub("%-", "_")
   local handle2 = handle_splits[2]:gsub("%-", "_")
   local normalized_color = color_name:gsub("%-", "_")
-  local matched = strings.startswith(handle1, normalized_color, { ignorecase = true })
-    or strings.startswith(handle2, normalized_color, { ignorecase = true })
-    or strings.endswith(handle1, normalized_color, { ignorecase = true })
-    or strings.endswith(handle2, normalized_color, { ignorecase = true })
+  local matched = str.startswith(handle1, normalized_color, { ignorecase = true })
+    or str.startswith(handle2, normalized_color, { ignorecase = true })
+    or str.endswith(handle1, normalized_color, { ignorecase = true })
+    or str.endswith(handle2, normalized_color, { ignorecase = true })
   -- logger:debug(
   --     "|_primary_score| unique:%s, shortest:%s (current:%s, minimal:%s), matched:%s",
   --     vim.inspect(unique),

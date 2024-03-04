@@ -1,7 +1,7 @@
-local logging = require("colorbox.commons.logging")
-local strings = require("colorbox.commons.strings")
-local tables = require("colorbox.commons.tables")
+local str = require("colorbox.commons.str")
+local tbl = require("colorbox.commons.tbl")
 local uv = require("colorbox.commons.uv")
+local logging = require("colorbox.commons.logging")
 
 local configs = require("colorbox.configs")
 
@@ -12,11 +12,11 @@ local M = {}
 M.load = function(colorname, run_command)
   local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
 
-  if strings.empty(colorname) then
+  if str.empty(colorname) then
     return
   end
   local spec = ColorNameToColorSpecsMap[colorname]
-  if tables.tbl_empty(spec) then
+  if tbl.tbl_empty(spec) then
     return
   end
   local pack_exist = uv.fs_stat(spec.full_pack_path) ~= nil

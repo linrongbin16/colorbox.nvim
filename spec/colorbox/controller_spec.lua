@@ -9,8 +9,7 @@ describe("colorbox.controller", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
-  local strings = require("colorbox.commons.strings")
-  local tables = require("colorbox.commons.tables")
+  local str = require("colorbox.commons.str")
   local controller = require("colorbox.controller")
   require("colorbox").setup({
     debug = true,
@@ -38,7 +37,7 @@ describe("colorbox.controller", function()
       local actual4 = controller._parse_args("a=")
       print(string.format("_parse_args-4:%s\n", vim.inspect(actual4)))
       assert_eq(type(actual4), "table")
-      assert_true(strings.empty(actual4.a))
+      assert_true(str.empty(actual4.a))
     end)
   end)
   describe("[controller]", function()
