@@ -108,16 +108,16 @@ Install with the below 3 options:
 
 - In **Select Components**, select **Associate .sh files to be run with Bash**.
 
-  <img alt="install-windows-git1.png" src="https://raw.githubusercontent.com/linrongbin16/lin.nvim.dev/main/assets/installations/install-windows-git1.png" width="70%" />
-
+  <img alt="install-windows-git-step1.jpg" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/6f2e0b34-4425-4766-85be-799d97aef80a" width="70%" />
+  
 - In **Adjusting your PATH environment**, select **Use Git and optional Unix tools from the Command Prompt**.
 
-  <img alt="install-windows-git2.png" src="https://raw.githubusercontent.com/linrongbin16/lin.nvim.dev/main/assets/installations/install-windows-git2.png" width="70%" />
-
+  <img alt="install-windows-git-step2.jpg" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/2ff32b3b-2ade-4f3c-b25b-50e4b521f2e8" width="70%" />
+  
 - In **Configuring the terminal emulator to use with Git Bash**, select **Use Windows's default console window**.
 
-  <img alt="install-windows-git3.png" src="https://raw.githubusercontent.com/linrongbin16/lin.nvim.dev/main/assets/installations/install-windows-git3.png" width="70%" />
-
+  <img alt="install-windows-git-step3.png" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/944147d1-e180-4e63-aecc-991c9c1093b0" width="70%" />
+  
 After this step, **git.exe** and builtin linux commands(such as **rm.exe**) will be available in `%PATH%`.
 
 ### [scoop](https://scoop.sh/)
