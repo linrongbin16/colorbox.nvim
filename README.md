@@ -96,43 +96,43 @@ And multiple trigger timings:
 - [git](https://git-scm.com/).
 - [rm](https://man7.org/linux/man-pages/man1/rm.1.html) (optional for `reinstall` command on Windows).
 
-   <details>
-   <summary><i>Click here to see how to install `rm` command on Windows</i></summary>
-   <br/>
+<details>
+<summary><i>Click here to see how to install `rm` command on Windows</i></summary>
+<br/>
 
-   There're many ways to install portable linux shell and builtin commands on Windows, but personally I would recommend below two methods.
+There're many ways to install portable linux shell and builtin commands on Windows, but personally I would recommend below two methods.
 
-   ### [Git for Windows](https://git-scm.com/download/win)
+### [Git for Windows](https://git-scm.com/download/win)
 
-   Install with the below 3 options:
+Install with the below 3 options:
 
-   - In **Select Components**, select **Associate .sh files to be run with Bash**.
+- In **Select Components**, select **Associate .sh files to be run with Bash**.
 
-     <img alt="install-windows-git-step1.jpg" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/6f2e0b34-4425-4766-85be-799d97aef80a" width="70%" />
+  <img alt="install-windows-git-step1.jpg" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/6f2e0b34-4425-4766-85be-799d97aef80a" width="70%" />
+
+- In **Adjusting your PATH environment**, select **Use Git and optional Unix tools from the Command Prompt**.
+
+  <img alt="install-windows-git-step2.jpg" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/2ff32b3b-2ade-4f3c-b25b-50e4b521f2e8" width="70%" />
   
-   - In **Adjusting your PATH environment**, select **Use Git and optional Unix tools from the Command Prompt**.
+- In **Configuring the terminal emulator to use with Git Bash**, select **Use Windows's default console window**.
 
-     <img alt="install-windows-git-step2.jpg" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/2ff32b3b-2ade-4f3c-b25b-50e4b521f2e8" width="70%" />
+  <img alt="install-windows-git-step3.png" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/944147d1-e180-4e63-aecc-991c9c1093b0" width="70%" />
   
-   - In **Configuring the terminal emulator to use with Git Bash**, select **Use Windows's default console window**.
+After this step, **git.exe** and builtin linux commands(such as **rm.exe**) will be available in `%PATH%`.
 
-     <img alt="install-windows-git-step3.png" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/944147d1-e180-4e63-aecc-991c9c1093b0" width="70%" />
-  
-   After this step, **git.exe** and builtin linux commands(such as **rm.exe**) will be available in `%PATH%`.
+### [scoop](https://scoop.sh/)
 
-   ### [scoop](https://scoop.sh/)
+Run below powershell commands:
 
-   Run below powershell commands:
+```powershell
+# scoop
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm get.scoop.sh | iex
 
-   ```powershell
-   # scoop
-   Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-   irm get.scoop.sh | iex
+scoop install uutils-coreutils     # rm
+```
 
-   scoop install uutils-coreutils     # rm
-   ```
-
-   </details>
+</details>
 
 ## 📦 Install
 
