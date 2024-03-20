@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.15](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.14...v2.0.15) (2024-03-20)
+
+
+### Bug Fixes
+
+* **collector:** remove 'RRethy/nvim-base16' from blacklist ([#214](https://github.com/linrongbin16/colorbox.nvim/issues/214)) ([1c23e24](https://github.com/linrongbin16/colorbox.nvim/commit/1c23e2481d5174fff071d31c165eb939ff714425))
+
 ## [2.0.14](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.13...v2.0.14) (2024-03-04)
 
 
