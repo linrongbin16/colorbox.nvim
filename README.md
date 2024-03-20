@@ -98,6 +98,7 @@ And multiple trigger timings:
 
    <details>
    <summary><i>Click here to see how to install `rm` command on Windows</i></summary>
+   <br/>
 
    There're many ways to install portable linux shell and builtin commands on Windows, but personally I would recommend below two methods.
 
