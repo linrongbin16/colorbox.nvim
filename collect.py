@@ -28,7 +28,6 @@ BLACKLIST = [
     "mini.nvim#minischeme",
     "mini.nvim#colorschemes",
     "text-to-colorscheme",
-    "RRethy/nvim-base16",
 ]
 
 
