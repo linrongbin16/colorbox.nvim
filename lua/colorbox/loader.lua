@@ -35,9 +35,11 @@ M.load = function(colorname, run_command)
     local ok, setup_err = pcall(confs.setup[spec.handle], home_dir, spec)
     logger:ensure(
       ok,
-      "failed to setup colorscheme:%s, error:%s",
-      vim.inspect(spec.handle),
-      vim.inspect(setup_err)
+      string.format(
+        "failed to setup colorscheme:%s, error:%s",
+        vim.inspect(spec.handle),
+        vim.inspect(setup_err)
+      )
     )
   end
   if confs.background == "dark" or confs.background == "light" then

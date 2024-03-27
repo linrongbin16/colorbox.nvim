@@ -21,7 +21,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from tinydb import Query, TinyDB
 
 # github
-GITHUB_STARS = 300
+GITHUB_STARS = 500
 LAST_GIT_COMMIT = 5 * 365 * 24 * 3600  # 5 years * 365 days * 24 hours * 3600 seconds
 BLACKLIST = [
     "rafi/awesome-vim-colorschemes",
@@ -103,15 +103,25 @@ def datetime_tostring(
     )
 
 
-def date_tostring(value: typing.Optional[datetime.datetime]) -> typing.Optional[str]:
-    return value.strftime(DATE_FORMAT) if isinstance(value, datetime.datetime) else None
-
-
 def datetime_fromstring(
     value: typing.Optional[str],
 ) -> typing.Optional[datetime.datetime]:
     return (
         datetime.datetime.strptime(value, DATETIME_FORMAT)
+        if isinstance(value, str) and len(value.strip()) > 0
+        else None
+    )
+
+
+def date_tostring(value: typing.Optional[datetime.datetime]) -> typing.Optional[str]:
+    return value.strftime(DATE_FORMAT) if isinstance(value, datetime.datetime) else None
+
+
+def date_fromstring(
+    value: typing.Optional[str],
+) -> typing.Optional[datetime.datetime]:
+    return (
+        datetime.datetime.strptime(value, DATE_FORMAT)
         if isinstance(value, str) and len(value.strip()) > 0
         else None
     )
@@ -153,15 +163,15 @@ REPO_META_CONFIG = {
 
 class ColorSpec:
     DB = TinyDB("autoload/db.json")
-    HANDLE = "handle"
-    URL = "url"
-    GITHUB_STARS = "github_stars"
-    PRIORITY = "priority"
-    SOURCE = "source"
-    LAST_GIT_COMMIT = "last_git_commit"
-    GIT_PATH = "git_path"
-    GIT_BRANCH = "git_branch"
-    COLOR_NAMES = "color_names"
+    HANDLE = "h"  # handle
+    URL = "u"  # url
+    GITHUB_STARS = "st"  # github stars
+    PRIORITY = "p"  # priority
+    SOURCE = "s"
+    LAST_GIT_COMMIT = "gc"  # last git commit date
+    GIT_PATH = "gp"  # git submodule file path
+    GIT_BRANCH = "gb"  # git branch
+    COLOR_NAMES = "cn"  # color names
 
     def __init__(
         self,
@@ -216,15 +226,15 @@ class ColorSpec:
 
     def save(self) -> None:
         q = Query()
-        count = ColorSpec.DB.search(q.handle == self.handle)
+        count = ColorSpec.DB.search(q.h == self.handle)
         obj = {
             ColorSpec.HANDLE: self.handle,
-            ColorSpec.URL: self.url,
+            # ColorSpec.URL: self.url,
             ColorSpec.GITHUB_STARS: self.github_stars,
-            ColorSpec.LAST_GIT_COMMIT: datetime_tostring(self.last_git_commit),
+            ColorSpec.LAST_GIT_COMMIT: date_tostring(self.last_git_commit),
             ColorSpec.PRIORITY: self.priority,
             ColorSpec.SOURCE: self.source,
-            ColorSpec.GIT_PATH: self.git_path,
+            # ColorSpec.GIT_PATH: self.git_path,
             ColorSpec.GIT_BRANCH: self.git_branch,
             ColorSpec.COLOR_NAMES: self.color_names,
         }
@@ -232,25 +242,25 @@ class ColorSpec:
             ColorSpec.DB.insert(obj)
             logging.debug(f"add new repo: {self}")
         else:
-            ColorSpec.DB.update(obj, q.handle == self.handle)
+            ColorSpec.DB.update(obj, q.h == self.handle)
             logging.debug(f"add(update) existed repo: {self}")
 
     def update_last_git_commit(self, last_git_commit: datetime.datetime) -> None:
         q = Query()
-        records = ColorSpec.DB.search(q.handle == self.handle)
+        records = ColorSpec.DB.search(q.h == self.handle)
         assert len(records) == 1
         assert isinstance(last_git_commit, datetime.datetime)
         self.last_git_commit = last_git_commit
         ColorSpec.DB.update(
             {
-                ColorSpec.LAST_GIT_COMMIT: datetime_tostring(self.last_git_commit),
+                ColorSpec.LAST_GIT_COMMIT: date_tostring(self.last_git_commit),
             },
-            q.handle == self.handle,
+            q.h == self.handle,
         )
 
     def update_color_names(self, color_names: list[str]) -> None:
         q = Query()
-        records = ColorSpec.DB.search(q.handle == self.handle)
+        records = ColorSpec.DB.search(q.h == self.handle)
         assert len(records) == 1
         assert isinstance(color_names, list)
         self.color_names = color_names
@@ -258,12 +268,12 @@ class ColorSpec:
             {
                 ColorSpec.COLOR_NAMES: self.color_names,
             },
-            q.handle == self.handle,
+            q.h == self.handle,
         )
 
     def remove(self) -> None:
-        query = Query()
-        ColorSpec.DB.remove(query.handle == self.handle)
+        q = Query()
+        ColorSpec.DB.remove(q.h == self.handle)
 
     @staticmethod
     def truncate() -> None:
@@ -279,7 +289,7 @@ class ColorSpec:
                 ColorSpec(
                     handle=r[ColorSpec.HANDLE],
                     github_stars=r[ColorSpec.GITHUB_STARS],
-                    last_git_commit=datetime_fromstring(r[ColorSpec.LAST_GIT_COMMIT]),
+                    last_git_commit=date_fromstring(r[ColorSpec.LAST_GIT_COMMIT]),
                     priority=r[ColorSpec.PRIORITY],
                     source=r[ColorSpec.SOURCE],
                 )
@@ -372,9 +382,9 @@ class VimColorSchemes:
             i += 1
 
     def _parse_spec(
-        self, element: WebElement, source: str
+        self, element: WebElement, page_url: str
     ) -> typing.Optional[ColorSpec]:
-        logging.debug(f"parsing (vsc) spec element:{element}")
+        logging.debug(f"parsing (vsc) spec element:{element}, page url:{page_url}")
         try:
             url = element.find_element(
                 By.XPATH, "./a[@class='card__link']"
@@ -401,7 +411,7 @@ class VimColorSchemes:
                 github_stars,
                 last_git_commit=None,
                 priority=0,
-                source=source,
+                source="vsc",
             )
         except Exception as e:
             logging.exception(f"failed to fetch vsc element: {element}", e)
@@ -446,12 +456,13 @@ class AwesomeNeovimColorScheme:
         self.counter = 0
 
     def _parse_spec(
-        self, element: WebElement, source: str
+        self, element: WebElement, page_url: str
     ) -> typing.Optional[ColorSpec]:
+        logging.debug(f"parsing (asm) spec element:{element}, page url:{page_url}")
         try:
             a = element.find_element(By.XPATH, "./a").text
             a_splits = a.split("(")
-            logging.debug(f"parse asn element.a:{a}, a_splits:{a_splits}")
+            logging.debug(f"parse asm element.a:{a}, a_splits:{a_splits}")
             handle = a_splits[0]
             github_stars = parse_number(a_splits[1]) if len(a_splits) > 1 else 0
             return ColorSpec(
@@ -459,10 +470,10 @@ class AwesomeNeovimColorScheme:
                 github_stars,
                 last_git_commit=None,
                 priority=100,
-                source=source,
+                source="asm",
             )
         except Exception as e:
-            logging.exception(f"failed to fetch asn element: {element}", e)
+            logging.exception(f"failed to fetch asm element: {element}", e)
             return None
 
     def _parse_colors_list(self, driver: Chrome, tag_id: str) -> list[ColorSpec]:
@@ -477,21 +488,21 @@ class AwesomeNeovimColorScheme:
                 f"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme#{tag_id}",
             )
             self.counter = self.counter + 1
-            logging.debug(f"asn repo-{self.counter}:{spec}")
+            logging.debug(f"asm repo-{self.counter}:{spec}")
             if spec is None:
                 logging.info(
-                    f"skip for parsing failure - (asn) spec-{self.counter}:{spec}"
+                    f"skip for parsing failure - (asm) spec-{self.counter}:{spec}"
                 )
                 continue
             if len(spec.handle.split("/")) != 2:
                 logging.info(
-                    f"skip for invalid handle - (asn) spec-{self.counter}:{spec}"
+                    f"skip for invalid handle - (asm) spec-{self.counter}:{spec}"
                 )
                 continue
             if spec.github_stars < GITHUB_STARS:
-                logging.info(f"skip for lower stars - (asn) spec-{self.counter}:{spec}")
+                logging.info(f"skip for lower stars - (asm) spec-{self.counter}:{spec}")
                 continue
-            logging.info(f"fetch (asn) repo-{self.counter}:{spec}")
+            logging.info(f"fetch (asm) repo-{self.counter}:{spec}")
             repos.append(spec)
         return repos
 
@@ -665,21 +676,29 @@ class Builder:
     help="enable debug",
 )
 @click.option("--no-headless", "no_headless_opt", is_flag=True, help="disable headless")
-@click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetching")
-def collect(debug_opt, no_headless_opt, skip_fetch_opt):
+@click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetch")
+@click.option("--skip-clone", "skip_clone_opt", is_flag=True, help="skip clone")
+def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
     global WEBDRIVER_HEADLESS
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
-    logging.debug(f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}")
+    logging.debug(
+        f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}, skip_fetch_opt:{skip_fetch_opt}, skip_clone_opt:{skip_clone_opt}"
+    )
     if no_headless_opt:
         WEBDRIVER_HEADLESS = False
     if not skip_fetch_opt:
         ColorSpec.truncate()
         vcs = VimColorSchemes()
         vcs.fetch()
-        asn = AwesomeNeovimColorScheme()
-        asn.fetch()
+        asm = AwesomeNeovimColorScheme()
+        asm.fetch()
         filter_color_specs()
-    builder = Builder(False if debug_opt else True)
+    clean_old_clones = True
+    if debug_opt:
+        clean_old_clones = False
+    if skip_clone_opt:
+        clean_old_clones = False
+    builder = Builder(clean_old_clones)
     builder.build()
 
 

@@ -13,11 +13,13 @@ M.shuffle = function()
     local i = num.random(#ColorNamesList) --[[@as integer]]
     local color = track.get_next_color_name_by_idx(i)
     logging.get("colorbox"):debug(
-      "|_policy_shuffle| color:%s, ColorNamesList:%s (%d), i:%d",
-      vim.inspect(color),
-      vim.inspect(ColorNamesList),
-      vim.inspect(#ColorNamesList),
-      vim.inspect(i)
+      string.format(
+        "|_policy_shuffle| color:%s, ColorNamesList:%s (%d), i:%d",
+        vim.inspect(color),
+        vim.inspect(ColorNamesList),
+        vim.inspect(#ColorNamesList),
+        vim.inspect(i)
+      )
     )
 
     loader.load(color)

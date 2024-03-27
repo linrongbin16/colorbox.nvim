@@ -48,14 +48,19 @@ M.setup = function()
   vim.opt.packpath:append(home_dir)
 
   local confs = configs.get()
-  logger:debug("|setup| confs.previous_colors_cache:%s", vim.inspect(confs.previous_colors_cache))
+  logger:debug(
+    string.format(
+      "|setup| confs.previous_colors_cache:%s",
+      vim.inspect(confs.previous_colors_cache)
+    )
+  )
   local cache_content = fileios.readfile(confs.previous_colors_cache, { trim = true })
-  logger:debug("|setup| cache_content:%s", vim.inspect(cache_content))
+  logger:debug(string.format("|setup| cache_content:%s", vim.inspect(cache_content)))
   local found_cache = false
 
   if cache_content then
     local colors_list = str.split(cache_content, ",")
-    logger:debug("|setup| colors_list:%s", vim.inspect(colors_list))
+    logger:debug(string.format("|setup| colors_list:%s", vim.inspect(colors_list)))
     if tbl.list_not_empty(colors_list) then
       FilteredColorNamesList = colors_list
 
@@ -80,7 +85,7 @@ M.setup = function()
 
   if not found_cache then
     local data = M._build_colors()
-    logger:debug("|setup| not found, data:%s", vim.inspect(data))
+    logger:debug(string.format("|setup| not found, data:%s", vim.inspect(data)))
     FilteredColorNamesList = data.colors_list
     FilteredColorNameToIndexMap = data.colors_index
 

@@ -38,7 +38,7 @@ M._update = function()
   for _, _ in pairs(HandleToColorSpecsMap) do
     prepared_count = prepared_count + 1
   end
-  logger:info("started %s jobs", vim.inspect(prepared_count))
+  logger:info(string.format("started %s jobs", vim.inspect(prepared_count)))
 
   local async_spawn_run = async.wrap(function(acmd, aopts, cb)
     require("colorbox.commons.spawn").run(acmd, aopts, function(completed_obj)
@@ -51,7 +51,7 @@ M._update = function()
     for handle, spec in pairs(HandleToColorSpecsMap) do
       local function _on_output(line)
         if str.not_blank(line) then
-          logger:info("%s: %s", handle, line)
+          logger:info(string.format("%s: %s", handle, line))
         end
       end
       local param = nil
@@ -96,7 +96,7 @@ M._update = function()
       finished_count = finished_count + 1
     end
   end, function()
-    logger:info("finished %s jobs", vim.inspect(finished_count))
+    logger:info(string.format("finished %s jobs", vim.inspect(finished_count)))
   end)
 end
 
@@ -143,7 +143,7 @@ M.clean = function()
       end,
     })
     vim.fn.jobwait({ jobid })
-    logger:info("cleaned directory: %s", shorten_pack_dir)
+    logger:info(string.format("cleaned directory: %s", shorten_pack_dir))
   else
     logger:warn("no 'rm' command found, skip cleaning...")
   end
@@ -153,7 +153,7 @@ end
 --- @return colorbox.Options?
 M._parse_args = function(args)
   local opts = nil
-  logging.get("colorbox"):debug("|_parse_args| args:%s", vim.inspect(args))
+  logging.get("colorbox"):debug(string.format("|_parse_args| args:%s", vim.inspect(args)))
   if str.not_blank(args) then
     local args_splits = str.split(vim.trim(args --[[@as string]]), " ", { trimempty = true })
     for _, arg_split in ipairs(args_splits) do
@@ -184,7 +184,7 @@ M.info = function(args)
   opts = opts or { scale = 0.7 }
   opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7) or 0.7
   opts.scale = num.bound(opts.scale, 0, 1)
-  logging.get("colorbox"):debug("|_info| opts:%s", vim.inspect(opts))
+  logging.get("colorbox"):debug(string.format("|_info| opts:%s", vim.inspect(opts)))
 
   local total_width = vim.o.columns
   local total_height = vim.o.lines
