@@ -31,31 +31,20 @@ end
 --- @param handle string
 --- @param github_stars integer
 --- @param last_git_commit string
---- @param priority integer
 --- @param source string
---- @param git_path string
 --- @param git_branch string?
 --- @param color_names string[]
 --- @return colorbox.ColorSpec
-function ColorSpec:new(
-  handle,
-  github_stars,
-  last_git_commit,
-  priority,
-  source,
-  git_path,
-  git_branch,
-  color_names
-)
+function ColorSpec:new(handle, github_stars, last_git_commit, source, git_branch, color_names)
   local cwd = vim.fn["colorbox#base_dir"]()
+  local git_path = _make_git_path(handle)
   local o = {
     handle = handle,
     url = _make_url(handle),
     github_stars = github_stars,
     last_git_commit = last_git_commit,
-    priority = priority,
     source = source,
-    git_path = _make_git_path(handle),
+    git_path = git_path,
     git_branch = git_branch,
     color_names = color_names,
     pack_path = string.format("pack/colorbox/start/%s", git_path),
@@ -112,16 +101,14 @@ do
     local data = json.decode(content) --[[@as table]]
     HandleToColorSpecsMap = {}
     for _, d in pairs(data["_default"]) do
-      HandleToColorSpecsMap[d.handle] = ColorSpec:new(
-        d.handle,
-        d.github_stars,
-        d.last_git_commit,
-        d.priority,
-        d.source,
-        d.git_path,
-        d.git_branch,
-        d.color_names
-      )
+      local handle = d.h -- handle
+      local github_stars = d.st -- github stars
+      local last_git_commit = d.gc -- last git commit
+      local source = d.s -- source
+      local git_branch = d.gb -- git branch
+      local color_names = d.cn -- color names
+      HandleToColorSpecsMap[handle] =
+        ColorSpec:new(handle, github_stars, last_git_commit, source, git_branch, color_names)
     end
   end
   if type(ColorNameToColorSpecsMap) ~= "table" then
