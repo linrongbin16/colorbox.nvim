@@ -153,7 +153,7 @@ end
 --- @return colorbox.Options?
 M._parse_args = function(args)
   local opts = nil
-  logging.get("colorbox"):debug("|_parse_args| args:%s", vim.inspect(args))
+  logging.get("colorbox"):debug(string.format("|_parse_args| args:%s", vim.inspect(args)))
   if str.not_blank(args) then
     local args_splits = str.split(vim.trim(args --[[@as string]]), " ", { trimempty = true })
     for _, arg_split in ipairs(args_splits) do
@@ -184,7 +184,7 @@ M.info = function(args)
   opts = opts or { scale = 0.7 }
   opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7) or 0.7
   opts.scale = num.bound(opts.scale, 0, 1)
-  logging.get("colorbox"):debug("|_info| opts:%s", vim.inspect(opts))
+  logging.get("colorbox"):debug(string.format("|_info| opts:%s", vim.inspect(opts)))
 
   local total_width = vim.o.columns
   local total_height = vim.o.lines
