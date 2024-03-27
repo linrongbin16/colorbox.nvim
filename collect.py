@@ -226,13 +226,13 @@ class ColorSpec:
 
     def save(self) -> None:
         q = Query()
-        count = ColorSpec.DB.search(q.handle == self.handle)
+        count = ColorSpec.DB.search(q.h == self.handle)
         obj = {
             ColorSpec.HANDLE: self.handle,
             # ColorSpec.URL: self.url,
             ColorSpec.GITHUB_STARS: self.github_stars,
             ColorSpec.LAST_GIT_COMMIT: date_tostring(self.last_git_commit),
-            # ColorSpec.PRIORITY: self.priority,
+            ColorSpec.PRIORITY: self.priority,
             ColorSpec.SOURCE: self.source,
             # ColorSpec.GIT_PATH: self.git_path,
             ColorSpec.GIT_BRANCH: self.git_branch,
@@ -242,12 +242,12 @@ class ColorSpec:
             ColorSpec.DB.insert(obj)
             logging.debug(f"add new repo: {self}")
         else:
-            ColorSpec.DB.update(obj, q.handle == self.handle)
+            ColorSpec.DB.update(obj, q.h == self.handle)
             logging.debug(f"add(update) existed repo: {self}")
 
     def update_last_git_commit(self, last_git_commit: datetime.datetime) -> None:
         q = Query()
-        records = ColorSpec.DB.search(q.handle == self.handle)
+        records = ColorSpec.DB.search(q.h == self.handle)
         assert len(records) == 1
         assert isinstance(last_git_commit, datetime.datetime)
         self.last_git_commit = last_git_commit
@@ -255,12 +255,12 @@ class ColorSpec:
             {
                 ColorSpec.LAST_GIT_COMMIT: date_tostring(self.last_git_commit),
             },
-            q.handle == self.handle,
+            q.h == self.handle,
         )
 
     def update_color_names(self, color_names: list[str]) -> None:
         q = Query()
-        records = ColorSpec.DB.search(q.handle == self.handle)
+        records = ColorSpec.DB.search(q.h == self.handle)
         assert len(records) == 1
         assert isinstance(color_names, list)
         self.color_names = color_names
@@ -268,12 +268,12 @@ class ColorSpec:
             {
                 ColorSpec.COLOR_NAMES: self.color_names,
             },
-            q.handle == self.handle,
+            q.h == self.handle,
         )
 
     def remove(self) -> None:
-        query = Query()
-        ColorSpec.DB.remove(query.handle == self.handle)
+        q = Query()
+        ColorSpec.DB.remove(q.h == self.handle)
 
     @staticmethod
     def truncate() -> None:
@@ -676,11 +676,14 @@ class Builder:
     help="enable debug",
 )
 @click.option("--no-headless", "no_headless_opt", is_flag=True, help="disable headless")
-@click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetching")
-def collect(debug_opt, no_headless_opt, skip_fetch_opt):
+@click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetch")
+@click.option("--skip-clone", "skip_clone_opt", is_flag=True, help="skip clone")
+def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
     global WEBDRIVER_HEADLESS
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
-    logging.debug(f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}")
+    logging.debug(
+        f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}, skip_fetch_opt:{skip_fetch_opt}, skip_clone_opt:{skip_clone_opt}"
+    )
     if no_headless_opt:
         WEBDRIVER_HEADLESS = False
     if not skip_fetch_opt:
@@ -690,7 +693,12 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt):
         asm = AwesomeNeovimColorScheme()
         asm.fetch()
         filter_color_specs()
-    builder = Builder(False if debug_opt else True)
+    clean_old_clones = True
+    if debug_opt:
+        clean_old_clones = False
+    if skip_clone_opt:
+        clean_old_clones = False
+    builder = Builder(clean_old_clones)
     builder.build()
 
 
