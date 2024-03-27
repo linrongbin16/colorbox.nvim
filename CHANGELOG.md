@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.16](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.15...v2.0.16) (2024-03-27)
+
+
+### Performance Improvements
+
+* reduce db size ([#217](https://github.com/linrongbin16/colorbox.nvim/issues/217)) ([0035bf1](https://github.com/linrongbin16/colorbox.nvim/commit/0035bf1da01bddd0ca6fccafdcc193a57003c20d))
+* set stars &gt;= 500 ([#219](https://github.com/linrongbin16/colorbox.nvim/issues/219)) ([6078fad](https://github.com/linrongbin16/colorbox.nvim/commit/6078fad32ce8465642cd274e3af0114dd7c842d1))
+
 ## [2.0.15](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.14...v2.0.15) (2024-03-20)
 
 
