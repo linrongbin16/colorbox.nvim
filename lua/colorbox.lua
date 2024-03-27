@@ -59,7 +59,7 @@ local function setup(opts)
       local sub_args = args:sub(string.len(args_splits[1]) + 1)
       fn(sub_args)
     else
-      logger:warn("unknown parameter %s.", args_splits[1])
+      logger:warn(string.format("unknown parameter %s.", args_splits[1]))
     end
   end, {
     nargs = "*",

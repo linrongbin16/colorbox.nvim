@@ -38,7 +38,7 @@ M._update = function()
   for _, _ in pairs(HandleToColorSpecsMap) do
     prepared_count = prepared_count + 1
   end
-  logger:info("started %s jobs", vim.inspect(prepared_count))
+  logger:info(string.format("started %s jobs", vim.inspect(prepared_count)))
 
   local async_spawn_run = async.wrap(function(acmd, aopts, cb)
     require("colorbox.commons.spawn").run(acmd, aopts, function(completed_obj)
@@ -51,7 +51,7 @@ M._update = function()
     for handle, spec in pairs(HandleToColorSpecsMap) do
       local function _on_output(line)
         if str.not_blank(line) then
-          logger:info("%s: %s", handle, line)
+          logger:info(string.format("%s: %s", handle, line))
         end
       end
       local param = nil
@@ -96,7 +96,7 @@ M._update = function()
       finished_count = finished_count + 1
     end
   end, function()
-    logger:info("finished %s jobs", vim.inspect(finished_count))
+    logger:info(string.format("finished %s jobs", vim.inspect(finished_count)))
   end)
 end
 
@@ -143,7 +143,7 @@ M.clean = function()
       end,
     })
     vim.fn.jobwait({ jobid })
-    logger:info("cleaned directory: %s", shorten_pack_dir)
+    logger:info(string.format("cleaned directory: %s", shorten_pack_dir))
   else
     logger:warn("no 'rm' command found, skip cleaning...")
   end
