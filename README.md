@@ -40,7 +40,7 @@ It use offline github actions to weekly collect/update the colorscheme list.
 >
 > with below conditions:
 >
-> 1. Github stars &ge; 300 (default config only enable &ge; 800, see [Configuration](#-configuration)).
+> 1. Github stars &ge; 500 (default config only enable &ge; 800, see [Configuration](#-configuration)).
 > 2. Last git commit in 5 years.
 > 3. For multiple plugins that contain the same color name, pick by following rules:
 >    1. **Awesome-neovim** wins **vimcolorsheme** (they usually support modern Neovim features).
@@ -113,11 +113,11 @@ Install with the below 3 options:
 - In **Adjusting your PATH environment**, select **Use Git and optional Unix tools from the Command Prompt**.
 
   <img alt="install-windows-git-step2.jpg" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/2ff32b3b-2ade-4f3c-b25b-50e4b521f2e8" width="70%" />
-  
+
 - In **Configuring the terminal emulator to use with Git Bash**, select **Use Windows's default console window**.
 
   <img alt="install-windows-git-step3.png" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/944147d1-e180-4e63-aecc-991c9c1093b0" width="70%" />
-  
+
 After this step, **git.exe** and builtin linux commands(such as **rm.exe**) will be available in `%PATH%`.
 
 ### [scoop](https://scoop.sh/)
