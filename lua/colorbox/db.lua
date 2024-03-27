@@ -1,4 +1,5 @@
 local json = require("colorbox.commons.json")
+local str = require("colorbox.commons.str")
 
 --- @class colorbox.ColorSpec
 --- @field handle string "folke/tokyonight.nvim"
@@ -15,7 +16,19 @@ local json = require("colorbox.commons.json")
 local ColorSpec = {}
 
 --- @param handle string
---- @param url string
+--- @return string
+local function _make_url(handle)
+  return string.format("https://github.com/%s", handle)
+end
+
+--- @param handle string
+--- @return string
+local function _make_git_path(handle)
+  local result = str.replace(handle, "/", "-")
+  return result
+end
+
+--- @param handle string
 --- @param github_stars integer
 --- @param last_git_commit string
 --- @param priority integer
@@ -26,7 +39,6 @@ local ColorSpec = {}
 --- @return colorbox.ColorSpec
 function ColorSpec:new(
   handle,
-  url,
   github_stars,
   last_git_commit,
   priority,
@@ -38,12 +50,12 @@ function ColorSpec:new(
   local cwd = vim.fn["colorbox#base_dir"]()
   local o = {
     handle = handle,
-    url = url,
+    url = _make_url(handle),
     github_stars = github_stars,
     last_git_commit = last_git_commit,
     priority = priority,
     source = source,
-    git_path = git_path,
+    git_path = _make_git_path(handle),
     git_branch = git_branch,
     color_names = color_names,
     pack_path = string.format("pack/colorbox/start/%s", git_path),
@@ -102,7 +114,6 @@ do
     for _, d in pairs(data["_default"]) do
       HandleToColorSpecsMap[d.handle] = ColorSpec:new(
         d.handle,
-        d.url,
         d.github_stars,
         d.last_git_commit,
         d.priority,
