@@ -1,4 +1,3 @@
-local json = require("colorbox.commons.json")
 local str = require("colorbox.commons.str")
 
 --- @class colorbox.ColorSpec
@@ -14,19 +13,6 @@ local str = require("colorbox.commons.str")
 --- @field pack_path string "pack/colorbox/start/folke-tokyonight.nvim"
 --- @field full_pack_path string "Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"
 local ColorSpec = {}
-
---- @param handle string
---- @return string
-local function _make_url(handle)
-  return string.format("https://github.com/%s", handle)
-end
-
---- @param handle string
---- @return string
-local function _make_git_path(handle)
-  local result = str.replace(handle, "/", "-")
-  return result
-end
 
 --- @param handle string
 --- @param url string
@@ -64,25 +50,6 @@ function ColorSpec:new(
   self.__index = self
   return o
 end
-
--- specs
---- @type colorbox.ColorSpec[]
-local ColorSpecs = {}
-
--- plugin name => spec
---- @type table<string, colorbox.ColorSpec>
-local ColorSpecsMap = {}
-
--- plugin url => spec
-local ColorSpecUrlsMap = {}
-
--- color names
---- @type string[]
-local ColorNames = {}
-
--- color name => spec
---- @type table<string, colorbox.ColorSpec>
-local ColorNamesMap = {}
 
 -- handle => spec
 --- @type table<string, colorbox.ColorSpec>
