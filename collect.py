@@ -667,10 +667,19 @@ class Builder:
                 md.new_line(f"  - {cname}")
         md.create_md_file()
 
-        ldata = []
+        ldata = {}
         for i, spec in enumerate(all_specs):
             logging.info(f"dump lua data for spec-{i}:{spec}")
-            ldata.append(spec)
+            lobj = {
+                ColorSpec.HANDLE: spec.handle,
+                ColorSpec.GITHUB_STARS: spec.github_stars,
+                ColorSpec.LAST_GIT_COMMIT: date_tostring(spec.last_git_commit),
+                ColorSpec.PRIORITY: spec.priority,
+                ColorSpec.SOURCE: spec.source,
+                ColorSpec.GIT_BRANCH: spec.git_branch,
+                ColorSpec.COLOR_NAMES: spec.color_names,
+            }
+            ldata[spec.handle] = lobj
         luadata.write("lua/colorbox/meta.lua", ldata, encoding="utf-8", indent="  ", prefix = "return ")
 
 
