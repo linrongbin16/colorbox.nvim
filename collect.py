@@ -164,15 +164,15 @@ REPO_META_CONFIG = {
 
 class ColorSpec:
     DB = TinyDB("autoload/db.json")
-    HANDLE = "h"  # handle
-    URL = "u"  # url
-    GITHUB_STARS = "st"  # github stars
-    PRIORITY = "p"  # priority
-    SOURCE = "s"
-    LAST_GIT_COMMIT = "gc"  # last git commit date
-    GIT_PATH = "gp"  # git submodule file path
-    GIT_BRANCH = "gb"  # git branch
-    COLOR_NAMES = "cn"  # color names
+    HANDLE = "handle"
+    URL = "url"
+    GITHUB_STARS = "github_stars"
+    PRIORITY = "priority"
+    SOURCE = "source"
+    LAST_GIT_COMMIT = "last_git_commit"
+    GIT_PATH = "git_path"
+    GIT_BRANCH = "git_branch"
+    COLOR_NAMES = "color_names"
 
     def __init__(
         self,
@@ -230,12 +230,12 @@ class ColorSpec:
         count = ColorSpec.DB.search(q.h == self.handle)
         obj = {
             ColorSpec.HANDLE: self.handle,
-            # ColorSpec.URL: self.url,
+            ColorSpec.URL: self.url,
             ColorSpec.GITHUB_STARS: self.github_stars,
             ColorSpec.LAST_GIT_COMMIT: date_tostring(self.last_git_commit),
             ColorSpec.PRIORITY: self.priority,
             ColorSpec.SOURCE: self.source,
-            # ColorSpec.GIT_PATH: self.git_path,
+            ColorSpec.GIT_PATH: self.git_path,
             ColorSpec.GIT_BRANCH: self.git_branch,
             ColorSpec.COLOR_NAMES: self.color_names,
         }
@@ -672,10 +672,12 @@ class Builder:
             logging.info(f"dump lua data for spec-{i}:{spec}")
             lobj = {
                 ColorSpec.HANDLE: spec.handle,
+                ColorSpec.URL: spec.url,
                 ColorSpec.GITHUB_STARS: spec.github_stars,
                 ColorSpec.LAST_GIT_COMMIT: date_tostring(spec.last_git_commit),
                 ColorSpec.PRIORITY: spec.priority,
                 ColorSpec.SOURCE: spec.source,
+                ColorSpec.GIT_PATH: spec.git_path,
                 ColorSpec.GIT_BRANCH: spec.git_branch,
                 ColorSpec.COLOR_NAMES: spec.color_names,
             }
