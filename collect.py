@@ -227,7 +227,7 @@ class ColorSpec:
 
     def save(self) -> None:
         q = Query()
-        count = ColorSpec.DB.search(q.h == self.handle)
+        count = ColorSpec.DB.search(q.handle == self.handle)
         obj = {
             ColorSpec.HANDLE: self.handle,
             ColorSpec.URL: self.url,
@@ -243,12 +243,12 @@ class ColorSpec:
             ColorSpec.DB.insert(obj)
             logging.debug(f"add new repo: {self}")
         else:
-            ColorSpec.DB.update(obj, q.h == self.handle)
+            ColorSpec.DB.update(obj, q.handle == self.handle)
             logging.debug(f"add(update) existed repo: {self}")
 
     def update_last_git_commit(self, last_git_commit: datetime.datetime) -> None:
         q = Query()
-        records = ColorSpec.DB.search(q.h == self.handle)
+        records = ColorSpec.DB.search(q.handle == self.handle)
         assert len(records) == 1
         assert isinstance(last_git_commit, datetime.datetime)
         self.last_git_commit = last_git_commit
@@ -256,12 +256,12 @@ class ColorSpec:
             {
                 ColorSpec.LAST_GIT_COMMIT: date_tostring(self.last_git_commit),
             },
-            q.h == self.handle,
+            q.handle == self.handle,
         )
 
     def update_color_names(self, color_names: list[str]) -> None:
         q = Query()
-        records = ColorSpec.DB.search(q.h == self.handle)
+        records = ColorSpec.DB.search(q.handle == self.handle)
         assert len(records) == 1
         assert isinstance(color_names, list)
         self.color_names = color_names
@@ -269,12 +269,12 @@ class ColorSpec:
             {
                 ColorSpec.COLOR_NAMES: self.color_names,
             },
-            q.h == self.handle,
+            q.handle == self.handle,
         )
 
     def remove(self) -> None:
         q = Query()
-        ColorSpec.DB.remove(q.h == self.handle)
+        ColorSpec.DB.remove(q.handle == self.handle)
 
     @staticmethod
     def truncate() -> None:
