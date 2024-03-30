@@ -29,18 +29,28 @@ local function _make_git_path(handle)
 end
 
 --- @param handle string
+--- @param url string
 --- @param github_stars integer
 --- @param last_git_commit string
 --- @param source string
+--- @param git_path string
 --- @param git_branch string?
 --- @param color_names string[]
 --- @return colorbox.ColorSpec
-function ColorSpec:new(handle, github_stars, last_git_commit, source, git_branch, color_names)
+function ColorSpec:new(
+  handle,
+  url,
+  github_stars,
+  last_git_commit,
+  source,
+  git_path,
+  git_branch,
+  color_names
+)
   local cwd = vim.fn["colorbox#base_dir"]()
-  local git_path = _make_git_path(handle)
   local o = {
     handle = handle,
-    url = _make_url(handle),
+    url = url,
     github_stars = github_stars,
     last_git_commit = last_git_commit,
     source = source,
@@ -92,23 +102,19 @@ local ColorNamesList = nil
 
 do
   if type(HandleToColorSpecsMap) ~= "table" then
-    local cwd = vim.fn["colorbox#base_dir"]()
-    local file = string.format("%s/autoload/db.json", cwd)
-    local fp = io.open(file, "r")
-    assert(fp, string.format("failed to read %s", vim.inspect(file)))
-    local content = fp:read("*a")
-    fp:close()
-    local data = json.decode(content) --[[@as table]]
+    local meta = require("colorbox.meta")
     HandleToColorSpecsMap = {}
-    for _, d in pairs(data["_default"]) do
-      local handle = d.h -- handle
-      local github_stars = d.st -- github stars
-      local last_git_commit = d.gc -- last git commit
-      local source = d.s -- source
-      local git_branch = d.gb -- git branch
-      local color_names = d.cn -- color names
-      HandleToColorSpecsMap[handle] =
-        ColorSpec:new(handle, github_stars, last_git_commit, source, git_branch, color_names)
+    for _, m in pairs(meta) do
+      HandleToColorSpecsMap[m.handle] = ColorSpec:new(
+        m.handle,
+        m.url,
+        m.github_stars,
+        m.last_git_commit,
+        m.source,
+        m.git_path,
+        m.git_branch,
+        m.color_names
+      )
     end
   end
   if type(ColorNameToColorSpecsMap) ~= "table" then
