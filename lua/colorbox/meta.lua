@@ -8,7 +8,13 @@ return {
     source = "asm",
     git_path = "folke-tokyonight.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "tokyonight",
+      "tokyonight-day",
+      "tokyonight-moon",
+      "tokyonight-night",
+      "tokyonight-storm",
+    },
   },
   ["catppuccin/nvim"] = {
     handle = "catppuccin/nvim",
@@ -19,7 +25,13 @@ return {
     source = "asm",
     git_path = "catppuccin-nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "catppuccin",
+      "catppuccin-frappe",
+      "catppuccin-latte",
+      "catppuccin-macchiato",
+      "catppuccin-mocha",
+    },
   },
   ["rebelot/kanagawa.nvim"] = {
     handle = "rebelot/kanagawa.nvim",
@@ -30,7 +42,12 @@ return {
     source = "asm",
     git_path = "rebelot-kanagawa.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "kanagawa",
+      "kanagawa-dragon",
+      "kanagawa-lotus",
+      "kanagawa-wave",
+    },
   },
   ["nlknguyen/papercolor-theme"] = {
     handle = "nlknguyen/papercolor-theme",
@@ -41,7 +58,9 @@ return {
     source = "vsc",
     git_path = "nlknguyen-papercolor-theme",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "PaperColor",
+    },
   },
   ["edeneast/nightfox.nvim"] = {
     handle = "edeneast/nightfox.nvim",
@@ -52,7 +71,15 @@ return {
     source = "asm",
     git_path = "edeneast-nightfox.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "carbonfox",
+      "dawnfox",
+      "dayfox",
+      "duskfox",
+      "nightfox",
+      "nordfox",
+      "terafox",
+    },
   },
   ["sainnhe/everforest"] = {
     handle = "sainnhe/everforest",
@@ -63,7 +90,9 @@ return {
     source = "asm",
     git_path = "sainnhe-everforest",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "everforest",
+    },
   },
   ["cocopon/iceberg.vim"] = {
     handle = "cocopon/iceberg.vim",
@@ -74,7 +103,9 @@ return {
     source = "vsc",
     git_path = "cocopon-iceberg.vim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "iceberg",
+    },
   },
   ["rakr/vim-one"] = {
     handle = "rakr/vim-one",
@@ -85,7 +116,9 @@ return {
     source = "vsc",
     git_path = "rakr-vim-one",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "one",
+    },
   },
   ["projekt0n/github-nvim-theme"] = {
     handle = "projekt0n/github-nvim-theme",
@@ -96,7 +129,20 @@ return {
     source = "asm",
     git_path = "projekt0n-github-nvim-theme",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "github_dark",
+      "github_dark_colorblind",
+      "github_dark_default",
+      "github_dark_dimmed",
+      "github_dark_high_contrast",
+      "github_dark_tritanopia",
+      "github_dimmed",
+      "github_light",
+      "github_light_colorblind",
+      "github_light_default",
+      "github_light_high_contrast",
+      "github_light_tritanopia",
+    },
   },
   ["rose-pine/neovim"] = {
     handle = "rose-pine/neovim",
@@ -107,7 +153,12 @@ return {
     source = "asm",
     git_path = "rose-pine-neovim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "rose-pine",
+      "rose-pine-dawn",
+      "rose-pine-main",
+      "rose-pine-moon",
+    },
   },
   ["nanotech/jellybeans.vim"] = {
     handle = "nanotech/jellybeans.vim",
@@ -118,7 +169,9 @@ return {
     source = "vsc",
     git_path = "nanotech-jellybeans.vim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "jellybeans",
+    },
   },
   ["junegunn/seoul256.vim"] = {
     handle = "junegunn/seoul256.vim",
@@ -129,7 +182,10 @@ return {
     source = "vsc",
     git_path = "junegunn-seoul256.vim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "seoul256",
+      "seoul256-light",
+    },
   },
   ["ayu-theme/ayu-vim"] = {
     handle = "ayu-theme/ayu-vim",
@@ -140,7 +196,9 @@ return {
     source = "vsc",
     git_path = "ayu-theme-ayu-vim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "ayu",
+    },
   },
   ["sainnhe/gruvbox-material"] = {
     handle = "sainnhe/gruvbox-material",
@@ -151,7 +209,9 @@ return {
     source = "asm",
     git_path = "sainnhe-gruvbox-material",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "gruvbox-material",
+    },
   },
   ["sainnhe/sonokai"] = {
     handle = "sainnhe/sonokai",
@@ -162,7 +222,9 @@ return {
     source = "asm",
     git_path = "sainnhe-sonokai",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "sonokai",
+    },
   },
   ["ellisonleao/gruvbox.nvim"] = {
     handle = "ellisonleao/gruvbox.nvim",
@@ -173,7 +235,9 @@ return {
     source = "asm",
     git_path = "ellisonleao-gruvbox.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "gruvbox",
+    },
   },
   ["ku1ik/vim-monokai"] = {
     handle = "ku1ik/vim-monokai",
@@ -184,7 +248,9 @@ return {
     source = "vsc",
     git_path = "ku1ik-vim-monokai",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "monokai",
+    },
   },
   ["navarasu/onedark.nvim"] = {
     handle = "navarasu/onedark.nvim",
@@ -195,7 +261,9 @@ return {
     source = "asm",
     git_path = "navarasu-onedark.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "onedark",
+    },
   },
   ["dracula/vim"] = {
     handle = "dracula/vim",
@@ -206,7 +274,9 @@ return {
     source = "asm",
     git_path = "dracula-vim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "dracula",
+    },
   },
   ["sjl/badwolf"] = {
     handle = "sjl/badwolf",
@@ -217,7 +287,10 @@ return {
     source = "vsc",
     git_path = "sjl-badwolf",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "badwolf",
+      "goodwolf",
+    },
   },
   ["whatyouhide/vim-gotham"] = {
     handle = "whatyouhide/vim-gotham",
@@ -228,7 +301,10 @@ return {
     source = "vsc",
     git_path = "whatyouhide-vim-gotham",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "gotham",
+      "gotham256",
+    },
   },
   ["jacoborus/tender.vim"] = {
     handle = "jacoborus/tender.vim",
@@ -239,7 +315,9 @@ return {
     source = "vsc",
     git_path = "jacoborus-tender.vim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "tender",
+    },
   },
   ["mhartington/oceanic-next"] = {
     handle = "mhartington/oceanic-next",
@@ -250,7 +328,10 @@ return {
     source = "asm",
     git_path = "mhartington-oceanic-next",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "OceanicNext",
+      "OceanicNextLight",
+    },
   },
   ["lifepillar/vim-solarized8"] = {
     handle = "lifepillar/vim-solarized8",
@@ -261,7 +342,12 @@ return {
     source = "vsc",
     git_path = "lifepillar-vim-solarized8",
     git_branch = "neovim",
-    color_names = {},
+    color_names = {
+      "solarized8",
+      "solarized8_flat",
+      "solarized8_high",
+      "solarized8_low",
+    },
   },
   ["tomasiser/vim-code-dark"] = {
     handle = "tomasiser/vim-code-dark",
@@ -272,7 +358,9 @@ return {
     source = "asm",
     git_path = "tomasiser-vim-code-dark",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "codedark",
+    },
   },
   ["nyoom-engineering/oxocarbon.nvim"] = {
     handle = "nyoom-engineering/oxocarbon.nvim",
@@ -283,7 +371,9 @@ return {
     source = "asm",
     git_path = "nyoom-engineering-oxocarbon.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "oxocarbon",
+    },
   },
   ["marko-cerovac/material.nvim"] = {
     handle = "marko-cerovac/material.nvim",
@@ -294,7 +384,14 @@ return {
     source = "asm",
     git_path = "marko-cerovac-material.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "material",
+      "material-darker",
+      "material-deep-ocean",
+      "material-lighter",
+      "material-oceanic",
+      "material-palenight",
+    },
   },
   ["jnurmine/zenburn"] = {
     handle = "jnurmine/zenburn",
@@ -305,7 +402,9 @@ return {
     source = "vsc",
     git_path = "jnurmine-zenburn",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "zenburn",
+    },
   },
   ["romainl/apprentice"] = {
     handle = "romainl/apprentice",
@@ -316,7 +415,9 @@ return {
     source = "vsc",
     git_path = "romainl-apprentice",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "apprentice",
+    },
   },
   ["sainnhe/edge"] = {
     handle = "sainnhe/edge",
@@ -327,7 +428,9 @@ return {
     source = "asm",
     git_path = "sainnhe-edge",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "edge",
+    },
   },
   ["srcery-colors/srcery-vim"] = {
     handle = "srcery-colors/srcery-vim",
@@ -338,7 +441,9 @@ return {
     source = "vsc",
     git_path = "srcery-colors-srcery-vim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "srcery",
+    },
   },
   ["raphamorim/lucario"] = {
     handle = "raphamorim/lucario",
@@ -349,7 +454,9 @@ return {
     source = "vsc",
     git_path = "raphamorim-lucario",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "lucario",
+    },
   },
   ["pineapplegiant/spaceduck"] = {
     handle = "pineapplegiant/spaceduck",
@@ -360,7 +467,9 @@ return {
     source = "vsc",
     git_path = "pineapplegiant-spaceduck",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "spaceduck",
+    },
   },
   ["bluz71/vim-nightfly-colors"] = {
     handle = "bluz71/vim-nightfly-colors",
@@ -371,7 +480,9 @@ return {
     source = "asm",
     git_path = "bluz71-vim-nightfly-colors",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "nightfly",
+    },
   },
   ["ajmwagar/vim-deus"] = {
     handle = "ajmwagar/vim-deus",
@@ -382,7 +493,9 @@ return {
     source = "vsc",
     git_path = "ajmwagar-vim-deus",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "deus",
+    },
   },
   ["shaunsingh/nord.nvim"] = {
     handle = "shaunsingh/nord.nvim",
@@ -393,7 +506,9 @@ return {
     source = "asm",
     git_path = "shaunsingh-nord.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "nord",
+    },
   },
   ["bluz71/vim-moonfly-colors"] = {
     handle = "bluz71/vim-moonfly-colors",
@@ -404,7 +519,9 @@ return {
     source = "asm",
     git_path = "bluz71-vim-moonfly-colors",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "moonfly",
+    },
   },
   ["fenetikm/falcon"] = {
     handle = "fenetikm/falcon",
@@ -415,7 +532,9 @@ return {
     source = "asm",
     git_path = "fenetikm-falcon",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "falcon",
+    },
   },
   ["drewtempelmeyer/palenight.vim"] = {
     handle = "drewtempelmeyer/palenight.vim",
@@ -426,7 +545,9 @@ return {
     source = "vsc",
     git_path = "drewtempelmeyer-palenight.vim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "palenight",
+    },
   },
   ["embark-theme/vim"] = {
     handle = "embark-theme/vim",
@@ -437,7 +558,9 @@ return {
     source = "asm",
     git_path = "embark-theme-vim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "embark",
+    },
   },
   ["preservim/vim-colors-pencil"] = {
     handle = "preservim/vim-colors-pencil",
@@ -448,7 +571,9 @@ return {
     source = "vsc",
     git_path = "preservim-vim-colors-pencil",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "pencil",
+    },
   },
   ["savq/melange-nvim"] = {
     handle = "savq/melange-nvim",
@@ -459,7 +584,9 @@ return {
     source = "asm",
     git_path = "savq-melange-nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "melange",
+    },
   },
   ["mofiqul/vscode.nvim"] = {
     handle = "mofiqul/vscode.nvim",
@@ -470,7 +597,9 @@ return {
     source = "asm",
     git_path = "mofiqul-vscode.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "vscode",
+    },
   },
   ["tjdevries/colorbuddy.nvim"] = {
     handle = "tjdevries/colorbuddy.nvim",
@@ -481,7 +610,10 @@ return {
     source = "vsc",
     git_path = "tjdevries-colorbuddy.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "colorbuddy",
+      "gruvbuddy",
+    },
   },
   ["challenger-deep-theme/vim"] = {
     handle = "challenger-deep-theme/vim",
@@ -492,7 +624,9 @@ return {
     source = "vsc",
     git_path = "challenger-deep-theme-vim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "challenger_deep",
+    },
   },
   ["liuchengxu/space-vim-dark"] = {
     handle = "liuchengxu/space-vim-dark",
@@ -503,7 +637,9 @@ return {
     source = "vsc",
     git_path = "liuchengxu-space-vim-dark",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "space-vim-dark",
+    },
   },
   ["mcchrish/zenbones.nvim"] = {
     handle = "mcchrish/zenbones.nvim",
@@ -514,7 +650,21 @@ return {
     source = "asm",
     git_path = "mcchrish-zenbones.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "duckbones",
+      "forestbones",
+      "kanagawabones",
+      "neobones",
+      "nordbones",
+      "randombones",
+      "rosebones",
+      "seoulbones",
+      "tokyobones",
+      "vimbones",
+      "zenbones",
+      "zenburned",
+      "zenwritten",
+    },
   },
   ["lunacookies/vim-colors-xcode"] = {
     handle = "lunacookies/vim-colors-xcode",
@@ -525,7 +675,15 @@ return {
     source = "vsc",
     git_path = "lunacookies-vim-colors-xcode",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "xcode",
+      "xcodedark",
+      "xcodedarkhc",
+      "xcodehc",
+      "xcodelight",
+      "xcodelighthc",
+      "xcodewwdc",
+    },
   },
   ["kristijanhusak/vim-hybrid-material"] = {
     handle = "kristijanhusak/vim-hybrid-material",
@@ -536,7 +694,10 @@ return {
     source = "vsc",
     git_path = "kristijanhusak-vim-hybrid-material",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "hybrid_material",
+      "hybrid_reverse",
+    },
   },
   ["alexvzyl/nordic.nvim"] = {
     handle = "alexvzyl/nordic.nvim",
@@ -547,7 +708,9 @@ return {
     source = "asm",
     git_path = "alexvzyl-nordic.nvim",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "nordic",
+    },
   },
   ["wadackel/vim-dogrun"] = {
     handle = "wadackel/vim-dogrun",
@@ -558,7 +721,9 @@ return {
     source = "vsc",
     git_path = "wadackel-vim-dogrun",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "dogrun",
+    },
   },
   ["rigellute/rigel"] = {
     handle = "rigellute/rigel",
@@ -569,7 +734,9 @@ return {
     source = "vsc",
     git_path = "rigellute-rigel",
     git_branch = nil,
-    color_names = {},
+    color_names = {
+      "rigel",
+    },
   },
   ["lifepillar/vim-gruvbox8"] = {
     handle = "lifepillar/vim-gruvbox8",
@@ -580,6 +747,10 @@ return {
     source = "vsc",
     git_path = "lifepillar-vim-gruvbox8",
     git_branch = "neovim",
-    color_names = {},
+    color_names = {
+      "gruvbox8",
+      "gruvbox8_hard",
+      "gruvbox8_soft",
+    },
   },
 }
