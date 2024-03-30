@@ -163,7 +163,7 @@ REPO_META_CONFIG = {
 
 
 class ColorSpec:
-    DB = TinyDB("autoload/db.json")
+    DB = TinyDB("db.json")
     HANDLE = "handle"
     URL = "url"
     GITHUB_STARS = "github_stars"
