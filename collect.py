@@ -10,6 +10,7 @@ import sys
 import time
 import typing
 from dataclasses import dataclass
+import luadata
 
 import click
 from mdutils.mdutils import MdUtils
@@ -665,6 +666,12 @@ class Builder:
             for cname in color_names:
                 md.new_line(f"  - {cname}")
         md.create_md_file()
+
+        ldata = []
+        for i, spec in enumerate(all_specs):
+            logging.info(f"dump lua data for spec-{i}:{spec}")
+            ldata.append(spec)
+        luadata.write("lua/colorbox/meta.lua", ldata, encoding="utf-8", indent="  ", prefix = "return ")
 
 
 @click.command()
