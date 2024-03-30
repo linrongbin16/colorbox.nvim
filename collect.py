@@ -679,7 +679,7 @@ class Builder:
                 ColorSpec.SOURCE: spec.source,
                 ColorSpec.GIT_PATH: spec.git_path,
                 ColorSpec.GIT_BRANCH: spec.git_branch,
-                ColorSpec.COLOR_NAMES: spec.color_names,
+                ColorSpec.COLOR_NAMES: sorted(spec.get_vim_color_names()),
             }
             ldata[spec.handle] = lobj
         luadata.write("lua/colorbox/meta.lua", ldata, encoding="utf-8", indent="  ", prefix = "return ")
