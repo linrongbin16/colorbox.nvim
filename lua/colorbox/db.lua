@@ -77,20 +77,7 @@ local ColorNamesList = nil
 
 do
   if type(HandleToColorSpecsMap) ~= "table" then
-    local meta = require("colorbox.meta")
-    HandleToColorSpecsMap = {}
-    for _, m in pairs(meta) do
-      HandleToColorSpecsMap[m.handle] = ColorSpec:new(
-        m.handle,
-        m.url,
-        m.github_stars,
-        m.last_git_commit,
-        m.source,
-        m.git_path,
-        m.git_branch,
-        m.color_names
-      )
-    end
+    HandleToColorSpecsMap = require("colorbox.meta.specs")
   end
   if type(ColorNameToColorSpecsMap) ~= "table" then
     ColorNameToColorSpecsMap = {}
