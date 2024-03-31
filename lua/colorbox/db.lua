@@ -62,7 +62,7 @@ do
     end
   end
   if type(ColorNamesList) ~= "table" then
-    ColorNamesList = require('colorbox.meta.colornames')
+    ColorNamesList = require("colorbox.meta.colornames")
   end
 end
 
