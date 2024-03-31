@@ -681,7 +681,7 @@ class Builder:
                 ColorSpec.SOURCE: spec.source,
                 ColorSpec.GIT_PATH: spec.git_path,
                 ColorSpec.GIT_BRANCH: spec.git_branch,
-                ColorSpec.COLOR_NAMES: lcolornames,
+                ColorSpec.COLOR_NAMES: lcolors,
             }
             lspecs[spec.handle] = lobj
             for j, color in enumerate(lcolors):
