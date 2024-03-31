@@ -19,7 +19,7 @@ ColorSchemes List (53)
   - kanagawa-dragon  
   - kanagawa-lotus  
   - kanagawa-wave  
-- [nlknguyen/papercolor-theme](https://github.com/nlknguyen/papercolor-theme) (stars: 2610, last update: 2024-03-12)  
+- [nlknguyen/papercolor-theme](https://github.com/nlknguyen/papercolor-theme) (stars: 2609, last update: 2024-03-12)  
   - PaperColor  
 - [edeneast/nightfox.nvim](https://github.com/edeneast/nightfox.nvim) (stars: 2600, last update: 2024-03-18)  
   - carbonfox  
@@ -58,7 +58,7 @@ ColorSchemes List (53)
 - [junegunn/seoul256.vim](https://github.com/junegunn/seoul256.vim) (stars: 1624, last update: 2023-05-03)  
   - seoul256  
   - seoul256-light  
-- [ayu-theme/ayu-vim](https://github.com/ayu-theme/ayu-vim) (stars: 1618, last update: 2020-05-29)  
+- [ayu-theme/ayu-vim](https://github.com/ayu-theme/ayu-vim) (stars: 1619, last update: 2020-05-29)  
   - ayu  
 - [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material) (stars: 1600, last update: 2024-03-27)  
   - gruvbox-material  
@@ -66,7 +66,7 @@ ColorSchemes List (53)
   - sonokai  
 - [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim) (stars: 1500, last update: 2024-01-29)  
   - gruvbox  
-- [ku1ik/vim-monokai](https://github.com/ku1ik/vim-monokai) (stars: 1420, last update: 2022-02-09)  
+- [ku1ik/vim-monokai](https://github.com/ku1ik/vim-monokai) (stars: 1421, last update: 2022-02-09)  
   - monokai  
 - [navarasu/onedark.nvim](https://github.com/navarasu/onedark.nvim) (stars: 1300, last update: 2024-01-29)  
   - onedark  
@@ -83,7 +83,7 @@ ColorSchemes List (53)
 - [mhartington/oceanic-next](https://github.com/mhartington/oceanic-next) (stars: 1100, last update: 2023-05-01)  
   - OceanicNext  
   - OceanicNextLight  
-- [lifepillar/vim-solarized8](https://github.com/lifepillar/vim-solarized8) (stars: 969, last update: 2024-01-22)  
+- [lifepillar/vim-solarized8](https://github.com/lifepillar/vim-solarized8) (stars: 970, last update: 2024-01-22)  
   - solarized8  
   - solarized8_flat  
   - solarized8_high  
@@ -109,11 +109,11 @@ ColorSchemes List (53)
   - srcery  
 - [raphamorim/lucario](https://github.com/raphamorim/lucario) (stars: 787, last update: 2024-01-02)  
   - lucario  
-- [pineapplegiant/spaceduck](https://github.com/pineapplegiant/spaceduck) (stars: 775, last update: 2022-02-21)  
+- [pineapplegiant/spaceduck](https://github.com/pineapplegiant/spaceduck) (stars: 773, last update: 2022-02-21)  
   - spaceduck  
 - [bluz71/vim-nightfly-colors](https://github.com/bluz71/vim-nightfly-colors) (stars: 747, last update: 2024-03-28)  
   - nightfly  
-- [ajmwagar/vim-deus](https://github.com/ajmwagar/vim-deus) (stars: 738, last update: 2021-03-28)  
+- [ajmwagar/vim-deus](https://github.com/ajmwagar/vim-deus) (stars: 739, last update: 2021-03-28)  
   - deus  
 - [shaunsingh/nord.nvim](https://github.com/shaunsingh/nord.nvim) (stars: 732, last update: 2023-12-20)  
   - nord  
@@ -169,7 +169,7 @@ ColorSchemes List (53)
   - dogrun  
 - [rigellute/rigel](https://github.com/rigellute/rigel) (stars: 508, last update: 2024-01-11)  
   - rigel  
-- [lifepillar/vim-gruvbox8](https://github.com/lifepillar/vim-gruvbox8) (stars: 501, last update: 2023-08-04)  
+- [lifepillar/vim-gruvbox8](https://github.com/lifepillar/vim-gruvbox8) (stars: 502, last update: 2023-08-04)  
   - gruvbox8  
   - gruvbox8_hard  
   - gruvbox8_soft
