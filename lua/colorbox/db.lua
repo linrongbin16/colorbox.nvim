@@ -34,12 +34,12 @@ end
 
 --- @return table<string, colorbox.ColorSpec>
 local function get_git_path_to_color_specs_map()
-  return require ('colorbox.meta.specs_by_gitpath')
+  return require("colorbox.meta.specs_by_gitpath")
 end
 
 --- @return table<string, colorbox.ColorSpec>
 local function get_color_name_to_color_specs_map()
-  return require ('colorbox.meta.specs_by_colorname')
+  return require("colorbox.meta.specs_by_colorname")
 end
 
 --- @return string[]
