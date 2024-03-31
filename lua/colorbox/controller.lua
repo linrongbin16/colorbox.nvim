@@ -7,7 +7,7 @@ local api = require("colorbox.commons.api")
 local async = require("colorbox.commons.async")
 
 local runtime = require("colorbox.runtime")
-local db = require ('colorbox.db')
+local db = require("colorbox.db")
 
 local M = {}
 
