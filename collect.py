@@ -667,9 +667,11 @@ class Builder:
                 md.new_line(f"  - {cname}")
         md.create_md_file()
 
-        ldata = {}
+        lspecs = {}
+        lcolornames = []
         for i, spec in enumerate(all_specs):
-            logging.info(f"dump lua data for spec-{i}:{spec}")
+            logging.info(f"dump lua specs for spec-{i}:{spec}")
+            lcolors = sorted(spec.get_vim_color_names())
             lobj = {
                 ColorSpec.HANDLE: spec.handle,
                 ColorSpec.URL: spec.url,
@@ -679,10 +681,13 @@ class Builder:
                 ColorSpec.SOURCE: spec.source,
                 ColorSpec.GIT_PATH: spec.git_path,
                 ColorSpec.GIT_BRANCH: spec.git_branch,
-                ColorSpec.COLOR_NAMES: sorted(spec.get_vim_color_names()),
+                ColorSpec.COLOR_NAMES: lcolornames,
             }
-            ldata[spec.handle] = lobj
-        luadata.write("lua/colorbox/meta.lua", ldata, encoding="utf-8", indent="  ", prefix = "return ")
+            lspecs[spec.handle] = lobj
+            for j, color in enumerate(lcolors):
+                lcolornames.append(color)
+        luadata.write("lua/colorbox/meta/specs.lua", lspecs, encoding="utf-8", indent="  ", prefix = "return ")
+        luadata.write("lua/colorbox/meta/colornames.lua", lcolornames, encoding="utf-8", indent="  ", prefix = "return ")
 
 
 @click.command()
