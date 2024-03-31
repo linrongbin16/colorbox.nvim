@@ -6,6 +6,7 @@ local logging = require("colorbox.commons.logging")
 
 local configs = require("colorbox.configs")
 local filter = require("colorbox.filter")
+local db = require ('colorbox.db')
 
 local M = {}
 
@@ -26,7 +27,8 @@ M._build_colors = function()
   local ColorNamesList = require("colorbox.db").get_color_names_list()
   for _, color_name in pairs(ColorNamesList) do
     local spec = ColorNameToColorSpecsMap[color_name]
-    local pack_exist = uv.fs_stat(spec.full_pack_path) ~= nil
+    local full_pack_path = db.get_full_pack_path(spec)
+    local pack_exist = uv.fs_stat(full_pack_path) ~= nil
     if filter.run(color_name, spec) and pack_exist then
       table.insert(colors_list, color_name)
     end
