@@ -1,5 +1,5 @@
 return {
-  ["folke/tokyonight.nvim"] = {
+  ["folke-tokyonight.nvim"] = {
     handle = "folke/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim",
     github_stars = 4900,
@@ -16,7 +16,7 @@ return {
       "tokyonight-storm",
     },
   },
-  ["catppuccin/nvim"] = {
+  ["catppuccin-nvim"] = {
     handle = "catppuccin/nvim",
     url = "https://github.com/catppuccin/nvim",
     github_stars = 4300,
@@ -33,7 +33,7 @@ return {
       "catppuccin-mocha",
     },
   },
-  ["rebelot/kanagawa.nvim"] = {
+  ["rebelot-kanagawa.nvim"] = {
     handle = "rebelot/kanagawa.nvim",
     url = "https://github.com/rebelot/kanagawa.nvim",
     github_stars = 3300,
@@ -49,7 +49,7 @@ return {
       "kanagawa-wave",
     },
   },
-  ["nlknguyen/papercolor-theme"] = {
+  ["nlknguyen-papercolor-theme"] = {
     handle = "nlknguyen/papercolor-theme",
     url = "https://github.com/nlknguyen/papercolor-theme",
     github_stars = 2609,
@@ -62,7 +62,7 @@ return {
       "PaperColor",
     },
   },
-  ["edeneast/nightfox.nvim"] = {
+  ["edeneast-nightfox.nvim"] = {
     handle = "edeneast/nightfox.nvim",
     url = "https://github.com/edeneast/nightfox.nvim",
     github_stars = 2600,
@@ -81,7 +81,7 @@ return {
       "terafox",
     },
   },
-  ["sainnhe/everforest"] = {
+  ["sainnhe-everforest"] = {
     handle = "sainnhe/everforest",
     url = "https://github.com/sainnhe/everforest",
     github_stars = 2400,
@@ -94,7 +94,7 @@ return {
       "everforest",
     },
   },
-  ["cocopon/iceberg.vim"] = {
+  ["cocopon-iceberg.vim"] = {
     handle = "cocopon/iceberg.vim",
     url = "https://github.com/cocopon/iceberg.vim",
     github_stars = 2127,
@@ -107,7 +107,7 @@ return {
       "iceberg",
     },
   },
-  ["rakr/vim-one"] = {
+  ["rakr-vim-one"] = {
     handle = "rakr/vim-one",
     url = "https://github.com/rakr/vim-one",
     github_stars = 1977,
@@ -120,7 +120,7 @@ return {
       "one",
     },
   },
-  ["projekt0n/github-nvim-theme"] = {
+  ["projekt0n-github-nvim-theme"] = {
     handle = "projekt0n/github-nvim-theme",
     url = "https://github.com/projekt0n/github-nvim-theme",
     github_stars = 1900,
@@ -144,7 +144,7 @@ return {
       "github_light_tritanopia",
     },
   },
-  ["rose-pine/neovim"] = {
+  ["rose-pine-neovim"] = {
     handle = "rose-pine/neovim",
     url = "https://github.com/rose-pine/neovim",
     github_stars = 1800,
@@ -160,7 +160,7 @@ return {
       "rose-pine-moon",
     },
   },
-  ["nanotech/jellybeans.vim"] = {
+  ["nanotech-jellybeans.vim"] = {
     handle = "nanotech/jellybeans.vim",
     url = "https://github.com/nanotech/jellybeans.vim",
     github_stars = 1759,
@@ -173,7 +173,7 @@ return {
       "jellybeans",
     },
   },
-  ["junegunn/seoul256.vim"] = {
+  ["junegunn-seoul256.vim"] = {
     handle = "junegunn/seoul256.vim",
     url = "https://github.com/junegunn/seoul256.vim",
     github_stars = 1624,
@@ -187,7 +187,7 @@ return {
       "seoul256-light",
     },
   },
-  ["ayu-theme/ayu-vim"] = {
+  ["ayu-theme-ayu-vim"] = {
     handle = "ayu-theme/ayu-vim",
     url = "https://github.com/ayu-theme/ayu-vim",
     github_stars = 1619,
@@ -200,7 +200,7 @@ return {
       "ayu",
     },
   },
-  ["sainnhe/gruvbox-material"] = {
+  ["sainnhe-gruvbox-material"] = {
     handle = "sainnhe/gruvbox-material",
     url = "https://github.com/sainnhe/gruvbox-material",
     github_stars = 1600,
@@ -213,7 +213,7 @@ return {
       "gruvbox-material",
     },
   },
-  ["sainnhe/sonokai"] = {
+  ["sainnhe-sonokai"] = {
     handle = "sainnhe/sonokai",
     url = "https://github.com/sainnhe/sonokai",
     github_stars = 1500,
@@ -226,7 +226,7 @@ return {
       "sonokai",
     },
   },
-  ["ellisonleao/gruvbox.nvim"] = {
+  ["ellisonleao-gruvbox.nvim"] = {
     handle = "ellisonleao/gruvbox.nvim",
     url = "https://github.com/ellisonleao/gruvbox.nvim",
     github_stars = 1500,
@@ -239,7 +239,7 @@ return {
       "gruvbox",
     },
   },
-  ["ku1ik/vim-monokai"] = {
+  ["ku1ik-vim-monokai"] = {
     handle = "ku1ik/vim-monokai",
     url = "https://github.com/ku1ik/vim-monokai",
     github_stars = 1421,
@@ -252,7 +252,7 @@ return {
       "monokai",
     },
   },
-  ["navarasu/onedark.nvim"] = {
+  ["navarasu-onedark.nvim"] = {
     handle = "navarasu/onedark.nvim",
     url = "https://github.com/navarasu/onedark.nvim",
     github_stars = 1300,
@@ -265,7 +265,7 @@ return {
       "onedark",
     },
   },
-  ["dracula/vim"] = {
+  ["dracula-vim"] = {
     handle = "dracula/vim",
     url = "https://github.com/dracula/vim",
     github_stars = 1300,
@@ -278,7 +278,7 @@ return {
       "dracula",
     },
   },
-  ["sjl/badwolf"] = {
+  ["sjl-badwolf"] = {
     handle = "sjl/badwolf",
     url = "https://github.com/sjl/badwolf",
     github_stars = 1238,
@@ -292,7 +292,7 @@ return {
       "goodwolf",
     },
   },
-  ["whatyouhide/vim-gotham"] = {
+  ["whatyouhide-vim-gotham"] = {
     handle = "whatyouhide/vim-gotham",
     url = "https://github.com/whatyouhide/vim-gotham",
     github_stars = 1213,
@@ -306,7 +306,7 @@ return {
       "gotham256",
     },
   },
-  ["jacoborus/tender.vim"] = {
+  ["jacoborus-tender.vim"] = {
     handle = "jacoborus/tender.vim",
     url = "https://github.com/jacoborus/tender.vim",
     github_stars = 1101,
@@ -319,7 +319,7 @@ return {
       "tender",
     },
   },
-  ["mhartington/oceanic-next"] = {
+  ["mhartington-oceanic-next"] = {
     handle = "mhartington/oceanic-next",
     url = "https://github.com/mhartington/oceanic-next",
     github_stars = 1100,
@@ -333,7 +333,7 @@ return {
       "OceanicNextLight",
     },
   },
-  ["lifepillar/vim-solarized8"] = {
+  ["lifepillar-vim-solarized8"] = {
     handle = "lifepillar/vim-solarized8",
     url = "https://github.com/lifepillar/vim-solarized8",
     github_stars = 970,
@@ -349,7 +349,7 @@ return {
       "solarized8_low",
     },
   },
-  ["tomasiser/vim-code-dark"] = {
+  ["tomasiser-vim-code-dark"] = {
     handle = "tomasiser/vim-code-dark",
     url = "https://github.com/tomasiser/vim-code-dark",
     github_stars = 898,
@@ -362,7 +362,7 @@ return {
       "codedark",
     },
   },
-  ["nyoom-engineering/oxocarbon.nvim"] = {
+  ["nyoom-engineering-oxocarbon.nvim"] = {
     handle = "nyoom-engineering/oxocarbon.nvim",
     url = "https://github.com/nyoom-engineering/oxocarbon.nvim",
     github_stars = 894,
@@ -375,7 +375,7 @@ return {
       "oxocarbon",
     },
   },
-  ["marko-cerovac/material.nvim"] = {
+  ["marko-cerovac-material.nvim"] = {
     handle = "marko-cerovac/material.nvim",
     url = "https://github.com/marko-cerovac/material.nvim",
     github_stars = 883,
@@ -393,7 +393,7 @@ return {
       "material-palenight",
     },
   },
-  ["jnurmine/zenburn"] = {
+  ["jnurmine-zenburn"] = {
     handle = "jnurmine/zenburn",
     url = "https://github.com/jnurmine/zenburn",
     github_stars = 874,
@@ -406,7 +406,7 @@ return {
       "zenburn",
     },
   },
-  ["romainl/apprentice"] = {
+  ["romainl-apprentice"] = {
     handle = "romainl/apprentice",
     url = "https://github.com/romainl/apprentice",
     github_stars = 867,
@@ -419,7 +419,7 @@ return {
       "apprentice",
     },
   },
-  ["sainnhe/edge"] = {
+  ["sainnhe-edge"] = {
     handle = "sainnhe/edge",
     url = "https://github.com/sainnhe/edge",
     github_stars = 820,
@@ -432,7 +432,7 @@ return {
       "edge",
     },
   },
-  ["srcery-colors/srcery-vim"] = {
+  ["srcery-colors-srcery-vim"] = {
     handle = "srcery-colors/srcery-vim",
     url = "https://github.com/srcery-colors/srcery-vim",
     github_stars = 790,
@@ -445,7 +445,7 @@ return {
       "srcery",
     },
   },
-  ["raphamorim/lucario"] = {
+  ["raphamorim-lucario"] = {
     handle = "raphamorim/lucario",
     url = "https://github.com/raphamorim/lucario",
     github_stars = 787,
@@ -458,7 +458,7 @@ return {
       "lucario",
     },
   },
-  ["pineapplegiant/spaceduck"] = {
+  ["pineapplegiant-spaceduck"] = {
     handle = "pineapplegiant/spaceduck",
     url = "https://github.com/pineapplegiant/spaceduck",
     github_stars = 773,
@@ -471,7 +471,7 @@ return {
       "spaceduck",
     },
   },
-  ["bluz71/vim-nightfly-colors"] = {
+  ["bluz71-vim-nightfly-colors"] = {
     handle = "bluz71/vim-nightfly-colors",
     url = "https://github.com/bluz71/vim-nightfly-colors",
     github_stars = 747,
@@ -484,7 +484,7 @@ return {
       "nightfly",
     },
   },
-  ["ajmwagar/vim-deus"] = {
+  ["ajmwagar-vim-deus"] = {
     handle = "ajmwagar/vim-deus",
     url = "https://github.com/ajmwagar/vim-deus",
     github_stars = 739,
@@ -497,7 +497,7 @@ return {
       "deus",
     },
   },
-  ["shaunsingh/nord.nvim"] = {
+  ["shaunsingh-nord.nvim"] = {
     handle = "shaunsingh/nord.nvim",
     url = "https://github.com/shaunsingh/nord.nvim",
     github_stars = 732,
@@ -510,7 +510,7 @@ return {
       "nord",
     },
   },
-  ["bluz71/vim-moonfly-colors"] = {
+  ["bluz71-vim-moonfly-colors"] = {
     handle = "bluz71/vim-moonfly-colors",
     url = "https://github.com/bluz71/vim-moonfly-colors",
     github_stars = 717,
@@ -523,7 +523,7 @@ return {
       "moonfly",
     },
   },
-  ["fenetikm/falcon"] = {
+  ["fenetikm-falcon"] = {
     handle = "fenetikm/falcon",
     url = "https://github.com/fenetikm/falcon",
     github_stars = 692,
@@ -536,7 +536,7 @@ return {
       "falcon",
     },
   },
-  ["drewtempelmeyer/palenight.vim"] = {
+  ["drewtempelmeyer-palenight.vim"] = {
     handle = "drewtempelmeyer/palenight.vim",
     url = "https://github.com/drewtempelmeyer/palenight.vim",
     github_stars = 649,
@@ -549,7 +549,7 @@ return {
       "palenight",
     },
   },
-  ["embark-theme/vim"] = {
+  ["embark-theme-vim"] = {
     handle = "embark-theme/vim",
     url = "https://github.com/embark-theme/vim",
     github_stars = 617,
@@ -562,7 +562,7 @@ return {
       "embark",
     },
   },
-  ["preservim/vim-colors-pencil"] = {
+  ["preservim-vim-colors-pencil"] = {
     handle = "preservim/vim-colors-pencil",
     url = "https://github.com/preservim/vim-colors-pencil",
     github_stars = 597,
@@ -575,7 +575,7 @@ return {
       "pencil",
     },
   },
-  ["savq/melange-nvim"] = {
+  ["savq-melange-nvim"] = {
     handle = "savq/melange-nvim",
     url = "https://github.com/savq/melange-nvim",
     github_stars = 588,
@@ -588,7 +588,7 @@ return {
       "melange",
     },
   },
-  ["mofiqul/vscode.nvim"] = {
+  ["mofiqul-vscode.nvim"] = {
     handle = "mofiqul/vscode.nvim",
     url = "https://github.com/mofiqul/vscode.nvim",
     github_stars = 586,
@@ -601,7 +601,7 @@ return {
       "vscode",
     },
   },
-  ["tjdevries/colorbuddy.nvim"] = {
+  ["tjdevries-colorbuddy.nvim"] = {
     handle = "tjdevries/colorbuddy.nvim",
     url = "https://github.com/tjdevries/colorbuddy.nvim",
     github_stars = 582,
@@ -615,7 +615,7 @@ return {
       "gruvbuddy",
     },
   },
-  ["challenger-deep-theme/vim"] = {
+  ["challenger-deep-theme-vim"] = {
     handle = "challenger-deep-theme/vim",
     url = "https://github.com/challenger-deep-theme/vim",
     github_stars = 581,
@@ -628,7 +628,7 @@ return {
       "challenger_deep",
     },
   },
-  ["liuchengxu/space-vim-dark"] = {
+  ["liuchengxu-space-vim-dark"] = {
     handle = "liuchengxu/space-vim-dark",
     url = "https://github.com/liuchengxu/space-vim-dark",
     github_stars = 573,
@@ -641,7 +641,7 @@ return {
       "space-vim-dark",
     },
   },
-  ["mcchrish/zenbones.nvim"] = {
+  ["mcchrish-zenbones.nvim"] = {
     handle = "mcchrish/zenbones.nvim",
     url = "https://github.com/mcchrish/zenbones.nvim",
     github_stars = 558,
@@ -666,7 +666,7 @@ return {
       "zenwritten",
     },
   },
-  ["lunacookies/vim-colors-xcode"] = {
+  ["lunacookies-vim-colors-xcode"] = {
     handle = "lunacookies/vim-colors-xcode",
     url = "https://github.com/lunacookies/vim-colors-xcode",
     github_stars = 551,
@@ -685,7 +685,7 @@ return {
       "xcodewwdc",
     },
   },
-  ["kristijanhusak/vim-hybrid-material"] = {
+  ["kristijanhusak-vim-hybrid-material"] = {
     handle = "kristijanhusak/vim-hybrid-material",
     url = "https://github.com/kristijanhusak/vim-hybrid-material",
     github_stars = 544,
@@ -699,7 +699,7 @@ return {
       "hybrid_reverse",
     },
   },
-  ["alexvzyl/nordic.nvim"] = {
+  ["alexvzyl-nordic.nvim"] = {
     handle = "alexvzyl/nordic.nvim",
     url = "https://github.com/alexvzyl/nordic.nvim",
     github_stars = 525,
@@ -712,7 +712,7 @@ return {
       "nordic",
     },
   },
-  ["wadackel/vim-dogrun"] = {
+  ["wadackel-vim-dogrun"] = {
     handle = "wadackel/vim-dogrun",
     url = "https://github.com/wadackel/vim-dogrun",
     github_stars = 511,
@@ -725,7 +725,7 @@ return {
       "dogrun",
     },
   },
-  ["rigellute/rigel"] = {
+  ["rigellute-rigel"] = {
     handle = "rigellute/rigel",
     url = "https://github.com/rigellute/rigel",
     github_stars = 508,
@@ -738,7 +738,7 @@ return {
       "rigel",
     },
   },
-  ["lifepillar/vim-gruvbox8"] = {
+  ["lifepillar-vim-gruvbox8"] = {
     handle = "lifepillar/vim-gruvbox8",
     url = "https://github.com/lifepillar/vim-gruvbox8",
     github_stars = 502,
