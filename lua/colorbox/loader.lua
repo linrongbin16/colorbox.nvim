@@ -4,7 +4,7 @@ local uv = require("colorbox.commons.uv")
 local logging = require("colorbox.commons.logging")
 
 local configs = require("colorbox.configs")
-local db = require ('colorbox.db')
+local db = require("colorbox.db")
 
 local M = {}
 
