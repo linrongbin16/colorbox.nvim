@@ -27,63 +27,24 @@ local function get_full_pack_path(spec)
   return string.format("%s/pack/colorbox/start/%s", cwd, spec.git_path)
 end
 
--- handle => spec
---- @type table<string, colorbox.ColorSpec>
-local HandleToColorSpecsMap = nil
-
--- git path => spec
---- @type table<string, colorbox.ColorSpec>
-local GitPathToColorSpecsMap = nil
-
--- color name => spec
---- @type table<string, colorbox.ColorSpec>
-local ColorNameToColorSpecsMap = nil
-
--- color names list
---- @type string[]
-local ColorNamesList = nil
-
-do
-  if type(HandleToColorSpecsMap) ~= "table" then
-    HandleToColorSpecsMap = require("colorbox.meta.specs")
-  end
-  if type(ColorNameToColorSpecsMap) ~= "table" then
-    ColorNameToColorSpecsMap = {}
-    for _, spec in pairs(HandleToColorSpecsMap) do
-      for _, color_name in ipairs(spec.color_names) do
-        ColorNameToColorSpecsMap[color_name] = spec
-      end
-    end
-  end
-  if type(GitPathToColorSpecsMap) ~= "table" then
-    GitPathToColorSpecsMap = {}
-    for _, spec in pairs(HandleToColorSpecsMap) do
-      GitPathToColorSpecsMap[spec.git_path] = spec
-    end
-  end
-  if type(ColorNamesList) ~= "table" then
-    ColorNamesList = require("colorbox.meta.colornames")
-  end
-end
-
 --- @return table<string, colorbox.ColorSpec>
 local function get_handle_to_color_specs_map()
-  return HandleToColorSpecsMap
+  return require("colorbox.meta.specs")
 end
 
 --- @return table<string, colorbox.ColorSpec>
 local function get_git_path_to_color_specs_map()
-  return GitPathToColorSpecsMap
+  return require ('colorbox.meta.specs_by_gitpath')
 end
 
 --- @return table<string, colorbox.ColorSpec>
 local function get_color_name_to_color_specs_map()
-  return ColorNameToColorSpecsMap
+  return require ('colorbox.meta.specs_by_colorname')
 end
 
 --- @return string[]
 local function get_color_names_list()
-  return ColorNamesList
+  return require("colorbox.meta.colornames")
 end
 
 local M = {
