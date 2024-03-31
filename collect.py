@@ -686,6 +686,8 @@ class Builder:
             lspecs[spec.handle] = lobj
             for j, color in enumerate(lcolors):
                 lcolornames.append(color)
+
+        lcolornames = sorted(lcolornames, key=lambda c: c.lower())
         luadata.write("lua/colorbox/meta/specs.lua", lspecs, encoding="utf-8", indent="  ", prefix = "return ")
         luadata.write("lua/colorbox/meta/colornames.lua", lcolornames, encoding="utf-8", indent="  ", prefix = "return ")
 
