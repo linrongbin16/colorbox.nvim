@@ -107,15 +107,7 @@ do
     end
   end
   if type(ColorNamesList) ~= "table" then
-    ColorNamesList = {}
-    for _, spec in pairs(HandleToColorSpecsMap) do
-      for _, color_name in ipairs(spec.color_names) do
-        table.insert(ColorNamesList, color_name)
-      end
-    end
-    table.sort(ColorNamesList, function(a, b)
-      return a:lower() < b:lower()
-    end)
+    ColorNamesList = require('colorbox.meta.colornames')
   end
 end
 
