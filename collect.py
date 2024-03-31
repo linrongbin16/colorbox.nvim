@@ -694,7 +694,7 @@ class Builder:
         lcolornames = sorted(lcolornames, key=lambda c: c.lower())
         luadata.write("lua/colorbox/meta/specs.lua", lspecs, encoding="utf-8", indent="  ", prefix = "return ")
         luadata.write("lua/colorbox/meta/specs_by_colorname.lua", lspecsbycolorname, encoding="utf-8", indent="  ", prefix = "return ")
-        luadata.write("lua/colorbox/meta/specs.lua", lspecs, encoding="utf-8", indent="  ", prefix = "return ")
+        luadata.write("lua/colorbox/meta/specs_by_gitpath.lua", lspecsbygitpath, encoding="utf-8", indent="  ", prefix = "return ")
         luadata.write("lua/colorbox/meta/colornames.lua", lcolornames, encoding="utf-8", indent="  ", prefix = "return ")
 
 
