@@ -668,6 +668,8 @@ class Builder:
         md.create_md_file()
 
         lspecs = {}
+        lspecsbycolorname = {}
+        lspecsbygitpath = {}
         lcolornames = []
         for i, spec in enumerate(all_specs):
             logging.info(f"dump lua specs for spec-{i}:{spec}")
@@ -684,10 +686,14 @@ class Builder:
                 ColorSpec.COLOR_NAMES: lcolors,
             }
             lspecs[spec.handle] = lobj
+            lspecsbygitpath[spec.git_path] = lobj
             for j, color in enumerate(lcolors):
                 lcolornames.append(color)
+                lspecsbycolorname[color] = lobj
 
         lcolornames = sorted(lcolornames, key=lambda c: c.lower())
+        luadata.write("lua/colorbox/meta/specs.lua", lspecs, encoding="utf-8", indent="  ", prefix = "return ")
+        luadata.write("lua/colorbox/meta/specs_by_colorname.lua", lspecsbycolorname, encoding="utf-8", indent="  ", prefix = "return ")
         luadata.write("lua/colorbox/meta/specs.lua", lspecs, encoding="utf-8", indent="  ", prefix = "return ")
         luadata.write("lua/colorbox/meta/colornames.lua", lcolornames, encoding="utf-8", indent="  ", prefix = "return ")
 
