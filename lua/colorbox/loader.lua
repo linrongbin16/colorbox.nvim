@@ -20,12 +20,13 @@ M.load = function(colorname, run_command)
   if tbl.tbl_empty(spec) then
     return
   end
-  local pack_exist = uv.fs_stat(db.get_full_pack_path(spec)) ~= nil
+  local full_pack_path = db.get_full_pack_path(spec)
+  local pack_exist = uv.fs_stat(full_pack_path) ~= nil
   if not pack_exist then
     return
   end
 
-  local autoload_path = string.format("%s/autoload", spec.full_pack_path)
+  local autoload_path = string.format("%s/autoload", full_pack_path)
   vim.opt.runtimepath:append(autoload_path)
   vim.cmd(string.format([[packadd %s]], spec.git_path))
 
