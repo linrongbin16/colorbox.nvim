@@ -33,7 +33,6 @@ function ColorSpec:new(
   git_branch,
   color_names
 )
-  local cwd = vim.fn["colorbox#base_dir"]()
   local o = {
     handle = handle,
     url = url,
@@ -43,12 +42,21 @@ function ColorSpec:new(
     git_path = git_path,
     git_branch = git_branch,
     color_names = color_names,
-    pack_path = string.format("pack/colorbox/start/%s", git_path),
-    full_pack_path = string.format("%s/pack/colorbox/start/%s", cwd, git_path),
   }
   setmetatable(o, self)
   self.__index = self
   return o
+end
+
+--- @return string
+function ColorSpec:pack_path()
+  return string.format("pack/colorbox/start/%s", self.git_path)
+end
+
+--- @return string
+function ColorSpec:full_pack_path()
+  local cwd = vim.fn["colorbox#base_dir"]()
+  return string.format("%s/pack/colorbox/start/%s", cwd, git_path)
 end
 
 -- handle => spec
