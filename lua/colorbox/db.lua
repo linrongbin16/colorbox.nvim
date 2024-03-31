@@ -10,53 +10,21 @@ local str = require("colorbox.commons.str")
 --- @field git_path string "folke-tokyonight.nvim"
 --- @field git_branch string? nil|"neovim"
 --- @field color_names string[] ["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]
---- @field pack_path string "pack/colorbox/start/folke-tokyonight.nvim"
---- @field full_pack_path string "Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"
 local ColorSpec = {}
 
---- @param handle string
---- @param url string
---- @param github_stars integer
---- @param last_git_commit string
---- @param source string
---- @param git_path string
---- @param git_branch string?
---- @param color_names string[]
---- @return colorbox.ColorSpec
-function ColorSpec:new(
-  handle,
-  url,
-  github_stars,
-  last_git_commit,
-  source,
-  git_path,
-  git_branch,
-  color_names
-)
-  local o = {
-    handle = handle,
-    url = url,
-    github_stars = github_stars,
-    last_git_commit = last_git_commit,
-    source = source,
-    git_path = git_path,
-    git_branch = git_branch,
-    color_names = color_names,
-  }
-  setmetatable(o, self)
-  self.__index = self
-  return o
+-- plugin pack path: "pack/colorbox/start/folke-tokyonight.nvim"
+--- @param spec colorbox.ColorSpec
+--- @return string
+local function get_pack_path(spec)
+  return string.format("pack/colorbox/start/%s", spec.git_path)
 end
 
+--- plugin pack full path: "Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"
+--- @param spec colorbox.ColorSpec
 --- @return string
-function ColorSpec:pack_path()
-  return string.format("pack/colorbox/start/%s", self.git_path)
-end
-
---- @return string
-function ColorSpec:full_pack_path()
+local function get_full_pack_path(spec)
   local cwd = vim.fn["colorbox#base_dir"]()
-  return string.format("%s/pack/colorbox/start/%s", cwd, git_path)
+  return string.format("%s/pack/colorbox/start/%s", cwd, spec.git_path)
 end
 
 -- handle => spec
