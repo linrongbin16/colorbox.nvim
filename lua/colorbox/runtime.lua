@@ -6,7 +6,7 @@ local logging = require("colorbox.commons.logging")
 
 local configs = require("colorbox.configs")
 local filter = require("colorbox.filter")
-local db = require ('colorbox.db')
+local db = require("colorbox.db")
 
 local M = {}
 
