@@ -91,6 +91,8 @@ local M = {
   get_git_path_to_color_specs_map = get_git_path_to_color_specs_map,
   get_color_name_to_color_specs_map = get_color_name_to_color_specs_map,
   get_color_names_list = get_color_names_list,
+  get_pack_path = get_pack_path,
+  get_full_pack_path = get_full_pack_path
 }
 
 return M
