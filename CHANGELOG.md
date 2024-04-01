@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.17](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.16...v2.0.17) (2024-04-01)
+
+
+### Performance Improvements
+
+* directly generate lua table as db ([#220](https://github.com/linrongbin16/colorbox.nvim/issues/220)) ([9e2fc78](https://github.com/linrongbin16/colorbox.nvim/commit/9e2fc78e3bb835dfc69e9c37aa2fd03fab9bec78))
+
 ## [2.0.16](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.15...v2.0.16) (2024-03-27)
 
 
