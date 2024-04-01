@@ -273,10 +273,6 @@ The `colorbox.ColorSpec` type is a lua table that has below fields:
   - `"neovim"`
 - `color_names`: Color names that plugin contains, `string[]` type, for example:
   - `["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]`
-- `pack_path`: Relative path as a nvim pack, `string` type, for example:
-  - `"pack/colorbox/start/folke-tokyonight.nvim"`
-- `full_pack_path`: Absolute path as a nvim pack, `string` type, for example:
-  - `"Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"`
 
 #### List Filters
 
