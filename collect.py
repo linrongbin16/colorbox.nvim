@@ -10,9 +10,9 @@ import sys
 import time
 import typing
 from dataclasses import dataclass
-import luadata
 
 import click
+import luadata
 from mdutils.mdutils import MdUtils
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
@@ -641,36 +641,12 @@ class Builder:
         logging.debug(f"after dedup: {[str(s) for s in specs_set]}")
         return list(specs_set)
 
-    def build(self) -> None:
-        self._download()
-        # dedup candidates
-        deduped_specs = self._dedup()
-
-        total = 0
-        for spec in ColorSpec.all():
-            if spec not in deduped_specs:
-                logging.debug(f"remove for duplicate - repo:{spec}")
-                spec.remove()
-            else:
-                total += 1
-
-        md = MdUtils(file_name="COLORSCHEMES", title=f"ColorSchemes List ({total})")
-        all_specs = sorted(ColorSpec.all(), key=lambda s: s.github_stars, reverse=True)
-        for i, spec in enumerate(all_specs):
-            logging.info(f"collect spec-{i}:{spec}")
-            color_names = spec.get_vim_color_names()
-            color_names = sorted(color_names)
-            md.new_line(
-                f"- {md.new_inline_link(link=spec.url, text=spec.handle)} (stars: {spec.github_stars}, last update: {date_tostring(spec.last_git_commit)})"
-            )
-            for cname in color_names:
-                md.new_line(f"  - {cname}")
-        md.create_md_file()
-
+    def _build_lua_specs(self, all_specs: list[ColorSpec]) -> None:
         lspecs = {}
-        lspecsbycolorname = {}
-        lspecsbygitpath = {}
+        lspecs_by_colorname = {}
+        lspecs_by_gitpath = {}
         lcolornames = []
+
         for i, spec in enumerate(all_specs):
             logging.info(f"dump lua specs for spec-{i}:{spec}")
             lcolors = sorted(spec.get_vim_color_names())
@@ -686,16 +662,68 @@ class Builder:
                 ColorSpec.COLOR_NAMES: lcolors,
             }
             lspecs[spec.handle] = lobj
-            lspecsbygitpath[spec.git_path] = lobj
+            lspecs_by_gitpath[spec.git_path] = lobj
             for j, color in enumerate(lcolors):
                 lcolornames.append(color)
-                lspecsbycolorname[color] = lobj
+                lspecs_by_colorname[color] = lobj
 
         lcolornames = sorted(lcolornames, key=lambda c: c.lower())
-        luadata.write("lua/colorbox/meta/specs.lua", lspecs, encoding="utf-8", indent="  ", prefix = "return ")
-        luadata.write("lua/colorbox/meta/specs_by_colorname.lua", lspecsbycolorname, encoding="utf-8", indent="  ", prefix = "return ")
-        luadata.write("lua/colorbox/meta/specs_by_gitpath.lua", lspecsbygitpath, encoding="utf-8", indent="  ", prefix = "return ")
-        luadata.write("lua/colorbox/meta/colornames.lua", lcolornames, encoding="utf-8", indent="  ", prefix = "return ")
+        luadata.write(
+            "lua/colorbox/meta/specs.lua",
+            lspecs,
+            encoding="utf-8",
+            indent="  ",
+            prefix="return ",
+        )
+        luadata.write(
+            "lua/colorbox/meta/specs_by_colorname.lua",
+            lspecs_by_colorname,
+            encoding="utf-8",
+            indent="  ",
+            prefix="return ",
+        )
+        luadata.write(
+            "lua/colorbox/meta/specs_by_gitpath.lua",
+            lspecs_by_gitpath,
+            encoding="utf-8",
+            indent="  ",
+            prefix="return ",
+        )
+        luadata.write(
+            "lua/colorbox/meta/colornames.lua",
+            lcolornames,
+            encoding="utf-8",
+            indent="  ",
+            prefix="return ",
+        )
+
+    def _build_md_list(self, all_specs: list[ColorSpec]) -> None:
+        total = len(all_specs)
+        md = MdUtils(file_name="COLORSCHEMES", title=f"ColorSchemes List ({total})")
+        for i, spec in enumerate(all_specs):
+            logging.info(f"collect spec-{i}:{spec}")
+            color_names = spec.get_vim_color_names()
+            color_names = sorted(color_names)
+            md.new_line(
+                f"- {md.new_inline_link(link=spec.url, text=spec.handle)} (stars: {spec.github_stars}, last update: {date_tostring(spec.last_git_commit)})"
+            )
+            for cname in color_names:
+                md.new_line(f"  - {cname}")
+        md.create_md_file()
+
+    def build(self) -> None:
+        self._download()
+        # dedup candidates
+        deduped_specs = self._dedup()
+
+        for spec in ColorSpec.all():
+            if spec not in deduped_specs:
+                logging.debug(f"remove for duplicate - repo:{spec}")
+                spec.remove()
+
+        all_specs = sorted(ColorSpec.all(), key=lambda s: s.github_stars, reverse=True)
+        self._build_md_list(all_specs)
+        self._build_lua_specs(all_specs)
 
 
 @click.command()
