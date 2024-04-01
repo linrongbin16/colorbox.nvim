@@ -395,7 +395,7 @@ return {
   iceberg = {
     handle = "cocopon/iceberg.vim",
     url = "https://github.com/cocopon/iceberg.vim",
-    github_stars = 2127,
+    github_stars = 2125,
     last_git_commit = "2022-11-23",
     priority = 0,
     source = "vsc",
@@ -773,7 +773,7 @@ return {
   jellybeans = {
     handle = "nanotech/jellybeans.vim",
     url = "https://github.com/nanotech/jellybeans.vim",
-    github_stars = 1759,
+    github_stars = 1758,
     last_git_commit = "2019-06-21",
     priority = 0,
     source = "vsc",
@@ -961,7 +961,7 @@ return {
   tender = {
     handle = "jacoborus/tender.vim",
     url = "https://github.com/jacoborus/tender.vim",
-    github_stars = 1101,
+    github_stars = 1100,
     last_git_commit = "2024-03-21",
     priority = 0,
     source = "vsc",
@@ -1239,7 +1239,7 @@ return {
   srcery = {
     handle = "srcery-colors/srcery-vim",
     url = "https://github.com/srcery-colors/srcery-vim",
-    github_stars = 790,
+    github_stars = 791,
     last_git_commit = "2024-03-26",
     priority = 0,
     source = "vsc",
@@ -1408,7 +1408,7 @@ return {
   colorbuddy = {
     handle = "tjdevries/colorbuddy.nvim",
     url = "https://github.com/tjdevries/colorbuddy.nvim",
-    github_stars = 582,
+    github_stars = 583,
     last_git_commit = "2024-03-20",
     priority = 0,
     source = "vsc",
@@ -1422,7 +1422,7 @@ return {
   gruvbuddy = {
     handle = "tjdevries/colorbuddy.nvim",
     url = "https://github.com/tjdevries/colorbuddy.nvim",
-    github_stars = 582,
+    github_stars = 583,
     last_git_commit = "2024-03-20",
     priority = 0,
     source = "vsc",

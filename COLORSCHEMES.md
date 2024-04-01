@@ -31,7 +31,7 @@ ColorSchemes List (53)
   - terafox  
 - [sainnhe/everforest](https://github.com/sainnhe/everforest) (stars: 2400, last update: 2024-03-27)  
   - everforest  
-- [cocopon/iceberg.vim](https://github.com/cocopon/iceberg.vim) (stars: 2127, last update: 2022-11-23)  
+- [cocopon/iceberg.vim](https://github.com/cocopon/iceberg.vim) (stars: 2125, last update: 2022-11-23)  
   - iceberg  
 - [rakr/vim-one](https://github.com/rakr/vim-one) (stars: 1977, last update: 2020-12-14)  
   - one  
@@ -53,7 +53,7 @@ ColorSchemes List (53)
   - rose-pine-dawn  
   - rose-pine-main  
   - rose-pine-moon  
-- [nanotech/jellybeans.vim](https://github.com/nanotech/jellybeans.vim) (stars: 1759, last update: 2019-06-21)  
+- [nanotech/jellybeans.vim](https://github.com/nanotech/jellybeans.vim) (stars: 1758, last update: 2019-06-21)  
   - jellybeans  
 - [junegunn/seoul256.vim](https://github.com/junegunn/seoul256.vim) (stars: 1624, last update: 2023-05-03)  
   - seoul256  
@@ -78,7 +78,7 @@ ColorSchemes List (53)
 - [whatyouhide/vim-gotham](https://github.com/whatyouhide/vim-gotham) (stars: 1213, last update: 2023-01-19)  
   - gotham  
   - gotham256  
-- [jacoborus/tender.vim](https://github.com/jacoborus/tender.vim) (stars: 1101, last update: 2024-03-21)  
+- [jacoborus/tender.vim](https://github.com/jacoborus/tender.vim) (stars: 1100, last update: 2024-03-21)  
   - tender  
 - [mhartington/oceanic-next](https://github.com/mhartington/oceanic-next) (stars: 1100, last update: 2023-05-01)  
   - OceanicNext  
@@ -105,7 +105,7 @@ ColorSchemes List (53)
   - apprentice  
 - [sainnhe/edge](https://github.com/sainnhe/edge) (stars: 820, last update: 2024-03-27)  
   - edge  
-- [srcery-colors/srcery-vim](https://github.com/srcery-colors/srcery-vim) (stars: 790, last update: 2024-03-26)  
+- [srcery-colors/srcery-vim](https://github.com/srcery-colors/srcery-vim) (stars: 791, last update: 2024-03-26)  
   - srcery  
 - [raphamorim/lucario](https://github.com/raphamorim/lucario) (stars: 787, last update: 2024-01-02)  
   - lucario  
@@ -131,7 +131,7 @@ ColorSchemes List (53)
   - melange  
 - [mofiqul/vscode.nvim](https://github.com/mofiqul/vscode.nvim) (stars: 586, last update: 2024-03-24)  
   - vscode  
-- [tjdevries/colorbuddy.nvim](https://github.com/tjdevries/colorbuddy.nvim) (stars: 582, last update: 2024-03-20)  
+- [tjdevries/colorbuddy.nvim](https://github.com/tjdevries/colorbuddy.nvim) (stars: 583, last update: 2024-03-20)  
   - colorbuddy  
   - gruvbuddy  
 - [challenger-deep-theme/vim](https://github.com/challenger-deep-theme/vim) (stars: 581, last update: 2022-04-25)  
