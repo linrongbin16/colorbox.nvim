@@ -250,6 +250,7 @@ M.info = function(args)
     end
   end
 
+  local ns = vim.api.nvim_create_namespace("colorbox-info-panel")
   vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, {
     string.format(
       "# ColorSchemes List, total: %d(colors)/%d(plugins), enabled: %d(colors)/%d(plugins)",
@@ -281,6 +282,16 @@ M.info = function(args)
       local content = enabled and string.format("  - %s (**enabled**)", color)
         or string.format("  - %s (disabled)", color)
       vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, { content })
+
+      -- colorize the enabled colors
+      if enabled then
+        vim.api.nvim_buf_set_extmark(bufnr, ns, lineno, 0, {
+          end_row = lineno,
+          end_col = string.len(content),
+          strict = false,
+          line_hl_group = "Special",
+        })
+      end
       lineno = lineno + 1
     end
   end
