@@ -10,6 +10,7 @@ import sys
 import time
 import typing
 from dataclasses import dataclass
+import luadata
 
 import click
 from mdutils.mdutils import MdUtils
@@ -162,16 +163,16 @@ REPO_META_CONFIG = {
 
 
 class ColorSpec:
-    DB = TinyDB("autoload/db.json")
-    HANDLE = "h"  # handle
-    URL = "u"  # url
-    GITHUB_STARS = "st"  # github stars
-    PRIORITY = "p"  # priority
-    SOURCE = "s"
-    LAST_GIT_COMMIT = "gc"  # last git commit date
-    GIT_PATH = "gp"  # git submodule file path
-    GIT_BRANCH = "gb"  # git branch
-    COLOR_NAMES = "cn"  # color names
+    DB = TinyDB("db.json")
+    HANDLE = "handle"
+    URL = "url"
+    GITHUB_STARS = "github_stars"
+    PRIORITY = "priority"
+    SOURCE = "source"
+    LAST_GIT_COMMIT = "last_git_commit"
+    GIT_PATH = "git_path"
+    GIT_BRANCH = "git_branch"
+    COLOR_NAMES = "color_names"
 
     def __init__(
         self,
@@ -226,15 +227,15 @@ class ColorSpec:
 
     def save(self) -> None:
         q = Query()
-        count = ColorSpec.DB.search(q.h == self.handle)
+        count = ColorSpec.DB.search(q.handle == self.handle)
         obj = {
             ColorSpec.HANDLE: self.handle,
-            # ColorSpec.URL: self.url,
+            ColorSpec.URL: self.url,
             ColorSpec.GITHUB_STARS: self.github_stars,
             ColorSpec.LAST_GIT_COMMIT: date_tostring(self.last_git_commit),
             ColorSpec.PRIORITY: self.priority,
             ColorSpec.SOURCE: self.source,
-            # ColorSpec.GIT_PATH: self.git_path,
+            ColorSpec.GIT_PATH: self.git_path,
             ColorSpec.GIT_BRANCH: self.git_branch,
             ColorSpec.COLOR_NAMES: self.color_names,
         }
@@ -242,12 +243,12 @@ class ColorSpec:
             ColorSpec.DB.insert(obj)
             logging.debug(f"add new repo: {self}")
         else:
-            ColorSpec.DB.update(obj, q.h == self.handle)
+            ColorSpec.DB.update(obj, q.handle == self.handle)
             logging.debug(f"add(update) existed repo: {self}")
 
     def update_last_git_commit(self, last_git_commit: datetime.datetime) -> None:
         q = Query()
-        records = ColorSpec.DB.search(q.h == self.handle)
+        records = ColorSpec.DB.search(q.handle == self.handle)
         assert len(records) == 1
         assert isinstance(last_git_commit, datetime.datetime)
         self.last_git_commit = last_git_commit
@@ -255,12 +256,12 @@ class ColorSpec:
             {
                 ColorSpec.LAST_GIT_COMMIT: date_tostring(self.last_git_commit),
             },
-            q.h == self.handle,
+            q.handle == self.handle,
         )
 
     def update_color_names(self, color_names: list[str]) -> None:
         q = Query()
-        records = ColorSpec.DB.search(q.h == self.handle)
+        records = ColorSpec.DB.search(q.handle == self.handle)
         assert len(records) == 1
         assert isinstance(color_names, list)
         self.color_names = color_names
@@ -268,12 +269,12 @@ class ColorSpec:
             {
                 ColorSpec.COLOR_NAMES: self.color_names,
             },
-            q.h == self.handle,
+            q.handle == self.handle,
         )
 
     def remove(self) -> None:
         q = Query()
-        ColorSpec.DB.remove(q.h == self.handle)
+        ColorSpec.DB.remove(q.handle == self.handle)
 
     @staticmethod
     def truncate() -> None:
@@ -665,6 +666,36 @@ class Builder:
             for cname in color_names:
                 md.new_line(f"  - {cname}")
         md.create_md_file()
+
+        lspecs = {}
+        lspecsbycolorname = {}
+        lspecsbygitpath = {}
+        lcolornames = []
+        for i, spec in enumerate(all_specs):
+            logging.info(f"dump lua specs for spec-{i}:{spec}")
+            lcolors = sorted(spec.get_vim_color_names())
+            lobj = {
+                ColorSpec.HANDLE: spec.handle,
+                ColorSpec.URL: spec.url,
+                ColorSpec.GITHUB_STARS: spec.github_stars,
+                ColorSpec.LAST_GIT_COMMIT: date_tostring(spec.last_git_commit),
+                ColorSpec.PRIORITY: spec.priority,
+                ColorSpec.SOURCE: spec.source,
+                ColorSpec.GIT_PATH: spec.git_path,
+                ColorSpec.GIT_BRANCH: spec.git_branch,
+                ColorSpec.COLOR_NAMES: lcolors,
+            }
+            lspecs[spec.handle] = lobj
+            lspecsbygitpath[spec.git_path] = lobj
+            for j, color in enumerate(lcolors):
+                lcolornames.append(color)
+                lspecsbycolorname[color] = lobj
+
+        lcolornames = sorted(lcolornames, key=lambda c: c.lower())
+        luadata.write("lua/colorbox/meta/specs.lua", lspecs, encoding="utf-8", indent="  ", prefix = "return ")
+        luadata.write("lua/colorbox/meta/specs_by_colorname.lua", lspecsbycolorname, encoding="utf-8", indent="  ", prefix = "return ")
+        luadata.write("lua/colorbox/meta/specs_by_gitpath.lua", lspecsbygitpath, encoding="utf-8", indent="  ", prefix = "return ")
+        luadata.write("lua/colorbox/meta/colornames.lua", lcolornames, encoding="utf-8", indent="  ", prefix = "return ")
 
 
 @click.command()
