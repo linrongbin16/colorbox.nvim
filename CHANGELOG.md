@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.17...v2.1.0) (2024-04-01)
+
+
+### Features
+
+* colorize info panel ([#224](https://github.com/linrongbin16/colorbox.nvim/issues/224)) ([24e690c](https://github.com/linrongbin16/colorbox.nvim/commit/24e690c54674b9715cce0368978e4f793d04d451))
+
 ## [2.0.17](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.16...v2.0.17) (2024-04-01)
 
 
