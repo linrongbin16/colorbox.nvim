@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: JohnnyMorganz/stylua-action@v3
+      - uses: JohnnyMorganz/stylua-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
@@ -51,10 +51,11 @@ jobs:
       - uses: chartboost/ruff-action@v1
         with:
           src: "./collect.py"
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         if: ${{ github.ref != 'refs/heads/main' }}
         with:
           commit_message: "chore(pr): auto-commit"
+          push_options: "--force"
   unit_test:
     name: Unit Test
     needs:
