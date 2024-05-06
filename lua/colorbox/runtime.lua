@@ -22,7 +22,7 @@ local FilteredColorNameToIndexMap = {}
 M._build_colors = function()
   local colors_list = {}
   local colors_index = {}
-  local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+  local logger = logging.get("colorbox")
 
   local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
   local ColorNamesList = require("colorbox.db").get_color_names_list()
