@@ -72,13 +72,13 @@ M._update = function()
             on_stderr = _on_output,
           },
         }
-        logger:debug(
-          string.format(
-            "|_update| git pull param:%s, spec:%s",
-            vim.inspect(param),
-            vim.inspect(spec)
-          )
-        )
+        -- logger:debug(
+        --   string.format(
+        --     "|_update| git pull param:%s, spec:%s",
+        --     vim.inspect(param),
+        --     vim.inspect(spec)
+        --   )
+        -- )
       else
         param = {
           cmd = str.not_empty(spec.git_branch) and {
@@ -102,13 +102,13 @@ M._update = function()
             on_stderr = _on_output,
           },
         }
-        logger:debug(
-          string.format(
-            "|_update| git clone param:%s, spec:%s",
-            vim.inspect(param),
-            vim.inspect(spec)
-          )
-        )
+        -- logger:debug(
+        --   string.format(
+        --     "|_update| git clone param:%s, spec:%s",
+        --     vim.inspect(param),
+        --     vim.inspect(spec)
+        --   )
+        -- )
       end
       async_spawn_run(param.cmd, param.opts)
       async.scheduler()
