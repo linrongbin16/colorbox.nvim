@@ -25,15 +25,17 @@ M._update = function()
   local logger = logging.get("colorbox-update") --[[@as commons.logging.Logger]]
 
   local home_dir = vim.fn["colorbox#base_dir"]()
-  -- local packstart = string.format("%s/pack/colorbox/start", home_dir)
-  -- logger.debug(
-  --     "|colorbox.init| home_dir:%s, pack:%s",
-  --     vim.inspect(home_dir),
-  --     vim.inspect(packstart)
-  -- )
+  local packstart = string.format("%s/pack/colorbox/start", home_dir)
+  logger:debug(
+    string.format(
+      "|colorbox.init| home_dir:%s, packstart:%s",
+      vim.inspect(home_dir),
+      vim.inspect(packstart)
+    )
+  )
   vim.opt.packpath:append(home_dir)
 
-  local HandleToColorSpecsMap = require("colorbox.db").get_handle_to_color_specs_map()
+  local HandleToColorSpecsMap = db.get_handle_to_color_specs_map()
 
   local prepared_count = 0
   for _, _ in pairs(HandleToColorSpecsMap) do
@@ -55,6 +57,7 @@ M._update = function()
           logger:info(string.format("%s: %s", handle, line))
         end
       end
+      local pack_path = db.get_pack_path(spec)
       local full_pack_path = db.get_full_pack_path(spec)
       local param = nil
       if
@@ -64,11 +67,18 @@ M._update = function()
         param = {
           cmd = { "git", "pull" },
           opts = {
-            cwd = spec.full_pack_path,
+            cwd = full_pack_path,
             on_stdout = _on_output,
             on_stderr = _on_output,
           },
         }
+        -- logger:debug(
+        --   string.format(
+        --     "|_update| git pull param:%s, spec:%s",
+        --     vim.inspect(param),
+        --     vim.inspect(spec)
+        --   )
+        -- )
       else
         param = {
           cmd = str.not_empty(spec.git_branch) and {
@@ -78,13 +88,13 @@ M._update = function()
             spec.git_branch,
             "--depth=1",
             spec.url,
-            spec.pack_path,
+            pack_path,
           } or {
             "git",
             "clone",
             "--depth=1",
             spec.url,
-            spec.pack_path,
+            pack_path,
           },
           opts = {
             cwd = home_dir,
@@ -92,6 +102,13 @@ M._update = function()
             on_stderr = _on_output,
           },
         }
+        -- logger:debug(
+        --   string.format(
+        --     "|_update| git clone param:%s, spec:%s",
+        --     vim.inspect(param),
+        --     vim.inspect(spec)
+        --   )
+        -- )
       end
       async_spawn_run(param.cmd, param.opts)
       async.scheduler()

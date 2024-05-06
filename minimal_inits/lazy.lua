@@ -24,7 +24,12 @@ local opts = {
 require("lazy").setup({
   {
     "linrongbin16/colorbox.nvim",
-    opts = {},
+    dev = true,
+    lazy = false,
+    opts = {
+      debug = true,
+      file_log = true,
+    },
     build = function()
       require("colorbox").update()
     end,

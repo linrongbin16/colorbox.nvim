@@ -11,6 +11,7 @@ local M = {}
 --- @param colorname string?
 --- @param run_command boolean?
 M.load = function(colorname, run_command)
+  local logger = logging.get("colorbox")
   local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
 
   if str.empty(colorname) then
@@ -22,6 +23,13 @@ M.load = function(colorname, run_command)
   end
   local full_pack_path = db.get_full_pack_path(spec)
   local pack_exist = uv.fs_stat(full_pack_path) ~= nil
+  logger:debug(
+    string.format(
+      "|load| full_pack_path:%s, pack_exist:%s",
+      vim.inspect(full_pack_path),
+      vim.inspect(pack_exist)
+    )
+  )
   if not pack_exist then
     return
   end
@@ -31,7 +39,6 @@ M.load = function(colorname, run_command)
   vim.cmd(string.format([[packadd %s]], spec.git_path))
 
   local confs = configs.get()
-  local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
   if type(confs.setup) == "table" and vim.is_callable(confs.setup[spec.handle]) then
     local home_dir = vim.fn["colorbox#base_dir"]()
     local ok, setup_err = pcall(confs.setup[spec.handle], home_dir, spec)

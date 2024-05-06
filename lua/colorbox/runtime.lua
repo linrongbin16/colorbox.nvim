@@ -22,6 +22,7 @@ local FilteredColorNameToIndexMap = {}
 M._build_colors = function()
   local colors_list = {}
   local colors_index = {}
+  local logger = logging.get("colorbox")
 
   local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
   local ColorNamesList = require("colorbox.db").get_color_names_list()
@@ -29,7 +30,17 @@ M._build_colors = function()
     local spec = ColorNameToColorSpecsMap[color_name]
     local full_pack_path = db.get_full_pack_path(spec)
     local pack_exist = uv.fs_stat(full_pack_path) ~= nil
-    if filter.run(color_name, spec) and pack_exist then
+    local choose = filter.run(color_name, spec)
+    logger:debug(
+      string.format(
+        "|_build_colors| color_name:%s, choose:%s, pack_exist:%s, full_pack_path:%s",
+        vim.inspect(color_name),
+        vim.inspect(choose),
+        vim.inspect(pack_exist),
+        vim.inspect(full_pack_path)
+      )
+    )
+    if choose and pack_exist then
       table.insert(colors_list, color_name)
     end
   end
