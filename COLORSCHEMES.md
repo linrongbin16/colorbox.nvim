@@ -8,13 +8,13 @@ ColorSchemes List (54)
   - tokyonight-moon  
   - tokyonight-night  
   - tokyonight-storm  
-- [catppuccin/nvim](https://github.com/catppuccin/nvim) (stars: 4700, last update: 2024-04-14)  
+- [catppuccin/nvim](https://github.com/catppuccin/nvim) (stars: 4700, last update: 2024-05-04)  
   - catppuccin  
   - catppuccin-frappe  
   - catppuccin-latte  
   - catppuccin-macchiato  
   - catppuccin-mocha  
-- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) (stars: 3600, last update: 2024-04-24)  
+- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) (stars: 3600, last update: 2024-04-29)  
   - kanagawa  
   - kanagawa-dragon  
   - kanagawa-lotus  
@@ -33,7 +33,7 @@ ColorSchemes List (54)
   - everforest  
 - [cocopon/iceberg.vim](https://github.com/cocopon/iceberg.vim) (stars: 2131, last update: 2022-11-23)  
   - iceberg  
-- [projekt0n/github-nvim-theme](https://github.com/projekt0n/github-nvim-theme) (stars: 2000, last update: 2024-01-31)  
+- [projekt0n/github-nvim-theme](https://github.com/projekt0n/github-nvim-theme) (stars: 2000, last update: 2024-05-03)  
   - github_dark  
   - github_dark_colorblind  
   - github_dark_default  
@@ -62,7 +62,7 @@ ColorSchemes List (54)
   - seoul256-light  
 - [ayu-theme/ayu-vim](https://github.com/ayu-theme/ayu-vim) (stars: 1629, last update: 2020-05-29)  
   - ayu  
-- [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim) (stars: 1600, last update: 2024-01-29)  
+- [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim) (stars: 1600, last update: 2024-05-03)  
   - gruvbox  
 - [sainnhe/sonokai](https://github.com/sainnhe/sonokai) (stars: 1500, last update: 2024-03-27)  
   - sonokai  
