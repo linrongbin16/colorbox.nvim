@@ -89,7 +89,7 @@ M._update = function()
             spec.pack_path,
           },
           opts = {
-            cwd = home_dir,
+            cwd = packstart,
             on_stdout = _on_output,
             on_stderr = _on_output,
           },
