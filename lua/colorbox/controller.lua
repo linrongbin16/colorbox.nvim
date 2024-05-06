@@ -33,9 +33,6 @@ M._update = function()
       vim.inspect(packstart)
     )
   )
-  if uv.fs_stat(packstart) == nil then
-    vim.fn.mkdir(packstart, "p")
-  end
   vim.opt.packpath:append(home_dir)
 
   local HandleToColorSpecsMap = db.get_handle_to_color_specs_map()
