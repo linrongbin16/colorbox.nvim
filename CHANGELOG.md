@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/linrongbin16/colorbox.nvim/compare/v2.1.0...v2.1.1) (2024-05-06)
+
+
+### Bug Fixes
+
+* **install:** fix git submodules installation ([#227](https://github.com/linrongbin16/colorbox.nvim/issues/227)) ([8a79075](https://github.com/linrongbin16/colorbox.nvim/commit/8a79075402a68fad20009bb0d42ddb43dd81dc51))
+
 ## [2.1.0](https://github.com/linrongbin16/colorbox.nvim/compare/v2.0.17...v2.1.0) (2024-04-01)
 
 
