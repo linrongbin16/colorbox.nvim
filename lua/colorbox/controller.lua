@@ -100,7 +100,7 @@ M._update = function()
             pack_path,
           },
           opts = {
-            cwd = packstart,
+            cwd = home_dir,
             on_stdout = _on_output,
             on_stderr = _on_output,
           },
