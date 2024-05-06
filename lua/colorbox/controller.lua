@@ -25,12 +25,14 @@ M._update = function()
   local logger = logging.get("colorbox-update") --[[@as commons.logging.Logger]]
 
   local home_dir = vim.fn["colorbox#base_dir"]()
-  -- local packstart = string.format("%s/pack/colorbox/start", home_dir)
-  -- logger.debug(
-  --     "|colorbox.init| home_dir:%s, pack:%s",
-  --     vim.inspect(home_dir),
-  --     vim.inspect(packstart)
-  -- )
+  local packstart = string.format("%s/pack/colorbox/start", home_dir)
+  logger:debug(
+    string.format(
+      "|colorbox.init| home_dir:%s, packstart:%s",
+      vim.inspect(home_dir),
+      vim.inspect(packstart)
+    )
+  )
   vim.opt.packpath:append(home_dir)
 
   local HandleToColorSpecsMap = require("colorbox.db").get_handle_to_color_specs_map()
