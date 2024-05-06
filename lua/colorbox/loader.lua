@@ -11,7 +11,7 @@ local M = {}
 --- @param colorname string?
 --- @param run_command boolean?
 M.load = function(colorname, run_command)
-  local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+  local logger = logging.get("colorbox")
   local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
 
   if str.empty(colorname) then
