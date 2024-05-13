@@ -139,6 +139,8 @@ dmypy.json
 # pack/colorbox/start
 /pack/colorbox/start
 
+# logs
+*colorbox.nvim_colorbox.nvim_lua.log
 service.log
 stderr.txt
 stdout.txt
