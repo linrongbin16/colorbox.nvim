@@ -36,13 +36,11 @@ jobs:
           rm -rf ./lua/colorbox/commons
           cp -rf ~/.commons.nvim/lua/commons ./lua/colorbox/
           cp ~/.commons.nvim/version.txt ./lua/colorbox/commons/version.txt
-          find ./lua/colorbox/commons -type f -name '*.lua' -exec sed -i 's/"commons./"colorbox.commons./g' {} \;
-      - uses: stevearc/nvim-typecheck-action@v1
+          find ./lua/colorbox/commons -type f -name '*.lua' -exec sed -i 's/require("commons/require("fzfx.commons/g' {} \;
+      - uses: mrcjkb/lua-typecheck-action@v0
         with:
-          path: lua
-          level: Information
+          directories: lua
           configpath: ".luarc.json"
-          neodev-version: stable
       - uses: cargo-bins/cargo-binstall@main
       - name: Selene
         run: |
