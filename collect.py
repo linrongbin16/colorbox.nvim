@@ -387,26 +387,22 @@ class VimColorSchemes:
     ) -> typing.Optional[ColorSpec]:
         logging.debug(f"parsing (vsc) spec element:{element}, page url:{page_url}")
         try:
-            url = element.find_element(
-                By.XPATH, "./a[@class='card__link']"
-            ).get_attribute("href")
+            a_elem = url = element.find_element(
+                By.XPATH, "./a[starts-with(@class,'repositoryCard')]"
+            )
+            url = a_elem.get_attribute("href")
             if url.endswith("/"):
                 url = url[:-1]
             logging.debug(f"parsing (vsc) spec handle_elem:{url}")
             handle = "/".join(url.split("/")[-2:])
             logging.debug(f"parsing (vsc) spec handle:{handle}")
             github_stars = int(
-                element.find_element(
+                a_elem.find_element(
                     By.XPATH,
-                    "./a/section/header[@class='meta-header']//div[@class='meta-header__statistic']//b",
+                    "./dev[starts-with(@class,'repositoryTitle')]//div[starts-with(@class,'repositoryTitle_stats')]//p[starts-with(@class,'repositoryTitle_stat')]//strong",
                 ).text
             )
             logging.debug(f"parsing (vsc) spec github_stars:{github_stars}")
-            creates_updates = element.find_elements(
-                By.XPATH,
-                "./a/section/footer[@class='meta-footer']//div[@class='meta-footer__column']//p[@class='meta-footer__row']",
-            )
-            logging.debug(f"parsing (vsc) spec creates_updates:{creates_updates}")
             return ColorSpec(
                 handle,
                 github_stars,
@@ -424,7 +420,7 @@ class VimColorSchemes:
                 driver.get(page_url)
                 driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
                 need_more_scan = False
-                for element in find_elements(driver, "//article[@class='card']"):
+                for element in find_elements(driver, "//article"):
                     spec = self._parse_spec(element, page_url)
                     self.counter = self.counter + 1
                     logging.debug(f"vsc repo-{self.counter}:{spec}")
