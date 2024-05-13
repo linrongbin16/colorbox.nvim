@@ -138,3 +138,7 @@ dmypy.json
 
 # pack/colorbox/start
 /pack/colorbox/start
+
+service.log
+stderr.txt
+stdout.txt
