@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/linrongbin16/colorbox.nvim/compare/v2.1.1...v2.1.2) (2024-05-13)
+
+
+### Bug Fixes
+
+* **collector:** fix VCS ([#230](https://github.com/linrongbin16/colorbox.nvim/issues/230)) ([4769096](https://github.com/linrongbin16/colorbox.nvim/commit/4769096de361ada02b4d1d8f9f415046048c1325))
+
 ## [2.1.1](https://github.com/linrongbin16/colorbox.nvim/compare/v2.1.0...v2.1.1) (2024-05-06)
 
 
