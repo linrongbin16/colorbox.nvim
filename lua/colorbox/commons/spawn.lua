@@ -1,13 +1,13 @@
 local NVIM_VERSION_0_10 = false
 
 do
-  NVIM_VERSION_0_10 = require("fzfx.commons.version").ge({ 0, 10 })
+  NVIM_VERSION_0_10 = require("colorbox.commons.version").ge({ 0, 10 })
 end
 
 local M = {}
 
 M.system = (NVIM_VERSION_0_10 and vim.is_callable(vim.system)) and vim.system
-  or require("fzfx.commons._system").run
+  or require("colorbox.commons._system").run
 
 --- @alias commons.SpawnLineProcessor fun(line:string):any
 --- @alias commons.SpawnOpts {on_stdout:commons.SpawnLineProcessor, on_stderr:commons.SpawnLineProcessor, [string]:any}
@@ -27,7 +27,7 @@ M.run = function(cmd, opts, on_exit)
   --- @param fn_line_processor commons.SpawnLineProcessor
   --- @return integer
   local function _process(buffer, fn_line_processor)
-    local str = require("fzfx.commons.str")
+    local str = require("colorbox.commons.str")
 
     local i = 1
     while i <= #buffer do

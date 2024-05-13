@@ -210,7 +210,7 @@ end
 M.parent = function(p)
   p = p or vim.fn.getcwd()
 
-  local str = require("fzfx.commons.str")
+  local str = require("colorbox.commons.str")
   if str.endswith(p, "/") or str.endswith(p, "\\") then
     p = string.sub(p, 1, #p - 1)
   end
