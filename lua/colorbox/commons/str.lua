@@ -267,7 +267,7 @@ M.setchar = function(s, pos, ch)
   assert(string_len(ch) == 1)
 
   local n = string_len(s)
-  pos = require("fzfx.commons.tbl").list_index(pos, n)
+  pos = require("colorbox.commons.tbl").list_index(pos, n)
 
   local buffer = ""
   if pos > 1 then

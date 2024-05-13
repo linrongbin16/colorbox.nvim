@@ -10,7 +10,7 @@ M.encode = function(value, rfc)
   if vim.is_callable(vim.uri_encode) then
     return vim.uri_encode(value, rfc)
   else
-    return require("fzfx.commons._uri").uri_encode(value, rfc)
+    return require("colorbox.commons._uri").uri_encode(value, rfc)
   end
 end
 
@@ -23,7 +23,7 @@ M.decode = function(value)
   if vim.is_callable(vim.uri_decode) then
     return vim.uri_decode(value)
   else
-    return require("fzfx.commons._uri").uri_decode(value)
+    return require("colorbox.commons._uri").uri_decode(value)
   end
 end
 
