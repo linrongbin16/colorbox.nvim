@@ -420,8 +420,7 @@ class VimColorSchemes:
                 driver.get(page_url)
                 driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
                 need_more_scan = False
-                article_elements = find_elements(driver, "//article")
-                for element in article_elements:
+                for element in find_elements(driver, "//article"):
                     spec = self._parse_spec(element, page_url)
                     self.counter = self.counter + 1
                     logging.debug(f"vsc repo-{self.counter}:{spec}")
