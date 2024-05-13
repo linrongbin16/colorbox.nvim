@@ -80,7 +80,7 @@ local FORMATTING_TAGS = {
 --- @param meta table<string,any>
 --- @return string
 function Formatter:format(meta)
-  local str = require("colorbox.commons.str")
+  local str = require("fzfx.commons.str")
 
   local n = string.len(self.fmt)
 

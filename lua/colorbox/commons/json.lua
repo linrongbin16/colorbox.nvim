@@ -9,7 +9,7 @@ M.encode = function(t)
   if vim.json ~= nil and vim.is_callable(vim.json.encode) then
     return vim.json.encode(t)
   else
-    return require("colorbox.commons._json").encode(t)
+    return require("fzfx.commons._json").encode(t)
   end
 end
 
@@ -22,7 +22,7 @@ M.decode = function(j)
   if vim.json ~= nil and vim.is_callable(vim.json.decode) then
     return vim.json.decode(j)
   else
-    return require("colorbox.commons._json").decode(j)
+    return require("fzfx.commons._json").decode(j)
   end
 end
 

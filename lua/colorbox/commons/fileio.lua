@@ -91,7 +91,7 @@ end
 function FileLineReader:next()
   --- @return string?
   local function impl()
-    local str = require("colorbox.commons.str")
+    local str = require("fzfx.commons.str")
     if self.buffer == nil then
       return nil
     end
@@ -333,7 +333,7 @@ M.asyncreadlines = function(filename, opts)
         local buffer = nil
 
         local function _process(buf, fn_line_processor)
-          local str = require("colorbox.commons.str")
+          local str = require("fzfx.commons.str")
 
           local i = 1
           while i <= #buf do
