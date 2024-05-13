@@ -76,27 +76,6 @@ jobs:
       - name: Run Tests
         shell: bash
         run: |
-          luarocks install vusted
-          vusted --shuffle ./spec
-  code_coverage:
-    name: Code Coverage
-    needs:
-      - lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: rhysd/action-setup-vim@v1
-        id: vim
-        with:
-          neovim: true
-          version: stable
-      - uses: leafo/gh-actions-lua@v10
-        with:
-          luaVersion: "luajit-2.1.0-beta3"
-      - uses: leafo/gh-actions-luarocks@v4
-      - name: Run Tests
-        shell: bash
-        run: |
           luarocks install luacov
           luarocks install vusted
           vusted --coverage ./spec
@@ -121,7 +100,6 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' }}
     needs:
       - unit_test
-      - code_coverage
     runs-on: ubuntu-latest
     steps:
       - uses: google-github-actions/release-please-action@v3
