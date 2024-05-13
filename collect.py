@@ -377,9 +377,9 @@ class VimColorSchemes:
         i = 0
         while True:
             if i == 0:
-                yield "https://vimcolorschemes.com/top"
+                yield "https://vimcolorschemes.com/i/top"
             else:
-                yield f"https://vimcolorschemes.com/top/page/{i+1}"
+                yield f"https://vimcolorschemes.com/i/top/p.{i+1}"
             i += 1
 
     def _parse_spec(
@@ -387,7 +387,7 @@ class VimColorSchemes:
     ) -> typing.Optional[ColorSpec]:
         logging.debug(f"parsing (vsc) spec element:{element}, page url:{page_url}")
         try:
-            a_elem = url = element.find_element(
+            a_elem = element.find_element(
                 By.XPATH, "./a[starts-with(@class,'repositoryCard')]"
             )
             url = a_elem.get_attribute("href")
@@ -399,7 +399,7 @@ class VimColorSchemes:
             github_stars = int(
                 a_elem.find_element(
                     By.XPATH,
-                    "./dev[starts-with(@class,'repositoryTitle')]//div[starts-with(@class,'repositoryTitle_stats')]//p[starts-with(@class,'repositoryTitle_stat')]//strong",
+                    "./div[starts-with(@class,'repositoryTitle')]//div[starts-with(@class,'repositoryTitle_stats')]//p[starts-with(@class,'repositoryTitle_stat')]//strong",
                 ).text
             )
             logging.debug(f"parsing (vsc) spec github_stars:{github_stars}")
@@ -420,7 +420,8 @@ class VimColorSchemes:
                 driver.get(page_url)
                 driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
                 need_more_scan = False
-                for element in find_elements(driver, "//article"):
+                article_elements = find_elements(driver, "//article")
+                for element in article_elements:
                     spec = self._parse_spec(element, page_url)
                     self.counter = self.counter + 1
                     logging.debug(f"vsc repo-{self.counter}:{spec}")
