@@ -1,5 +1,3 @@
-local str = require("colorbox.commons.str")
-
 --- @class colorbox.ColorSpec
 --- @field handle string "folke/tokyonight.nvim"
 --- @field url string "https://github.com/folke/tokyonight.nvim"
