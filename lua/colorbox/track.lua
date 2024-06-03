@@ -1,6 +1,5 @@
 local str = require("colorbox.commons.str")
 local num = require("colorbox.commons.num")
-local json = require("colorbox.commons.json")
 local fileio = require("colorbox.commons.fileio")
 
 local configs = require("colorbox.configs")
@@ -27,7 +26,7 @@ M.save_track = function(color_name)
     local ColorNamesIndex = runtime.colornames_index()
     local color_number = ColorNamesIndex[color_name] or 1
 
-    local content = json.encode({
+    local content = vim.json.encode({
       color_name = color_name,
       color_number = color_number,
     }) --[[@as string]]
@@ -43,7 +42,7 @@ M.previous_track = function()
   if str.empty(content) then
     return nil
   end
-  return json.decode(content) --[[@as colorbox.PreviousTrack?]]
+  return vim.json.decode(content) --[[@as colorbox.PreviousTrack?]]
 end
 
 --- @param idx integer

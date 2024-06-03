@@ -3,7 +3,6 @@ local str = require("colorbox.commons.str")
 local logging = require("colorbox.commons.logging")
 local LogLevels = require("colorbox.commons.logging").LogLevels
 local uv = require("colorbox.commons.uv")
-local api = require("colorbox.commons.api")
 local async = require("colorbox.commons.async")
 
 local runtime = require("colorbox.runtime")
@@ -232,9 +231,9 @@ M.info = function(args)
   }
 
   local bufnr = vim.api.nvim_create_buf(false, true)
-  api.set_buf_option(bufnr, "bufhidden", "wipe")
-  api.set_buf_option(bufnr, "buflisted", false)
-  api.set_buf_option(bufnr, "filetype", "markdown")
+  vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
+  vim.api.nvim_set_option_value("buflisted", false, { buf = bufnr })
+  vim.api.nvim_set_option_value("filetype", "markdown", { buf = bufnr })
   vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
   local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
