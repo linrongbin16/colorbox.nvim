@@ -55,10 +55,10 @@ local CSS_COLORS = {
 --- @return string
 M.render = function(text, name, hl)
   local str = require("colorbox.commons.str")
+  local color_hl = require("colorbox.commons.color.hl")
 
   local fgfmt = nil
-  local hlcodes = str.not_empty(hl) and require("colorbox.commons.api").get_hl(hl --[[@as string]])
-    or nil
+  local hlcodes = str.not_empty(hl) and color_hl.get_hl(hl --[[@as string]]) or nil
   local fgcode = type(hlcodes) == "table" and hlcodes.fg or nil
   if type(fgcode) == "number" then
     fgfmt = M.escape("fg", string.format("#%06x", fgcode))
