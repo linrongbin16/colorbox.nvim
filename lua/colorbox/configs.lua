@@ -55,6 +55,11 @@ local Defaults = {
     desc = "Colorschemes player controller",
   },
 
+  -- (Optional) Hook to execute on 'ColorScheme' event.
+  -- Note: in most cases, you would like to consider wrap the logic with [vim.schedule()](https://neovim.io/doc/user/lua.html#vim.schedule()) or [vim.schedule_wrap()](https://neovim.io/doc/user/lua.html#vim.schedule_wrap()).
+  --- @type function(colorname: string, spec: colorbox.ColorSpec):nil|nil
+  colorscheme_hook = nil,
+
   --- @type string
   cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath("data")),
 
