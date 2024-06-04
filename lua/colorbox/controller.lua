@@ -4,6 +4,8 @@ local logging = require("colorbox.commons.logging")
 local LogLevels = require("colorbox.commons.logging").LogLevels
 local uv = require("colorbox.commons.uv")
 local async = require("colorbox.commons.async")
+local track = require("colorbox.track")
+local loader = require("colorbox.loader")
 
 local runtime = require("colorbox.runtime")
 local db = require("colorbox.db")
@@ -60,8 +62,8 @@ M.update = function()
       local full_pack_path = db.get_full_pack_path(spec)
       local param = nil
       if
-        vim.fn.isdirectory(full_pack_path) > 0
-        and vim.fn.isdirectory(full_pack_path .. "/.git") > 0
+          vim.fn.isdirectory(full_pack_path) > 0
+          and vim.fn.isdirectory(full_pack_path .. "/.git") > 0
       then
         param = {
           cmd = { "git", "pull" },
@@ -136,6 +138,26 @@ M._parse_args = function(args)
     end
   end
   return opts
+end
+
+M.shuffle = function()
+  local ColorNamesList = runtime.colornames()
+  if #ColorNamesList > 0 then
+    local logger = logging.get("colorbox")
+    local previous_track = track.previous_track()
+    local i = previous_track ~= nil and previous_track.color_number or 0
+    local color = track.get_next_color_name_by_idx(i)
+    logger:debug(
+      string.format(
+        "|shuffle| color:%s, i:%d, ColorNamesList(%d):%s",
+        vim.inspect(color),
+        vim.inspect(i),
+        vim.inspect(#ColorNamesList),
+        vim.inspect(ColorNamesList)
+      )
+    )
+    loader.load(color)
+  end
 end
 
 --- @param args string?
@@ -246,7 +268,7 @@ M.info = function(args)
     for _, color in ipairs(color_names) do
       local enabled = ColorNamesIndex[color] ~= nil
       local content = enabled and string.format("  - %s (**enabled**)", color)
-        or string.format("  - %s (disabled)", color)
+          or string.format("  - %s (disabled)", color)
       vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, { content })
 
       -- colorize the enabled colors
