@@ -1,5 +1,28 @@
 # Changelog
 
+## [3.0.0](https://github.com/linrongbin16/colorbox.nvim/compare/v2.1.2...v3.0.0) (2024-06-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* **configs:** set default filter to 'primary' for simplicity ([#237](https://github.com/linrongbin16/colorbox.nvim/issues/237))
+* **command:** remove `reinstall` and `clean` sub commands ([#235](https://github.com/linrongbin16/colorbox.nvim/issues/235))
+
+### Features
+
+* **hook:** add 'post_hook' function hooks ([#238](https://github.com/linrongbin16/colorbox.nvim/issues/238)) ([9f91613](https://github.com/linrongbin16/colorbox.nvim/commit/9f9161338f79b827d3f15ad6b915eb4ffe51e6c1))
+
+
+### Bug Fixes
+
+* **policy:** correctly save track on loading colorscheme ([#235](https://github.com/linrongbin16/colorbox.nvim/issues/235)) ([c614017](https://github.com/linrongbin16/colorbox.nvim/commit/c61401747ac1576f7b0dbb9191544b8bbe544a2c))
+
+
+### Code Refactoring
+
+* **command:** remove `reinstall` and `clean` sub commands ([#235](https://github.com/linrongbin16/colorbox.nvim/issues/235)) ([c614017](https://github.com/linrongbin16/colorbox.nvim/commit/c61401747ac1576f7b0dbb9191544b8bbe544a2c))
+* **configs:** set default filter to 'primary' for simplicity ([#237](https://github.com/linrongbin16/colorbox.nvim/issues/237)) ([a93736b](https://github.com/linrongbin16/colorbox.nvim/commit/a93736bb7c0e7d2886c3cb56fe9337fd49719a00))
+
 ## [2.1.2](https://github.com/linrongbin16/colorbox.nvim/compare/v2.1.1...v2.1.2) (2024-05-13)
 
 
