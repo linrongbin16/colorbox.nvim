@@ -94,51 +94,12 @@ And multiple trigger timings:
 
 - neovim &ge; 0.9.
 - [git](https://git-scm.com/).
-- [rm](https://man7.org/linux/man-pages/man1/rm.1.html) (optional for `reinstall` and `clean` command on Windows).
-
-<details>
-<summary><i>Click here to see how to install `rm` command on Windows</i></summary>
-<br/>
-
-There're many ways to install portable linux shell and builtin commands on Windows, but personally I would recommend below two methods.
-
-### [Git for Windows](https://git-scm.com/download/win)
-
-Install with the below 3 options:
-
-- In **Select Components**, select **Associate .sh files to be run with Bash**.
-
-  <img alt="install-windows-git-step1.jpg" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/6f2e0b34-4425-4766-85be-799d97aef80a" width="70%" />
-
-- In **Adjusting your PATH environment**, select **Use Git and optional Unix tools from the Command Prompt**.
-
-  <img alt="install-windows-git-step2.jpg" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/2ff32b3b-2ade-4f3c-b25b-50e4b521f2e8" width="70%" />
-
-- In **Configuring the terminal emulator to use with Git Bash**, select **Use Windows's default console window**.
-
-  <img alt="install-windows-git-step3.png" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/944147d1-e180-4e63-aecc-991c9c1093b0" width="70%" />
-
-After this step, **git.exe** and builtin linux commands(such as **rm.exe**) will be available in `%PATH%`.
-
-### [scoop](https://scoop.sh/)
-
-Run below powershell commands:
-
-```powershell
-# scoop
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm get.scoop.sh | iex
-
-scoop install uutils-coreutils     # rm
-```
-
-</details>
 
 ## 📦 Install
 
 > [!IMPORTANT]
 >
-> If this plugin provides the main colorscheme (e.g. the color show right after nvim start), then make sure:
+> If this plugin provides the main colorscheme (i.e. the color show right after nvim start), then make sure:
 >
 > 1. Don't lazy load it.
 > 2. Load it before all other plugins.
@@ -206,8 +167,6 @@ When a timing is triggered, it will run following steps:
 You can also use command `Colorbox` to control the player with below subcommands:
 
 - `update`: Update all git submodules.
-- `reinstall`: Clean & re-install all git submodules.
-- `clean`: Clean all git submodules.
 - `info`: Show detailed information and configured status.
   - **Note:** use `scale=0.7` to specify popup window's size in range `(0, 1]`, by default is `scale=0.7`.
 
@@ -343,7 +302,7 @@ The filetype timing needs to specify below 2 fields in its policy:
 
 ### Background
 
-There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, e.g. they forced `set background=light` on loading. Thus the other following colors will continue use `light` background.
+There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, i.e. they forced `set background=light` on loading. Thus the other following colors will continue use `light` background.
 
 If you want to bring the dark-able colors back to `dark`, please use:
 
