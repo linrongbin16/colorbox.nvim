@@ -4,6 +4,7 @@ local uv = require("colorbox.commons.uv")
 local logging = require("colorbox.commons.logging")
 
 local configs = require("colorbox.configs")
+local track = require("colorbox.track")
 local db = require("colorbox.db")
 
 local M = {}
@@ -60,6 +61,7 @@ M.load = function(colorname, execute)
   end
   if execute then
     vim.cmd(string.format("colorscheme %s", colorname))
+    track.save_track(colorname)
   end
 end
 
