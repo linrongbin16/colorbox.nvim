@@ -315,7 +315,7 @@ It automatically `set background=dark` before run a `colorscheme` command.
 
 ### Hook
 
-To execute a lua function after policy is triggered and new colorscheme is applied, please use:
+To execute a hook function after policy is triggered and new colorscheme is applied, please use:
 
 ```lua
 require("colorbox").setup({
