@@ -68,7 +68,7 @@ M.run = function(color_name, spec)
   elseif type(confs.filter) == "table" then
     return M._all_filter(confs.filter, color_name, spec)
   end
-  return false
+  return true
 end
 
 return M
