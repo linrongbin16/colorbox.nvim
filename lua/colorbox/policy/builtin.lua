@@ -29,9 +29,19 @@ end
 M.in_order = function()
   local ColorNamesList = runtime.colornames()
   if #ColorNamesList > 0 then
+    local logger = logging.get("colorbox")
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local i = previous_track ~= nil and previous_track.color_number or 0
     local color = track.get_next_color_name_by_idx(i)
+    logger:debug(
+      string.format(
+        "|in_order| color:%s, i:%d, ColorNamesList(%d):%s",
+        vim.inspect(color),
+        vim.inspect(i),
+        vim.inspect(#ColorNamesList),
+        vim.inspect(ColorNamesList)
+      )
+    )
 
     loader.load(color)
   end

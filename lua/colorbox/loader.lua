@@ -9,8 +9,8 @@ local db = require("colorbox.db")
 local M = {}
 
 --- @param colorname string?
---- @param run_command boolean?
-M.load = function(colorname, run_command)
+--- @param execute boolean?
+M.load = function(colorname, execute)
   local logger = logging.get("colorbox")
   local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
 
@@ -55,8 +55,10 @@ M.load = function(colorname, run_command)
     vim.opt.background = confs.background
   end
 
-  run_command = type(run_command) == "boolean" and run_command or true
-  if run_command then
+  if type(execute) ~= "boolean" then
+    execute = true
+  end
+  if execute then
     vim.cmd(string.format("colorscheme %s", colorname))
   end
 end
