@@ -21,7 +21,7 @@ M.update = function()
       file_log_mode = "w",
     })
   end
-  local logger = logging.get("colorbox-update") --[[@as commons.logging.Logger]]
+  local logger = logging.get("colorbox-update")
 
   local home_dir = vim.fn["colorbox#base_dir"]()
   local packstart = string.format("%s/pack/colorbox/start", home_dir)
@@ -140,6 +140,7 @@ end
 
 --- @param args string?
 M.info = function(args)
+  local logger = logging.get("colorbox")
   local opts = M._parse_args(args)
   opts = opts or { scale = 0.7 }
   opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7) or 0.7
@@ -230,10 +231,17 @@ M.info = function(args)
     })
     lineno = lineno + 1
     local color_names = vim.deepcopy(spec.color_names)
-    table.sort(color_names, function(a, b)
-      local a_enabled = ColorNamesIndex[a] ~= nil
-      return a_enabled
-    end)
+    -- table.sort(color_names, function(a, b)
+    --   logger:debug(
+    --     string.format(
+    --       "|info| sort color_names:%s, ColorNamesIndex:%s",
+    --       vim.inspect(color_names),
+    --       vim.inspect(ColorNamesIndex)
+    --     )
+    --   )
+    --   local a_enabled = ColorNamesIndex[a] ~= nil
+    --   return a_enabled
+    -- end)
 
     for _, color in ipairs(color_names) do
       local enabled = ColorNamesIndex[color] ~= nil

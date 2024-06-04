@@ -80,6 +80,7 @@ And multiple trigger timings:
     - [By Fixed Interval Time](#by-fixed-interval-time)
     - [By File Type](#by-file-type)
   - [Background](#background)
+  - [Hook](#hook)
 - [Receipts](#-receipts)
   - [1. Choose fixed color on nvim start](#1-choose-fixed-color-on-nvim-start)
   - [2. Change random color per second](#2-change-random-color-per-second)
@@ -244,8 +245,8 @@ To choose a color on nvim start, please use:
 
 ```lua
 require("colorbox").setup({
-    timing = "startup",
-    policy = "shuffle",
+  timing = "startup",
+  policy = "shuffle",
 })
 ```
 
@@ -262,8 +263,8 @@ To choose a color on a fixed interval time, please use:
 
 ```lua
 require("colorbox").setup({
-    timing = "interval",
-    policy = { seconds = 60, implement = "in_order" },
+  timing = "interval",
+  policy = { seconds = 60, implement = "in_order" },
 })
 ```
 
@@ -278,17 +279,17 @@ To choose a color on buffer's file type change, please use:
 
 ```lua
 require("colorbox").setup({
-    timing = "filetype",
-    policy = {
-        mapping = {
-            lua = "PaperColor",
-            yaml = "everforest",
-            markdown = "kanagawa",
-            python = "iceberg",
-        },
-        empty = "tokyonight",
-        fallback = "solarized8",
+  timing = "filetype",
+  policy = {
+    mapping = {
+      lua = "PaperColor",
+      yaml = "everforest",
+      markdown = "kanagawa",
+      python = "iceberg",
     },
+    empty = "tokyonight",
+    fallback = "solarized8",
+  },
 })
 ```
 
@@ -306,11 +307,23 @@ If you want to bring the dark-able colors back to `dark`, please use:
 
 ```lua
 require("colorbox").setup({
-    background = "dark",
+  background = "dark",
 })
 ```
 
 It automatically `set background=dark` before run a `colorscheme` command.
+
+### Hook
+
+To execute a hook function after policy is triggered and new colorscheme is applied, please use:
+
+```lua
+require("colorbox").setup({
+  post_hook = function(color_name)
+    vim.notify(string.format("Colorscheme changed to: %s", vim.inspect(color_name)))
+  end,
+})
+```
 
 ## 📝 Receipts
 
@@ -318,8 +331,8 @@ It automatically `set background=dark` before run a `colorscheme` command.
 
 ```lua
 require("colorbox").setup({
-    policy = "single",
-    timing = "startup",
+  policy = "single",
+  timing = "startup",
 })
 ```
 
@@ -327,8 +340,8 @@ require("colorbox").setup({
 
 ```lua
 require("colorbox").setup({
-    policy = { seconds = 1, implement = "shuffle" },
-    timing = "interval",
+  policy = { seconds = 1, implement = "shuffle" },
+  timing = "interval",
 })
 ```
 
@@ -336,7 +349,7 @@ require("colorbox").setup({
 
 ```lua
 require("colorbox").setup({
-    filter = false,
+  filter = false,
 })
 ```
 
@@ -344,12 +357,12 @@ require("colorbox").setup({
 
 ```lua
 require("colorbox").setup({
-    filter = {
-        "primary",
-        function(color, spec)
-            return spec.github_stars >= 1000
-        end
-    },
+  filter = {
+    "primary",
+    function(color, spec)
+      return spec.github_stars >= 1000
+    end
+  },
 })
 ```
 
@@ -357,28 +370,28 @@ require("colorbox").setup({
 
 ```lua
 local function colorname_disabled(colorname)
-    for _, c in ipairs({
-        "iceberg",
-        "ayu",
-        "edge",
-        "nord",
-    }) do
-        if string.lower(c) == string.lower(colorname) then
-            return true
-        end
+  for _, c in ipairs({
+    "iceberg",
+    "ayu",
+    "edge",
+    "nord",
+  }) do
+    if string.lower(c) == string.lower(colorname) then
+      return true
     end
-    return false
+  end
+  return false
 end
 
 require("colorbox").setup({
-    filter = function(color, spec)
-        for _, c in ipairs(spec.color_names) do
-            if colorname_disabled(c) then
-                return false
-            end
-        end
-        return true
+  filter = function(color, spec)
+    for _, c in ipairs(spec.color_names) do
+      if colorname_disabled(c) then
+        return false
+      end
     end
+    return true
+  end
 })
 ```
 
@@ -386,23 +399,23 @@ require("colorbox").setup({
 
 ```lua
 local function plugin_disabled(spec)
-    for _, p in ipairs({
-        "cocopon/iceberg.vim",
-        "folke/tokyonight.nvim",
-        "ayu-theme/ayu-vim",
-        "shaunsingh/nord.nvim",
-    }) do
-        if string.lower(p) == string.lower(spec.handle) then
-            return true
-        end
+  for _, p in ipairs({
+    "cocopon/iceberg.vim",
+    "folke/tokyonight.nvim",
+    "ayu-theme/ayu-vim",
+    "shaunsingh/nord.nvim",
+  }) do
+    if string.lower(p) == string.lower(spec.handle) then
+      return true
     end
-    return false
+  end
+  return false
 end
 
 require("colorbox").setup({
-    filter = function(color, spec)
-        return not plugin_disabled(spec)
-    end
+  filter = function(color, spec)
+    return not plugin_disabled(spec)
+  end
 })
 ```
 

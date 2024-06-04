@@ -46,6 +46,10 @@ local Defaults = {
     desc = "Colorschemes player controller",
   },
 
+  -- (Optional) hook lua function after colorscheme is been choose.
+  --- @type function(color_name: string, color_spec: colorbox.ColorSpec):nil|nil
+  post_hook = nil,
+
   --- @type string
   cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath("data")),
 
