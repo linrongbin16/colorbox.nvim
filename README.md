@@ -94,7 +94,7 @@ And multiple trigger timings:
 
 - neovim &ge; 0.9.
 - [git](https://git-scm.com/).
-- [rm](https://man7.org/linux/man-pages/man1/rm.1.html) (optional for `reinstall` command on Windows).
+- [rm](https://man7.org/linux/man-pages/man1/rm.1.html) (optional for `reinstall` and `clean` command on Windows).
 
 <details>
 <summary><i>Click here to see how to install `rm` command on Windows</i></summary>
@@ -207,6 +207,7 @@ You can also use command `Colorbox` to control the player with below subcommands
 
 - `update`: Update all git submodules.
 - `reinstall`: Clean & re-install all git submodules.
+- `clean`: Clean all git submodules.
 - `info`: Show detailed information and configured status.
   - **Note:** use `scale=0.7` to specify popup window's size in range `(0, 1]`, by default is `scale=0.7`.
 
