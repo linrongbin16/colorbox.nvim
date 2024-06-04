@@ -62,8 +62,8 @@ M.update = function()
       local full_pack_path = db.get_full_pack_path(spec)
       local param = nil
       if
-          vim.fn.isdirectory(full_pack_path) > 0
-          and vim.fn.isdirectory(full_pack_path .. "/.git") > 0
+        vim.fn.isdirectory(full_pack_path) > 0
+        and vim.fn.isdirectory(full_pack_path .. "/.git") > 0
       then
         param = {
           cmd = { "git", "pull" },
