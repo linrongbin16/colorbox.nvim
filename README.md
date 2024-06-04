@@ -153,7 +153,7 @@ require('pckr').add({
 
 ## 🚀 Usage
 
-When loading plugin, it will run following steps:
+When loading this plugin, it will run following steps:
 
 1. Run the filters, only enable the colors you choose from candidate list. See [Filter](#filter).
 2. Register triggers to invoke related policies at a proper timing. See [Timing & Policy](#timing--policy).
@@ -172,7 +172,7 @@ You can also use command `Colorbox` to control the player with below subcommands
 
 > [!NOTE]
 >
-> You can still use `colorscheme` command to change colorscheme.
+> You can still use `colorscheme` command to change the colorscheme.
 
 ## 🔧 Configuration
 
