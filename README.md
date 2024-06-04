@@ -119,17 +119,17 @@ And multiple trigger timings:
 
 ```lua
 require('lazy').setup({
-    {
-        'linrongbin16/colorbox.nvim',
+  {
+    'linrongbin16/colorbox.nvim',
 
-        -- don't lazy load
-        lazy = false,
-        -- load with highest priority
-        priority = 1000,
+    -- don't lazy load
+    lazy = false,
+    -- load with highest priority
+    priority = 1000,
 
-        build = function() require("colorbox").update() end,
-        config = function() require("colorbox").setup() end,
-    }
+    build = function() require("colorbox").update() end,
+    config = function() require("colorbox").setup() end,
+  }
 })
 ```
 
@@ -140,12 +140,12 @@ require('lazy').setup({
 
 ```lua
 require('pckr').add({
-    {
-        'linrongbin16/colorbox.nvim',
+  {
+    'linrongbin16/colorbox.nvim',
 
-        run = function() require("colorbox").update() end,
-        config = function() require("colorbox").setup() end,
-    };
+    run = function() require("colorbox").update() end,
+    config = function() require("colorbox").setup() end,
+  };
 })
 ```
 
