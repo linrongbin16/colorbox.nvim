@@ -3,7 +3,6 @@ local str = require("colorbox.commons.str")
 local logging = require("colorbox.commons.logging")
 local LogLevels = require("colorbox.commons.logging").LogLevels
 local uv = require("colorbox.commons.uv")
-local api = require("colorbox.commons.api")
 local async = require("colorbox.commons.async")
 
 local runtime = require("colorbox.runtime")
@@ -11,7 +10,7 @@ local db = require("colorbox.db")
 
 local M = {}
 
-M._update = function()
+M.update = function()
   if not logging.has("colorbox-update") then
     logging.setup({
       name = "colorbox-update",
@@ -119,55 +118,6 @@ M._update = function()
   end)
 end
 
-M.clean = function()
-  local home_dir = vim.fn["colorbox#base_dir"]()
-  local full_pack_dir = string.format("%s/pack", home_dir)
-  local shorten_pack_dir = vim.fn.fnamemodify(full_pack_dir, ":~")
-  ---@diagnostic disable-next-line: discard-returns, param-type-mismatch
-  local opened_dir, opendir_err = uv.fs_opendir(full_pack_dir)
-  if not opened_dir then
-    -- logger.debug(
-    --     "directory %s not found, error: %s",
-    --     vim.inspect(shorten_pack_dir),
-    --     vim.inspect(opendir_err)
-    -- )
-    return
-  end
-  local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
-  if vim.fn.executable("rm") > 0 then
-    local jobid = vim.fn.jobstart({ "rm", "-rf", full_pack_dir }, {
-      detach = false,
-      stdout_buffered = true,
-      stderr_buffered = true,
-      on_stdout = function(chanid, data, name)
-        -- logger.debug(
-        --     "clean job(%s) data:%s",
-        --     vim.inspect(name),
-        --     vim.inspect(data)
-        -- )
-      end,
-      on_stderr = function(chanid, data, name)
-        -- logger.debug(
-        --     "clean job(%s) data:%s",
-        --     vim.inspect(name),
-        --     vim.inspect(data)
-        -- )
-      end,
-      on_exit = function(jid, exitcode, name)
-        -- logger.debug(
-        --     "clean job(%s) done:%s",
-        --     vim.inspect(name),
-        --     vim.inspect(exitcode)
-        -- )
-      end,
-    })
-    vim.fn.jobwait({ jobid })
-    logger:info(string.format("cleaned directory: %s", shorten_pack_dir))
-  else
-    logger:warn("no 'rm' command found, skip cleaning...")
-  end
-end
-
 --- @param args string?
 --- @return colorbox.Options?
 M._parse_args = function(args)
@@ -186,15 +136,6 @@ M._parse_args = function(args)
     end
   end
   return opts
-end
-
-M.update = function()
-  M._update()
-end
-
-M.reinstall = function()
-  M.clean()
-  M._update()
 end
 
 --- @param args string?
@@ -232,9 +173,9 @@ M.info = function(args)
   }
 
   local bufnr = vim.api.nvim_create_buf(false, true)
-  api.set_buf_option(bufnr, "bufhidden", "wipe")
-  api.set_buf_option(bufnr, "buflisted", false)
-  api.set_buf_option(bufnr, "filetype", "markdown")
+  vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
+  vim.api.nvim_set_option_value("buflisted", false, { buf = bufnr })
+  vim.api.nvim_set_option_value("filetype", "markdown", { buf = bufnr })
   vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
   local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 

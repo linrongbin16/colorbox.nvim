@@ -40,11 +40,7 @@ local Defaults = {
   },
 
   --- @type table<string, function>
-  setup = {
-    ["projekt0n/github-nvim-theme"] = function()
-      require("github-theme").setup()
-    end,
-  },
+  setup = {},
 
   --- @type "dark"|"light"|nil
   background = nil,

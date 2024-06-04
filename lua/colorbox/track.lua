@@ -1,7 +1,7 @@
 local str = require("colorbox.commons.str")
 local num = require("colorbox.commons.num")
-local json = require("colorbox.commons.json")
 local fileio = require("colorbox.commons.fileio")
+local logging = require("colorbox.commons.logging")
 
 local configs = require("colorbox.configs")
 local runtime = require("colorbox.runtime")
@@ -17,7 +17,9 @@ end
 --- @alias colorbox.PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
 M.save_track = function(color_name)
+  local logger = logging.get("colorbox")
   if str.blank(color_name) then
+    logger:debug(string.format("|save_track| color_name is blank:%s", vim.inspect(color_name)))
     return
   end
 
@@ -27,12 +29,20 @@ M.save_track = function(color_name)
     local ColorNamesIndex = runtime.colornames_index()
     local color_number = ColorNamesIndex[color_name] or 1
 
-    local content = json.encode({
+    local content = vim.json.encode({
       color_name = color_name,
       color_number = color_number,
     }) --[[@as string]]
 
-    fileio.asyncwritefile(confs.previous_track_cache, content, function() end)
+    fileio.asyncwritefile(confs.previous_track_cache, content, function()
+      logger:debug(
+        string.format(
+          "|save_track| finished save track for color_name:%s, color_number:%s",
+          vim.inspect(color_name),
+          vim.inspect(color_number)
+        )
+      )
+    end)
   end)
 end
 
@@ -43,7 +53,7 @@ M.previous_track = function()
   if str.empty(content) then
     return nil
   end
-  return json.decode(content) --[[@as colorbox.PreviousTrack?]]
+  return vim.json.decode(content) --[[@as colorbox.PreviousTrack?]]
 end
 
 --- @param idx integer

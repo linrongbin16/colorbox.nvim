@@ -3,7 +3,7 @@
 # 🌈 colorbox.nvim
 
 <p>
-<a href="https://github.com/neovim/neovim/releases/v0.7.0"><img alt="require" src="https://img.shields.io/badge/require-0.7%2B-blue" /></a>
+<a href="https://github.com/neovim/neovim/releases/v0.9.0"><img alt="require" src="https://img.shields.io/badge/require-0.9%2B-blue" /></a>
 <a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://img.shields.io/badge/power_by-commons.nvim-pink" /></a>
 <a href="https://luarocks.org/modules/linrongbin16/colorbox.nvim"><img alt="luarocks" src="https://img.shields.io/luarocks/v/linrongbin16/colorbox.nvim" /></a>
 <a href="https://github.com/linrongbin16/colorbox.nvim/actions/workflows/ci.yml"><img alt="ci.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/ci.yml?label=ci" /></a>
@@ -92,53 +92,14 @@ And multiple trigger timings:
 
 ## ✅ Requirements
 
-- neovim &ge; 0.7.
+- neovim &ge; 0.9.
 - [git](https://git-scm.com/).
-- [rm](https://man7.org/linux/man-pages/man1/rm.1.html) (optional for `reinstall` command on Windows).
-
-<details>
-<summary><i>Click here to see how to install `rm` command on Windows</i></summary>
-<br/>
-
-There're many ways to install portable linux shell and builtin commands on Windows, but personally I would recommend below two methods.
-
-### [Git for Windows](https://git-scm.com/download/win)
-
-Install with the below 3 options:
-
-- In **Select Components**, select **Associate .sh files to be run with Bash**.
-
-  <img alt="install-windows-git-step1.jpg" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/6f2e0b34-4425-4766-85be-799d97aef80a" width="70%" />
-
-- In **Adjusting your PATH environment**, select **Use Git and optional Unix tools from the Command Prompt**.
-
-  <img alt="install-windows-git-step2.jpg" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/2ff32b3b-2ade-4f3c-b25b-50e4b521f2e8" width="70%" />
-
-- In **Configuring the terminal emulator to use with Git Bash**, select **Use Windows's default console window**.
-
-  <img alt="install-windows-git-step3.png" src="https://github.com/linrongbin16/colorbox.nvim/assets/6496887/944147d1-e180-4e63-aecc-991c9c1093b0" width="70%" />
-
-After this step, **git.exe** and builtin linux commands(such as **rm.exe**) will be available in `%PATH%`.
-
-### [scoop](https://scoop.sh/)
-
-Run below powershell commands:
-
-```powershell
-# scoop
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm get.scoop.sh | iex
-
-scoop install uutils-coreutils     # rm
-```
-
-</details>
 
 ## 📦 Install
 
 > [!IMPORTANT]
 >
-> If this plugin provides the main colorscheme (e.g. the color show right after nvim start), then make sure:
+> If this plugin provides the main colorscheme (i.e. the color show right after nvim start), then make sure:
 >
 > 1. Don't lazy load it.
 > 2. Load it before all other plugins.
@@ -158,17 +119,17 @@ scoop install uutils-coreutils     # rm
 
 ```lua
 require('lazy').setup({
-    {
-        'linrongbin16/colorbox.nvim',
+  {
+    'linrongbin16/colorbox.nvim',
 
-        -- don't lazy load
-        lazy = false,
-        -- load with highest priority
-        priority = 1000,
+    -- don't lazy load
+    lazy = false,
+    -- load with highest priority
+    priority = 1000,
 
-        build = function() require("colorbox").update() end,
-        config = function() require("colorbox").setup() end,
-    }
+    build = function() require("colorbox").update() end,
+    config = function() require("colorbox").setup() end,
+  }
 })
 ```
 
@@ -179,12 +140,12 @@ require('lazy').setup({
 
 ```lua
 require('pckr').add({
-    {
-        'linrongbin16/colorbox.nvim',
+  {
+    'linrongbin16/colorbox.nvim',
 
-        run = function() require("colorbox").update() end,
-        config = function() require("colorbox").setup() end,
-    };
+    run = function() require("colorbox").update() end,
+    config = function() require("colorbox").setup() end,
+  };
 })
 ```
 
@@ -192,7 +153,7 @@ require('pckr').add({
 
 ## 🚀 Usage
 
-When loading plugin, it will run following steps:
+When loading this plugin, it will run following steps:
 
 1. Run the filters, only enable the colors you choose from candidate list. See [Filter](#filter).
 2. Register triggers to invoke related policies at a proper timing. See [Timing & Policy](#timing--policy).
@@ -206,13 +167,12 @@ When a timing is triggered, it will run following steps:
 You can also use command `Colorbox` to control the player with below subcommands:
 
 - `update`: Update all git submodules.
-- `reinstall`: Clean & re-install all git submodules.
 - `info`: Show detailed information and configured status.
   - **Note:** use `scale=0.7` to specify popup window's size in range `(0, 1]`, by default is `scale=0.7`.
 
 > [!NOTE]
 >
-> You can still use `colorscheme` command to change colorscheme.
+> You can still use `colorscheme` command to change the colorscheme.
 
 ## 🔧 Configuration
 
@@ -265,11 +225,9 @@ The `colorbox.ColorSpec` type is a lua table that has below fields:
 - `priority`: Plugin priority, `integer` type, for example:
   - **awesome-neovim** is `100`
   - **vimcolorschemes** is `0`
-- `source`: Data source, `string` type, for example:
-  - **awesome-neovim** is `"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"`
 - `git_path`: Git submodule file path, `string` type, for example:
   - `"folke-tokyonight.nvim"`
-- `git_branch`: Optional git branch of plugin (most plugins use default main/master branch, while some have specific branch), `string?` type, for example:
+- `git_branch`: (Optional) git branch of plugin (most plugins use default branch such as `main` or `master`, while some use specific branch such as `neovim`), `string?` type, for example:
   - `"neovim"`
 - `color_names`: Color names that plugin contains, `string[]` type, for example:
   - `["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]`
@@ -342,7 +300,7 @@ The filetype timing needs to specify below 2 fields in its policy:
 
 ### Background
 
-There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, e.g. they forced `set background=light` on loading. Thus the other following colors will continue use `light` background.
+There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, i.e. they forced `set background=light` on loading. Thus the other following colors will continue use `light` background.
 
 If you want to bring the dark-able colors back to `dark`, please use:
 

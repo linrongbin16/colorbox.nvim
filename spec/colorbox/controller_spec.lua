@@ -46,11 +46,6 @@ describe("colorbox.controller", function()
         controller.update()
       end
     end)
-    -- it("clean", function()
-    --   if not github_actions then
-    --     controller.clean()
-    --   end
-    -- end)
     it("info", function()
       if not github_actions then
         controller.info("scale=0.7")
@@ -58,10 +53,5 @@ describe("colorbox.controller", function()
         controller.info("")
       end
     end)
-    -- it("reinstall", function()
-    --   if not github_actions then
-    --     controller.reinstall()
-    --   end
-    -- end)
   end)
 end)
