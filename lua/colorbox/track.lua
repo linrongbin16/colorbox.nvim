@@ -5,6 +5,7 @@ local logging = require("colorbox.commons.logging")
 
 local configs = require("colorbox.configs")
 local runtime = require("colorbox.runtime")
+local db = require("colorbox.db")
 
 local M = {}
 
@@ -42,6 +43,13 @@ M.save_track = function(color_name)
           vim.inspect(color_number)
         )
       )
+      vim.schedule(function()
+        if vim.is_callable(confs.post_hook) then
+          local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
+          local color_spec = ColorNameToColorSpecsMap[color_name]
+          confs.post_hook(color_name, color_spec)
+        end
+      end)
     end)
   end)
 end
