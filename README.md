@@ -225,11 +225,9 @@ The `colorbox.ColorSpec` type is a lua table that has below fields:
 - `priority`: Plugin priority, `integer` type, for example:
   - **awesome-neovim** is `100`
   - **vimcolorschemes** is `0`
-- `source`: Data source, `string` type, for example:
-  - **awesome-neovim** is `"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"`
 - `git_path`: Git submodule file path, `string` type, for example:
   - `"folke-tokyonight.nvim"`
-- `git_branch`: Optional git branch of plugin (most plugins use default main/master branch, while some have specific branch), `string?` type, for example:
+- `git_branch`: (Optional) git branch of plugin (most plugins use default branch such as `main` or `master`, while some use specific branch such as `neovim`), `string?` type, for example:
   - `"neovim"`
 - `color_names`: Color names that plugin contains, `string[]` type, for example:
   - `["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]`
