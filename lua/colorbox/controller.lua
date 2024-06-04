@@ -268,7 +268,7 @@ M.info = function(args)
     for _, color in ipairs(color_names) do
       local enabled = ColorNamesIndex[color] ~= nil
       local content = enabled and string.format("  - %s (**enabled**)", color)
-          or string.format("  - %s (disabled)", color)
+        or string.format("  - %s (disabled)", color)
       vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, { content })
 
       -- colorize the enabled colors
