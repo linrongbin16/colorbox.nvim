@@ -320,10 +320,16 @@ To execute a hook function after policy is triggered and new colorscheme is appl
 
 ```lua
 require("colorbox").setup({
-  post_hook = function(color_name)
-    vim.notify(string.format("Colorscheme changed to: %s", vim.inspect(color_name)))
+  post_hook = function(color, spec)
+    vim.notify(string.format("Colorscheme changed to: %s", vim.inspect(color)))
   end,
 })
+```
+
+The hook accepts a lua function with below signature:
+
+```lua
+function(color:string, spec:colorbox.ColorSpec):nil
 ```
 
 ## 📝 Receipts
