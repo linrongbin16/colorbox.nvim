@@ -170,6 +170,7 @@ You can also use command `Colorbox` to control the player with below subcommands
 - `update`: Update all git submodules.
 - `info`: Show detailed information and configured status.
   - **Note:** use `scale=0.7` to specify popup window's size in range `(0, 1]`, by default is `scale=0.7`.
+- `shuffle`: Change to a random color.
 
 > [!NOTE]
 >
