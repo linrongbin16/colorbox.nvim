@@ -99,6 +99,8 @@ return {
   "solarized8_low",
   "sonokai",
   "space-vim-dark",
+  "spacecamp",
+  "spacecamp_lite",
   "spaceduck",
   "srcery",
   "tender",
