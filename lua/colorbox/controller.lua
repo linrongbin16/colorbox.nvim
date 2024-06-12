@@ -144,15 +144,15 @@ M.shuffle = function()
   local ColorNamesList = runtime.colornames()
   if #ColorNamesList > 0 then
     local logger = logging.get("colorbox")
-    local previous_track = track.previous_track()
-    local i = previous_track ~= nil and previous_track.color_number or 0
-    local color = track.get_next_color_name_by_idx(i)
+    local random_index = math.random(1, #ColorNamesList)
+    local color = ColorNamesList[random_index]
+
     logger:debug(
       string.format(
-        "|shuffle| color:%s, i:%d, ColorNamesList(%d):%s",
+        "|shuffle| color:%s, random_index:%d, ColorNamesList(%d):%s",
         vim.inspect(color),
-        vim.inspect(i),
-        vim.inspect(#ColorNamesList),
+        random_index,
+        #ColorNamesList,
         vim.inspect(ColorNamesList)
       )
     )
