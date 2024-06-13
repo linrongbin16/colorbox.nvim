@@ -4,6 +4,8 @@ local logging = require("colorbox.commons.logging")
 local LogLevels = require("colorbox.commons.logging").LogLevels
 local uv = require("colorbox.commons.uv")
 local async = require("colorbox.commons.async")
+local track = require("colorbox.track")
+local loader = require("colorbox.loader")
 
 local runtime = require("colorbox.runtime")
 local db = require("colorbox.db")
@@ -136,6 +138,26 @@ M._parse_args = function(args)
     end
   end
   return opts
+end
+
+M.shuffle = function()
+  local ColorNamesList = runtime.colornames()
+  if #ColorNamesList > 0 then
+    local logger = logging.get("colorbox")
+    local random_index = num.random(1, #ColorNamesList)
+    local color = ColorNamesList[random_index]
+
+    logger:debug(
+      string.format(
+        "|shuffle| color:%s, random_index:%d, ColorNamesList(%d):%s",
+        vim.inspect(color),
+        random_index,
+        #ColorNamesList,
+        vim.inspect(ColorNamesList)
+      )
+    )
+    loader.load(color)
+  end
 end
 
 --- @param args string?

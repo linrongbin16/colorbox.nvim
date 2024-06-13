@@ -53,5 +53,10 @@ describe("colorbox.controller", function()
         controller.info("")
       end
     end)
+    it("shuffle", function()
+      if not github_actions then
+        controller.shuffle()
+      end
+    end)
   end)
 end)
