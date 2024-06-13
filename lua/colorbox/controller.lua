@@ -144,7 +144,7 @@ M.shuffle = function()
   local ColorNamesList = runtime.colornames()
   if #ColorNamesList > 0 then
     local logger = logging.get("colorbox")
-    local random_index = math.random(1, #ColorNamesList)
+    local random_index = num.random(1, #ColorNamesList)
     local color = ColorNamesList[random_index]
 
     logger:debug(
