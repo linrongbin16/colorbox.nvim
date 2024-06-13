@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/linrongbin16/colorbox.nvim/compare/v3.0.0...v3.1.0) (2024-06-13)
+
+
+### Features
+
+* Add shuffle command to change color randomly ([#239](https://github.com/linrongbin16/colorbox.nvim/issues/239)) ([3ad6453](https://github.com/linrongbin16/colorbox.nvim/commit/3ad645317ea624fb198fdd3764cc0ecc864778d2))
+
 ## [3.0.0](https://github.com/linrongbin16/colorbox.nvim/compare/v2.1.2...v3.0.0) (2024-06-04)
 
 
