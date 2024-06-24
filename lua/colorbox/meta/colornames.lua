@@ -47,7 +47,6 @@ return {
   "hybrid_material",
   "hybrid_reverse",
   "iceberg",
-  "jellybeans",
   "kanagawa",
   "kanagawa-dragon",
   "kanagawa-lotus",
