@@ -63,6 +63,7 @@ return {
   "monokai",
   "moonfly",
   "neobones",
+  "night-owl",
   "nightfly",
   "nightfox",
   "nord",
