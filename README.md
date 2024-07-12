@@ -1,5 +1,3 @@
-<!-- markdownlint-disable MD001 MD013 MD034 MD033 MD051 -->
-
 # 🌈 colorbox.nvim
 
 <p>
@@ -11,9 +9,9 @@
 <a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim/main?label=codecov" /></a>
 </p>
 
-Do you want all the **most popular** (Neo)vim colorschemes than only one? Do you want to change colorscheme from time to time?
+Do you want all the **most popular** (Neo)vim colorschemes than only one? Do you want to change them from time to time?
 
-This is it! Let's load all the ultra colorschemes into the Neovim player!
+This is it! Let's load all the ultra colorschemes into Neovim player!
 
 https://github.com/linrongbin16/colorbox.nvim/assets/6496887/8fff55ea-749d-4064-90b8-a3799519898d
 
@@ -88,13 +86,13 @@ And multiple trigger timings:
   - [4. Enable only top stars (&ge; 1000) & primary colors](#4-enable-only-top-stars--1000--primary-colors)
   - [5. Disable by name](#5-disable-by-name)
   - [6. Disable by plugin](#6-disable-by-plugin)
-- [Development](#-development)
+- [Development](#%EF%B8%8F-development)
 - [Contribute](#-contribute)
 
 ## ✅ Requirements
 
-- neovim &ge; 0.9.
-- [git](https://git-scm.com/).
+- Neovim &ge; 0.9.
+- [Git](https://git-scm.com/).
 
 ## 📦 Install
 
