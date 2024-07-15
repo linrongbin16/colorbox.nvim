@@ -1,0 +1,12 @@
+{
+  // Line length
+  "MD013": false,
+  // Fenced code blocks should have a language specified
+  "MD040": false,
+  // Inline HTML
+  "MD033": false,
+  // Bare URL used
+  "MD034": false,
+  // Blank line inside blockquote
+  "MD028": false,
+}
