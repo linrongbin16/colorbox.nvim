@@ -187,59 +187,31 @@ To configure options, please use:
 require("colorbox").setup(opts)
 ```
 
-The `opts` is an optional lua table that override the default options.
+The `opts` is an optional lua table that override the default options. Here we only introduce some of the most options.
 
 For complete default options, please see [configs.lua](https://github.com/linrongbin16/colorbox.nvim/blob/main/lua/colorbox/configs.lua).
 
 ### Filter
 
-There're 3 types of filter configs:
+The `filter` option is to help user filter some colorschemes from the dataset, thus they will never show up.
 
-#### Builtin Filters
+There're 3 kinds of filters:
 
-- `"primary"`: Only enables the main color (if there are multiple colors in one plugin).
+- Builtin filters: A lua string that presents the name of a builtin filter. For now we only have the `"primary"` builtin filter, it only enables the primary color in a plugin, filters all other color variants (when there're multiple colors in one plugin).
+- Function filters: A lua function that decides whether to enable/disable a color. It uses the function signature:
 
-#### Function Filters
+  ```lua
+  function(color:string, spec:colorbox.ColorSpec):boolean
+  ```
 
-Lua function that decide whether to enable/disable a color. It has below signature:
+  The function has two parameters:
 
-```lua
-function(color:string, spec:colorbox.ColorSpec):boolean
-```
+  - `color`: The colorscheme name.
+  - `spec`: The colorscheme's meta info, please see [`@class colorbox.ColorSpec`](https://github.com/linrongbin16/colorbox.nvim/blob/67b7724adfb38d84ad86ff9f3e780ad8118f6fff/lua/colorbox/db.lua?plain=1#L1-L11) for more details.
 
-Parameters:
+  It returns `true` to enable a color, `false` to disable a color.
 
-- `color`: Color name.
-- `spec`: Colorscheme meta info, which is the `colorbox.ColorSpec` type, see below.
-
-Returns:
-
-- To enable a color, returns `true`.
-- To disable a color, returns `false`.
-
-The `colorbox.ColorSpec` type is a lua table that has below fields:
-
-- `handle`: Unique plugin name, `string` type, for example:
-  - `"folke/tokyonight.nvim"`
-- `url`: GitHub url, `string` type, for example:
-  - `"https://github.com/folke/tokyonight.nvim"`
-- `github_stars`: Github stars, `integer` type, for example:
-  - `4300`
-- `last_git_commit`: Last git commit date and time, `string` type, for example:
-  - `"2023-10-25T18:20:36"`
-- `priority`: Plugin priority, `integer` type, for example:
-  - **awesome-neovim** is `100`
-  - **vimcolorschemes** is `0`
-- `git_path`: Git submodule file path, `string` type, for example:
-  - `"folke-tokyonight.nvim"`
-- `git_branch`: (Optional) git branch of plugin (most plugins use default branch such as `main` or `master`, while some use specific branch such as `neovim`), `string?` type, for example:
-  - `"neovim"`
-- `color_names`: Color names that plugin contains, `string[]` type, for example:
-  - `["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]`
-
-#### List Filters
-
-A lua list that contains multiple other filters. A color will only be enabled if **all** filters returns `true`.
+- List filters: A lua list that contains multiple function filters and builtin filters. A colorscheme will only be enabled if _**all**_ these filters returns `true`.
 
 ### Timing & Policy
 
