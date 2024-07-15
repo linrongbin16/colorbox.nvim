@@ -86,7 +86,7 @@ And multiple trigger timings:
   - [4. Enable only top stars (&ge; 1000) & primary colors](#4-enable-only-top-stars--1000--primary-colors)
   - [5. Disable by name](#5-disable-by-name)
   - [6. Disable by plugin](#6-disable-by-plugin)
-- [Development](#-development)
+- [Development](#%EF%B8%8F-development)
 - [Contribute](#-contribute)
 
 ## ✅ Requirements
