@@ -251,9 +251,7 @@ There're 3 kinds of policies (they work with the corresponding timings):
 
 ### Background
 
-There're some colors (`tokyonight-day`, `rose-pine-dawn`) are forced to be light, i.e. they forced `set background=light` on loading. Thus the other following colors will continue use `light` background.
-
-If you want to bring the dark-able colors back to `dark`, please use:
+The `background` option runs `set background=dark/light` every time before running the `colorscheme` command (to change a colorscheme).
 
 ```lua
 require("colorbox").setup({
@@ -261,7 +259,9 @@ require("colorbox").setup({
 })
 ```
 
-It automatically `set background=dark` before run a `colorscheme` command.
+Some colors (`tokyonight-day`, `rose-pine-dawn`, etc) are forced to be light, i.e. they forced the `background` option to `light` inside their internal implementations.
+
+This is no problem, except some user may want all those following colorschemes (after `tokyonight-day` and `rose-pine-dawn`) go back to `dark` background if they're dark-able.
 
 ### Hook
 
@@ -423,5 +423,5 @@ Please open [issue](https://github.com/linrongbin16/colorbox.nvim/issues)/[PR](h
 Like colorbox.nvim? Consider
 
 [![Github Sponsor](https://img.shields.io/badge/-Sponsor%20Me%20on%20Github-magenta?logo=github&logoColor=white)](https://github.com/sponsors/linrongbin16)
-[![Wechat Pay](https://img.shields.io/badge/-Tip%20Me%20on%20WeChat-brightgreen?logo=wechat&logoColor=white)](https://github.com/linrongbin16/lin.nvim/wiki/Sponsor)
-[![Alipay](https://img.shields.io/badge/-Tip%20Me%20on%20Alipay-blue?logo=alipay&logoColor=white)](https://github.com/linrongbin16/lin.nvim/wiki/Sponsor)
+[![Wechat Pay](https://img.shields.io/badge/-Tip%20Me%20on%20WeChat-brightgreen?logo=wechat&logoColor=white)](https://linrongbin16.github.io/lin.nvim/#/sponsor?id=wechat-pay)
+[![Alipay](https://img.shields.io/badge/-Tip%20Me%20on%20Alipay-blue?logo=alipay&logoColor=white)](https://linrongbin16.github.io/lin.nvim/#/sponsor?id=alipay)
