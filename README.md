@@ -67,6 +67,7 @@ And multiple trigger timings:
 
 - [Requirements](#-requirements)
 - [Install](#-install)
+- [How it Works](#-how-it-works)
 - [Usage](#-usage)
 - [Configuration](#-configuration)
   - [Filter](#filter)
@@ -150,29 +151,33 @@ require('pckr').add({
 
 </details>
 
+## 🎬 How it Works
+
+When loading this plugin, it does below steps:
+
+1. Runs the filters, only enables the colors you choose from the dataset (see [Filter](#filter)).
+2. Registers the triggers to invoke related policies at a proper timing (see [Timing & Policy](#timing--policy)).
+
+When a timing is triggered, it does below steps:
+
+1. Runs the registered policy and pick a colorscheme (see [Timing & Policy](#timing--policy)).
+2. Refreshes the `background` option (see [Background](#background)).
+3. Runs the `colorscheme` command to actually apply the colorscheme.
+
 ## 🚀 Usage
 
-When loading this plugin, it will run following steps:
-
-1. Run the filters, only enable the colors you choose from candidate list. See [Filter](#filter).
-2. Register triggers to invoke related policies at a proper timing. See [Timing & Policy](#timing--policy).
-
-When a timing is triggered, it will run following steps:
-
-1. Run registered policy and choose a colorscheme. See [Timing & Policy](#timing--policy).
-2. Refresh the `background` option. See [Background](#background).
-3. Run `colorscheme` command to actually apply the colorscheme.
-
-You can also use command `Colorbox` to control the player with below subcommands:
+You can use the `Colorbox` command with below subcommands:
 
 - `update`: Update all git submodules.
 - `info`: Show detailed information and configured status.
-  - **Note:** use `scale=0.7` to specify popup window's size in range `(0, 1]`, by default is `scale=0.7`.
+
+  > **Note:** use `scale=0.7` to specify popup window's size in range `(0, 1]`, by default is `scale=0.7`.
+
 - `shuffle`: Change to a random color.
 
 > [!NOTE]
 >
-> You can still use `colorscheme` command to change the colorscheme.
+> You can still use the `colorscheme` command to change a colorscheme.
 
 ## 🔧 Configuration
 
