@@ -47,9 +47,9 @@ It uses GitHub actions to weekly collect/update the colorscheme dataset.
 >
 > Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorscheme dataset.
 
-It install via git submodules instead of copy-paste source code, so you get continuously updates from original authors.
+It installs colorschemes via git submodule instead of copy-paste source code, so you get continuously updates from original authors.
 
-It allow you play them with multiple playback settings (policies):
+It allows you to play them with multiple playback settings(policies):
 
 - Suffle playback.
 - Play in order.
