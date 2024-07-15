@@ -7,4 +7,6 @@
   "MD033": false,
   // Bare URL used
   "MD034": false,
+  // Blank line inside blockquote
+  "MD028": false,
 }

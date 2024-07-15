@@ -9,9 +9,9 @@
 <a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim/main?label=codecov" /></a>
 </p>
 
-Do you want all the **most popular** (Neo)vim colorschemes than only one? Do you want to change colorscheme from time to time?
+Do you want all the **most popular** (Neo)Vim colorschemes than only one? Do you want to change them from time to time?
 
-This is it! Let's load all the ultra colorschemes into the Neovim player!
+This is it! Let's load all the ultra colorschemes into Neovim player!
 
 https://github.com/linrongbin16/colorbox.nvim/assets/6496887/8fff55ea-749d-4064-90b8-a3799519898d
 
@@ -27,7 +27,7 @@ require("colorbox").setup({
 
 </details>
 
-It use offline github actions to weekly collect/update the colorscheme list.
+It uses GitHub actions to weekly collect/update the colorscheme dataset.
 
 > [!NOTE]
 >
@@ -36,16 +36,16 @@ It use offline github actions to weekly collect/update the colorscheme list.
 > - [vimcolorschemes.com](https://vimcolorschemes.com)
 > - [www.trackawesomelist.com - awesome-neovim](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
 >
-> with below conditions:
+> With below conditions:
 >
-> 1. Github stars &ge; 500 (default config only enable &ge; 800, see [Configuration](#-configuration)).
-> 2. Last git commit in 5 years.
-> 3. For multiple plugins that contain the same color name, pick by following rules:
->    1. **Awesome-neovim** wins **vimcolorsheme** (they usually support modern Neovim features).
+> 1. GitHub stars &ge; 500 (by default it only enable &ge; 800, see [Configuration](#-configuration)).
+> 2. Last git commit is in last 5 years.
+> 3. For multiple plugins that contain a same color name, it picks by following rules:
+>    1. The _**awesome-neovim**_ wins the _**vimcolorschemes**_ (they usually support modern Neovim features).
 >    2. More github stars.
 >    3. Newer git commits.
 >
-> Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorschemes list.
+> Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorscheme dataset.
 
 It install via git submodules instead of copy-paste source code, so you get continuously updates from original authors.
 
@@ -91,8 +91,8 @@ And multiple trigger timings:
 
 ## ✅ Requirements
 
-- neovim &ge; 0.9.
-- [git](https://git-scm.com/).
+- Neovim &ge; 0.9.
+- [Git](https://git-scm.com/).
 
 ## 📦 Install
 
