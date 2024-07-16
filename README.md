@@ -153,11 +153,11 @@ require('pckr').add({
 When loading this plugin, it does below steps:
 
 1. Runs the filters, only enables the colors you choose from the dataset (see [Filter](#filter)).
-2. Registers the triggers to invoke related policies at a proper timing (see [Timing & Policy](#timing--policy)).
+2. Registers the triggers to invoke related policies at a proper timing (see [Timing](#timing)).
 
 When a timing is triggered, it does below steps:
 
-1. Runs the registered policy and pick a colorscheme (see [Timing & Policy](#timing--policy)).
+1. Runs the registered policy and pick a colorscheme (see [Policy](#policy)).
 2. Refreshes the `background` option (see [Background](#background)).
 3. Runs the `colorscheme` command to actually apply the colorscheme.
 
