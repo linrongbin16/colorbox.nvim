@@ -11,6 +11,7 @@ return {
   "challenger_deep",
   "codedark",
   "colorbuddy",
+  "cyberdream",
   "dawnfox",
   "dayfox",
   "deus",
