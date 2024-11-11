@@ -337,6 +337,8 @@ return {
   "rose-pine-main",
   "rose-pine-moon",
   "rosebones",
+  "seoul256",
+  "seoul256-light",
   "seoulbones",
   "solarized-osaka",
   "solarized-osaka-day",
