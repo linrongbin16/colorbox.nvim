@@ -109,16 +109,8 @@ jobs:
         with:
           release-type: simple
           package-name: colorbox.nvim
-      - uses: actions/checkout@v3
-      - uses: rickstaa/action-create-tag@v1
-        if: ${{ steps.release.outputs.release_created }}
-        with:
-          tag: stable
-          message: "Current stable release: ${{ steps.release.outputs.tag_name }}"
-          tag_exists_error: false
-          force_push_tag: true
-      - name: Upload LuaRocks
-        uses: nvim-neorocks/luarocks-tag-release@v5
+      - uses: actions/checkout@v4
+      - uses: nvim-neorocks/luarocks-tag-release@v5
         if: ${{ steps.release.outputs.release_created }}
         env:
           LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
