@@ -1,7 +1,7 @@
 # 🌈 colorbox.nvim
 
 <p>
-<a href="https://github.com/neovim/neovim/releases/v0.9.0"><img alt="require" src="https://img.shields.io/badge/require-0.9%2B-blue" /></a>
+<a href="https://github.com/neovim/neovim/releases/"><img alt="require" src="https://img.shields.io/badge/require-stable-blue" /></a>
 <a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://img.shields.io/badge/power_by-commons.nvim-pink" /></a>
 <a href="https://luarocks.org/modules/linrongbin16/colorbox.nvim"><img alt="luarocks" src="https://img.shields.io/luarocks/v/linrongbin16/colorbox.nvim" /></a>
 <a href="https://github.com/linrongbin16/colorbox.nvim/actions/workflows/ci.yml"><img alt="ci.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/ci.yml?label=ci" /></a>
@@ -89,7 +89,10 @@ And multiple trigger timings:
 
 ## ✅ Requirements
 
-- Neovim &ge; 0.9.
+> [!NOTE]
+> This plugin always supports with the latest stable and (possibly) nightly Neovim version.
+
+- Neovim &ge; 0.10.
 - [Git](https://git-scm.com/).
 
 ## 📦 Install

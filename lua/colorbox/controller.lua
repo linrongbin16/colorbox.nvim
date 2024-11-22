@@ -3,9 +3,10 @@ local str = require("colorbox.commons.str")
 local logging = require("colorbox.commons.logging")
 local LogLevels = require("colorbox.commons.logging").LogLevels
 local uv = require("colorbox.commons.uv")
-local async = require("colorbox.commons.async")
+
 local track = require("colorbox.track")
 local loader = require("colorbox.loader")
+local async = require("colorbox.async")
 
 local runtime = require("colorbox.runtime")
 local db = require("colorbox.db")
