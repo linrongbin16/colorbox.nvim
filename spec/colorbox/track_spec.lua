@@ -29,11 +29,11 @@ describe("colorbox.track", function()
       end
     end)
     it("previous_track", function()
-      local track = track.previous_track()
-      if track then
-        assert_eq(type(track), "table")
-        assert_true(string.len(track.color_name) > 0)
-        assert_true(track.color_number > 0)
+      local tck = track.previous_track()
+      if tck then
+        assert_eq(type(tck), "table")
+        assert_true(string.len(tck.color_name) > 0)
+        assert_true(tck.color_number > 0)
       end
     end)
     it("next", function()
