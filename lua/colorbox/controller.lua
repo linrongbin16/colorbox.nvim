@@ -3,10 +3,10 @@ local str = require("colorbox.commons.str")
 local logging = require("colorbox.commons.logging")
 local LogLevels = require("colorbox.commons.logging").LogLevels
 local uv = require("colorbox.commons.uv")
+local async = require("colorbox.commons.async")
 
 local track = require("colorbox.track")
 local loader = require("colorbox.loader")
-local async = require("colorbox.async")
 
 local runtime = require("colorbox.runtime")
 local db = require("colorbox.db")
@@ -45,11 +45,11 @@ M.update = function()
   end
   logger:info(string.format("started %s jobs", vim.inspect(prepared_count)))
 
-  local async_spawn_run = async.wrap(function(acmd, aopts, cb)
+  local async_spawn_run = async.wrap(3, function(acmd, aopts, cb)
     require("colorbox.commons.spawn").run(acmd, aopts, function(completed_obj)
       cb(completed_obj)
     end)
-  end, 3)
+  end)
 
   local finished_count = 0
   async.run(function()
@@ -113,7 +113,7 @@ M.update = function()
         -- )
       end
       async_spawn_run(param.cmd, param.opts)
-      async.scheduler()
+      async.schedule()
       finished_count = finished_count + 1
     end
   end, function()
