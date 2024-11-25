@@ -45,11 +45,11 @@ M.update = function()
   end
   logger:info(string.format("started %s jobs", vim.inspect(prepared_count)))
 
-  local async_spawn_run = async.wrap(function(acmd, aopts, cb)
+  local async_spawn_run = async.wrap(3, function(acmd, aopts, cb)
     require("colorbox.commons.spawn").run(acmd, aopts, function(completed_obj)
       cb(completed_obj)
     end)
-  end, 3)
+  end)
 
   local finished_count = 0
   async.run(function()
@@ -113,7 +113,7 @@ M.update = function()
         -- )
       end
       async_spawn_run(param.cmd, param.opts)
-      async.scheduler()
+      async.schedule()
       finished_count = finished_count + 1
     end
   end, function()
