@@ -3,7 +3,7 @@ return {
     handle = "folke/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim",
     github_stars = 6500,
-    last_git_commit = "2024-12-07",
+    last_git_commit = "2024-12-14",
     priority = 100,
     source = "asm",
     git_path = "folke-tokyonight.nvim",
@@ -20,7 +20,7 @@ return {
     handle = "folke/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim",
     github_stars = 6500,
-    last_git_commit = "2024-12-07",
+    last_git_commit = "2024-12-14",
     priority = 100,
     source = "asm",
     git_path = "folke-tokyonight.nvim",
@@ -37,7 +37,7 @@ return {
     handle = "folke/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim",
     github_stars = 6500,
-    last_git_commit = "2024-12-07",
+    last_git_commit = "2024-12-14",
     priority = 100,
     source = "asm",
     git_path = "folke-tokyonight.nvim",
@@ -54,7 +54,7 @@ return {
     handle = "folke/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim",
     github_stars = 6500,
-    last_git_commit = "2024-12-07",
+    last_git_commit = "2024-12-14",
     priority = 100,
     source = "asm",
     git_path = "folke-tokyonight.nvim",
@@ -71,7 +71,7 @@ return {
     handle = "folke/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim",
     github_stars = 6500,
-    last_git_commit = "2024-12-07",
+    last_git_commit = "2024-12-14",
     priority = 100,
     source = "asm",
     git_path = "folke-tokyonight.nvim",
@@ -382,7 +382,7 @@ return {
   PaperColor = {
     handle = "nlknguyen/papercolor-theme",
     url = "https://github.com/nlknguyen/papercolor-theme",
-    github_stars = 2725,
+    github_stars = 2726,
     last_git_commit = "2024-03-12",
     priority = 0,
     source = "vsc",
@@ -396,7 +396,7 @@ return {
     handle = "rose-pine/neovim",
     url = "https://github.com/rose-pine/neovim",
     github_stars = 2400,
-    last_git_commit = "2024-10-23",
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "rose-pine-neovim",
@@ -412,7 +412,7 @@ return {
     handle = "rose-pine/neovim",
     url = "https://github.com/rose-pine/neovim",
     github_stars = 2400,
-    last_git_commit = "2024-10-23",
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "rose-pine-neovim",
@@ -428,7 +428,7 @@ return {
     handle = "rose-pine/neovim",
     url = "https://github.com/rose-pine/neovim",
     github_stars = 2400,
-    last_git_commit = "2024-10-23",
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "rose-pine-neovim",
@@ -444,7 +444,7 @@ return {
     handle = "rose-pine/neovim",
     url = "https://github.com/rose-pine/neovim",
     github_stars = 2400,
-    last_git_commit = "2024-10-23",
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "rose-pine-neovim",
@@ -459,7 +459,7 @@ return {
   iceberg = {
     handle = "cocopon/iceberg.vim",
     url = "https://github.com/cocopon/iceberg.vim",
-    github_stars = 2232,
+    github_stars = 2236,
     last_git_commit = "2024-06-19",
     priority = 0,
     source = "vsc",
@@ -726,7 +726,7 @@ return {
     handle = "sainnhe/gruvbox-material",
     url = "https://github.com/sainnhe/gruvbox-material",
     github_stars = 2000,
-    last_git_commit = "2024-11-18",
+    last_git_commit = "2024-12-15",
     priority = 100,
     source = "asm",
     git_path = "sainnhe-gruvbox-material",
@@ -764,7 +764,7 @@ return {
   ayu = {
     handle = "ayu-theme/ayu-vim",
     url = "https://github.com/ayu-theme/ayu-vim",
-    github_stars = 1707,
+    github_stars = 1709,
     last_git_commit = "2024-07-15",
     priority = 0,
     source = "vsc",
@@ -831,7 +831,7 @@ return {
   monokai = {
     handle = "ku1ik/vim-monokai",
     url = "https://github.com/ku1ik/vim-monokai",
-    github_stars = 1438,
+    github_stars = 1439,
     last_git_commit = "2022-02-09",
     priority = 0,
     source = "vsc",
@@ -857,7 +857,7 @@ return {
   gotham = {
     handle = "whatyouhide/vim-gotham",
     url = "https://github.com/whatyouhide/vim-gotham",
-    github_stars = 1259,
+    github_stars = 1257,
     last_git_commit = "2023-01-19",
     priority = 0,
     source = "vsc",
@@ -871,7 +871,7 @@ return {
   gotham256 = {
     handle = "whatyouhide/vim-gotham",
     url = "https://github.com/whatyouhide/vim-gotham",
-    github_stars = 1259,
+    github_stars = 1257,
     last_git_commit = "2023-01-19",
     priority = 0,
     source = "vsc",
@@ -926,7 +926,7 @@ return {
   tender = {
     handle = "jacoborus/tender.vim",
     url = "https://github.com/jacoborus/tender.vim",
-    github_stars = 1150,
+    github_stars = 1152,
     last_git_commit = "2024-09-06",
     priority = 0,
     source = "vsc",
@@ -1162,23 +1162,10 @@ return {
       "edge",
     },
   },
-  apprentice = {
-    handle = "romainl/apprentice",
-    url = "https://github.com/romainl/apprentice",
-    github_stars = 893,
-    last_git_commit = "2024-07-30",
-    priority = 0,
-    source = "vsc",
-    git_path = "romainl-apprentice",
-    git_branch = nil,
-    color_names = {
-      "apprentice",
-    },
-  },
   zenburn = {
     handle = "jnurmine/zenburn",
     url = "https://github.com/jnurmine/zenburn",
-    github_stars = 891,
+    github_stars = 894,
     last_git_commit = "2022-08-08",
     priority = 0,
     source = "vsc",
@@ -1188,11 +1175,24 @@ return {
       "zenburn",
     },
   },
+  apprentice = {
+    handle = "romainl/apprentice",
+    url = "https://github.com/romainl/apprentice",
+    github_stars = 889,
+    last_git_commit = "2024-07-30",
+    priority = 0,
+    source = "vsc",
+    git_path = "romainl-apprentice",
+    git_branch = nil,
+    color_names = {
+      "apprentice",
+    },
+  },
   moonfly = {
     handle = "bluz71/vim-moonfly-colors",
     url = "https://github.com/bluz71/vim-moonfly-colors",
     github_stars = 882,
-    last_git_commit = "2024-12-08",
+    last_git_commit = "2024-12-11",
     priority = 100,
     source = "asm",
     git_path = "bluz71-vim-moonfly-colors",
@@ -1217,7 +1217,7 @@ return {
   srcery = {
     handle = "srcery-colors/srcery-vim",
     url = "https://github.com/srcery-colors/srcery-vim",
-    github_stars = 830,
+    github_stars = 831,
     last_git_commit = "2024-09-18",
     priority = 0,
     source = "vsc",
@@ -1231,7 +1231,7 @@ return {
     handle = "bluz71/vim-nightfly-colors",
     url = "https://github.com/bluz71/vim-nightfly-colors",
     github_stars = 829,
-    last_git_commit = "2024-12-08",
+    last_git_commit = "2024-12-11",
     priority = 100,
     source = "asm",
     git_path = "bluz71-vim-nightfly-colors",
@@ -1256,7 +1256,7 @@ return {
   lucario = {
     handle = "raphamorim/lucario",
     url = "https://github.com/raphamorim/lucario",
-    github_stars = 808,
+    github_stars = 810,
     last_git_commit = "2024-11-08",
     priority = 0,
     source = "vsc",
@@ -1266,24 +1266,11 @@ return {
       "lucario",
     },
   },
-  deus = {
-    handle = "ajmwagar/vim-deus",
-    url = "https://github.com/ajmwagar/vim-deus",
-    github_stars = 777,
-    last_git_commit = "2021-03-28",
-    priority = 0,
-    source = "vsc",
-    git_path = "ajmwagar-vim-deus",
-    git_branch = nil,
-    color_names = {
-      "deus",
-    },
-  },
   duckbones = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1307,8 +1294,8 @@ return {
   forestbones = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1332,8 +1319,8 @@ return {
   kanagawabones = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1357,8 +1344,8 @@ return {
   neobones = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1382,8 +1369,8 @@ return {
   nordbones = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1407,8 +1394,8 @@ return {
   randombones = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1432,8 +1419,8 @@ return {
   rosebones = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1457,8 +1444,8 @@ return {
   seoulbones = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1482,8 +1469,8 @@ return {
   tokyobones = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1507,8 +1494,8 @@ return {
   vimbones = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1532,8 +1519,8 @@ return {
   zenbones = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1557,8 +1544,8 @@ return {
   zenburned = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1582,8 +1569,8 @@ return {
   zenwritten = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 772,
-    last_git_commit = "2024-10-03",
+    github_stars = 780,
+    last_git_commit = "2024-12-10",
     priority = 100,
     source = "asm",
     git_path = "zenbones-theme-zenbones.nvim",
@@ -1602,6 +1589,19 @@ return {
       "zenbones",
       "zenburned",
       "zenwritten",
+    },
+  },
+  deus = {
+    handle = "ajmwagar/vim-deus",
+    url = "https://github.com/ajmwagar/vim-deus",
+    github_stars = 774,
+    last_git_commit = "2021-03-28",
+    priority = 0,
+    source = "vsc",
+    git_path = "ajmwagar-vim-deus",
+    git_branch = nil,
+    color_names = {
+      "deus",
     },
   },
   cyberdream = {
@@ -1656,23 +1656,10 @@ return {
       "melange",
     },
   },
-  vscode = {
-    handle = "mofiqul/vscode.nvim",
-    url = "https://github.com/mofiqul/vscode.nvim",
-    github_stars = 722,
-    last_git_commit = "2024-11-11",
-    priority = 100,
-    source = "asm",
-    git_path = "mofiqul-vscode.nvim",
-    git_branch = nil,
-    color_names = {
-      "vscode",
-    },
-  },
   ["solarized-osaka"] = {
     handle = "craftzdog/solarized-osaka.nvim",
     url = "https://github.com/craftzdog/solarized-osaka.nvim",
-    github_stars = 721,
+    github_stars = 724,
     last_git_commit = "2024-11-25",
     priority = 0,
     source = "vsc",
@@ -1689,7 +1676,7 @@ return {
   ["solarized-osaka-day"] = {
     handle = "craftzdog/solarized-osaka.nvim",
     url = "https://github.com/craftzdog/solarized-osaka.nvim",
-    github_stars = 721,
+    github_stars = 724,
     last_git_commit = "2024-11-25",
     priority = 0,
     source = "vsc",
@@ -1706,7 +1693,7 @@ return {
   ["solarized-osaka-moon"] = {
     handle = "craftzdog/solarized-osaka.nvim",
     url = "https://github.com/craftzdog/solarized-osaka.nvim",
-    github_stars = 721,
+    github_stars = 724,
     last_git_commit = "2024-11-25",
     priority = 0,
     source = "vsc",
@@ -1723,7 +1710,7 @@ return {
   ["solarized-osaka-night"] = {
     handle = "craftzdog/solarized-osaka.nvim",
     url = "https://github.com/craftzdog/solarized-osaka.nvim",
-    github_stars = 721,
+    github_stars = 724,
     last_git_commit = "2024-11-25",
     priority = 0,
     source = "vsc",
@@ -1740,7 +1727,7 @@ return {
   ["solarized-osaka-storm"] = {
     handle = "craftzdog/solarized-osaka.nvim",
     url = "https://github.com/craftzdog/solarized-osaka.nvim",
-    github_stars = 721,
+    github_stars = 724,
     last_git_commit = "2024-11-25",
     priority = 0,
     source = "vsc",
@@ -1752,6 +1739,19 @@ return {
       "solarized-osaka-moon",
       "solarized-osaka-night",
       "solarized-osaka-storm",
+    },
+  },
+  vscode = {
+    handle = "mofiqul/vscode.nvim",
+    url = "https://github.com/mofiqul/vscode.nvim",
+    github_stars = 722,
+    last_git_commit = "2024-11-11",
+    priority = 100,
+    source = "asm",
+    git_path = "mofiqul-vscode.nvim",
+    git_branch = nil,
+    color_names = {
+      "vscode",
     },
   },
   colorbuddy = {
@@ -1806,6 +1806,19 @@ return {
     git_branch = nil,
     color_names = {
       "palenight",
+    },
+  },
+  pencil = {
+    handle = "preservim/vim-colors-pencil",
+    url = "https://github.com/preservim/vim-colors-pencil",
+    github_stars = 608,
+    last_git_commit = "2022-05-07",
+    priority = 0,
+    source = "vsc",
+    git_path = "preservim-vim-colors-pencil",
+    git_branch = nil,
+    color_names = {
+      "pencil",
     },
   },
   xcode = {
@@ -1941,19 +1954,6 @@ return {
       "xcodewwdc",
     },
   },
-  pencil = {
-    handle = "preservim/vim-colors-pencil",
-    url = "https://github.com/preservim/vim-colors-pencil",
-    github_stars = 607,
-    last_git_commit = "2022-05-07",
-    priority = 0,
-    source = "vsc",
-    git_path = "preservim-vim-colors-pencil",
-    git_branch = nil,
-    color_names = {
-      "pencil",
-    },
-  },
   ["space-vim-dark"] = {
     handle = "liuchengxu/space-vim-dark",
     url = "https://github.com/liuchengxu/space-vim-dark",
@@ -1970,7 +1970,7 @@ return {
   challenger_deep = {
     handle = "challenger-deep-theme/vim",
     url = "https://github.com/challenger-deep-theme/vim",
-    github_stars = 597,
+    github_stars = 596,
     last_git_commit = "2022-04-25",
     priority = 0,
     source = "vsc",
@@ -1983,7 +1983,7 @@ return {
   dogrun = {
     handle = "wadackel/vim-dogrun",
     url = "https://github.com/wadackel/vim-dogrun",
-    github_stars = 573,
+    github_stars = 574,
     last_git_commit = "2024-08-25",
     priority = 0,
     source = "vsc",
@@ -2021,51 +2021,6 @@ return {
       "hybrid_reverse",
     },
   },
-  gruvbox8 = {
-    handle = "lifepillar/vim-gruvbox8",
-    url = "https://github.com/lifepillar/vim-gruvbox8",
-    github_stars = 534,
-    last_git_commit = "2023-08-04",
-    priority = 0,
-    source = "vsc",
-    git_path = "lifepillar-vim-gruvbox8",
-    git_branch = "neovim",
-    color_names = {
-      "gruvbox8",
-      "gruvbox8_hard",
-      "gruvbox8_soft",
-    },
-  },
-  gruvbox8_hard = {
-    handle = "lifepillar/vim-gruvbox8",
-    url = "https://github.com/lifepillar/vim-gruvbox8",
-    github_stars = 534,
-    last_git_commit = "2023-08-04",
-    priority = 0,
-    source = "vsc",
-    git_path = "lifepillar-vim-gruvbox8",
-    git_branch = "neovim",
-    color_names = {
-      "gruvbox8",
-      "gruvbox8_hard",
-      "gruvbox8_soft",
-    },
-  },
-  gruvbox8_soft = {
-    handle = "lifepillar/vim-gruvbox8",
-    url = "https://github.com/lifepillar/vim-gruvbox8",
-    github_stars = 534,
-    last_git_commit = "2023-08-04",
-    priority = 0,
-    source = "vsc",
-    git_path = "lifepillar-vim-gruvbox8",
-    git_branch = "neovim",
-    color_names = {
-      "gruvbox8",
-      "gruvbox8_hard",
-      "gruvbox8_soft",
-    },
-  },
   onenord = {
     handle = "rmehri01/onenord.nvim",
     url = "https://github.com/rmehri01/onenord.nvim",
@@ -2094,38 +2049,10 @@ return {
       "onenord-light",
     },
   },
-  spacecamp = {
-    handle = "jaredgorski/spacecamp",
-    url = "https://github.com/jaredgorski/spacecamp",
-    github_stars = 523,
-    last_git_commit = "2023-08-25",
-    priority = 0,
-    source = "vsc",
-    git_path = "jaredgorski-spacecamp",
-    git_branch = nil,
-    color_names = {
-      "spacecamp",
-      "spacecamp_lite",
-    },
-  },
-  spacecamp_lite = {
-    handle = "jaredgorski/spacecamp",
-    url = "https://github.com/jaredgorski/spacecamp",
-    github_stars = 523,
-    last_git_commit = "2023-08-25",
-    priority = 0,
-    source = "vsc",
-    git_path = "jaredgorski-spacecamp",
-    git_branch = nil,
-    color_names = {
-      "spacecamp",
-      "spacecamp_lite",
-    },
-  },
   ["base16-3024"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -2387,7 +2314,7 @@ return {
   ["base16-apathy"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -2649,7 +2576,7 @@ return {
   ["base16-apprentice"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -2911,7 +2838,7 @@ return {
   ["base16-ashes"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -3173,7 +3100,7 @@ return {
   ["base16-atelier-cave"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -3435,7 +3362,7 @@ return {
   ["base16-atelier-cave-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -3697,7 +3624,7 @@ return {
   ["base16-atelier-dune"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -3959,7 +3886,7 @@ return {
   ["base16-atelier-dune-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -4221,7 +4148,7 @@ return {
   ["base16-atelier-estuary"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -4483,7 +4410,7 @@ return {
   ["base16-atelier-estuary-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -4745,7 +4672,7 @@ return {
   ["base16-atelier-forest"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -5007,7 +4934,7 @@ return {
   ["base16-atelier-forest-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -5269,7 +5196,7 @@ return {
   ["base16-atelier-heath"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -5531,7 +5458,7 @@ return {
   ["base16-atelier-heath-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -5793,7 +5720,7 @@ return {
   ["base16-atelier-lakeside"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -6055,7 +5982,7 @@ return {
   ["base16-atelier-lakeside-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -6317,7 +6244,7 @@ return {
   ["base16-atelier-plateau"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -6579,7 +6506,7 @@ return {
   ["base16-atelier-plateau-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -6841,7 +6768,7 @@ return {
   ["base16-atelier-savanna"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -7103,7 +7030,7 @@ return {
   ["base16-atelier-savanna-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -7365,7 +7292,7 @@ return {
   ["base16-atelier-seaside"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -7627,7 +7554,7 @@ return {
   ["base16-atelier-seaside-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -7889,7 +7816,7 @@ return {
   ["base16-atelier-sulphurpool"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -8151,7 +8078,7 @@ return {
   ["base16-atelier-sulphurpool-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -8413,7 +8340,7 @@ return {
   ["base16-atlas"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -8675,7 +8602,7 @@ return {
   ["base16-ayu-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -8937,7 +8864,7 @@ return {
   ["base16-ayu-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -9199,7 +9126,7 @@ return {
   ["base16-ayu-mirage"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -9461,7 +9388,7 @@ return {
   ["base16-bespin"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -9723,7 +9650,7 @@ return {
   ["base16-black-metal"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -9985,7 +9912,7 @@ return {
   ["base16-black-metal-bathory"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -10247,7 +10174,7 @@ return {
   ["base16-black-metal-burzum"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -10509,7 +10436,7 @@ return {
   ["base16-black-metal-dark-funeral"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -10771,7 +10698,7 @@ return {
   ["base16-black-metal-gorgoroth"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -11033,7 +10960,7 @@ return {
   ["base16-black-metal-immortal"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -11295,7 +11222,7 @@ return {
   ["base16-black-metal-khold"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -11557,7 +11484,7 @@ return {
   ["base16-black-metal-marduk"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -11819,7 +11746,7 @@ return {
   ["base16-black-metal-mayhem"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -12081,7 +12008,7 @@ return {
   ["base16-black-metal-nile"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -12343,7 +12270,7 @@ return {
   ["base16-black-metal-venom"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -12605,7 +12532,7 @@ return {
   ["base16-blueforest"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -12867,7 +12794,7 @@ return {
   ["base16-blueish"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -13129,7 +13056,7 @@ return {
   ["base16-brewer"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -13391,7 +13318,7 @@ return {
   ["base16-bright"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -13653,7 +13580,7 @@ return {
   ["base16-brogrammer"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -13915,7 +13842,7 @@ return {
   ["base16-brushtrees"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -14177,7 +14104,7 @@ return {
   ["base16-brushtrees-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -14439,7 +14366,7 @@ return {
   ["base16-catppuccin"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -14701,7 +14628,7 @@ return {
   ["base16-catppuccin-frappe"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -14963,7 +14890,7 @@ return {
   ["base16-catppuccin-latte"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -15225,7 +15152,7 @@ return {
   ["base16-catppuccin-macchiato"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -15487,7 +15414,7 @@ return {
   ["base16-catppuccin-mocha"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -15749,7 +15676,7 @@ return {
   ["base16-chalk"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -16011,7 +15938,7 @@ return {
   ["base16-circus"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -16273,7 +16200,7 @@ return {
   ["base16-classic-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -16535,7 +16462,7 @@ return {
   ["base16-classic-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -16797,7 +16724,7 @@ return {
   ["base16-codeschool"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -17059,7 +16986,7 @@ return {
   ["base16-colors"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -17321,7 +17248,7 @@ return {
   ["base16-cupcake"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -17583,7 +17510,7 @@ return {
   ["base16-cupertino"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -17845,7 +17772,7 @@ return {
   ["base16-da-one-black"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -18107,7 +18034,7 @@ return {
   ["base16-da-one-gray"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -18369,7 +18296,7 @@ return {
   ["base16-da-one-ocean"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -18631,7 +18558,7 @@ return {
   ["base16-da-one-paper"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -18893,7 +18820,7 @@ return {
   ["base16-da-one-sea"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -19155,7 +19082,7 @@ return {
   ["base16-da-one-white"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -19417,7 +19344,7 @@ return {
   ["base16-danqing"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -19679,7 +19606,7 @@ return {
   ["base16-danqing-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -19941,7 +19868,7 @@ return {
   ["base16-darcula"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -20203,7 +20130,7 @@ return {
   ["base16-darkmoss"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -20465,7 +20392,7 @@ return {
   ["base16-darktooth"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -20727,7 +20654,7 @@ return {
   ["base16-darkviolet"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -20989,7 +20916,7 @@ return {
   ["base16-decaf"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -21251,7 +21178,7 @@ return {
   ["base16-default-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -21513,7 +21440,7 @@ return {
   ["base16-default-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -21775,7 +21702,7 @@ return {
   ["base16-dirtysea"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -22037,7 +21964,7 @@ return {
   ["base16-dracula"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -22299,7 +22226,7 @@ return {
   ["base16-edge-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -22561,7 +22488,7 @@ return {
   ["base16-edge-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -22823,7 +22750,7 @@ return {
   ["base16-eighties"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -23085,7 +23012,7 @@ return {
   ["base16-embers"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -23347,7 +23274,7 @@ return {
   ["base16-emil"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -23609,7 +23536,7 @@ return {
   ["base16-equilibrium-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -23871,7 +23798,7 @@ return {
   ["base16-equilibrium-gray-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -24133,7 +24060,7 @@ return {
   ["base16-equilibrium-gray-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -24395,7 +24322,7 @@ return {
   ["base16-equilibrium-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -24657,7 +24584,7 @@ return {
   ["base16-espresso"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -24919,7 +24846,7 @@ return {
   ["base16-eva"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -25181,7 +25108,7 @@ return {
   ["base16-eva-dim"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -25443,7 +25370,7 @@ return {
   ["base16-evenok-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -25705,7 +25632,7 @@ return {
   ["base16-everforest"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -25967,7 +25894,7 @@ return {
   ["base16-flat"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -26229,7 +26156,7 @@ return {
   ["base16-framer"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -26491,7 +26418,7 @@ return {
   ["base16-fruit-soda"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -26753,7 +26680,7 @@ return {
   ["base16-gigavolt"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -27015,7 +26942,7 @@ return {
   ["base16-github"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -27277,7 +27204,7 @@ return {
   ["base16-google-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -27539,7 +27466,7 @@ return {
   ["base16-google-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -27801,7 +27728,7 @@ return {
   ["base16-gotham"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -28063,7 +27990,7 @@ return {
   ["base16-grayscale-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -28325,7 +28252,7 @@ return {
   ["base16-grayscale-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -28587,7 +28514,7 @@ return {
   ["base16-greenscreen"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -28849,7 +28776,7 @@ return {
   ["base16-gruber"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -29111,7 +29038,7 @@ return {
   ["base16-gruvbox-dark-hard"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -29373,7 +29300,7 @@ return {
   ["base16-gruvbox-dark-medium"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -29635,7 +29562,7 @@ return {
   ["base16-gruvbox-dark-pale"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -29897,7 +29824,7 @@ return {
   ["base16-gruvbox-dark-soft"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -30159,7 +30086,7 @@ return {
   ["base16-gruvbox-light-hard"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -30421,7 +30348,7 @@ return {
   ["base16-gruvbox-light-medium"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -30683,7 +30610,7 @@ return {
   ["base16-gruvbox-light-soft"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -30945,7 +30872,7 @@ return {
   ["base16-gruvbox-material-dark-hard"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -31207,7 +31134,7 @@ return {
   ["base16-gruvbox-material-dark-medium"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -31469,7 +31396,7 @@ return {
   ["base16-gruvbox-material-dark-soft"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -31731,7 +31658,7 @@ return {
   ["base16-gruvbox-material-light-hard"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -31993,7 +31920,7 @@ return {
   ["base16-gruvbox-material-light-medium"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -32255,7 +32182,7 @@ return {
   ["base16-gruvbox-material-light-soft"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -32517,7 +32444,7 @@ return {
   ["base16-hardcore"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -32779,7 +32706,7 @@ return {
   ["base16-harmonic-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -33041,7 +32968,7 @@ return {
   ["base16-harmonic-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -33303,7 +33230,7 @@ return {
   ["base16-harmonic16-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -33565,7 +33492,7 @@ return {
   ["base16-harmonic16-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -33827,7 +33754,7 @@ return {
   ["base16-heetch"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -34089,7 +34016,7 @@ return {
   ["base16-heetch-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -34351,7 +34278,7 @@ return {
   ["base16-helios"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -34613,7 +34540,7 @@ return {
   ["base16-hopscotch"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -34875,7 +34802,7 @@ return {
   ["base16-horizon-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -35137,7 +35064,7 @@ return {
   ["base16-horizon-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -35399,7 +35326,7 @@ return {
   ["base16-horizon-terminal-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -35661,7 +35588,7 @@ return {
   ["base16-horizon-terminal-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -35923,7 +35850,7 @@ return {
   ["base16-humanoid-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -36185,7 +36112,7 @@ return {
   ["base16-humanoid-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -36447,7 +36374,7 @@ return {
   ["base16-ia-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -36709,7 +36636,7 @@ return {
   ["base16-ia-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -36971,7 +36898,7 @@ return {
   ["base16-icy"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -37233,7 +37160,7 @@ return {
   ["base16-irblack"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -37495,7 +37422,7 @@ return {
   ["base16-isotope"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -37757,7 +37684,7 @@ return {
   ["base16-kanagawa"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -38019,7 +37946,7 @@ return {
   ["base16-katy"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -38281,7 +38208,7 @@ return {
   ["base16-kimber"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -38543,7 +38470,7 @@ return {
   ["base16-lime"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -38805,7 +38732,7 @@ return {
   ["base16-macintosh"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -39067,7 +38994,7 @@ return {
   ["base16-marrakesh"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -39329,7 +39256,7 @@ return {
   ["base16-materia"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -39591,7 +39518,7 @@ return {
   ["base16-material"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -39853,7 +39780,7 @@ return {
   ["base16-material-darker"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -40115,7 +40042,7 @@ return {
   ["base16-material-lighter"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -40377,7 +40304,7 @@ return {
   ["base16-material-palenight"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -40639,7 +40566,7 @@ return {
   ["base16-material-vivid"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -40901,7 +40828,7 @@ return {
   ["base16-mellow-purple"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -41163,7 +41090,7 @@ return {
   ["base16-mexico-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -41425,7 +41352,7 @@ return {
   ["base16-mocha"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -41687,7 +41614,7 @@ return {
   ["base16-monokai"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -41949,7 +41876,7 @@ return {
   ["base16-mountain"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -42211,7 +42138,7 @@ return {
   ["base16-nebula"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -42473,7 +42400,7 @@ return {
   ["base16-nord"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -42735,7 +42662,7 @@ return {
   ["base16-nova"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -42997,7 +42924,7 @@ return {
   ["base16-ocean"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -43259,7 +43186,7 @@ return {
   ["base16-oceanicnext"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -43521,7 +43448,7 @@ return {
   ["base16-one-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -43783,7 +43710,7 @@ return {
   ["base16-onedark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -44045,7 +43972,7 @@ return {
   ["base16-outrun-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -44307,7 +44234,7 @@ return {
   ["base16-pandora"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -44569,7 +44496,7 @@ return {
   ["base16-papercolor-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -44831,7 +44758,7 @@ return {
   ["base16-papercolor-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -45093,7 +45020,7 @@ return {
   ["base16-paraiso"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -45355,7 +45282,7 @@ return {
   ["base16-pasque"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -45617,7 +45544,7 @@ return {
   ["base16-phd"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -45879,7 +45806,7 @@ return {
   ["base16-pico"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -46141,7 +46068,7 @@ return {
   ["base16-pinky"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -46403,7 +46330,7 @@ return {
   ["base16-pop"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -46665,7 +46592,7 @@ return {
   ["base16-porple"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -46927,7 +46854,7 @@ return {
   ["base16-primer-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -47189,7 +47116,7 @@ return {
   ["base16-primer-dark-dimmed"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -47451,7 +47378,7 @@ return {
   ["base16-primer-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -47713,7 +47640,7 @@ return {
   ["base16-purpledream"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -47975,7 +47902,7 @@ return {
   ["base16-qualia"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -48237,7 +48164,7 @@ return {
   ["base16-railscasts"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -48499,7 +48426,7 @@ return {
   ["base16-rebecca"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -48761,7 +48688,7 @@ return {
   ["base16-rose-pine"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -49023,7 +48950,7 @@ return {
   ["base16-rose-pine-dawn"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -49285,7 +49212,7 @@ return {
   ["base16-rose-pine-moon"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -49547,7 +49474,7 @@ return {
   ["base16-sagelight"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -49809,7 +49736,7 @@ return {
   ["base16-sakura"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -50071,7 +49998,7 @@ return {
   ["base16-sandcastle"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -50333,7 +50260,7 @@ return {
   ["base16-schemer-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -50595,7 +50522,7 @@ return {
   ["base16-schemer-medium"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -50857,7 +50784,7 @@ return {
   ["base16-selenized-black"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -51119,7 +51046,7 @@ return {
   ["base16-selenized-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -51381,7 +51308,7 @@ return {
   ["base16-selenized-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -51643,7 +51570,7 @@ return {
   ["base16-selenized-white"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -51905,7 +51832,7 @@ return {
   ["base16-seti"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -52167,7 +52094,7 @@ return {
   ["base16-shades-of-purple"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -52429,7 +52356,7 @@ return {
   ["base16-shadesmear-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -52691,7 +52618,7 @@ return {
   ["base16-shadesmear-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -52953,7 +52880,7 @@ return {
   ["base16-shapeshifter"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -53215,7 +53142,7 @@ return {
   ["base16-silk-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -53477,7 +53404,7 @@ return {
   ["base16-silk-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -53739,7 +53666,7 @@ return {
   ["base16-snazzy"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -54001,7 +53928,7 @@ return {
   ["base16-solarflare"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -54263,7 +54190,7 @@ return {
   ["base16-solarflare-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -54525,7 +54452,7 @@ return {
   ["base16-solarized-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -54787,7 +54714,7 @@ return {
   ["base16-solarized-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -55049,7 +54976,7 @@ return {
   ["base16-spaceduck"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -55311,7 +55238,7 @@ return {
   ["base16-spacemacs"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -55573,7 +55500,7 @@ return {
   ["base16-standardized-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -55835,7 +55762,7 @@ return {
   ["base16-standardized-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -56097,7 +56024,7 @@ return {
   ["base16-stella"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -56359,7 +56286,7 @@ return {
   ["base16-still-alive"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -56621,7 +56548,7 @@ return {
   ["base16-summercamp"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -56883,7 +56810,7 @@ return {
   ["base16-summerfruit-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -57145,7 +57072,7 @@ return {
   ["base16-summerfruit-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -57407,7 +57334,7 @@ return {
   ["base16-synth-midnight-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -57669,7 +57596,7 @@ return {
   ["base16-synth-midnight-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -57931,7 +57858,7 @@ return {
   ["base16-tango"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -58193,7 +58120,7 @@ return {
   ["base16-tender"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -58455,7 +58382,7 @@ return {
   ["base16-tokyo-city-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -58717,7 +58644,7 @@ return {
   ["base16-tokyo-city-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -58979,7 +58906,7 @@ return {
   ["base16-tokyo-city-terminal-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -59241,7 +59168,7 @@ return {
   ["base16-tokyo-city-terminal-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -59503,7 +59430,7 @@ return {
   ["base16-tokyo-night-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -59765,7 +59692,7 @@ return {
   ["base16-tokyo-night-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -60027,7 +59954,7 @@ return {
   ["base16-tokyo-night-storm"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -60289,7 +60216,7 @@ return {
   ["base16-tokyo-night-terminal-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -60551,7 +60478,7 @@ return {
   ["base16-tokyo-night-terminal-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -60813,7 +60740,7 @@ return {
   ["base16-tokyo-night-terminal-storm"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -61075,7 +61002,7 @@ return {
   ["base16-tokyodark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -61337,7 +61264,7 @@ return {
   ["base16-tokyodark-terminal"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -61599,7 +61526,7 @@ return {
   ["base16-tomorrow"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -61861,7 +61788,7 @@ return {
   ["base16-tomorrow-night"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -62123,7 +62050,7 @@ return {
   ["base16-tomorrow-night-eighties"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -62385,7 +62312,7 @@ return {
   ["base16-tube"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -62647,7 +62574,7 @@ return {
   ["base16-twilight"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -62909,7 +62836,7 @@ return {
   ["base16-unikitty-dark"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -63171,7 +63098,7 @@ return {
   ["base16-unikitty-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -63433,7 +63360,7 @@ return {
   ["base16-unikitty-reversible"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -63695,7 +63622,7 @@ return {
   ["base16-uwunicorn"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -63957,7 +63884,7 @@ return {
   ["base16-vice"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -64219,7 +64146,7 @@ return {
   ["base16-vulcan"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -64481,7 +64408,7 @@ return {
   ["base16-windows-10"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -64743,7 +64670,7 @@ return {
   ["base16-windows-10-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -65005,7 +64932,7 @@ return {
   ["base16-windows-95"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -65267,7 +65194,7 @@ return {
   ["base16-windows-95-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -65529,7 +65456,7 @@ return {
   ["base16-windows-highcontrast"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -65791,7 +65718,7 @@ return {
   ["base16-windows-highcontrast-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -66053,7 +65980,7 @@ return {
   ["base16-windows-nt"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -66315,7 +66242,7 @@ return {
   ["base16-windows-nt-light"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -66577,7 +66504,7 @@ return {
   ["base16-woodland"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -66839,7 +66766,7 @@ return {
   ["base16-xcode-dusk"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -67101,7 +67028,7 @@ return {
   ["base16-zenbones"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -67363,7 +67290,7 @@ return {
   ["base16-zenburn"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 522,
+    github_stars = 524,
     last_git_commit = "2024-05-23",
     priority = 100,
     source = "asm",
@@ -67620,6 +67547,34 @@ return {
       "base16-xcode-dusk",
       "base16-zenbones",
       "base16-zenburn",
+    },
+  },
+  spacecamp = {
+    handle = "jaredgorski/spacecamp",
+    url = "https://github.com/jaredgorski/spacecamp",
+    github_stars = 522,
+    last_git_commit = "2023-08-25",
+    priority = 0,
+    source = "vsc",
+    git_path = "jaredgorski-spacecamp",
+    git_branch = nil,
+    color_names = {
+      "spacecamp",
+      "spacecamp_lite",
+    },
+  },
+  spacecamp_lite = {
+    handle = "jaredgorski/spacecamp",
+    url = "https://github.com/jaredgorski/spacecamp",
+    github_stars = 522,
+    last_git_commit = "2023-08-25",
+    priority = 0,
+    source = "vsc",
+    git_path = "jaredgorski-spacecamp",
+    git_branch = nil,
+    color_names = {
+      "spacecamp",
+      "spacecamp_lite",
     },
   },
   rigel = {
