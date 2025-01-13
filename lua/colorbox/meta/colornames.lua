@@ -358,6 +358,7 @@ return {
   "tender",
   "terafox",
   "tokyobones",
+  "tokyodark",
   "tokyonight",
   "tokyonight-day",
   "tokyonight-moon",
