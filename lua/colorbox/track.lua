@@ -1,6 +1,6 @@
 local str = require("colorbox.commons.str")
 local num = require("colorbox.commons.num")
-local fileio = require("colorbox.commons.fileio")
+local fio = require("colorbox.commons.fio")
 local logging = require("colorbox.commons.logging")
 
 local configs = require("colorbox.configs")
@@ -35,7 +35,7 @@ M.save_track = function(color_name)
       color_number = color_number,
     }) --[[@as string]]
 
-    fileio.asyncwritefile(confs.previous_track_cache, content, function()
+    fio.asyncwritefile(confs.previous_track_cache, content, function()
       logger:debug(
         string.format(
           "|save_track| finished save track for color_name:%s, color_number:%s",
@@ -57,7 +57,7 @@ end
 --- @return colorbox.PreviousTrack?
 M.previous_track = function()
   local confs = configs.get()
-  local content = fileio.readfile(confs.previous_track_cache)
+  local content = fio.readfile(confs.previous_track_cache)
   if str.empty(content) then
     return nil
   end
