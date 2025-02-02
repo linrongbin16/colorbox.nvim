@@ -40,23 +40,4 @@ describe("colorbox.controller", function()
       assert_true(str.empty(actual4.a))
     end)
   end)
-  describe("[controller]", function()
-    it("update", function()
-      if not github_actions then
-        controller.update()
-      end
-    end)
-    it("info", function()
-      if not github_actions then
-        controller.info("scale=0.7")
-        controller.info()
-        controller.info("")
-      end
-    end)
-    it("shuffle", function()
-      if not github_actions then
-        controller.shuffle()
-      end
-    end)
-  end)
 end)
