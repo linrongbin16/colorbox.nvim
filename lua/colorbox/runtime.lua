@@ -1,7 +1,7 @@
 local tbl = require("colorbox.commons.tbl")
 local str = require("colorbox.commons.str")
 local uv = require("colorbox.commons.uv")
-local fileios = require("colorbox.commons.fileio")
+local fio = require("colorbox.commons.fio")
 local logging = require("colorbox.commons.logging")
 
 local configs = require("colorbox.configs")
@@ -67,7 +67,7 @@ M.setup = function()
       vim.inspect(confs.previous_colors_cache)
     )
   )
-  local cache_content = fileios.readfile(confs.previous_colors_cache, { trim = true })
+  local cache_content = fio.readfile(confs.previous_colors_cache, { trim = true })
   logger:debug(string.format("|setup| cache_content:%s", vim.inspect(cache_content)))
   local found_cache = false
 
@@ -85,7 +85,7 @@ M.setup = function()
 
       vim.defer_fn(function()
         local data = M._build_colors()
-        fileios.asyncwritefile(
+        fio.asyncwritefile(
           confs.previous_colors_cache,
           table.concat(data.colors_list, ","),
           function()
@@ -103,7 +103,7 @@ M.setup = function()
     FilteredColorNameToIndexMap = data.colors_index
 
     vim.defer_fn(function()
-      fileios.asyncwritefile(
+      fio.asyncwritefile(
         confs.previous_colors_cache,
         table.concat(FilteredColorNamesList, ","),
         function()
