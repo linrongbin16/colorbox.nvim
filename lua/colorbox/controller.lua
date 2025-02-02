@@ -45,14 +45,15 @@ M.update = function()
   end
   logger:info(string.format("started %s jobs", vim.inspect(prepared_count)))
 
-  local async_spawn_run = async.wrap(3, function(acmd, aopts, cb)
-    require("colorbox.commons.spawn").run(acmd, aopts, function(completed_obj)
-      cb(completed_obj)
+  local async_run = async.wrap(function(cmd, opts, cb)
+    require("colorbox.commons.spawn").detached(cmd, opts, function(result)
+      cb(result)
     end)
-  end)
+  end, 3)
 
-  local finished_count = 0
-  async.run(function()
+  async.void(function()
+    local finished_count = 0
+
     for handle, spec in pairs(HandleToColorSpecsMap) do
       local function _on_output(line)
         if str.not_blank(line) then
@@ -112,13 +113,13 @@ M.update = function()
         --   )
         -- )
       end
-      async_spawn_run(param.cmd, param.opts)
+      async_run(param.cmd, param.opts)
       async.schedule()
       finished_count = finished_count + 1
     end
-  end, function()
+
     logger:info(string.format("finished %s jobs", vim.inspect(finished_count)))
-  end)
+  end)()
 end
 
 --- @param args string?
