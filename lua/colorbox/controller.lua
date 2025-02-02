@@ -2,10 +2,9 @@ local num = require("colorbox.commons.num")
 local str = require("colorbox.commons.str")
 local logging = require("colorbox.commons.logging")
 local LogLevels = require("colorbox.commons.logging").LogLevels
-local uv = require("colorbox.commons.uv")
 local async = require("colorbox.commons.async")
+local spawn = require("colorbox.commons.spawn")
 
-local track = require("colorbox.track")
 local loader = require("colorbox.loader")
 
 local runtime = require("colorbox.runtime")
@@ -46,7 +45,7 @@ M.update = function()
   logger:info(string.format("started %s jobs", vim.inspect(prepared_count)))
 
   local async_run = async.wrap(function(cmd, opts, cb)
-    require("colorbox.commons.spawn").detached(cmd, opts, function(result)
+    spawn.detached(cmd, opts, function(result)
       cb(result)
     end)
   end, 3)
