@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/linrongbin16/colorbox.nvim/compare/v3.1.0...v3.1.1) (2025-02-02)
+
+
+### Bug Fixes
+
+* **async:** migrate to new "async" module ([#250](https://github.com/linrongbin16/colorbox.nvim/issues/250)) ([364992b](https://github.com/linrongbin16/colorbox.nvim/commit/364992b3771a6bc7af10a82dd9c5067c1e9e8824))
+
 ## [3.1.0](https://github.com/linrongbin16/colorbox.nvim/compare/v3.0.0...v3.1.0) (2024-06-13)
 
 
