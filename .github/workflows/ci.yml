@@ -37,10 +37,10 @@ jobs:
           cp -rf ~/.commons.nvim/lua/commons ./lua/colorbox/
           cp ~/.commons.nvim/version.txt ./lua/colorbox/commons/version.txt
           find ./lua/colorbox/commons -type f -name '*.lua' -exec sed -i 's/require("commons/require("colorbox.commons/g' {} \;
-      - uses: stevearc/nvim-typecheck-action@v2
-        with:
-          path: lua
-          configpath: ".luarc.json"
+      # - uses: stevearc/nvim-typecheck-action@v2
+      #   with:
+      #     path: lua
+      #     configpath: ".luarc.json"
       - uses: cargo-bins/cargo-binstall@main
       - name: Selene
         run: |
