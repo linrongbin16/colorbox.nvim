@@ -358,6 +358,7 @@ return {
   "space-vim-dark",
   "spacecamp",
   "spacecamp_lite",
+  "spaceduck",
   "srcery",
   "tender",
   "terafox",
