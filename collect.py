@@ -519,6 +519,49 @@ class AwesomeNeovimColorScheme:
                 spec.save()
 
 
+# https://github.com/rafi/awesome-vim-colorschemes
+class RafiAwesomeVimColorSchemes:
+    def __init__(self) -> None:
+        self.counter = 0
+
+    def _parse_spec(self, line: str) -> typing.Optional[ColorSpec]:
+        logging.debug(f"parsing (rvcs) spec line:{line}")
+        try:
+            trimmed_line = line.strip()
+            if len(trimmed_line) == 0 or not trimmed_line.startswith("["):
+                return None
+            right_bracket_pos = trimmed_line.find("]:")
+            if right_bracket_pos < 1:
+                return None
+            url_start_pos = trimmed_line.find("https://github.com", right_bracket_pos)
+            if url_start_pos < right_bracket_pos:
+                return None
+            handle = trimmed_line[url_start_pos:-1]
+            github_stars = parse_number(a_splits[1]) if len(a_splits) > 1 else 0
+            return ColorSpec(
+                handle,
+                github_stars,
+                last_git_commit=None,
+                priority=100,
+                source="asm",
+            )
+        except Exception as e:
+            logging.exception(f"failed to fetch asm element: {element}", e)
+            return None
+
+    def fetch(self) -> None:
+        data_source_repo = "./.rafi-awesome-vim-colorschemes"
+        if not os.path.exists(data_source_repo):
+            download_command = f"git clone --depth=1 https://github.com/rafi/awesome-vim-colorschemes {data_source_repo}"
+            os.system(download_command)
+        data_source_readme = f"{data_source_repo}/README.md"
+        with open(data_source_readme, "r") as data_source:
+            for line in data_source.readlines():
+                spec = self._parse_spec(line)
+                if spec is not None:
+                    spec.save()
+
+
 def filter_color_specs() -> None:
     # logging.debug(f"before filter:{[str(s) for s in specs]}")
 
