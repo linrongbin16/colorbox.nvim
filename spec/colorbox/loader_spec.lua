@@ -19,7 +19,7 @@ describe("colorbox.loader", function()
     background = "dark",
   })
 
-  local disabled_colorspecs = { ["zenbones"] = true }
+  local disabled_colorspecs = { ["zenbones-theme/zenbones.nvim"] = true }
 
   describe("loader", function()
     it("load", function()
