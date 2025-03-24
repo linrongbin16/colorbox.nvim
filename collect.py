@@ -637,7 +637,7 @@ class Builder:
                     spec_score = get_score(spec, [spec, old_spec])
                     old_spec_score = get_score(old_spec, [spec, old_spec])
                     logging.info(
-                        f"new spec({spec_score}):{spec}, old spec({old_spec_score}):{old_spec}"
+                        f"score new spec({spec_score}):{spec}, old spec({old_spec_score}):{old_spec}"
                     )
                     if spec_score >= old_spec_score:
                         logging.info(
