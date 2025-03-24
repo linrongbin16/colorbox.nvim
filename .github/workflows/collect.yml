@@ -38,9 +38,6 @@ jobs:
           COLLECT_BEFORE="$(cat collect-before.log)"
           COLLECT_AFTER="$(cat collect-after.log)"
           COLLECT_CHANGE=`expr $COLLECT_AFTER - $COLLECT_BEFORE`
-          if [[ "$COLLECT_CHANGE" != -* ]]; then
-            COLLECT_CHANGE="+$COLLECT_CHANGE"
-          fi
           echo "COLLECT_BEFORE:$COLLECT_BEFORE, COLLECT_AFTER:$COLLECT_AFTER, COLLECT_CHANGE:$COLLECT_CHANGE"
           echo "COLLECT_BEFORE=$COLLECT_BEFORE" >> "$GITHUB_ENV"
           echo "COLLECT_AFTER=$COLLECT_AFTER" >> "$GITHUB_ENV"
