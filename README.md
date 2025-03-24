@@ -40,8 +40,8 @@ It uses GitHub actions to weekly collect/update the colorscheme dataset.
 >
 > 1. GitHub stars &ge; 500 (by default it only enable &ge; 800, see [Configuration](#-configuration)).
 > 2. Last git commit is in last 10 years.
-> 3. For multiple plugins that contain a same color name, it picks by following rules:
->    1. The _**awesome-neovim**_ wins the _**vimcolorschemes**_ (they usually support modern Neovim features).
+> 3. For multiple plugins that contain the same color name, it picks one from them by a weighted scoring algorithm based on multiple attributes:
+>    1. The _**awesome-neovim**_ has extra 10 points, they usually support modern Neovim features.
 >    2. More github stars.
 >    3. Newer git commits.
 >
