@@ -289,10 +289,6 @@ class ColorSpec:
         DB.remove(q.handle == self.handle)
 
     @staticmethod
-    def truncate() -> None:
-        DB.truncate()
-
-    @staticmethod
     def all() -> list:
         try:
             records = DB.all()
@@ -776,7 +772,7 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
 
     # Collect data
     if not skip_fetch_opt:
-        ColorSpec.truncate()
+        DB.truncate()
         vcs = VimColorSchemes()
         vcs.fetch()
         asm = AwesomeNeovimColorScheme()
