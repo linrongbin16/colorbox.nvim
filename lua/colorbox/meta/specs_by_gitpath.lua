@@ -1,17 +1,4 @@
 return {
-  ["morhetz-gruvbox"] = {
-    handle = "morhetz/gruvbox",
-    url = "https://github.com/morhetz/gruvbox",
-    github_stars = 14237,
-    last_git_commit = "2023-08-14",
-    priority = 0,
-    source = "vsc",
-    git_path = "morhetz-gruvbox",
-    git_branch = nil,
-    color_names = {
-      "gruvbox",
-    },
-  },
   ["folke-tokyonight.nvim"] = {
     handle = "folke/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim",
@@ -60,19 +47,6 @@ return {
       "kanagawa-dragon",
       "kanagawa-lotus",
       "kanagawa-wave",
-    },
-  },
-  ["joshdick-onedark.vim"] = {
-    handle = "joshdick/onedark.vim",
-    url = "https://github.com/joshdick/onedark.vim",
-    github_stars = 3927,
-    last_git_commit = "2024-07-16",
-    priority = 0,
-    source = "vsc",
-    git_path = "joshdick-onedark.vim",
-    git_branch = nil,
-    color_names = {
-      "onedark",
     },
   },
   ["tomasr-molokai"] = {

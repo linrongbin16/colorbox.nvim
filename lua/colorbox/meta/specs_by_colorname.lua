@@ -1,17 +1,4 @@
 return {
-  gruvbox = {
-    handle = "ellisonleao/gruvbox.nvim",
-    url = "https://github.com/ellisonleao/gruvbox.nvim",
-    github_stars = 2100,
-    last_git_commit = "2025-03-05",
-    priority = 100,
-    source = "asm",
-    git_path = "ellisonleao-gruvbox.nvim",
-    git_branch = nil,
-    color_names = {
-      "gruvbox",
-    },
-  },
   tokyonight = {
     handle = "folke/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim",
@@ -244,19 +231,6 @@ return {
       "kanagawa-dragon",
       "kanagawa-lotus",
       "kanagawa-wave",
-    },
-  },
-  onedark = {
-    handle = "navarasu/onedark.nvim",
-    url = "https://github.com/navarasu/onedark.nvim",
-    github_stars = 1700,
-    last_git_commit = "2024-11-09",
-    priority = 100,
-    source = "asm",
-    git_path = "navarasu-onedark.nvim",
-    git_branch = nil,
-    color_names = {
-      "onedark",
     },
   },
   molokai = {
@@ -774,6 +748,19 @@ return {
       "gruvbox-material",
     },
   },
+  gruvbox = {
+    handle = "ellisonleao/gruvbox.nvim",
+    url = "https://github.com/ellisonleao/gruvbox.nvim",
+    github_stars = 2100,
+    last_git_commit = "2025-03-05",
+    priority = 100,
+    source = "asm",
+    git_path = "ellisonleao-gruvbox.nvim",
+    git_branch = nil,
+    color_names = {
+      "gruvbox",
+    },
+  },
   one = {
     handle = "rakr/vim-one",
     url = "https://github.com/rakr/vim-one",
@@ -824,6 +811,19 @@ return {
     git_branch = nil,
     color_names = {
       "ayu",
+    },
+  },
+  onedark = {
+    handle = "navarasu/onedark.nvim",
+    url = "https://github.com/navarasu/onedark.nvim",
+    github_stars = 1700,
+    last_git_commit = "2024-11-09",
+    priority = 100,
+    source = "asm",
+    git_path = "navarasu-onedark.nvim",
+    git_branch = nil,
+    color_names = {
+      "onedark",
     },
   },
   seoul256 = {

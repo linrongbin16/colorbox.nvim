@@ -1,9 +1,7 @@
 
-ColorSchemes List (60)
+ColorSchemes List (58)
 ======================
   
-- [morhetz/gruvbox](https://github.com/morhetz/gruvbox) (stars: 14237, last update: 2023-08-14)  
-  - gruvbox  
 - [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim) (stars: 6800, last update: 2025-02-18)  
   - tokyonight  
   - tokyonight-day  
@@ -21,8 +19,6 @@ ColorSchemes List (60)
   - kanagawa-dragon  
   - kanagawa-lotus  
   - kanagawa-wave  
-- [joshdick/onedark.vim](https://github.com/joshdick/onedark.vim) (stars: 3927, last update: 2024-07-16)  
-  - onedark  
 - [tomasr/molokai](https://github.com/tomasr/molokai) (stars: 3617, last update: 2015-11-11)  
   - molokai  
 - [edeneast/nightfox.nvim](https://github.com/edeneast/nightfox.nvim) (stars: 3400, last update: 2025-02-09)  
