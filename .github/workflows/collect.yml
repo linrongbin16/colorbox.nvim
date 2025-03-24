@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 jobs:
   pipeline:
     name: Pipeline
