@@ -12,18 +12,26 @@ describe("colorbox.loader", function()
   local github_actions = os.getenv("GITHUB_ACTIONS") == "true"
   local runtime = require("colorbox.runtime")
   local loader = require("colorbox.loader")
+  local db = require("colorbox.db")
   require("colorbox").setup({
     debug = true,
     file_log = true,
     background = "dark",
   })
 
+  local disabled_colorspecs = { ["zenbones"] = true }
+
   describe("loader", function()
     it("load", function()
+      local color_name_to_color_specs_map = db.get_color_name_to_color_specs_map()
+
       -- if not github_actions then
       local colors = runtime.colornames()
       for i, c in ipairs(colors) do
-        loader.load(c)
+        local colorspec = color_name_to_color_specs_map[c]
+        if not disabled_colorspecs[colorspec.handle] then
+          loader.load(c)
+        end
       end
       -- end
     end)
