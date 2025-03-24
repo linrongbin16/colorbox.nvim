@@ -734,6 +734,7 @@ class Builder:
 @click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetch")
 @click.option("--skip-clone", "skip_clone_opt", is_flag=True, help="skip clone")
 def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
+    # Initialize
     global WEBDRIVER_HEADLESS
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
     logging.debug(
@@ -741,6 +742,16 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
     )
     if no_headless_opt:
         WEBDRIVER_HEADLESS = False
+
+    # Before updating data
+    DB = TinyDB("db.json")
+    result_file = "collect-result.log"
+    before = len(DB.all())
+    logging.info(f"Before updating, DB count:{before}")
+    with open(result_file, "w") as result:
+        result.write(f"{before}")
+
+    # Collect data
     if not skip_fetch_opt:
         ColorSpec.truncate()
         vcs = VimColorSchemes()
@@ -753,8 +764,16 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
         clean_old_clones = False
     if skip_clone_opt:
         clean_old_clones = False
+
+    # Build new data source
     builder = Builder(clean_old_clones)
     builder.build()
+
+    # After updating data
+    after = len(DB.all())
+    logging.info(f"After updating, DB count:{after}")
+    with open(result_file, "a") as result:
+        result.write(f"{after}")
 
 
 if __name__ == "__main__":
