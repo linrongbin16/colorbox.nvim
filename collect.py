@@ -21,6 +21,8 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from tinydb import Query, TinyDB
 
+# constants {
+
 # github
 GITHUB_STARS = 500
 LAST_GIT_COMMIT = 10 * 365 * 24 * 3600  # 10 years * 365 days * 24 hours * 3600 seconds
@@ -41,6 +43,13 @@ WEBDRIVER_TIMEOUT = 30
 DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S"
 DATE_FORMAT = "%Y-%m-%d"
 CANDIDATE_DIR = "candidate"
+
+# data
+DB = TinyDB("db.json")
+
+# constants }
+
+# utils {
 
 
 def init_logging(level: typing.Optional[int]) -> None:
@@ -149,6 +158,9 @@ def retrieve_last_git_commit_datetime(git_path: pathlib.Path) -> datetime.dateti
     return dt
 
 
+# utils }
+
+
 @dataclass
 class ColorSpecConfig:
     git_branch: typing.Optional[str] = None
@@ -164,7 +176,6 @@ REPO_META_CONFIG = {
 
 
 class ColorSpec:
-    DB = TinyDB("db.json")
     HANDLE = "handle"
     URL = "url"
     GITHUB_STARS = "github_stars"
@@ -228,7 +239,7 @@ class ColorSpec:
 
     def save(self) -> None:
         q = Query()
-        count = ColorSpec.DB.search(q.handle == self.handle)
+        count = DB.search(q.handle == self.handle)
         obj = {
             ColorSpec.HANDLE: self.handle,
             ColorSpec.URL: self.url,
@@ -241,19 +252,19 @@ class ColorSpec:
             ColorSpec.COLOR_NAMES: self.color_names,
         }
         if len(count) <= 0:
-            ColorSpec.DB.insert(obj)
+            DB.insert(obj)
             # logging.debug(f"add new repo: {self}")
         else:
-            ColorSpec.DB.update(obj, q.handle == self.handle)
+            DB.update(obj, q.handle == self.handle)
             # logging.debug(f"add(update) existed repo: {self}")
 
     def update_last_git_commit(self, last_git_commit: datetime.datetime) -> None:
         q = Query()
-        records = ColorSpec.DB.search(q.handle == self.handle)
+        records = DB.search(q.handle == self.handle)
         assert len(records) == 1
         assert isinstance(last_git_commit, datetime.datetime)
         self.last_git_commit = last_git_commit
-        ColorSpec.DB.update(
+        DB.update(
             {
                 ColorSpec.LAST_GIT_COMMIT: date_tostring(self.last_git_commit),
             },
@@ -262,11 +273,11 @@ class ColorSpec:
 
     def update_color_names(self, color_names: list[str]) -> None:
         q = Query()
-        records = ColorSpec.DB.search(q.handle == self.handle)
+        records = DB.search(q.handle == self.handle)
         assert len(records) == 1
         assert isinstance(color_names, list)
         self.color_names = color_names
-        ColorSpec.DB.update(
+        DB.update(
             {
                 ColorSpec.COLOR_NAMES: self.color_names,
             },
@@ -275,16 +286,16 @@ class ColorSpec:
 
     def remove(self) -> None:
         q = Query()
-        ColorSpec.DB.remove(q.handle == self.handle)
+        DB.remove(q.handle == self.handle)
 
     @staticmethod
     def truncate() -> None:
-        ColorSpec.DB.truncate()
+        DB.truncate()
 
     @staticmethod
     def all() -> list:
         try:
-            records = ColorSpec.DB.all()
+            records = DB.all()
             # for i, r in enumerate(records):
             #     logging.debug(f"all records-{i}:{r}")
             return [
@@ -758,7 +769,6 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
         WEBDRIVER_HEADLESS = False
 
     # Before updating data
-    DB = TinyDB("db.json")
     before = len(DB.all())
     logging.info(f"Before updating, DB count:{before}")
     with open("collect-before.log", "w") as result:
