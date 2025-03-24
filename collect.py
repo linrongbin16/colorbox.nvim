@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+import math
 import os
 import pathlib
 import shutil
@@ -185,6 +186,7 @@ class ColorSpec:
     GIT_PATH = "git_path"
     GIT_BRANCH = "git_branch"
     COLOR_NAMES = "color_names"
+    SCORE = "score"
 
     def __init__(
         self,
@@ -582,14 +584,38 @@ class Builder:
                 continue
 
     def _dedup(self) -> list[ColorSpec]:
+        def get_score(spec: ColorSpec, allspecs: list[ColorSpec]) -> int:
+            score = 0
+            if spec.priority > 0:
+                score += 10
+            max_github_stars = max([s.github_stars for s in allspecs])
+            score += math.ceil(spec.github_stars / max_github_stars * 80)
+            assert isinstance(spec.last_git_commit, datetime.datetime)
+            newest_git_commit = max([s.last_git_commit.timestamp() for s in allspecs])  # type: ignore
+            if spec.last_git_commit.timestamp() >= newest_git_commit:
+                score += 10
+            return score
+
         def greater_than(a: ColorSpec, b: ColorSpec) -> bool:
-            if a.priority != b.priority:
-                return a.priority > b.priority
-            if a.github_stars != b.github_stars:
-                return a.github_stars > b.github_stars
+            a_score = 0
+            b_score = 0
+            if a.priority > 0:
+                a_score += 10
+            if b.priority > 0:
+                b_score += 10
+            max_github_stars = max(a.github_stars, b.github_stars)
+            a_score += math.ceil(a.github_stars / max_github_stars * 80)
+            b_score += math.ceil(b.github_stars / max_github_stars * 80)
             assert isinstance(a.last_git_commit, datetime.datetime)
             assert isinstance(b.last_git_commit, datetime.datetime)
-            return a.last_git_commit.timestamp() > b.last_git_commit.timestamp()
+            newest_git_commit = max(
+                a.last_git_commit.timestamp(), b.last_git_commit.timestamp()
+            )
+            if a.last_git_commit.timestamp() >= newest_git_commit:
+                a_score += 10
+            if b.last_git_commit.timestamp() >= newest_git_commit:
+                b_score += 10
+            return a_score >= b_score
 
         specs_map: dict[str, ColorSpec] = dict()
         specs_set: set[ColorSpec] = set()
@@ -608,7 +634,12 @@ class Builder:
                         f"detect duplicated color:{color}, new spec:{spec}, old spec:{old_spec}"
                     )
                     # replace old repo if new repo has higher priority
-                    if greater_than(spec, old_spec):
+                    spec_score = get_score(spec, [spec, old_spec])
+                    old_spec_score = get_score(old_spec, [spec, old_spec])
+                    logging.info(
+                        f"score new spec({spec_score}):{spec}, old spec({old_spec_score}):{old_spec}"
+                    )
+                    if spec_score >= old_spec_score:
                         logging.info(
                             f"replace old spec({old_spec}) with new spec({spec})"
                         )
@@ -622,7 +653,6 @@ class Builder:
                         logging.info(
                             f"keep old spec({old_spec}), drop new spec({spec})"
                         )
-
                         replace_target = old_spec
                         drop_target = spec
 
