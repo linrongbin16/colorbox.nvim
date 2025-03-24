@@ -584,6 +584,18 @@ class Builder:
                 continue
 
     def _dedup(self) -> list[ColorSpec]:
+        def get_score(spec: ColorSpec, allspecs: list[ColorSpec]) -> int:
+            score = 0
+            if spec.priority > 0:
+                score += 10
+            max_github_stars = max([s.github_stars for s in allspecs])
+            score += math.ceil(spec.github_stars / max_github_stars * 80)
+            assert isinstance(spec.last_git_commit, datetime.datetime)
+            newest_git_commit = max([s.last_git_commit.timestamp() for s in allspecs])  # type: ignore
+            if spec.last_git_commit.timestamp() >= newest_git_commit:
+                score += 10
+            return score
+
         def greater_than(a: ColorSpec, b: ColorSpec) -> bool:
             a_score = 0
             b_score = 0
@@ -622,7 +634,12 @@ class Builder:
                         f"detect duplicated color:{color}, new spec:{spec}, old spec:{old_spec}"
                     )
                     # replace old repo if new repo has higher priority
-                    if greater_than(spec, old_spec):
+                    spec_score = get_score(spec, [spec, old_spec])
+                    old_spec_score = get_score(old_spec, [spec, old_spec])
+                    logging.info(
+                        f"new spec({spec_score}):{spec}, old spec({old_spec_score}):{old_spec}"
+                    )
+                    if spec_score >= old_spec_score:
                         logging.info(
                             f"replace old spec({old_spec}) with new spec({spec})"
                         )
@@ -636,7 +653,6 @@ class Builder:
                         logging.info(
                             f"keep old spec({old_spec}), drop new spec({spec})"
                         )
-
                         replace_target = old_spec
                         drop_target = spec
 
