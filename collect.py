@@ -745,10 +745,9 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
 
     # Before updating data
     DB = TinyDB("db.json")
-    result_file = "collect-result.log"
     before = len(DB.all())
     logging.info(f"Before updating, DB count:{before}")
-    with open(result_file, "w") as result:
+    with open("collect-before.log", "w") as result:
         result.write(f"{before}")
 
     # Collect data
@@ -772,7 +771,7 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
     # After updating data
     after = len(DB.all())
     logging.info(f"After updating, DB count:{after}")
-    with open(result_file, "a") as result:
+    with open("collect-after.log", "w") as result:
         result.write(f"{after}")
 
 
