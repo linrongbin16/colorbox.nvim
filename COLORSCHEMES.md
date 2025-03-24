@@ -1,7 +1,9 @@
 
-ColorSchemes List (56)
+ColorSchemes List (60)
 ======================
   
+- [morhetz/gruvbox](https://github.com/morhetz/gruvbox) (stars: 14237, last update: 2023-08-14)  
+  - gruvbox  
 - [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim) (stars: 6800, last update: 2025-02-18)  
   - tokyonight  
   - tokyonight-day  
@@ -21,6 +23,8 @@ ColorSchemes List (56)
   - kanagawa-wave  
 - [joshdick/onedark.vim](https://github.com/joshdick/onedark.vim) (stars: 3927, last update: 2024-07-16)  
   - onedark  
+- [tomasr/molokai](https://github.com/tomasr/molokai) (stars: 3617, last update: 2015-11-11)  
+  - molokai  
 - [edeneast/nightfox.nvim](https://github.com/edeneast/nightfox.nvim) (stars: 3400, last update: 2025-02-09)  
   - carbonfox  
   - dawnfox  
@@ -58,6 +62,8 @@ ColorSchemes List (56)
   - gruvbox  
 - [rakr/vim-one](https://github.com/rakr/vim-one) (stars: 2008, last update: 2020-12-14)  
   - one  
+- [nanotech/jellybeans.vim](https://github.com/nanotech/jellybeans.vim) (stars: 1821, last update: 2019-06-21)  
+  - jellybeans  
 - [sainnhe/sonokai](https://github.com/sainnhe/sonokai) (stars: 1800, last update: 2025-02-24)  
   - sonokai  
 - [ayu-theme/ayu-vim](https://github.com/ayu-theme/ayu-vim) (stars: 1732, last update: 2024-07-15)  
@@ -67,6 +73,8 @@ ColorSchemes List (56)
 - [junegunn/seoul256.vim](https://github.com/junegunn/seoul256.vim) (stars: 1674, last update: 2023-05-03)  
   - seoul256  
   - seoul256-light  
+- [w0ng/vim-hybrid](https://github.com/w0ng/vim-hybrid) (stars: 1486, last update: 2016-01-05)  
+  - hybrid  
 - [ku1ik/vim-monokai](https://github.com/ku1ik/vim-monokai) (stars: 1451, last update: 2022-02-09)  
   - monokai  
 - [dracula/vim](https://github.com/dracula/vim) (stars: 1400, last update: 2024-07-21)  
