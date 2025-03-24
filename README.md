@@ -40,10 +40,16 @@ It uses GitHub actions to weekly collect/update the colorscheme dataset.
 >
 > 1. GitHub stars &ge; 500 (by default it only enable &ge; 800, see [Configuration](#-configuration)).
 > 2. Last git commit is in last 10 years.
-> 3. For multiple plugins that contain the same color name, it picks one from them by a weighted scoring algorithm based on multiple attributes:
->    1. The _**awesome-neovim**_ has extra 10 points, they usually support modern Neovim features.
+> 3. For multiple plugins that contain the same color name, it picks one from them by a weighted scoring algorithm based on multiple attributes.
+>    1. If the colorscheme comes from _**awesome-neovim**_ data source, i.e. it is especially for Neovim (they usually support modern Neovim features).
 >    2. More github stars.
 >    3. Newer git commits.
+>
+> Here's the detailed explanation of how the algorithm picks one plugin over the others:
+>
+> - If a plugin is especially for Neovim, it earns extra 10 points.
+> - If a plugin has latest git commits, it earns extra 10 points.
+> - In these multiple plugins, the stars of each repositories **are proportional to** the most stars repository. For example, if we have 3 plugins with stars 500, 380 and 71, then the 1st repository with most stars (500) has 80 points, the 2nd (380) has 60.8 points (=380/500\*80), the 3rd (71) has 11.36 points (71/500\*80).
 >
 > Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorscheme dataset.
 
