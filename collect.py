@@ -29,6 +29,7 @@ BLACKLIST = [
     "mini.nvim#minischeme",
     "mini.nvim#colorschemes",
     "text-to-colorscheme",
+    "flazz/vim-colorschemes",
 ]
 
 
