@@ -41,6 +41,9 @@ jobs:
           COLLECT_BEFORE="$(cat collect-before.log)"
           COLLECT_AFTER="$(cat collect-after.log)"
           COLLECT_CHANGE=`expr $COLLECT_AFTER - $COLLECT_BEFORE`
+          if [[ "$COLLECT_CHANGE" == -* ]]; then
+            COLLECT_CHANGE="+$COLLECT_BEFORE"
+          fi
           echo "COLLECT_BEFORE:$COLLECT_BEFORE, COLLECT_AFTER:$COLLECT_AFTER, COLLECT_CHANGE:$COLLECT_CHANGE"
           echo "COLLECT_BEFORE=$COLLECT_BEFORE" >> "$GITHUB_ENV"
           echo "COLLECT_AFTER=$COLLECT_AFTER" >> "$GITHUB_ENV"
@@ -48,6 +51,6 @@ jobs:
       - name: Auto Commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore(colors): auto update colorschemes $COLLECT_CHANGE"
+          commit_message: "chore(colors): auto update colorschemes ${{ env.COLLECT_CHANGE }}"
           push_options: "--force"
           skip_dirty_check: true
