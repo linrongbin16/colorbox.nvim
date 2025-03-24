@@ -144,3 +144,5 @@ dmypy.json
 service.log
 stderr.txt
 stdout.txt
+collect-before.log
+collect-after.log
