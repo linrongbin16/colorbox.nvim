@@ -1,4 +1,17 @@
 return {
+  ["morhetz-gruvbox"] = {
+    handle = "morhetz/gruvbox",
+    url = "https://github.com/morhetz/gruvbox",
+    github_stars = 14237,
+    last_git_commit = "2023-08-14",
+    priority = 0,
+    source = "vsc",
+    git_path = "morhetz-gruvbox",
+    git_branch = nil,
+    color_names = {
+      "gruvbox",
+    },
+  },
   ["folke-tokyonight.nvim"] = {
     handle = "folke/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim",
@@ -60,6 +73,19 @@ return {
     git_branch = nil,
     color_names = {
       "onedark",
+    },
+  },
+  ["tomasr-molokai"] = {
+    handle = "tomasr/molokai",
+    url = "https://github.com/tomasr/molokai",
+    github_stars = 3617,
+    last_git_commit = "2015-11-11",
+    priority = 0,
+    source = "vsc",
+    git_path = "tomasr-molokai",
+    git_branch = nil,
+    color_names = {
+      "molokai",
     },
   },
   ["edeneast-nightfox.nvim"] = {
@@ -198,6 +224,19 @@ return {
       "one",
     },
   },
+  ["nanotech-jellybeans.vim"] = {
+    handle = "nanotech/jellybeans.vim",
+    url = "https://github.com/nanotech/jellybeans.vim",
+    github_stars = 1821,
+    last_git_commit = "2019-06-21",
+    priority = 0,
+    source = "vsc",
+    git_path = "nanotech-jellybeans.vim",
+    git_branch = nil,
+    color_names = {
+      "jellybeans",
+    },
+  },
   ["sainnhe-sonokai"] = {
     handle = "sainnhe/sonokai",
     url = "https://github.com/sainnhe/sonokai",
@@ -249,6 +288,19 @@ return {
     color_names = {
       "seoul256",
       "seoul256-light",
+    },
+  },
+  ["w0ng-vim-hybrid"] = {
+    handle = "w0ng/vim-hybrid",
+    url = "https://github.com/w0ng/vim-hybrid",
+    github_stars = 1486,
+    last_git_commit = "2016-01-05",
+    priority = 0,
+    source = "vsc",
+    git_path = "w0ng-vim-hybrid",
+    git_branch = nil,
+    color_names = {
+      "hybrid",
     },
   },
   ["ku1ik-vim-monokai"] = {

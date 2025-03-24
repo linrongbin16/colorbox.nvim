@@ -23,7 +23,7 @@ from tinydb import Query, TinyDB
 
 # github
 GITHUB_STARS = 500
-LAST_GIT_COMMIT = 5 * 365 * 24 * 3600  # 5 years * 365 days * 24 hours * 3600 seconds
+LAST_GIT_COMMIT = 10 * 365 * 24 * 3600  # 10 years * 365 days * 24 hours * 3600 seconds
 BLACKLIST = [
     "rafi/awesome-vim-colorschemes",
     "mini.nvim#minischeme",
@@ -390,7 +390,7 @@ class VimColorSchemes:
             a_elem = element.find_element(
                 By.XPATH, "./a[starts-with(@class,'repositoryCard')]"
             )
-            url = a_elem.get_attribute("href")
+            url: str = a_elem.get_attribute("href")  # type: ignore
             if url.endswith("/"):
                 url = url[:-1]
             logging.debug(f"parsing (vsc) spec handle_elem:{url}")
@@ -734,6 +734,7 @@ class Builder:
 @click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetch")
 @click.option("--skip-clone", "skip_clone_opt", is_flag=True, help="skip clone")
 def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
+    # Initialize
     global WEBDRIVER_HEADLESS
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
     logging.debug(
@@ -741,6 +742,15 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
     )
     if no_headless_opt:
         WEBDRIVER_HEADLESS = False
+
+    # Before updating data
+    DB = TinyDB("db.json")
+    before = len(DB.all())
+    logging.info(f"Before updating, DB count:{before}")
+    with open("collect-before.log", "w") as result:
+        result.write(f"{before}")
+
+    # Collect data
     if not skip_fetch_opt:
         ColorSpec.truncate()
         vcs = VimColorSchemes()
@@ -753,8 +763,16 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
         clean_old_clones = False
     if skip_clone_opt:
         clean_old_clones = False
+
+    # Build new data source
     builder = Builder(clean_old_clones)
     builder.build()
+
+    # After updating data
+    after = len(DB.all())
+    logging.info(f"After updating, DB count:{after}")
+    with open("collect-after.log", "w") as result:
+        result.write(f"{after}")
 
 
 if __name__ == "__main__":

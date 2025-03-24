@@ -1,4 +1,17 @@
 return {
+  gruvbox = {
+    handle = "ellisonleao/gruvbox.nvim",
+    url = "https://github.com/ellisonleao/gruvbox.nvim",
+    github_stars = 2100,
+    last_git_commit = "2025-03-05",
+    priority = 100,
+    source = "asm",
+    git_path = "ellisonleao-gruvbox.nvim",
+    git_branch = nil,
+    color_names = {
+      "gruvbox",
+    },
+  },
   tokyonight = {
     handle = "folke/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim",
@@ -244,6 +257,19 @@ return {
     git_branch = nil,
     color_names = {
       "onedark",
+    },
+  },
+  molokai = {
+    handle = "tomasr/molokai",
+    url = "https://github.com/tomasr/molokai",
+    github_stars = 3617,
+    last_git_commit = "2015-11-11",
+    priority = 0,
+    source = "vsc",
+    git_path = "tomasr-molokai",
+    git_branch = nil,
+    color_names = {
+      "molokai",
     },
   },
   carbonfox = {
@@ -748,19 +774,6 @@ return {
       "gruvbox-material",
     },
   },
-  gruvbox = {
-    handle = "ellisonleao/gruvbox.nvim",
-    url = "https://github.com/ellisonleao/gruvbox.nvim",
-    github_stars = 2100,
-    last_git_commit = "2025-03-05",
-    priority = 100,
-    source = "asm",
-    git_path = "ellisonleao-gruvbox.nvim",
-    git_branch = nil,
-    color_names = {
-      "gruvbox",
-    },
-  },
   one = {
     handle = "rakr/vim-one",
     url = "https://github.com/rakr/vim-one",
@@ -772,6 +785,19 @@ return {
     git_branch = nil,
     color_names = {
       "one",
+    },
+  },
+  jellybeans = {
+    handle = "nanotech/jellybeans.vim",
+    url = "https://github.com/nanotech/jellybeans.vim",
+    github_stars = 1821,
+    last_git_commit = "2019-06-21",
+    priority = 0,
+    source = "vsc",
+    git_path = "nanotech-jellybeans.vim",
+    git_branch = nil,
+    color_names = {
+      "jellybeans",
     },
   },
   sonokai = {
@@ -826,6 +852,19 @@ return {
     color_names = {
       "seoul256",
       "seoul256-light",
+    },
+  },
+  hybrid = {
+    handle = "w0ng/vim-hybrid",
+    url = "https://github.com/w0ng/vim-hybrid",
+    github_stars = 1486,
+    last_git_commit = "2016-01-05",
+    priority = 0,
+    source = "vsc",
+    git_path = "w0ng-vim-hybrid",
+    git_branch = nil,
+    color_names = {
+      "hybrid",
     },
   },
   monokai = {
