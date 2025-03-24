@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.1](https://github.com/linrongbin16/colorbox.nvim/compare/v3.2.0...v3.2.1) (2025-03-24)
+
+
+### Bug Fixes
+
+* **collect:** revert extra pr info ([#263](https://github.com/linrongbin16/colorbox.nvim/issues/263)) ([e3477f1](https://github.com/linrongbin16/colorbox.nvim/commit/e3477f1ee60022aba207774128ac725d407520b5))
+* remove before/after log ([#262](https://github.com/linrongbin16/colorbox.nvim/issues/262)) ([d475b83](https://github.com/linrongbin16/colorbox.nvim/commit/d475b83458ea4f391ef805894c1ff3efe97c7835))
+
 ## [3.2.0](https://github.com/linrongbin16/colorbox.nvim/compare/v3.1.1...v3.2.0) (2025-03-24)
 
 
