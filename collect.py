@@ -143,7 +143,7 @@ def retrieve_last_git_commit_datetime(git_path: pathlib.Path) -> datetime.dateti
     ).strip()
     last_commit_time = trim_quotes(last_commit_time)
     dt = datetime.datetime.fromtimestamp(int(last_commit_time))
-    logging.debug(f"repo ({git_path}) last git commit time:{dt}")
+    # logging.debug(f"repo ({git_path}) last git commit time:{dt}")
     os.chdir(saved_cwd)
     return dt
 
@@ -241,10 +241,10 @@ class ColorSpec:
         }
         if len(count) <= 0:
             ColorSpec.DB.insert(obj)
-            logging.debug(f"add new repo: {self}")
+            # logging.debug(f"add new repo: {self}")
         else:
             ColorSpec.DB.update(obj, q.handle == self.handle)
-            logging.debug(f"add(update) existed repo: {self}")
+            # logging.debug(f"add(update) existed repo: {self}")
 
     def update_last_git_commit(self, last_git_commit: datetime.datetime) -> None:
         q = Query()
@@ -308,13 +308,14 @@ class ColorSpec:
                 clone_cmd = f"git clone --depth=1 {self.url} {self.candidate_path}"
             # logging.debug(f"self:{self}, candidate_path:{self.candidate_path}")
             candidate_dir = pathlib.Path(f"{self.candidate_path}")
-            logging.debug(
-                f"{candidate_dir} exist: {candidate_dir.exists()}, isdir: {candidate_dir.is_dir()}"
-            )
+            # logging.debug(
+            #     f"{candidate_dir} exist: {candidate_dir.exists()}, isdir: {candidate_dir.is_dir()}"
+            # )
             if candidate_dir.exists() and candidate_dir.is_dir():
-                logging.debug(f"{candidate_dir} already exist, skip...")
+                # logging.debug(f"{candidate_dir} already exist, skip...")
+                pass
             else:
-                logging.debug(clone_cmd)
+                # logging.debug(clone_cmd)
                 os.system(clone_cmd)
             return True
         except Exception as e:
@@ -331,7 +332,7 @@ class ColorSpec:
             for c in color_files
             if str(c).endswith(".vim") or str(c).endswith(".lua")
         ]
-        logging.debug(f"retrieve colors from spec ({self}): {colors}")
+        # logging.debug(f"retrieve colors from spec ({self}): {colors}")
         return colors
 
 
@@ -385,7 +386,7 @@ class VimColorSchemes:
     def _parse_spec(
         self, element: WebElement, page_url: str
     ) -> typing.Optional[ColorSpec]:
-        logging.debug(f"parsing (vsc) spec element:{element}, page url:{page_url}")
+        # logging.debug(f"parsing (vsc) spec element:{element}, page url:{page_url}")
         try:
             a_elem = element.find_element(
                 By.XPATH, "./a[starts-with(@class,'repositoryCard')]"
@@ -393,16 +394,16 @@ class VimColorSchemes:
             url: str = a_elem.get_attribute("href")  # type: ignore
             if url.endswith("/"):
                 url = url[:-1]
-            logging.debug(f"parsing (vsc) spec handle_elem:{url}")
+            # logging.debug(f"parsing (vsc) spec handle_elem:{url}")
             handle = "/".join(url.split("/")[-2:])
-            logging.debug(f"parsing (vsc) spec handle:{handle}")
+            # logging.debug(f"parsing (vsc) spec handle:{handle}")
             github_stars = int(
                 a_elem.find_element(
                     By.XPATH,
                     "./div[starts-with(@class,'repositoryTitle')]//div[starts-with(@class,'repositoryTitle_stats')]//p[starts-with(@class,'repositoryTitle_stat')]//strong",
                 ).text
             )
-            logging.debug(f"parsing (vsc) spec github_stars:{github_stars}")
+            # logging.debug(f"parsing (vsc) spec github_stars:{github_stars}")
             return ColorSpec(
                 handle,
                 github_stars,
@@ -423,7 +424,7 @@ class VimColorSchemes:
                 for element in find_elements(driver, "//article"):
                     spec = self._parse_spec(element, page_url)
                     self.counter = self.counter + 1
-                    logging.debug(f"vsc repo-{self.counter}:{spec}")
+                    # logging.debug(f"vsc repo-{self.counter}:{spec}")
                     if spec is None:
                         logging.info(
                             f"skip for parsing failure - (vcs) spec-{self.counter}:{spec}"
@@ -443,7 +444,7 @@ class VimColorSchemes:
                     need_more_scan = True
                     spec.save()
                 if not need_more_scan:
-                    logging.debug("no more enough github stars, exit...")
+                    logging.info("no more enough github stars, exit...")
                     break
 
 
@@ -455,11 +456,11 @@ class AwesomeNeovimColorScheme:
     def _parse_spec(
         self, element: WebElement, page_url: str
     ) -> typing.Optional[ColorSpec]:
-        logging.debug(f"parsing (asm) spec element:{element}, page url:{page_url}")
+        # logging.debug(f"parsing (asm) spec element:{element}, page url:{page_url}")
         try:
             a = element.find_element(By.XPATH, "./a").text
             a_splits = a.split("(")
-            logging.debug(f"parse asm element.a:{a}, a_splits:{a_splits}")
+            # logging.debug(f"parse asm element.a:{a}, a_splits:{a_splits}")
             handle = a_splits[0]
             github_stars = parse_number(a_splits[1]) if len(a_splits) > 1 else 0
             return ColorSpec(
@@ -485,7 +486,7 @@ class AwesomeNeovimColorScheme:
                 f"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme#{tag_id}",
             )
             self.counter = self.counter + 1
-            logging.debug(f"asm repo-{self.counter}:{spec}")
+            # logging.debug(f"asm repo-{self.counter}:{spec}")
             if spec is None:
                 logging.info(
                     f"skip for parsing failure - (asm) spec-{self.counter}:{spec}"
@@ -526,7 +527,7 @@ def filter_color_specs() -> None:
         return any([True for b in BLACKLIST if sp.url.lower().find(b.lower()) >= 0])
 
     for spec in ColorSpec.all():
-        logging.debug(f"process filtering on spec:{spec}")
+        # logging.debug(f"process filtering on spec:{spec}")
         if spec.github_stars < GITHUB_STARS:
             logging.info(f"skip for lower stars - spec:{spec}")
             spec.remove()
@@ -550,7 +551,7 @@ class Builder:
 
         # clone candidates
         for spec in ColorSpec.all():
-            logging.debug(f"download spec:{spec}")
+            # logging.debug(f"download spec:{spec}")
             assert isinstance(spec, ColorSpec)
             spec.download_git_object()
             last_update = retrieve_last_git_commit_datetime(
@@ -596,7 +597,7 @@ class Builder:
                 if color in specs_map:
                     old_spec = specs_map[color]
                     logging.info(
-                        f"detect duplicated color({color}), new spec:{spec}, old spec:{old_spec}"
+                        f"detect duplicated color:{color}, new spec:{spec}, old spec:{old_spec}"
                     )
                     # replace old repo if new repo has higher priority
                     if greater_than(spec, old_spec):
@@ -621,17 +622,29 @@ class Builder:
                     break
                 else:
                     # add new color
+                    logging.info(f"add new spec:{spec}, color names:{color_names}")
                     specs_map[color] = spec
                     specs_set.add(spec)
+
+            logging.info(
+                f"deduped for spec:{spec}, found_duplicate:{found_duplicate}, drop_target:{drop_target}, replace_target:{replace_target}"
+            )
             if found_duplicate and drop_target and replace_target:
+                logging.info(
+                    f"deduped found for drop_target:{drop_target}, replace_target:{replace_target}"
+                )
                 if drop_target in specs_set:
+                    logging.info(f"remove drop_target:{spec} from specs_set")
                     specs_set.remove(drop_target)
                 if replace_target not in specs_set:
+                    logging.info(f"add replace_target:{spec} to specs_set")
                     specs_set.add(replace_target)
                 for color in drop_target.get_vim_color_names():
+                    logging.info(f"pop drop_target color:{color} from specs_map")
                     if color in specs_map:
                         specs_map.pop(color)
                 for color in replace_target.get_vim_color_names():
+                    logging.info(f"update replace_target with color:{color}")
                     specs_map[color] = replace_target
 
         logging.debug(f"after dedup: {[str(s) for s in specs_set]}")
