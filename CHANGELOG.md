@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.2.0](https://github.com/linrongbin16/colorbox.nvim/compare/v3.1.1...v3.2.0) (2025-03-24)
+
+
+### Features
+
+* **data:** give data change info ([#256](https://github.com/linrongbin16/colorbox.nvim/issues/256)) ([7eccdda](https://github.com/linrongbin16/colorbox.nvim/commit/7eccddae01c587c7586cecdea4651c2b5ab288ba))
+
+
+### Bug Fixes
+
+* **collect:** fix collector dedup logic ([bdfbd39](https://github.com/linrongbin16/colorbox.nvim/commit/bdfbd39f740d19148df1599684f9b72ef072830b))
+* **data:** fix conflict data ([#258](https://github.com/linrongbin16/colorbox.nvim/issues/258)) ([4166c9e](https://github.com/linrongbin16/colorbox.nvim/commit/4166c9ec5cfb8f04f8f5245820de149146fc2774))
+* **test:** fix unit tests ([#259](https://github.com/linrongbin16/colorbox.nvim/issues/259)) ([91bc5a9](https://github.com/linrongbin16/colorbox.nvim/commit/91bc5a936b9e581251b80154a3177804d7e667a6))
+
 ## [3.1.1](https://github.com/linrongbin16/colorbox.nvim/compare/v3.1.0...v3.1.1) (2025-02-02)
 
 
