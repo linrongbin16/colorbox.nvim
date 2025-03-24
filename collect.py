@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+import math
 import os
 import pathlib
 import shutil
@@ -185,6 +186,7 @@ class ColorSpec:
     GIT_PATH = "git_path"
     GIT_BRANCH = "git_branch"
     COLOR_NAMES = "color_names"
+    SCORE = "score"
 
     def __init__(
         self,
@@ -583,13 +585,25 @@ class Builder:
 
     def _dedup(self) -> list[ColorSpec]:
         def greater_than(a: ColorSpec, b: ColorSpec) -> bool:
-            if a.priority != b.priority:
-                return a.priority > b.priority
-            if a.github_stars != b.github_stars:
-                return a.github_stars > b.github_stars
+            a_score = 0
+            b_score = 0
+            if a.priority > 0:
+                a_score += 10
+            if b.priority > 0:
+                b_score += 10
+            max_github_stars = max(a.github_stars, b.github_stars)
+            a_score += math.ceil(a.github_stars / max_github_stars * 80)
+            b_score += math.ceil(b.github_stars / max_github_stars * 80)
             assert isinstance(a.last_git_commit, datetime.datetime)
             assert isinstance(b.last_git_commit, datetime.datetime)
-            return a.last_git_commit.timestamp() > b.last_git_commit.timestamp()
+            newest_git_commit = max(
+                a.last_git_commit.timestamp(), b.last_git_commit.timestamp()
+            )
+            if a.last_git_commit.timestamp() >= newest_git_commit:
+                a_score += 10
+            if b.last_git_commit.timestamp() >= newest_git_commit:
+                b_score += 10
+            return a_score >= b_score
 
         specs_map: dict[str, ColorSpec] = dict()
         specs_set: set[ColorSpec] = set()
