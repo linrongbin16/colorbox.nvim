@@ -390,7 +390,7 @@ class VimColorSchemes:
             a_elem = element.find_element(
                 By.XPATH, "./a[starts-with(@class,'repositoryCard')]"
             )
-            url = a_elem.get_attribute("href")
+            url: str = a_elem.get_attribute("href")  # type: ignore
             if url.endswith("/"):
                 url = url[:-1]
             logging.debug(f"parsing (vsc) spec handle_elem:{url}")
