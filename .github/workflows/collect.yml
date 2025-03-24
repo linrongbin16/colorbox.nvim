@@ -2,9 +2,6 @@ name: Collector
 on:
   schedule:
     - cron: "0 0 * * 1"
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
