@@ -2,7 +2,7 @@ return {
   ["morhetz-gruvbox"] = {
     handle = "morhetz/gruvbox",
     url = "https://github.com/morhetz/gruvbox",
-    github_stars = 14237,
+    github_stars = 14259,
     last_git_commit = "2023-08-14",
     priority = 0,
     source = "vsc",
@@ -15,7 +15,7 @@ return {
   ["folke-tokyonight.nvim"] = {
     handle = "folke/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim",
-    github_stars = 6800,
+    github_stars = 6900,
     last_git_commit = "2025-02-18",
     priority = 100,
     source = "asm",
@@ -32,7 +32,7 @@ return {
   ["catppuccin-nvim"] = {
     handle = "catppuccin/nvim",
     url = "https://github.com/catppuccin/nvim",
-    github_stars = 6100,
+    github_stars = 6200,
     last_git_commit = "2025-02-28",
     priority = 100,
     source = "asm",
@@ -49,8 +49,8 @@ return {
   ["rebelot-kanagawa.nvim"] = {
     handle = "rebelot/kanagawa.nvim",
     url = "https://github.com/rebelot/kanagawa.nvim",
-    github_stars = 4700,
-    last_git_commit = "2025-03-18",
+    github_stars = 4800,
+    last_git_commit = "2025-03-30",
     priority = 100,
     source = "asm",
     git_path = "rebelot-kanagawa.nvim",
@@ -65,7 +65,7 @@ return {
   ["joshdick-onedark.vim"] = {
     handle = "joshdick/onedark.vim",
     url = "https://github.com/joshdick/onedark.vim",
-    github_stars = 3927,
+    github_stars = 3930,
     last_git_commit = "2024-07-16",
     priority = 0,
     source = "vsc",
@@ -123,7 +123,7 @@ return {
   ["nlknguyen-papercolor-theme"] = {
     handle = "nlknguyen/papercolor-theme",
     url = "https://github.com/nlknguyen/papercolor-theme",
-    github_stars = 2763,
+    github_stars = 2767,
     last_git_commit = "2024-03-12",
     priority = 0,
     source = "vsc",
@@ -136,7 +136,7 @@ return {
   ["nordtheme-vim"] = {
     handle = "nordtheme/vim",
     url = "https://github.com/nordtheme/vim",
-    github_stars = 2541,
+    github_stars = 2542,
     last_git_commit = "2023-05-03",
     priority = 0,
     source = "vsc",
@@ -165,7 +165,7 @@ return {
   ["cocopon-iceberg.vim"] = {
     handle = "cocopon/iceberg.vim",
     url = "https://github.com/cocopon/iceberg.vim",
-    github_stars = 2278,
+    github_stars = 2279,
     last_git_commit = "2024-06-19",
     priority = 0,
     source = "vsc",
@@ -201,7 +201,7 @@ return {
   ["sainnhe-gruvbox-material"] = {
     handle = "sainnhe/gruvbox-material",
     url = "https://github.com/sainnhe/gruvbox-material",
-    github_stars = 2100,
+    github_stars = 2200,
     last_git_commit = "2025-02-24",
     priority = 100,
     source = "asm",
@@ -227,7 +227,7 @@ return {
   ["nanotech-jellybeans.vim"] = {
     handle = "nanotech/jellybeans.vim",
     url = "https://github.com/nanotech/jellybeans.vim",
-    github_stars = 1821,
+    github_stars = 1822,
     last_git_commit = "2019-06-21",
     priority = 0,
     source = "vsc",
@@ -253,7 +253,7 @@ return {
   ["ayu-theme-ayu-vim"] = {
     handle = "ayu-theme/ayu-vim",
     url = "https://github.com/ayu-theme/ayu-vim",
-    github_stars = 1732,
+    github_stars = 1724,
     last_git_commit = "2024-07-15",
     priority = 0,
     source = "vsc",
@@ -266,7 +266,7 @@ return {
   ["junegunn-seoul256.vim"] = {
     handle = "junegunn/seoul256.vim",
     url = "https://github.com/junegunn/seoul256.vim",
-    github_stars = 1674,
+    github_stars = 1675,
     last_git_commit = "2023-05-03",
     priority = 0,
     source = "vsc",
@@ -293,7 +293,7 @@ return {
   ["ku1ik-vim-monokai"] = {
     handle = "ku1ik/vim-monokai",
     url = "https://github.com/ku1ik/vim-monokai",
-    github_stars = 1451,
+    github_stars = 1452,
     last_git_commit = "2022-02-09",
     priority = 0,
     source = "vsc",
@@ -307,7 +307,7 @@ return {
     handle = "dracula/vim",
     url = "https://github.com/dracula/vim",
     github_stars = 1400,
-    last_git_commit = "2024-07-21",
+    last_git_commit = "2025-03-26",
     priority = 100,
     source = "asm",
     git_path = "dracula-vim",
@@ -360,7 +360,7 @@ return {
   ["jacoborus-tender.vim"] = {
     handle = "jacoborus/tender.vim",
     url = "https://github.com/jacoborus/tender.vim",
-    github_stars = 1180,
+    github_stars = 1182,
     last_git_commit = "2025-02-28",
     priority = 0,
     source = "vsc",
@@ -391,7 +391,7 @@ return {
   ["tomasiser-vim-code-dark"] = {
     handle = "tomasiser/vim-code-dark",
     url = "https://github.com/tomasiser/vim-code-dark",
-    github_stars = 970,
+    github_stars = 975,
     last_git_commit = "2024-05-21",
     priority = 100,
     source = "asm",
@@ -404,8 +404,8 @@ return {
   ["bluz71-vim-moonfly-colors"] = {
     handle = "bluz71/vim-moonfly-colors",
     url = "https://github.com/bluz71/vim-moonfly-colors",
-    github_stars = 962,
-    last_git_commit = "2025-03-18",
+    github_stars = 974,
+    last_git_commit = "2025-03-30",
     priority = 100,
     source = "asm",
     git_path = "bluz71-vim-moonfly-colors",
@@ -417,7 +417,7 @@ return {
   ["sainnhe-edge"] = {
     handle = "sainnhe/edge",
     url = "https://github.com/sainnhe/edge",
-    github_stars = 937,
+    github_stars = 940,
     last_git_commit = "2025-02-24",
     priority = 100,
     source = "asm",
@@ -427,10 +427,24 @@ return {
       "edge",
     },
   },
+  ["scottmckendry-cyberdream.nvim"] = {
+    handle = "scottmckendry/cyberdream.nvim",
+    url = "https://github.com/scottmckendry/cyberdream.nvim",
+    github_stars = 904,
+    last_git_commit = "2025-03-27",
+    priority = 100,
+    source = "asm",
+    git_path = "scottmckendry-cyberdream.nvim",
+    git_branch = nil,
+    color_names = {
+      "cyberdream",
+      "cyberdream-light",
+    },
+  },
   ["jnurmine-zenburn"] = {
     handle = "jnurmine/zenburn",
     url = "https://github.com/jnurmine/zenburn",
-    github_stars = 899,
+    github_stars = 901,
     last_git_commit = "2022-08-08",
     priority = 0,
     source = "vsc",
@@ -453,38 +467,11 @@ return {
       "apprentice",
     },
   },
-  ["scottmckendry-cyberdream.nvim"] = {
-    handle = "scottmckendry/cyberdream.nvim",
-    url = "https://github.com/scottmckendry/cyberdream.nvim",
-    github_stars = 886,
-    last_git_commit = "2025-03-18",
-    priority = 100,
-    source = "asm",
-    git_path = "scottmckendry-cyberdream.nvim",
-    git_branch = nil,
-    color_names = {
-      "cyberdream",
-      "cyberdream-light",
-    },
-  },
-  ["srcery-colors-srcery-vim"] = {
-    handle = "srcery-colors/srcery-vim",
-    url = "https://github.com/srcery-colors/srcery-vim",
-    github_stars = 850,
-    last_git_commit = "2025-03-15",
-    priority = 0,
-    source = "vsc",
-    git_path = "srcery-colors-srcery-vim",
-    git_branch = nil,
-    color_names = {
-      "srcery",
-    },
-  },
   ["bluz71-vim-nightfly-colors"] = {
     handle = "bluz71/vim-nightfly-colors",
     url = "https://github.com/bluz71/vim-nightfly-colors",
-    github_stars = 846,
-    last_git_commit = "2025-03-18",
+    github_stars = 852,
+    last_git_commit = "2025-03-30",
     priority = 100,
     source = "asm",
     git_path = "bluz71-vim-nightfly-colors",
@@ -493,10 +480,23 @@ return {
       "nightfly",
     },
   },
+  ["srcery-colors-srcery-vim"] = {
+    handle = "srcery-colors/srcery-vim",
+    url = "https://github.com/srcery-colors/srcery-vim",
+    github_stars = 850,
+    last_git_commit = "2025-03-25",
+    priority = 0,
+    source = "vsc",
+    git_path = "srcery-colors-srcery-vim",
+    git_branch = nil,
+    color_names = {
+      "srcery",
+    },
+  },
   ["zenbones-theme-zenbones.nvim"] = {
     handle = "zenbones-theme/zenbones.nvim",
     url = "https://github.com/zenbones-theme/zenbones.nvim",
-    github_stars = 838,
+    github_stars = 846,
     last_git_commit = "2025-03-04",
     priority = 100,
     source = "asm",
@@ -518,6 +518,19 @@ return {
       "zenwritten",
     },
   },
+  ["alexvzyl-nordic.nvim"] = {
+    handle = "alexvzyl/nordic.nvim",
+    url = "https://github.com/alexvzyl/nordic.nvim",
+    github_stars = 831,
+    last_git_commit = "2025-03-18",
+    priority = 100,
+    source = "asm",
+    git_path = "alexvzyl-nordic.nvim",
+    git_branch = nil,
+    color_names = {
+      "nordic",
+    },
+  },
   ["pineapplegiant-spaceduck"] = {
     handle = "pineapplegiant/spaceduck",
     url = "https://github.com/pineapplegiant/spaceduck",
@@ -529,19 +542,6 @@ return {
     git_branch = nil,
     color_names = {
       "spaceduck",
-    },
-  },
-  ["alexvzyl-nordic.nvim"] = {
-    handle = "alexvzyl/nordic.nvim",
-    url = "https://github.com/alexvzyl/nordic.nvim",
-    github_stars = 815,
-    last_git_commit = "2025-03-18",
-    priority = 100,
-    source = "asm",
-    git_path = "alexvzyl-nordic.nvim",
-    git_branch = nil,
-    color_names = {
-      "nordic",
     },
   },
   ["raphamorim-lucario"] = {
@@ -560,7 +560,7 @@ return {
   ["savq-melange-nvim"] = {
     handle = "savq/melange-nvim",
     url = "https://github.com/savq/melange-nvim",
-    github_stars = 799,
+    github_stars = 807,
     last_git_commit = "2025-01-16",
     priority = 100,
     source = "asm",
@@ -573,8 +573,8 @@ return {
   ["mofiqul-vscode.nvim"] = {
     handle = "mofiqul/vscode.nvim",
     url = "https://github.com/mofiqul/vscode.nvim",
-    github_stars = 785,
-    last_git_commit = "2025-03-09",
+    github_stars = 790,
+    last_git_commit = "2025-03-26",
     priority = 100,
     source = "asm",
     git_path = "mofiqul-vscode.nvim",
@@ -586,7 +586,7 @@ return {
   ["fenetikm-falcon"] = {
     handle = "fenetikm/falcon",
     url = "https://github.com/fenetikm/falcon",
-    github_stars = 766,
+    github_stars = 774,
     last_git_commit = "2024-12-02",
     priority = 100,
     source = "asm",
@@ -599,7 +599,7 @@ return {
   ["tjdevries-colorbuddy.nvim"] = {
     handle = "tjdevries/colorbuddy.nvim",
     url = "https://github.com/tjdevries/colorbuddy.nvim",
-    github_stars = 698,
+    github_stars = 700,
     last_git_commit = "2024-05-08",
     priority = 0,
     source = "vsc",
@@ -613,7 +613,7 @@ return {
   ["embark-theme-vim"] = {
     handle = "embark-theme/vim",
     url = "https://github.com/embark-theme/vim",
-    github_stars = 671,
+    github_stars = 677,
     last_git_commit = "2025-01-26",
     priority = 100,
     source = "asm",
@@ -639,7 +639,7 @@ return {
   ["lunacookies-vim-colors-xcode"] = {
     handle = "lunacookies/vim-colors-xcode",
     url = "https://github.com/lunacookies/vim-colors-xcode",
-    github_stars = 617,
+    github_stars = 619,
     last_git_commit = "2024-10-25",
     priority = 0,
     source = "vsc",
@@ -658,7 +658,7 @@ return {
   ["challenger-deep-theme-vim"] = {
     handle = "challenger-deep-theme/vim",
     url = "https://github.com/challenger-deep-theme/vim",
-    github_stars = 605,
+    github_stars = 606,
     last_git_commit = "2022-04-25",
     priority = 0,
     source = "vsc",
@@ -697,8 +697,8 @@ return {
   ["rmehri01-onenord.nvim"] = {
     handle = "rmehri01/onenord.nvim",
     url = "https://github.com/rmehri01/onenord.nvim",
-    github_stars = 559,
-    last_git_commit = "2025-01-03",
+    github_stars = 563,
+    last_git_commit = "2025-03-30",
     priority = 100,
     source = "asm",
     git_path = "rmehri01-onenord.nvim",
@@ -711,7 +711,7 @@ return {
   ["rrethy-base16-nvim"] = {
     handle = "rrethy/base16-nvim",
     url = "https://github.com/rrethy/base16-nvim",
-    github_stars = 550,
+    github_stars = 553,
     last_git_commit = "2025-02-22",
     priority = 100,
     source = "asm",
@@ -1013,7 +1013,7 @@ return {
   ["loctvl842-monokai-pro.nvim"] = {
     handle = "loctvl842/monokai-pro.nvim",
     url = "https://github.com/loctvl842/monokai-pro.nvim",
-    github_stars = 539,
+    github_stars = 543,
     last_git_commit = "2025-02-24",
     priority = 0,
     source = "vsc",
@@ -1033,8 +1033,8 @@ return {
   ["lifepillar-vim-gruvbox8"] = {
     handle = "lifepillar/vim-gruvbox8",
     url = "https://github.com/lifepillar/vim-gruvbox8",
-    github_stars = 537,
-    last_git_commit = "2025-02-22",
+    github_stars = 536,
+    last_git_commit = "2025-03-25",
     priority = 0,
     source = "vsc",
     git_path = "lifepillar-vim-gruvbox8",
@@ -1062,7 +1062,7 @@ return {
   ["tiagovla-tokyodark.nvim"] = {
     handle = "tiagovla/tokyodark.nvim",
     url = "https://github.com/tiagovla/tokyodark.nvim",
-    github_stars = 518,
+    github_stars = 520,
     last_git_commit = "2025-01-02",
     priority = 100,
     source = "asm",
