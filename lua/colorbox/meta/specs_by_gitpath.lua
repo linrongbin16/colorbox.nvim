@@ -2,7 +2,7 @@ return {
   ["morhetz-gruvbox"] = {
     handle = "morhetz/gruvbox",
     url = "https://github.com/morhetz/gruvbox",
-    github_stars = 14278,
+    github_stars = 14287,
     last_git_commit = "2023-08-14",
     priority = 0,
     source = "vsc",
@@ -65,7 +65,7 @@ return {
   ["joshdick-onedark.vim"] = {
     handle = "joshdick/onedark.vim",
     url = "https://github.com/joshdick/onedark.vim",
-    github_stars = 3931,
+    github_stars = 3934,
     last_git_commit = "2024-07-16",
     priority = 0,
     source = "vsc",
@@ -123,7 +123,7 @@ return {
   ["nlknguyen-papercolor-theme"] = {
     handle = "nlknguyen/papercolor-theme",
     url = "https://github.com/nlknguyen/papercolor-theme",
-    github_stars = 2767,
+    github_stars = 2768,
     last_git_commit = "2024-03-12",
     priority = 0,
     source = "vsc",
@@ -136,7 +136,7 @@ return {
   ["nordtheme-vim"] = {
     handle = "nordtheme/vim",
     url = "https://github.com/nordtheme/vim",
-    github_stars = 2544,
+    github_stars = 2548,
     last_git_commit = "2023-05-03",
     priority = 0,
     source = "vsc",
@@ -165,7 +165,7 @@ return {
   ["cocopon-iceberg.vim"] = {
     handle = "cocopon/iceberg.vim",
     url = "https://github.com/cocopon/iceberg.vim",
-    github_stars = 2281,
+    github_stars = 2283,
     last_git_commit = "2024-06-19",
     priority = 0,
     source = "vsc",
@@ -227,7 +227,7 @@ return {
   ["nanotech-jellybeans.vim"] = {
     handle = "nanotech/jellybeans.vim",
     url = "https://github.com/nanotech/jellybeans.vim",
-    github_stars = 1822,
+    github_stars = 1824,
     last_git_commit = "2019-06-21",
     priority = 0,
     source = "vsc",
@@ -332,7 +332,7 @@ return {
   ["sjl-badwolf"] = {
     handle = "sjl/badwolf",
     url = "https://github.com/sjl/badwolf",
-    github_stars = 1257,
+    github_stars = 1256,
     last_git_commit = "2024-05-23",
     priority = 0,
     source = "vsc",
@@ -360,7 +360,7 @@ return {
   ["jacoborus-tender.vim"] = {
     handle = "jacoborus/tender.vim",
     url = "https://github.com/jacoborus/tender.vim",
-    github_stars = 1185,
+    github_stars = 1187,
     last_git_commit = "2025-02-28",
     priority = 0,
     source = "vsc",
@@ -405,7 +405,7 @@ return {
     handle = "bluz71/vim-moonfly-colors",
     url = "https://github.com/bluz71/vim-moonfly-colors",
     github_stars = 974,
-    last_git_commit = "2025-04-04",
+    last_git_commit = "2025-04-13",
     priority = 100,
     source = "asm",
     git_path = "bluz71-vim-moonfly-colors",
@@ -431,7 +431,7 @@ return {
     handle = "scottmckendry/cyberdream.nvim",
     url = "https://github.com/scottmckendry/cyberdream.nvim",
     github_stars = 904,
-    last_git_commit = "2025-04-03",
+    last_git_commit = "2025-04-11",
     priority = 100,
     source = "asm",
     git_path = "scottmckendry-cyberdream.nvim",
@@ -444,7 +444,7 @@ return {
   ["jnurmine-zenburn"] = {
     handle = "jnurmine/zenburn",
     url = "https://github.com/jnurmine/zenburn",
-    github_stars = 902,
+    github_stars = 901,
     last_git_commit = "2022-08-08",
     priority = 0,
     source = "vsc",
@@ -471,7 +471,7 @@ return {
     handle = "bluz71/vim-nightfly-colors",
     url = "https://github.com/bluz71/vim-nightfly-colors",
     github_stars = 852,
-    last_git_commit = "2025-04-04",
+    last_git_commit = "2025-04-13",
     priority = 100,
     source = "asm",
     git_path = "bluz71-vim-nightfly-colors",
@@ -483,7 +483,7 @@ return {
   ["srcery-colors-srcery-vim"] = {
     handle = "srcery-colors/srcery-vim",
     url = "https://github.com/srcery-colors/srcery-vim",
-    github_stars = 850,
+    github_stars = 851,
     last_git_commit = "2025-03-25",
     priority = 0,
     source = "vsc",
@@ -534,7 +534,7 @@ return {
   ["pineapplegiant-spaceduck"] = {
     handle = "pineapplegiant/spaceduck",
     url = "https://github.com/pineapplegiant/spaceduck",
-    github_stars = 821,
+    github_stars = 823,
     last_git_commit = "2022-02-21",
     priority = 0,
     source = "vsc",
@@ -599,7 +599,7 @@ return {
   ["tjdevries-colorbuddy.nvim"] = {
     handle = "tjdevries/colorbuddy.nvim",
     url = "https://github.com/tjdevries/colorbuddy.nvim",
-    github_stars = 700,
+    github_stars = 703,
     last_git_commit = "2024-05-08",
     priority = 0,
     source = "vsc",
@@ -639,7 +639,7 @@ return {
   ["lunacookies-vim-colors-xcode"] = {
     handle = "lunacookies/vim-colors-xcode",
     url = "https://github.com/lunacookies/vim-colors-xcode",
-    github_stars = 619,
+    github_stars = 622,
     last_git_commit = "2024-10-25",
     priority = 0,
     source = "vsc",
@@ -658,7 +658,7 @@ return {
   ["challenger-deep-theme-vim"] = {
     handle = "challenger-deep-theme/vim",
     url = "https://github.com/challenger-deep-theme/vim",
-    github_stars = 607,
+    github_stars = 608,
     last_git_commit = "2022-04-25",
     priority = 0,
     source = "vsc",
@@ -671,7 +671,7 @@ return {
   ["liuchengxu-space-vim-dark"] = {
     handle = "liuchengxu/space-vim-dark",
     url = "https://github.com/liuchengxu/space-vim-dark",
-    github_stars = 603,
+    github_stars = 604,
     last_git_commit = "2023-11-04",
     priority = 0,
     source = "vsc",
@@ -684,8 +684,8 @@ return {
   ["wadackel-vim-dogrun"] = {
     handle = "wadackel/vim-dogrun",
     url = "https://github.com/wadackel/vim-dogrun",
-    github_stars = 587,
-    last_git_commit = "2025-04-06",
+    github_stars = 594,
+    last_git_commit = "2025-04-13",
     priority = 0,
     source = "vsc",
     git_path = "wadackel-vim-dogrun",
@@ -1013,7 +1013,7 @@ return {
   ["loctvl842-monokai-pro.nvim"] = {
     handle = "loctvl842/monokai-pro.nvim",
     url = "https://github.com/loctvl842/monokai-pro.nvim",
-    github_stars = 547,
+    github_stars = 550,
     last_git_commit = "2025-02-24",
     priority = 0,
     source = "vsc",
@@ -1033,7 +1033,7 @@ return {
   ["lifepillar-vim-gruvbox8"] = {
     handle = "lifepillar/vim-gruvbox8",
     url = "https://github.com/lifepillar/vim-gruvbox8",
-    github_stars = 535,
+    github_stars = 536,
     last_git_commit = "2025-03-25",
     priority = 0,
     source = "vsc",
