@@ -1,7 +1,7 @@
 name: Collector
 on:
   schedule:
-    - cron: "0 0 * * 1"
+    - cron: "0 0 1 * *"
   workflow_dispatch:
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
@@ -40,4 +40,4 @@ jobs:
         with:
           commit_message: "chore(colors): auto update colorschemes ${{ env.COLLECT_CHANGE }}"
           push_options: "--force"
-          file_pattern: 'db.json COLORSCHEMES.md collect.py.log lua/colorbox/meta/*.lua'
+          file_pattern: "db.json COLORSCHEMES.md collect.py.log lua/colorbox/meta/*.lua"
