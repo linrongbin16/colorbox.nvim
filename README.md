@@ -27,7 +27,7 @@ require("colorbox").setup({
 
 </details>
 
-It uses GitHub actions to monthly collect/update the colorscheme dataset.
+It uses GitHub actions to weekly collect/update the colorscheme dataset.
 
 > [!NOTE]
 >
