@@ -100,6 +100,7 @@ return {
   "base16-evenok-dark",
   "base16-everforest",
   "base16-everforest-dark-hard",
+  "base16-everforest-dark-soft",
   "base16-flat",
   "base16-framer",
   "base16-fruit-soda",
