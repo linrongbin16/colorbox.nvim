@@ -395,6 +395,7 @@ return {
   "tokyonight-moon",
   "tokyonight-night",
   "tokyonight-storm",
+  "vague",
   "vimbones",
   "vscode",
   "xcode",
