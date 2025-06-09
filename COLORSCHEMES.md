@@ -1,473 +1,476 @@
 
 ColorSchemes List (59)
 ======================
-  
-- [morhetz/gruvbox](https://github.com/morhetz/gruvbox) (stars: 14454, last update: 2025-04-20)  
-  - gruvbox  
-- [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim) (stars: 7100, last update: 2025-02-18)  
-  - tokyonight  
-  - tokyonight-day  
-  - tokyonight-moon  
-  - tokyonight-night  
-  - tokyonight-storm  
-- [catppuccin/nvim](https://github.com/catppuccin/nvim) (stars: 6300, last update: 2025-06-01)  
-  - catppuccin  
-  - catppuccin-frappe  
-  - catppuccin-latte  
-  - catppuccin-macchiato  
-  - catppuccin-mocha  
-- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) (stars: 5100, last update: 2025-05-21)  
-  - kanagawa  
-  - kanagawa-dragon  
-  - kanagawa-lotus  
-  - kanagawa-wave  
-- [joshdick/onedark.vim](https://github.com/joshdick/onedark.vim) (stars: 3940, last update: 2024-07-16)  
-  - onedark  
-- [tomasr/molokai](https://github.com/tomasr/molokai) (stars: 3613, last update: 2015-11-11)  
-  - molokai  
-- [edeneast/nightfox.nvim](https://github.com/edeneast/nightfox.nvim) (stars: 3500, last update: 2025-02-09)  
-  - carbonfox  
-  - dawnfox  
-  - dayfox  
-  - duskfox  
-  - nightfox  
-  - nordfox  
-  - terafox  
-- [sainnhe/everforest](https://github.com/sainnhe/everforest) (stars: 3300, last update: 2025-04-16)  
-  - everforest  
-- [nlknguyen/papercolor-theme](https://github.com/nlknguyen/papercolor-theme) (stars: 2793, last update: 2024-03-12)  
-  - PaperColor  
-- [rose-pine/neovim](https://github.com/rose-pine/neovim) (stars: 2600, last update: 2025-05-05)  
-  - rose-pine  
-  - rose-pine-dawn  
-  - rose-pine-main  
-  - rose-pine-moon  
-- [nordtheme/vim](https://github.com/nordtheme/vim) (stars: 2552, last update: 2023-05-03)  
-  - nord  
-- [projekt0n/github-nvim-theme](https://github.com/projekt0n/github-nvim-theme) (stars: 2300, last update: 2024-12-31)  
-  - github_dark  
-  - github_dark_colorblind  
-  - github_dark_default  
-  - github_dark_dimmed  
-  - github_dark_high_contrast  
-  - github_dark_tritanopia  
-  - github_light  
-  - github_light_colorblind  
-  - github_light_default  
-  - github_light_high_contrast  
-  - github_light_tritanopia  
-- [cocopon/iceberg.vim](https://github.com/cocopon/iceberg.vim) (stars: 2290, last update: 2024-06-19)  
-  - iceberg  
-- [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material) (stars: 2200, last update: 2025-04-16)  
-  - gruvbox-material  
-- [rakr/vim-one](https://github.com/rakr/vim-one) (stars: 2014, last update: 2020-12-14)  
-  - one  
-- [nanotech/jellybeans.vim](https://github.com/nanotech/jellybeans.vim) (stars: 1827, last update: 2019-06-21)  
-  - jellybeans  
-- [sainnhe/sonokai](https://github.com/sainnhe/sonokai) (stars: 1800, last update: 2025-04-16)  
-  - sonokai  
-- [ayu-theme/ayu-vim](https://github.com/ayu-theme/ayu-vim) (stars: 1732, last update: 2024-07-15)  
-  - ayu  
-- [junegunn/seoul256.vim](https://github.com/junegunn/seoul256.vim) (stars: 1685, last update: 2025-05-23)  
-  - seoul256  
-  - seoul256-light  
-- [w0ng/vim-hybrid](https://github.com/w0ng/vim-hybrid) (stars: 1487, last update: 2016-01-05)  
-  - hybrid  
-- [ku1ik/vim-monokai](https://github.com/ku1ik/vim-monokai) (stars: 1454, last update: 2022-02-09)  
-  - monokai  
-- [dracula/vim](https://github.com/dracula/vim) (stars: 1400, last update: 2025-03-26)  
-  - dracula  
-- [nyoom-engineering/oxocarbon.nvim](https://github.com/nyoom-engineering/oxocarbon.nvim) (stars: 1300, last update: 2025-05-30)  
-  - oxocarbon  
-- [sjl/badwolf](https://github.com/sjl/badwolf) (stars: 1254, last update: 2024-05-23)  
-  - badwolf  
-  - goodwolf  
-- [mhartington/oceanic-next](https://github.com/mhartington/oceanic-next) (stars: 1200, last update: 2023-05-01)  
-  - OceanicNext  
-  - OceanicNextLight  
-- [jacoborus/tender.vim](https://github.com/jacoborus/tender.vim) (stars: 1195, last update: 2025-02-28)  
-  - tender  
-- [bluz71/vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) (stars: 1100, last update: 2025-05-28)  
-  - moonfly  
-- [marko-cerovac/material.nvim](https://github.com/marko-cerovac/material.nvim) (stars: 1000, last update: 2025-05-20)  
-  - material  
-  - material-darker  
-  - material-deep-ocean  
-  - material-lighter  
-  - material-oceanic  
-  - material-palenight  
-- [scottmckendry/cyberdream.nvim](https://github.com/scottmckendry/cyberdream.nvim) (stars: 977, last update: 2025-05-28)  
-  - cyberdream  
-  - cyberdream-light  
-- [tomasiser/vim-code-dark](https://github.com/tomasiser/vim-code-dark) (stars: 974, last update: 2024-05-21)  
-  - codedark  
-- [sainnhe/edge](https://github.com/sainnhe/edge) (stars: 956, last update: 2025-04-16)  
-  - edge  
-- [jnurmine/zenburn](https://github.com/jnurmine/zenburn) (stars: 904, last update: 2022-08-08)  
-  - zenburn  
-- [romainl/apprentice](https://github.com/romainl/apprentice) (stars: 899, last update: 2024-07-30)  
-  - apprentice  
-- [zenbones-theme/zenbones.nvim](https://github.com/zenbones-theme/zenbones.nvim) (stars: 883, last update: 2025-04-22)  
-  - duckbones  
-  - forestbones  
-  - kanagawabones  
-  - neobones  
-  - nordbones  
-  - randombones  
-  - rosebones  
-  - seoulbones  
-  - tokyobones  
-  - vimbones  
-  - zenbones  
-  - zenburned  
-  - zenwritten  
-- [bluz71/vim-nightfly-colors](https://github.com/bluz71/vim-nightfly-colors) (stars: 880, last update: 2025-05-28)  
-  - nightfly  
-- [alexvzyl/nordic.nvim](https://github.com/alexvzyl/nordic.nvim) (stars: 861, last update: 2025-04-15)  
-  - nordic  
-- [srcery-colors/srcery-vim](https://github.com/srcery-colors/srcery-vim) (stars: 853, last update: 2025-04-24)  
-  - srcery  
-- [savq/melange-nvim](https://github.com/savq/melange-nvim) (stars: 834, last update: 2025-06-01)  
-  - melange  
-- [pineapplegiant/spaceduck](https://github.com/pineapplegiant/spaceduck) (stars: 831, last update: 2022-02-21)  
-  - spaceduck  
-- [mofiqul/vscode.nvim](https://github.com/mofiqul/vscode.nvim) (stars: 823, last update: 2025-05-14)  
-  - vscode  
-- [raphamorim/lucario](https://github.com/raphamorim/lucario) (stars: 817, last update: 2024-11-08)  
-  - lucario  
-- [fenetikm/falcon](https://github.com/fenetikm/falcon) (stars: 783, last update: 2025-04-28)  
-  - falcon  
-- [tjdevries/colorbuddy.nvim](https://github.com/tjdevries/colorbuddy.nvim) (stars: 718, last update: 2024-05-08)  
-  - colorbuddy  
-  - gruvbuddy  
-- [embark-theme/vim](https://github.com/embark-theme/vim) (stars: 685, last update: 2025-01-26)  
-  - embark  
-- [drewtempelmeyer/palenight.vim](https://github.com/drewtempelmeyer/palenight.vim) (stars: 657, last update: 2023-04-27)  
-  - palenight  
-- [lunacookies/vim-colors-xcode](https://github.com/lunacookies/vim-colors-xcode) (stars: 625, last update: 2024-10-25)  
-  - xcode  
-  - xcodedark  
-  - xcodedarkhc  
-  - xcodehc  
-  - xcodelight  
-  - xcodelighthc  
-  - xcodewwdc  
-- [challenger-deep-theme/vim](https://github.com/challenger-deep-theme/vim) (stars: 613, last update: 2022-04-25)  
-  - challenger_deep  
-- [liuchengxu/space-vim-dark](https://github.com/liuchengxu/space-vim-dark) (stars: 605, last update: 2023-11-04)  
-  - space-vim-dark  
-- [wadackel/vim-dogrun](https://github.com/wadackel/vim-dogrun) (stars: 605, last update: 2025-05-31)  
-  - dogrun  
-- [loctvl842/monokai-pro.nvim](https://github.com/loctvl842/monokai-pro.nvim) (stars: 578, last update: 2025-04-21)  
-  - monokai-pro  
-  - monokai-pro-classic  
-  - monokai-pro-default  
-  - monokai-pro-light  
-  - monokai-pro-machine  
-  - monokai-pro-octagon  
-  - monokai-pro-ristretto  
-  - monokai-pro-spectrum  
-- [rmehri01/onenord.nvim](https://github.com/rmehri01/onenord.nvim) (stars: 577, last update: 2025-05-26)  
-  - onenord  
-  - onenord-light  
-- [rrethy/base16-nvim](https://github.com/rrethy/base16-nvim) (stars: 566, last update: 2025-05-26)  
-  - base16-3024  
-  - base16-apathy  
-  - base16-apprentice  
-  - base16-ashes  
-  - base16-atelier-cave  
-  - base16-atelier-cave-light  
-  - base16-atelier-dune  
-  - base16-atelier-dune-light  
-  - base16-atelier-estuary  
-  - base16-atelier-estuary-light  
-  - base16-atelier-forest  
-  - base16-atelier-forest-light  
-  - base16-atelier-heath  
-  - base16-atelier-heath-light  
-  - base16-atelier-lakeside  
-  - base16-atelier-lakeside-light  
-  - base16-atelier-plateau  
-  - base16-atelier-plateau-light  
-  - base16-atelier-savanna  
-  - base16-atelier-savanna-light  
-  - base16-atelier-seaside  
-  - base16-atelier-seaside-light  
-  - base16-atelier-sulphurpool  
-  - base16-atelier-sulphurpool-light  
-  - base16-atlas  
-  - base16-ayu-dark  
-  - base16-ayu-light  
-  - base16-ayu-mirage  
-  - base16-aztec  
-  - base16-bespin  
-  - base16-black-metal  
-  - base16-black-metal-bathory  
-  - base16-black-metal-burzum  
-  - base16-black-metal-dark-funeral  
-  - base16-black-metal-gorgoroth  
-  - base16-black-metal-immortal  
-  - base16-black-metal-khold  
-  - base16-black-metal-marduk  
-  - base16-black-metal-mayhem  
-  - base16-black-metal-nile  
-  - base16-black-metal-venom  
-  - base16-blueforest  
-  - base16-blueish  
-  - base16-brewer  
-  - base16-bright  
-  - base16-brogrammer  
-  - base16-brushtrees  
-  - base16-brushtrees-dark  
-  - base16-caroline  
-  - base16-catppuccin  
-  - base16-catppuccin-frappe  
-  - base16-catppuccin-latte  
-  - base16-catppuccin-macchiato  
-  - base16-catppuccin-mocha  
-  - base16-chalk  
-  - base16-circus  
-  - base16-classic-dark  
-  - base16-classic-light  
-  - base16-codeschool  
-  - base16-colors  
-  - base16-cupcake  
-  - base16-cupertino  
-  - base16-da-one-black  
-  - base16-da-one-gray  
-  - base16-da-one-ocean  
-  - base16-da-one-paper  
-  - base16-da-one-sea  
-  - base16-da-one-white  
-  - base16-danqing  
-  - base16-danqing-light  
-  - base16-darcula  
-  - base16-darkmoss  
-  - base16-darktooth  
-  - base16-darkviolet  
-  - base16-decaf  
-  - base16-deep-oceanic-next  
-  - base16-default-dark  
-  - base16-default-light  
-  - base16-digital-rain  
-  - base16-dirtysea  
-  - base16-dracula  
-  - base16-edge-dark  
-  - base16-edge-light  
-  - base16-eighties  
-  - base16-embers  
-  - base16-embers-light  
-  - base16-emil  
-  - base16-equilibrium-dark  
-  - base16-equilibrium-gray-dark  
-  - base16-equilibrium-gray-light  
-  - base16-equilibrium-light  
-  - base16-eris  
-  - base16-espresso  
-  - base16-eva  
-  - base16-eva-dim  
-  - base16-evenok-dark  
-  - base16-everforest  
-  - base16-everforest-dark-hard  
-  - base16-everforest-dark-soft  
-  - base16-flat  
-  - base16-framer  
-  - base16-fruit-soda  
-  - base16-gigavolt  
-  - base16-github  
-  - base16-github-dark  
-  - base16-google-dark  
-  - base16-google-light  
-  - base16-gotham  
-  - base16-grayscale-dark  
-  - base16-grayscale-light  
-  - base16-greenscreen  
-  - base16-gruber  
-  - base16-gruvbox-dark  
-  - base16-gruvbox-dark-hard  
-  - base16-gruvbox-dark-medium  
-  - base16-gruvbox-dark-pale  
-  - base16-gruvbox-dark-soft  
-  - base16-gruvbox-light  
-  - base16-gruvbox-light-hard  
-  - base16-gruvbox-light-medium  
-  - base16-gruvbox-light-soft  
-  - base16-gruvbox-material-dark-hard  
-  - base16-gruvbox-material-dark-medium  
-  - base16-gruvbox-material-dark-soft  
-  - base16-gruvbox-material-light-hard  
-  - base16-gruvbox-material-light-medium  
-  - base16-gruvbox-material-light-soft  
-  - base16-hardcore  
-  - base16-harmonic-dark  
-  - base16-harmonic-light  
-  - base16-harmonic16-dark  
-  - base16-harmonic16-light  
-  - base16-heetch  
-  - base16-heetch-light  
-  - base16-helios  
-  - base16-hopscotch  
-  - base16-horizon-dark  
-  - base16-horizon-light  
-  - base16-horizon-terminal-dark  
-  - base16-horizon-terminal-light  
-  - base16-humanoid-dark  
-  - base16-humanoid-light  
-  - base16-ia-dark  
-  - base16-ia-light  
-  - base16-icy  
-  - base16-irblack  
-  - base16-isotope  
-  - base16-jabuti  
-  - base16-kanagawa  
-  - base16-kanagawa-dragon  
-  - base16-katy  
-  - base16-kimber  
-  - base16-lime  
-  - base16-macintosh  
-  - base16-marrakesh  
-  - base16-materia  
-  - base16-material  
-  - base16-material-darker  
-  - base16-material-lighter  
-  - base16-material-palenight  
-  - base16-material-vivid  
-  - base16-measured-dark  
-  - base16-measured-light  
-  - base16-mellow-purple  
-  - base16-mexico-light  
-  - base16-mocha  
-  - base16-monokai  
-  - base16-moonlight  
-  - base16-mountain  
-  - base16-nebula  
-  - base16-nord  
-  - base16-nord-light  
-  - base16-nova  
-  - base16-ocean  
-  - base16-oceanicnext  
-  - base16-one-light  
-  - base16-onedark  
-  - base16-onedark-dark  
-  - base16-outrun-dark  
-  - base16-oxocarbon-dark  
-  - base16-oxocarbon-light  
-  - base16-pandora  
-  - base16-papercolor-dark  
-  - base16-papercolor-light  
-  - base16-paraiso  
-  - base16-pasque  
-  - base16-phd  
-  - base16-pico  
-  - base16-pinky  
-  - base16-pop  
-  - base16-porple  
-  - base16-precious-dark-eleven  
-  - base16-precious-dark-fifteen  
-  - base16-precious-light-warm  
-  - base16-precious-light-white  
-  - base16-primer-dark  
-  - base16-primer-dark-dimmed  
-  - base16-primer-light  
-  - base16-purpledream  
-  - base16-qualia  
-  - base16-railscasts  
-  - base16-rebecca  
-  - base16-rose-pine  
-  - base16-rose-pine-dawn  
-  - base16-rose-pine-moon  
-  - base16-saga  
-  - base16-sagelight  
-  - base16-sakura  
-  - base16-sandcastle  
-  - base16-schemer-dark  
-  - base16-schemer-medium  
-  - base16-selenized-black  
-  - base16-selenized-dark  
-  - base16-selenized-light  
-  - base16-selenized-white  
-  - base16-seti  
-  - base16-shades-of-purple  
-  - base16-shadesmear-dark  
-  - base16-shadesmear-light  
-  - base16-shapeshifter  
-  - base16-silk-dark  
-  - base16-silk-light  
-  - base16-snazzy  
-  - base16-solarflare  
-  - base16-solarflare-light  
-  - base16-solarized-dark  
-  - base16-solarized-light  
-  - base16-spaceduck  
-  - base16-spacemacs  
-  - base16-sparky  
-  - base16-standardized-dark  
-  - base16-standardized-light  
-  - base16-stella  
-  - base16-still-alive  
-  - base16-summercamp  
-  - base16-summerfruit-dark  
-  - base16-summerfruit-light  
-  - base16-synth-midnight-dark  
-  - base16-synth-midnight-light  
-  - base16-tango  
-  - base16-tarot  
-  - base16-tender  
-  - base16-terracotta  
-  - base16-terracotta-dark  
-  - base16-tokyo-city-dark  
-  - base16-tokyo-city-light  
-  - base16-tokyo-city-terminal-dark  
-  - base16-tokyo-city-terminal-light  
-  - base16-tokyo-night-dark  
-  - base16-tokyo-night-light  
-  - base16-tokyo-night-moon  
-  - base16-tokyo-night-storm  
-  - base16-tokyo-night-terminal-dark  
-  - base16-tokyo-night-terminal-light  
-  - base16-tokyo-night-terminal-storm  
-  - base16-tokyodark  
-  - base16-tokyodark-terminal  
-  - base16-tomorrow  
-  - base16-tomorrow-night  
-  - base16-tomorrow-night-eighties  
-  - base16-tube  
-  - base16-twilight  
-  - base16-unikitty-dark  
-  - base16-unikitty-light  
-  - base16-unikitty-reversible  
-  - base16-uwunicorn  
-  - base16-valua  
-  - base16-vesper  
-  - base16-vice  
-  - base16-vulcan  
-  - base16-windows-10  
-  - base16-windows-10-light  
-  - base16-windows-95  
-  - base16-windows-95-light  
-  - base16-windows-highcontrast  
-  - base16-windows-highcontrast-light  
-  - base16-windows-nt  
-  - base16-windows-nt-light  
-  - base16-woodland  
-  - base16-xcode-dusk  
-  - base16-zenbones  
-  - base16-zenburn  
-- [kristijanhusak/vim-hybrid-material](https://github.com/kristijanhusak/vim-hybrid-material) (stars: 549, last update: 2020-06-16)  
-  - hybrid_material  
-  - hybrid_reverse  
-- [tiagovla/tokyodark.nvim](https://github.com/tiagovla/tokyodark.nvim) (stars: 534, last update: 2025-01-02)  
-  - tokyodark  
-- [lifepillar/vim-gruvbox8](https://github.com/lifepillar/vim-gruvbox8) (stars: 533, last update: 2025-03-25)  
-  - gruvbox8  
-  - gruvbox8_hard  
-  - gruvbox8_soft  
-- [jaredgorski/spacecamp](https://github.com/jaredgorski/spacecamp) (stars: 526, last update: 2023-08-25)  
-  - spacecamp  
-  - spacecamp_lite  
-- [rigellute/rigel](https://github.com/rigellute/rigel) (stars: 518, last update: 2024-01-11)  
-  - rigel  
-- [vague2k/vague.nvim](https://github.com/vague2k/vague.nvim) (stars: 516, last update: 2025-05-30)  
-  - vague  
-- [haishanh/night-owl.vim](https://github.com/haishanh/night-owl.vim) (stars: 504, last update: 2020-12-25)  
+
+- [morhetz/gruvbox](https://github.com/morhetz/gruvbox) (stars: 14478, last update: 2025-04-20)
+  - gruvbox
+- [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim) (stars: 7100, last update: 2025-02-18)
+  - tokyonight
+  - tokyonight-day
+  - tokyonight-moon
+  - tokyonight-night
+  - tokyonight-storm
+- [catppuccin/nvim](https://github.com/catppuccin/nvim) (stars: 6300, last update: 2025-06-07)
+  - catppuccin
+  - catppuccin-frappe
+  - catppuccin-latte
+  - catppuccin-macchiato
+  - catppuccin-mocha
+- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim) (stars: 5100, last update: 2025-05-21)
+  - kanagawa
+  - kanagawa-dragon
+  - kanagawa-lotus
+  - kanagawa-wave
+- [joshdick/onedark.vim](https://github.com/joshdick/onedark.vim) (stars: 3940, last update: 2024-07-16)
+  - onedark
+- [tomasr/molokai](https://github.com/tomasr/molokai) (stars: 3612, last update: 2015-11-11)
+  - molokai
+- [edeneast/nightfox.nvim](https://github.com/edeneast/nightfox.nvim) (stars: 3500, last update: 2025-02-09)
+  - carbonfox
+  - dawnfox
+  - dayfox
+  - duskfox
+  - nightfox
+  - nordfox
+  - terafox
+- [sainnhe/everforest](https://github.com/sainnhe/everforest) (stars: 3300, last update: 2025-05-30)
+  - everforest
+- [nlknguyen/papercolor-theme](https://github.com/nlknguyen/papercolor-theme) (stars: 2794, last update: 2024-03-12)
+  - PaperColor
+- [rose-pine/neovim](https://github.com/rose-pine/neovim) (stars: 2600, last update: 2025-05-05)
+  - rose-pine
+  - rose-pine-dawn
+  - rose-pine-main
+  - rose-pine-moon
+- [nordtheme/vim](https://github.com/nordtheme/vim) (stars: 2553, last update: 2023-05-03)
+  - nord
+- [projekt0n/github-nvim-theme](https://github.com/projekt0n/github-nvim-theme) (stars: 2300, last update: 2024-12-31)
+  - github_dark
+  - github_dark_colorblind
+  - github_dark_default
+  - github_dark_dimmed
+  - github_dark_high_contrast
+  - github_dark_tritanopia
+  - github_light
+  - github_light_colorblind
+  - github_light_default
+  - github_light_high_contrast
+  - github_light_tritanopia
+- [cocopon/iceberg.vim](https://github.com/cocopon/iceberg.vim) (stars: 2293, last update: 2024-06-19)
+  - iceberg
+- [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material) (stars: 2200, last update: 2025-04-16)
+  - gruvbox-material
+- [rakr/vim-one](https://github.com/rakr/vim-one) (stars: 2014, last update: 2020-12-14)
+  - one
+- [nanotech/jellybeans.vim](https://github.com/nanotech/jellybeans.vim) (stars: 1827, last update: 2019-06-21)
+  - jellybeans
+- [sainnhe/sonokai](https://github.com/sainnhe/sonokai) (stars: 1800, last update: 2025-04-16)
+  - sonokai
+- [ayu-theme/ayu-vim](https://github.com/ayu-theme/ayu-vim) (stars: 1734, last update: 2024-07-15)
+  - ayu
+- [junegunn/seoul256.vim](https://github.com/junegunn/seoul256.vim) (stars: 1687, last update: 2025-05-23)
+  - seoul256
+  - seoul256-light
+- [w0ng/vim-hybrid](https://github.com/w0ng/vim-hybrid) (stars: 1487, last update: 2016-01-05)
+  - hybrid
+- [ku1ik/vim-monokai](https://github.com/ku1ik/vim-monokai) (stars: 1454, last update: 2022-02-09)
+  - monokai
+- [dracula/vim](https://github.com/dracula/vim) (stars: 1400, last update: 2025-03-26)
+  - dracula
+- [nyoom-engineering/oxocarbon.nvim](https://github.com/nyoom-engineering/oxocarbon.nvim) (stars: 1300, last update: 2025-05-30)
+  - oxocarbon
+- [sjl/badwolf](https://github.com/sjl/badwolf) (stars: 1254, last update: 2024-05-23)
+  - badwolf
+  - goodwolf
+- [mhartington/oceanic-next](https://github.com/mhartington/oceanic-next) (stars: 1200, last update: 2023-05-01)
+  - OceanicNext
+  - OceanicNextLight
+- [jacoborus/tender.vim](https://github.com/jacoborus/tender.vim) (stars: 1196, last update: 2025-02-28)
+  - tender
+- [bluz71/vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors) (stars: 1100, last update: 2025-05-28)
+  - moonfly
+- [marko-cerovac/material.nvim](https://github.com/marko-cerovac/material.nvim) (stars: 1000, last update: 2025-05-20)
+  - material
+  - material-darker
+  - material-deep-ocean
+  - material-lighter
+  - material-oceanic
+  - material-palenight
+- [scottmckendry/cyberdream.nvim](https://github.com/scottmckendry/cyberdream.nvim) (stars: 977, last update: 2025-05-28)
+  - cyberdream
+  - cyberdream-light
+- [tomasiser/vim-code-dark](https://github.com/tomasiser/vim-code-dark) (stars: 974, last update: 2024-05-21)
+  - codedark
+- [sainnhe/edge](https://github.com/sainnhe/edge) (stars: 956, last update: 2025-04-16)
+  - edge
+- [jnurmine/zenburn](https://github.com/jnurmine/zenburn) (stars: 904, last update: 2022-08-08)
+  - zenburn
+- [romainl/apprentice](https://github.com/romainl/apprentice) (stars: 898, last update: 2024-07-30)
+  - apprentice
+- [zenbones-theme/zenbones.nvim](https://github.com/zenbones-theme/zenbones.nvim) (stars: 883, last update: 2025-04-22)
+  - duckbones
+  - forestbones
+  - kanagawabones
+  - neobones
+  - nordbones
+  - randombones
+  - rosebones
+  - seoulbones
+  - tokyobones
+  - vimbones
+  - zenbones
+  - zenburned
+  - zenwritten
+- [bluz71/vim-nightfly-colors](https://github.com/bluz71/vim-nightfly-colors) (stars: 880, last update: 2025-05-28)
+  - nightfly
+- [alexvzyl/nordic.nvim](https://github.com/alexvzyl/nordic.nvim) (stars: 861, last update: 2025-04-15)
+  - nordic
+- [srcery-colors/srcery-vim](https://github.com/srcery-colors/srcery-vim) (stars: 854, last update: 2025-04-24)
+  - srcery
+- [pineapplegiant/spaceduck](https://github.com/pineapplegiant/spaceduck) (stars: 835, last update: 2022-02-21)
+  - spaceduck
+- [savq/melange-nvim](https://github.com/savq/melange-nvim) (stars: 834, last update: 2025-06-05)
+  - melange
+- [mofiqul/vscode.nvim](https://github.com/mofiqul/vscode.nvim) (stars: 823, last update: 2025-05-14)
+  - vscode
+- [raphamorim/lucario](https://github.com/raphamorim/lucario) (stars: 817, last update: 2024-11-08)
+  - lucario
+- [fenetikm/falcon](https://github.com/fenetikm/falcon) (stars: 783, last update: 2025-04-28)
+  - falcon
+- [tjdevries/colorbuddy.nvim](https://github.com/tjdevries/colorbuddy.nvim) (stars: 717, last update: 2024-05-08)
+  - colorbuddy
+  - gruvbuddy
+- [embark-theme/vim](https://github.com/embark-theme/vim) (stars: 685, last update: 2025-01-26)
+  - embark
+- [drewtempelmeyer/palenight.vim](https://github.com/drewtempelmeyer/palenight.vim) (stars: 657, last update: 2023-04-27)
+  - palenight
+- [lunacookies/vim-colors-xcode](https://github.com/lunacookies/vim-colors-xcode) (stars: 625, last update: 2024-10-25)
+  - xcode
+  - xcodedark
+  - xcodedarkhc
+  - xcodehc
+  - xcodelight
+  - xcodelighthc
+  - xcodewwdc
+- [challenger-deep-theme/vim](https://github.com/challenger-deep-theme/vim) (stars: 614, last update: 2022-04-25)
+  - challenger_deep
+- [wadackel/vim-dogrun](https://github.com/wadackel/vim-dogrun) (stars: 610, last update: 2025-06-07)
+  - dogrun
+- [liuchengxu/space-vim-dark](https://github.com/liuchengxu/space-vim-dark) (stars: 604, last update: 2023-11-04)
+  - space-vim-dark
+- [rmehri01/onenord.nvim](https://github.com/rmehri01/onenord.nvim) (stars: 577, last update: 2025-05-26)
+  - onenord
+  - onenord-light
+- [loctvl842/monokai-pro.nvim](https://github.com/loctvl842/monokai-pro.nvim) (stars: 573, last update: 2025-04-21)
+  - monokai-pro
+  - monokai-pro-classic
+  - monokai-pro-default
+  - monokai-pro-light
+  - monokai-pro-machine
+  - monokai-pro-octagon
+  - monokai-pro-ristretto
+  - monokai-pro-spectrum
+- [rrethy/base16-nvim](https://github.com/rrethy/base16-nvim) (stars: 566, last update: 2025-06-05)
+  - base16-0x96f
+  - base16-3024
+  - base16-apathy
+  - base16-apprentice
+  - base16-ashes
+  - base16-atelier-cave
+  - base16-atelier-cave-light
+  - base16-atelier-dune
+  - base16-atelier-dune-light
+  - base16-atelier-estuary
+  - base16-atelier-estuary-light
+  - base16-atelier-forest
+  - base16-atelier-forest-light
+  - base16-atelier-heath
+  - base16-atelier-heath-light
+  - base16-atelier-lakeside
+  - base16-atelier-lakeside-light
+  - base16-atelier-plateau
+  - base16-atelier-plateau-light
+  - base16-atelier-savanna
+  - base16-atelier-savanna-light
+  - base16-atelier-seaside
+  - base16-atelier-seaside-light
+  - base16-atelier-sulphurpool
+  - base16-atelier-sulphurpool-light
+  - base16-atlas
+  - base16-ayu-dark
+  - base16-ayu-light
+  - base16-ayu-mirage
+  - base16-aztec
+  - base16-bespin
+  - base16-black-metal
+  - base16-black-metal-bathory
+  - base16-black-metal-burzum
+  - base16-black-metal-dark-funeral
+  - base16-black-metal-gorgoroth
+  - base16-black-metal-immortal
+  - base16-black-metal-khold
+  - base16-black-metal-marduk
+  - base16-black-metal-mayhem
+  - base16-black-metal-nile
+  - base16-black-metal-venom
+  - base16-blueforest
+  - base16-blueish
+  - base16-brewer
+  - base16-bright
+  - base16-brogrammer
+  - base16-brushtrees
+  - base16-brushtrees-dark
+  - base16-caroline
+  - base16-catppuccin
+  - base16-catppuccin-frappe
+  - base16-catppuccin-latte
+  - base16-catppuccin-macchiato
+  - base16-catppuccin-mocha
+  - base16-chalk
+  - base16-chicago-day
+  - base16-chicago-night
+  - base16-circus
+  - base16-classic-dark
+  - base16-classic-light
+  - base16-codeschool
+  - base16-colors
+  - base16-cupcake
+  - base16-cupertino
+  - base16-da-one-black
+  - base16-da-one-gray
+  - base16-da-one-ocean
+  - base16-da-one-paper
+  - base16-da-one-sea
+  - base16-da-one-white
+  - base16-danqing
+  - base16-danqing-light
+  - base16-darcula
+  - base16-darkmoss
+  - base16-darktooth
+  - base16-darkviolet
+  - base16-decaf
+  - base16-deep-oceanic-next
+  - base16-default-dark
+  - base16-default-light
+  - base16-digital-rain
+  - base16-dirtysea
+  - base16-dracula
+  - base16-edge-dark
+  - base16-edge-light
+  - base16-eighties
+  - base16-embers
+  - base16-embers-light
+  - base16-emil
+  - base16-equilibrium-dark
+  - base16-equilibrium-gray-dark
+  - base16-equilibrium-gray-light
+  - base16-equilibrium-light
+  - base16-eris
+  - base16-espresso
+  - base16-eva
+  - base16-eva-dim
+  - base16-evenok-dark
+  - base16-everforest
+  - base16-everforest-dark-hard
+  - base16-everforest-dark-soft
+  - base16-flat
+  - base16-framer
+  - base16-fruit-soda
+  - base16-gigavolt
+  - base16-github
+  - base16-github-dark
+  - base16-google-dark
+  - base16-google-light
+  - base16-gotham
+  - base16-grayscale-dark
+  - base16-grayscale-light
+  - base16-greenscreen
+  - base16-gruber
+  - base16-gruvbox-dark
+  - base16-gruvbox-dark-hard
+  - base16-gruvbox-dark-medium
+  - base16-gruvbox-dark-pale
+  - base16-gruvbox-dark-soft
+  - base16-gruvbox-light
+  - base16-gruvbox-light-hard
+  - base16-gruvbox-light-medium
+  - base16-gruvbox-light-soft
+  - base16-gruvbox-material-dark-hard
+  - base16-gruvbox-material-dark-medium
+  - base16-gruvbox-material-dark-soft
+  - base16-gruvbox-material-light-hard
+  - base16-gruvbox-material-light-medium
+  - base16-gruvbox-material-light-soft
+  - base16-hardcore
+  - base16-harmonic-dark
+  - base16-harmonic-light
+  - base16-harmonic16-dark
+  - base16-harmonic16-light
+  - base16-heetch
+  - base16-heetch-light
+  - base16-helios
+  - base16-hopscotch
+  - base16-horizon-dark
+  - base16-horizon-light
+  - base16-horizon-terminal-dark
+  - base16-horizon-terminal-light
+  - base16-humanoid-dark
+  - base16-humanoid-light
+  - base16-ia-dark
+  - base16-ia-light
+  - base16-icy
+  - base16-irblack
+  - base16-isotope
+  - base16-jabuti
+  - base16-kanagawa
+  - base16-kanagawa-dragon
+  - base16-katy
+  - base16-kimber
+  - base16-lime
+  - base16-macintosh
+  - base16-marrakesh
+  - base16-materia
+  - base16-material
+  - base16-material-darker
+  - base16-material-lighter
+  - base16-material-palenight
+  - base16-material-vivid
+  - base16-measured-dark
+  - base16-measured-light
+  - base16-mellow-purple
+  - base16-mexico-light
+  - base16-mocha
+  - base16-monokai
+  - base16-moonlight
+  - base16-mountain
+  - base16-nebula
+  - base16-nord
+  - base16-nord-light
+  - base16-nova
+  - base16-ocean
+  - base16-oceanicnext
+  - base16-one-light
+  - base16-onedark
+  - base16-onedark-dark
+  - base16-outrun-dark
+  - base16-oxocarbon-dark
+  - base16-oxocarbon-light
+  - base16-pandora
+  - base16-papercolor-dark
+  - base16-papercolor-light
+  - base16-paraiso
+  - base16-pasque
+  - base16-phd
+  - base16-pico
+  - base16-pinky
+  - base16-pop
+  - base16-porple
+  - base16-precious-dark-eleven
+  - base16-precious-dark-fifteen
+  - base16-precious-light-warm
+  - base16-precious-light-white
+  - base16-primer-dark
+  - base16-primer-dark-dimmed
+  - base16-primer-light
+  - base16-purpledream
+  - base16-qualia
+  - base16-railscasts
+  - base16-rebecca
+  - base16-rose-pine
+  - base16-rose-pine-dawn
+  - base16-rose-pine-moon
+  - base16-saga
+  - base16-sagelight
+  - base16-sakura
+  - base16-sandcastle
+  - base16-schemer-dark
+  - base16-schemer-medium
+  - base16-selenized-black
+  - base16-selenized-dark
+  - base16-selenized-light
+  - base16-selenized-white
+  - base16-seti
+  - base16-shades-of-purple
+  - base16-shadesmear-dark
+  - base16-shadesmear-light
+  - base16-shapeshifter
+  - base16-silk-dark
+  - base16-silk-light
+  - base16-snazzy
+  - base16-solarflare
+  - base16-solarflare-light
+  - base16-solarized-dark
+  - base16-solarized-light
+  - base16-spaceduck
+  - base16-spacemacs
+  - base16-sparky
+  - base16-standardized-dark
+  - base16-standardized-light
+  - base16-stella
+  - base16-still-alive
+  - base16-summercamp
+  - base16-summerfruit-dark
+  - base16-summerfruit-light
+  - base16-synth-midnight-dark
+  - base16-synth-midnight-light
+  - base16-tango
+  - base16-tarot
+  - base16-tender
+  - base16-terracotta
+  - base16-terracotta-dark
+  - base16-tokyo-city-dark
+  - base16-tokyo-city-light
+  - base16-tokyo-city-terminal-dark
+  - base16-tokyo-city-terminal-light
+  - base16-tokyo-night-dark
+  - base16-tokyo-night-light
+  - base16-tokyo-night-moon
+  - base16-tokyo-night-storm
+  - base16-tokyo-night-terminal-dark
+  - base16-tokyo-night-terminal-light
+  - base16-tokyo-night-terminal-storm
+  - base16-tokyodark
+  - base16-tokyodark-terminal
+  - base16-tomorrow
+  - base16-tomorrow-night
+  - base16-tomorrow-night-eighties
+  - base16-tube
+  - base16-twilight
+  - base16-unikitty-dark
+  - base16-unikitty-light
+  - base16-unikitty-reversible
+  - base16-uwunicorn
+  - base16-valua
+  - base16-vesper
+  - base16-vice
+  - base16-vulcan
+  - base16-windows-10
+  - base16-windows-10-light
+  - base16-windows-95
+  - base16-windows-95-light
+  - base16-windows-highcontrast
+  - base16-windows-highcontrast-light
+  - base16-windows-nt
+  - base16-windows-nt-light
+  - base16-woodland
+  - base16-xcode-dusk
+  - base16-zenbones
+  - base16-zenburn
+- [kristijanhusak/vim-hybrid-material](https://github.com/kristijanhusak/vim-hybrid-material) (stars: 549, last update: 2020-06-16)
+  - hybrid_material
+  - hybrid_reverse
+- [tiagovla/tokyodark.nvim](https://github.com/tiagovla/tokyodark.nvim) (stars: 534, last update: 2025-01-02)
+  - tokyodark
+- [lifepillar/vim-gruvbox8](https://github.com/lifepillar/vim-gruvbox8) (stars: 533, last update: 2025-03-25)
+  - gruvbox8
+  - gruvbox8_hard
+  - gruvbox8_soft
+- [vague2k/vague.nvim](https://github.com/vague2k/vague.nvim) (stars: 530, last update: 2025-06-02)
+  - vague
+- [jaredgorski/spacecamp](https://github.com/jaredgorski/spacecamp) (stars: 526, last update: 2023-08-25)
+  - spacecamp
+  - spacecamp_lite
+- [rigellute/rigel](https://github.com/rigellute/rigel) (stars: 518, last update: 2024-01-11)
+  - rigel
+- [haishanh/night-owl.vim](https://github.com/haishanh/night-owl.vim) (stars: 504, last update: 2020-12-25)
   - night-owl
