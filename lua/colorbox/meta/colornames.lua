@@ -384,6 +384,8 @@ return {
   "palenight",
   "PaperColor",
   "randombones",
+  "randombones_dark",
+  "randombones_light",
   "rigel",
   "rose-pine",
   "rose-pine-dawn",
