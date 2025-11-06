@@ -610,7 +610,7 @@ class Builder:
                         f"score new spec({spec_score}):{spec}, old spec({old_spec_score}):{old_spec}"
                     )
                     if spec_score >= old_spec_score:
-                        logging.info(f"replace old spec({old_spec}) with new spec({spec})")
+                        # logging.info(f"replace old spec({old_spec}) with new spec({spec})")
                         specs_map[color] = spec
                         specs_set.add(spec)
                         specs_set.remove(old_spec)
@@ -618,7 +618,7 @@ class Builder:
                         replace_target = spec
                         drop_target = old_spec
                     else:
-                        logging.info(f"keep old spec({old_spec}), drop new spec({spec})")
+                        # logging.info(f"keep old spec({old_spec}), drop new spec({spec})")
                         replace_target = old_spec
                         drop_target = spec
 
@@ -626,7 +626,7 @@ class Builder:
                     break
                 else:
                     # add new color
-                    logging.info(f"add new spec:{spec}, color names:{color_names}")
+                    # logging.info(f"add new spec:{spec}, color names:{color_names}")
                     specs_map[color] = spec
                     specs_set.add(spec)
 
@@ -638,17 +638,17 @@ class Builder:
                     f"deduped found for drop_target:{drop_target}, replace_target:{replace_target}"
                 )
                 if drop_target in specs_set:
-                    logging.info(f"remove drop_target:{spec} from specs_set")
+                    # logging.info(f"remove drop_target:{spec} from specs_set")
                     specs_set.remove(drop_target)
                 if replace_target not in specs_set:
-                    logging.info(f"add replace_target:{spec} to specs_set")
+                    # logging.info(f"add replace_target:{spec} to specs_set")
                     specs_set.add(replace_target)
                 for color in drop_target.get_vim_color_names():
-                    logging.info(f"pop drop_target color:{color} from specs_map")
+                    # logging.info(f"pop drop_target color:{color} from specs_map")
                     if color in specs_map:
                         specs_map.pop(color)
                 for color in replace_target.get_vim_color_names():
-                    logging.info(f"update replace_target with color:{color}")
+                    # logging.info(f"update replace_target with color:{color}")
                     specs_map[color] = replace_target
 
         logging.debug(f"after dedup: {[str(s) for s in specs_set]}")
