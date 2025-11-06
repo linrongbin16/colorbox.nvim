@@ -3,10 +3,10 @@
 <p>
 <a href="https://github.com/neovim/neovim/releases/"><img alt="require" src="https://img.shields.io/badge/require-stable-blue" /></a>
 <a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://img.shields.io/badge/power_by-commons.nvim-pink" /></a>
-<a href="https://luarocks.org/modules/linrongbin16/colorbox.nvim"><img alt="luarocks" src="https://img.shields.io/luarocks/v/linrongbin16/colorbox.nvim" /></a>
+<!-- <a href="https://luarocks.org/modules/linrongbin16/colorbox.nvim"><img alt="luarocks" src="https://img.shields.io/luarocks/v/linrongbin16/colorbox.nvim" /></a> -->
 <a href="https://github.com/linrongbin16/colorbox.nvim/actions/workflows/ci.yml"><img alt="ci.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/ci.yml?label=ci" /></a>
 <a href="https://github.com/linrongbin16/colorbox.nvim/actions/workflows/collect.yml"><img alt="collect.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/collect.yml?label=collect" /></a>
-<a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim/main?label=codecov" /></a>
+<!-- <a href="https://app.codecov.io/github/linrongbin16/colorbox.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/colorbox.nvim/main?label=codecov" /></a> -->
 </p>
 
 Do you want all the **most popular** (Neo)Vim colorschemes than only one? Do you want to change them from time to time?
@@ -205,7 +205,6 @@ There're 3 kinds of filters:
   ```
 
   The function has two parameters:
-
   - `color`: The colorscheme name.
   - `spec`: The colorscheme's meta info, please see [`@class colorbox.ColorSpec`](https://github.com/linrongbin16/colorbox.nvim/blob/67b7724adfb38d84ad86ff9f3e780ad8118f6fff/lua/colorbox/db.lua?plain=1#L1-L11) for more details.
 
@@ -230,19 +229,16 @@ The `policy` option is to configure how to pick the next colorscheme.
 There're 3 kinds of policies (they work with the corresponding timings):
 
 - Builtin policy: A lua string that presents the name of a builtin policy. For now we have 4 builtin policies (see below). It can works directly with the `startup` timing (see: [Choose random color on nvim start](#choose-fixed-color-on-nvim-start)).
-
   - `shuffle`: Pick a random color.
   - `in_order`: Pick next color in order, color names are ordered from 'A' to 'Z'.
   - `reverse_order`: Pick next color in reversed order, color names are ordered from 'Z' to 'A'.
   - `single`: Always pick the same color, i.e. next color is still the current color.
 
 - Fixed interval timeout policy: A lua table that contains `seconds` and `implement` fields. It works with the `interval` timing (see: [Change random color per second](#change-random-color-per-second)).
-
   - `seconds`: Choose next colorscheme on every X seconds.
   - `implement`: The name of the builtin policy that choose how to pick the next colorscheme.
 
 - File type policy: A lua table that contains `mapping` and (optional) `empty` and (optional) `fallback` fields. It works with the `filetype` timing (see: [Choose color by file type](#choose-color-by-file-type)).
-
   - `mapping`: A lua table that maps from file type to color name. When current buffer's file type is hitted, it changes to the mapped color.
   - (Optional) `empty`: The color name when the file type is empty lua string. When set to `nil`, it does nothing.
   - (Optional) `fallback`: The color name when the file type is not found in `mapping` field. When set to `nil`, it does nothing.

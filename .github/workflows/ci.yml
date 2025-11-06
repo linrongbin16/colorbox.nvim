@@ -96,25 +96,25 @@ jobs:
   #         files: luacov.report.out
   #       env:
   #         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-  release:
-    name: Release
-    if: ${{ github.ref == 'refs/heads/main' }}
-    # needs:
-    #   - unit_test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: google-github-actions/release-please-action@v3
-        id: release
-        with:
-          release-type: simple
-          package-name: colorbox.nvim
-      - uses: actions/checkout@v4
-      - uses: nvim-neorocks/luarocks-tag-release@v5
-        if: ${{ steps.release.outputs.release_created }}
-        env:
-          LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
-        with:
-          version: ${{ steps.release.outputs.tag_name }}
-          labels: |
-            vim
-            neovim
+  # release:
+  #   name: Release
+  #   if: ${{ github.ref == 'refs/heads/main' }}
+  #   # needs:
+  #   #   - unit_test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: google-github-actions/release-please-action@v3
+  #       id: release
+  #       with:
+  #         release-type: simple
+  #         package-name: colorbox.nvim
+  #     - uses: actions/checkout@v4
+  #     - uses: nvim-neorocks/luarocks-tag-release@v5
+  #       if: ${{ steps.release.outputs.release_created }}
+  #       env:
+  #         LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
+  #       with:
+  #         version: ${{ steps.release.outputs.tag_name }}
+  #         labels: |
+  #           vim
+  #           neovim
