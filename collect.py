@@ -390,7 +390,8 @@ class VimColorSchemes:
     def _parse_spec(self, element: WebElement, page_url: str) -> typing.Optional[ColorSpec]:
         # logging.debug(f"parsing (vsc) spec element:{element}, page url:{page_url}")
         try:
-            a_elem = element.find_element(By.XPATH, "./a[starts-with(@class,'repositoryCard')]")
+            # a_elem = element.find_element(By.XPATH, "./a[starts-with(@class,'repositoryCard')]")
+            a_elem = element.find_element(By.XPATH, "./a")
             url: str = a_elem.get_attribute("href")  # type: ignore
             if url.endswith("/"):
                 url = url[:-1]
