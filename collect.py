@@ -108,11 +108,7 @@ def trim_quotes(s: str) -> str:
 def datetime_tostring(
     value: typing.Optional[datetime.datetime],
 ) -> typing.Optional[str]:
-    return (
-        value.strftime(DATETIME_FORMAT)
-        if isinstance(value, datetime.datetime)
-        else None
-    )
+    return value.strftime(DATETIME_FORMAT) if isinstance(value, datetime.datetime) else None
 
 
 def datetime_fromstring(
@@ -235,9 +231,7 @@ class ColorSpec:
         return hash(self.handle.lower())
 
     def __eq__(self, other):
-        return (
-            isinstance(other, ColorSpec) and self.handle.lower() == other.handle.lower()
-        )
+        return isinstance(other, ColorSpec) and self.handle.lower() == other.handle.lower()
 
     def save(self) -> None:
         q = Query()
@@ -390,17 +384,13 @@ class VimColorSchemes:
             if i == 0:
                 yield "https://vimcolorschemes.com/i/top"
             else:
-                yield f"https://vimcolorschemes.com/i/top/p.{i+1}"
+                yield f"https://vimcolorschemes.com/i/top/p.{i + 1}"
             i += 1
 
-    def _parse_spec(
-        self, element: WebElement, page_url: str
-    ) -> typing.Optional[ColorSpec]:
+    def _parse_spec(self, element: WebElement, page_url: str) -> typing.Optional[ColorSpec]:
         # logging.debug(f"parsing (vsc) spec element:{element}, page url:{page_url}")
         try:
-            a_elem = element.find_element(
-                By.XPATH, "./a[starts-with(@class,'repositoryCard')]"
-            )
+            a_elem = element.find_element(By.XPATH, "./a[starts-with(@class,'repositoryCard')]")
             url: str = a_elem.get_attribute("href")  # type: ignore
             if url.endswith("/"):
                 url = url[:-1]
@@ -436,19 +426,13 @@ class VimColorSchemes:
                     self.counter = self.counter + 1
                     # logging.debug(f"vsc repo-{self.counter}:{spec}")
                     if spec is None:
-                        logging.info(
-                            f"skip for parsing failure - (vcs) spec-{self.counter}:{spec}"
-                        )
+                        logging.info(f"skip for parsing failure - (vcs) spec-{self.counter}:{spec}")
                         continue
                     if len(spec.handle.split("/")) != 2:
-                        logging.info(
-                            f"skip for invalid handle - (vcs) spec-{self.counter}:{spec}"
-                        )
+                        logging.info(f"skip for invalid handle - (vcs) spec-{self.counter}:{spec}")
                         continue
                     if spec.github_stars < GITHUB_STARS:
-                        logging.info(
-                            f"skip for lower stars - (vcs) spec-{self.counter}:{spec}"
-                        )
+                        logging.info(f"skip for lower stars - (vcs) spec-{self.counter}:{spec}")
                         continue
                     logging.info(f"fetch (vcs) spec-{self.counter}:{spec}")
                     need_more_scan = True
@@ -463,9 +447,7 @@ class AwesomeNeovimColorScheme:
     def __init__(self) -> None:
         self.counter = 0
 
-    def _parse_spec(
-        self, element: WebElement, page_url: str
-    ) -> typing.Optional[ColorSpec]:
+    def _parse_spec(self, element: WebElement, page_url: str) -> typing.Optional[ColorSpec]:
         # logging.debug(f"parsing (asm) spec element:{element}, page url:{page_url}")
         try:
             a = element.find_element(By.XPATH, "./a").text
@@ -498,14 +480,10 @@ class AwesomeNeovimColorScheme:
             self.counter = self.counter + 1
             # logging.debug(f"asm repo-{self.counter}:{spec}")
             if spec is None:
-                logging.info(
-                    f"skip for parsing failure - (asm) spec-{self.counter}:{spec}"
-                )
+                logging.info(f"skip for parsing failure - (asm) spec-{self.counter}:{spec}")
                 continue
             if len(spec.handle.split("/")) != 2:
-                logging.info(
-                    f"skip for invalid handle - (asm) spec-{self.counter}:{spec}"
-                )
+                logging.info(f"skip for invalid handle - (asm) spec-{self.counter}:{spec}")
                 continue
             if spec.github_stars < GITHUB_STARS:
                 logging.info(f"skip for lower stars - (asm) spec-{self.counter}:{spec}")
@@ -516,13 +494,9 @@ class AwesomeNeovimColorScheme:
 
     def fetch(self) -> None:
         with make_driver() as driver:
-            driver.get(
-                "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme"
-            )
+            driver.get("https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme")
             driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
-            treesitter_specs = self._parse_colors_list(
-                driver, "tree-sitter-supported-colorscheme"
-            )
+            treesitter_specs = self._parse_colors_list(driver, "tree-sitter-supported-colorscheme")
             for spec in treesitter_specs:
                 spec.save()
             lua_specs = self._parse_colors_list(driver, "lua-colorscheme")
@@ -564,9 +538,7 @@ class Builder:
             # logging.debug(f"download spec:{spec}")
             assert isinstance(spec, ColorSpec)
             spec.download_git_object()
-            last_update = retrieve_last_git_commit_datetime(
-                pathlib.Path(spec.candidate_path)
-            )
+            last_update = retrieve_last_git_commit_datetime(pathlib.Path(spec.candidate_path))
             spec.update_last_git_commit(last_update)
             assert isinstance(spec.last_git_commit, datetime.datetime)
             if (
@@ -608,9 +580,7 @@ class Builder:
             b_score += math.ceil(b.github_stars / max_github_stars * 80)
             assert isinstance(a.last_git_commit, datetime.datetime)
             assert isinstance(b.last_git_commit, datetime.datetime)
-            newest_git_commit = max(
-                a.last_git_commit.timestamp(), b.last_git_commit.timestamp()
-            )
+            newest_git_commit = max(a.last_git_commit.timestamp(), b.last_git_commit.timestamp())
             if a.last_git_commit.timestamp() >= newest_git_commit:
                 a_score += 10
             if b.last_git_commit.timestamp() >= newest_git_commit:
@@ -640,9 +610,7 @@ class Builder:
                         f"score new spec({spec_score}):{spec}, old spec({old_spec_score}):{old_spec}"
                     )
                     if spec_score >= old_spec_score:
-                        logging.info(
-                            f"replace old spec({old_spec}) with new spec({spec})"
-                        )
+                        logging.info(f"replace old spec({old_spec}) with new spec({spec})")
                         specs_map[color] = spec
                         specs_set.add(spec)
                         specs_set.remove(old_spec)
@@ -650,9 +618,7 @@ class Builder:
                         replace_target = spec
                         drop_target = old_spec
                     else:
-                        logging.info(
-                            f"keep old spec({old_spec}), drop new spec({spec})"
-                        )
+                        logging.info(f"keep old spec({old_spec}), drop new spec({spec})")
                         replace_target = old_spec
                         drop_target = spec
 
