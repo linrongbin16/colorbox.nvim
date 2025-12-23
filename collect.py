@@ -497,11 +497,8 @@ class AwesomeNeovimColorScheme:
         with make_driver() as driver:
             driver.get("https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme")
             driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
-            treesitter_specs = self._parse_colors_list(driver, "tree-sitter-supported-colorscheme")
-            for spec in treesitter_specs:
-                spec.save()
-            lua_specs = self._parse_colors_list(driver, "lua-colorscheme")
-            for spec in lua_specs:
+            specs = self._parse_colors_list(driver, "colorscheme")
+            for spec in specs:
                 spec.save()
 
 
