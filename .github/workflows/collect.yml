@@ -14,13 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: Homebrew/actions/setup-homebrew@main
-      - name: Install Google-Chrome
-        run: |
-          set -x
-          brew install --cask google-chrome
-          which google-chrome
-          google-chrome --version
-      - uses: nanasess/setup-chromedriver@v2
+      - uses: browser-actions/setup-chrome@v2
+        with:
+          install-chromedriver: true
       - run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
