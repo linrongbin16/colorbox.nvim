@@ -31,7 +31,6 @@ jobs:
           args: --config-path .stylua.toml ./lua ./spec
       - uses: stevearc/nvim-typecheck-action@v2
         with:
-          nvim-version: v0.10.3
           path: lua
           configpath: ".luarc.json"
       - uses: cargo-bins/cargo-binstall@main
