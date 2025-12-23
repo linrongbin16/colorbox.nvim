@@ -12,22 +12,19 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+      - uses: Homebrew/actions/setup-homebrew@main
       - name: Install Google-Chrome
         run: |
-          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo dpkg -i google-chrome-stable_current_amd64.deb
-          echo 'which google-chrome'
+          set -x
+          brew install --cask google-chrome
           which google-chrome
-          echo 'google-chrome --version'
           google-chrome --version
-          rm google-chrome-stable_current_amd64.deb
       - uses: nanasess/setup-chromedriver@v2
       - run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-      - uses: Homebrew/actions/setup-homebrew@main
       - name: Collect Colors
         run: |
           python3 -m venv venv
