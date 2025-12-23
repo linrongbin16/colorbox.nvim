@@ -448,7 +448,7 @@ class AwesomeNeovimColorScheme:
     def __init__(self) -> None:
         self.counter = 0
 
-    def _parse_spec(self, element: WebElement, page_url: str) -> typing.Optional[ColorSpec]:
+    def _parse_spec(self, element: WebElement) -> typing.Optional[ColorSpec]:
         # logging.debug(f"parsing (asm) spec element:{element}, page url:{page_url}")
         try:
             a = element.text
@@ -469,28 +469,28 @@ class AwesomeNeovimColorScheme:
 
     def _parse_colors_list(self, driver: Chrome, tag_id: str) -> list[ColorSpec]:
         repos = []
-        colors_group = find_element(
-            driver,
-            f"//h2[@id='{tag_id}']/following-sibling::p/following-sibling::ul",
-        )
-        for e in colors_group.find_elements(By.XPATH, "./li/a"):
-            spec = self._parse_spec(
-                e,
-                f"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme#{tag_id}",
-            )
-            self.counter = self.counter + 1
-            # logging.debug(f"asm repo-{self.counter}:{spec}")
-            if spec is None:
-                logging.info(f"skip for parsing failure - (asm) spec-{self.counter}:{spec}")
-                continue
-            if len(spec.handle.split("/")) != 2:
-                logging.info(f"skip for invalid handle - (asm) spec-{self.counter}:{spec}")
-                continue
-            if spec.github_stars < GITHUB_STARS:
-                logging.info(f"skip for lower stars - (asm) spec-{self.counter}:{spec}")
-                continue
-            logging.info(f"fetch (asm) repo-{self.counter}:{spec}")
-            repos.append(spec)
+        element_xpaths = [
+            f"//h2[@id='{tag_id}']/following-sibling::p/following-sibling::ul/following-sibling::ul",
+            f"//h2[@id='{tag_id}']/following-sibling::p/following-sibling::ul/following-sibling::ul/following-sibling::ul",
+            f"//h2[@id='{tag_id}']/following-sibling::p/following-sibling::ul/following-sibling::ul/following-sibling::ul/following-sibling::ul",
+        ]
+        for elem_xpath in element_xpaths:
+            colors_group = find_element(driver, elem_xpath)
+            for e in colors_group.find_elements(By.XPATH, "./li/a"):
+                spec = self._parse_spec(e)
+                self.counter = self.counter + 1
+                # logging.debug(f"asm repo-{self.counter}:{spec}")
+                if spec is None:
+                    logging.info(f"skip for parsing failure - (asm) spec-{self.counter}:{spec}")
+                    continue
+                if len(spec.handle.split("/")) != 2:
+                    logging.info(f"skip for invalid handle - (asm) spec-{self.counter}:{spec}")
+                    continue
+                if spec.github_stars < GITHUB_STARS:
+                    logging.info(f"skip for lower stars - (asm) spec-{self.counter}:{spec}")
+                    continue
+                logging.info(f"fetch (asm) repo-{self.counter}:{spec}")
+                repos.append(spec)
         return repos
 
     def fetch(self) -> None:
