@@ -451,7 +451,7 @@ class AwesomeNeovimColorScheme:
     def _parse_spec(self, element: WebElement, page_url: str) -> typing.Optional[ColorSpec]:
         # logging.debug(f"parsing (asm) spec element:{element}, page url:{page_url}")
         try:
-            a = element.find_element(By.XPATH, "./a").text
+            a = element.text
             a_splits = a.split("(")
             # logging.debug(f"parse asm element.a:{a}, a_splits:{a_splits}")
             handle = a_splits[0]
@@ -471,9 +471,9 @@ class AwesomeNeovimColorScheme:
         repos = []
         colors_group = find_element(
             driver,
-            f"//h3[@id='{tag_id}']/following-sibling::p/following-sibling::ul",
+            f"//h2[@id='{tag_id}']/following-sibling::p/following-sibling::ul",
         )
-        for e in colors_group.find_elements(By.XPATH, "./li"):
+        for e in colors_group.find_elements(By.XPATH, "./li/a"):
             spec = self._parse_spec(
                 e,
                 f"https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme#{tag_id}",
