@@ -16,9 +16,6 @@ M.update = function()
   log.setup({
     name = "colorbox-update",
     level = vim.log.levels.DEBUG,
-    use_console = true,
-    use_file = false,
-    file_name = "colorbox_update.log",
   })
   local logger = log.get("colorbox-update")
 
