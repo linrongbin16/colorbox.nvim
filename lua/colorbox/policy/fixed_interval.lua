@@ -1,7 +1,6 @@
 local num = require("colorbox.commons.num")
 local str = require("colorbox.commons.str")
-local tbl = require("colorbox.commons.tbl")
-local logging = require("colorbox.commons.logging")
+local log = require("colorbox.commons.log")
 
 local configs = require("colorbox.configs")
 local builtin_policy = require("colorbox.policy.builtin")
@@ -17,19 +16,18 @@ end
 
 M.run = function()
   local confs = configs.get()
-  local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
-  logger:ensure(
+  log.ensure(
     M.is_fixed_interval_policy(confs.policy),
     string.format("invalid policy %s for 'interval' timing!", vim.inspect(confs.policy))
   )
   local later = confs.policy.seconds > 0 and (confs.policy.seconds * 1000) or num.INT32_MAX
-  local implement_policy = tbl.tbl_get(confs, "policy", "implement")
-  logger:ensure(
+  local implement_policy = vim.tbl_get(confs, "policy", "implement")
+  log.ensure(
     not str.empty(implement_policy),
     string.format("invalid policy %s for 'interval' timing!", vim.inspect(confs.policy))
   )
   local fn = builtin_policy[implement_policy]
-  logger:ensure(
+  log.ensure(
     vim.is_callable(fn),
     string.format("invalid policy %s for 'interval' timing!", vim.inspect(confs.policy))
   )
