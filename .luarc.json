@@ -12,6 +12,7 @@
     "inject-field",
     "deprecated",
     "luadoc-miss-module-name",
+    "luadoc-miss-symbol",
     "undefined-doc-name",
     "lowercase-global",
     "cast-local-type",
