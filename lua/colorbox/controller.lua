@@ -165,7 +165,7 @@ M.info = function(args)
   local opts = M._parse_args(args)
   opts = opts or { scale = 0.7 }
   opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7) or 0.7
-  opts.scale = num.bound(opts.scale, 0, 1)
+  opts.scale = num.clamp(opts.scale, 0, 1)
   log.debug(string.format("|_info| opts:%s", vim.inspect(opts)))
 
   local total_width = vim.o.columns
@@ -176,7 +176,7 @@ M.info = function(args)
   local function get_shift(totalsize, modalsize, offset)
     local base = math.floor((totalsize - modalsize) * 0.5)
     local shift = offset > -1 and math.ceil((totalsize - modalsize) * offset) or offset
-    return num.bound(base + shift, 0, totalsize - modalsize)
+    return num.clamp(base + shift, 0, totalsize - modalsize)
   end
 
   local row = get_shift(total_height, height, 0)
