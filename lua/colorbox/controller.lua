@@ -46,11 +46,18 @@ M.update = function()
     local finished_count = 0
 
     for handle, spec in pairs(HandleToColorSpecsMap) do
-      local function _on_output(line)
-        if str.not_blank(line) then
-          log.info(string.format("%s: %s", handle, line))
+      local buffer = nil
+      local function _on_output(err, data)
+        if data then
+          buffer = buffer and (buffer .. data) or data
         end
       end
+      local function _on_exit()
+        if str.not_empty(buffer) then
+          log.info(string.format("%s:%s", handle, buffer))
+        end
+      end
+
       local pack_path = db.get_pack_path(spec)
       local full_pack_path = db.get_full_pack_path(spec)
       local param = nil
@@ -62,8 +69,10 @@ M.update = function()
           cmd = { "git", "pull" },
           opts = {
             cwd = full_pack_path,
-            on_stdout = _on_output,
-            on_stderr = _on_output,
+            stdout = _on_output,
+            stderr = _on_output,
+            on_exit = _on_exit,
+            text = true,
           },
         }
         -- logger:debug(
