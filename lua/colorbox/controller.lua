@@ -94,8 +94,10 @@ M.update = function()
           },
           opts = {
             cwd = home_dir,
-            on_stdout = _on_output,
-            on_stderr = _on_output,
+            stdout = _on_output,
+            stderr = _on_output,
+            on_exit = _on_exit,
+            text = true,
           },
         }
         -- logger:debug(
@@ -109,6 +111,7 @@ M.update = function()
 
       async.wrap(1, function(cb)
         vim.system(param.cmd, param.opts, function(result)
+          param.opts.on_exit()
           cb(result)
         end)
       end)()
