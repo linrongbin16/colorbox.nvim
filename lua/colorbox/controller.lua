@@ -1,7 +1,6 @@
 local num = require("colorbox.commons.num")
 local str = require("colorbox.commons.str")
 local log = require("colorbox.commons.log")
-local LogLevels = require("colorbox.commons.logging").LogLevels
 local async = require("colorbox.commons.async")
 local spawn = require("colorbox.commons.spawn")
 
@@ -17,11 +16,10 @@ M.update = function()
     name = "colorbox-update",
     level = vim.log.levels.DEBUG,
   })
-  local logger = log.get("colorbox-update")
 
   local home_dir = vim.fn["colorbox#base_dir"]()
   local packstart = string.format("%s/pack/colorbox/start", home_dir)
-  logger:debug(
+  log.debug(
     string.format(
       "|colorbox.init| home_dir:%s, packstart:%s",
       vim.inspect(home_dir),
@@ -36,21 +34,21 @@ M.update = function()
   for _, _ in pairs(HandleToColorSpecsMap) do
     prepared_count = prepared_count + 1
   end
-  logger:info(string.format("started %s jobs", vim.inspect(prepared_count)))
+  log.info(string.format("started %s jobs", vim.inspect(prepared_count)))
 
-  local async_run = async.wrap(function(cmd, opts, cb)
+  local async_run = async.wrap(3, function(cmd, opts, cb)
     spawn.detached(cmd, opts, function(result)
       cb(result)
     end)
-  end, 3)
+  end)
 
-  async.void(function()
+  async.run(function()
     local finished_count = 0
 
     for handle, spec in pairs(HandleToColorSpecsMap) do
       local function _on_output(line)
         if str.not_blank(line) then
-          logger:info(string.format("%s: %s", handle, line))
+          log.info(string.format("%s: %s", handle, line))
         end
       end
       local pack_path = db.get_pack_path(spec)
@@ -107,19 +105,19 @@ M.update = function()
         -- )
       end
       async_run(param.cmd, param.opts)
-      async.schedule()
+      async.await(1, vim.schedule)
       finished_count = finished_count + 1
     end
 
-    logger:info(string.format("finished %s jobs", vim.inspect(finished_count)))
-  end)()
+    log.info(string.format("finished %s jobs", vim.inspect(finished_count)))
+  end)
 end
 
 --- @param args string?
 --- @return colorbox.Options?
 M._parse_args = function(args)
   local opts = nil
-  log.get("colorbox"):debug(string.format("|_parse_args| args:%s", vim.inspect(args)))
+  log.debug(string.format("|_parse_args| args:%s", vim.inspect(args)))
   if str.not_blank(args) then
     local args_splits = str.split(vim.trim(args --[[@as string]]), " ", { trimempty = true })
     for _, arg_split in ipairs(args_splits) do
@@ -138,11 +136,10 @@ end
 M.shuffle = function()
   local ColorNamesList = runtime.colornames()
   if #ColorNamesList > 0 then
-    local logger = log.get("colorbox")
     local random_index = num.random(1, #ColorNamesList)
     local color = ColorNamesList[random_index]
 
-    logger:debug(
+    log.debug(
       string.format(
         "|shuffle| color:%s, random_index:%d, ColorNamesList(%d):%s",
         vim.inspect(color),
@@ -157,12 +154,11 @@ end
 
 --- @param args string?
 M.info = function(args)
-  local logger = log.get("colorbox")
   local opts = M._parse_args(args)
   opts = opts or { scale = 0.7 }
   opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7) or 0.7
   opts.scale = num.bound(opts.scale, 0, 1)
-  log.get("colorbox"):debug(string.format("|_info| opts:%s", vim.inspect(opts)))
+  log.debug(string.format("|_info| opts:%s", vim.inspect(opts)))
 
   local total_width = vim.o.columns
   local total_height = vim.o.lines
