@@ -47,7 +47,7 @@ M.update = function()
       end
       local function _on_exit()
         if str.not_empty(buffer) then
-          log.info(string.format("%s:%s", handle, buffer))
+          log.info(string.format("%s: %s", handle, buffer))
         end
       end
 
