@@ -9,6 +9,7 @@ describe("colorbox.track", function()
     vim.api.nvim_command("cd " .. cwd)
   end)
 
+  local str = require("colorbox.commons.str")
   local track = require("colorbox.track")
   local runtime = require("colorbox.runtime")
   require("colorbox").setup({
@@ -49,7 +50,7 @@ describe("colorbox.track", function()
             vim.inspect(actual_idx)
           )
         )
-        if actual then
+        if str.not_empty(actual) then
           assert_true(string.len(actual) > 0)
           if i < n then
             assert_eq(actual_idx, i + 1)
@@ -72,7 +73,7 @@ describe("colorbox.track", function()
             vim.inspect(actual_idx)
           )
         )
-        if actual then
+        if str.not_empty(actual) then
           assert_true(string.len(actual) > 0)
           if i > 1 and i <= n then
             assert_eq(actual_idx, i - 1)
