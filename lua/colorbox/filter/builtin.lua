@@ -1,6 +1,5 @@
 local num = require("colorbox.commons.num")
 local str = require("colorbox.commons.str")
-local logging = require("colorbox.commons.logging")
 
 local M = {}
 

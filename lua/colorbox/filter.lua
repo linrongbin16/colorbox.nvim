@@ -1,4 +1,4 @@
-local logging = require("colorbox.commons.logging")
+local log = require("colorbox.commons.log")
 
 local configs = require("colorbox.configs")
 local builtin_filters = require("colorbox.filter.builtin")
@@ -27,7 +27,7 @@ M._function_filter = function(f, color_name, spec)
     if ok and type(result) == "boolean" then
       return result
     else
-      logging.get("colorbox"):err("failed to invoke function filter, please check your config!")
+      log.err("failed to invoke function filter, please check your config!")
     end
   end
   return false
