@@ -1,5 +1,4 @@
-local logging = require("colorbox.commons.logging")
-local LogLevels = require("colorbox.commons.logging").LogLevels
+local log = require("colorbox.commons.log")
 local str = require("colorbox.commons.str")
 local tbl = require("colorbox.commons.tbl")
 
@@ -13,16 +12,13 @@ local loader = require("colorbox.loader")
 --- @param opts colorbox.Options?
 local function setup(opts)
   local confs = configs.setup(opts)
-
-  if not logging.has("colorbox") then
-    logging.setup({
-      name = "colorbox",
-      level = confs.debug and LogLevels.DEBUG or LogLevels.INFO,
-      console_log = confs.console_log,
-      file_log = confs.file_log,
-      file_log_name = "colorbox.log",
-    })
-  end
+  log.setup({
+    name = "colorbox",
+    level = confs.debug and vim.log.levels.DEBUG or vim.log.levels.INFO,
+    use_console = confs.console_log,
+    use_file = confs.file_log,
+    file_name = "colorbox.log",
+  })
 
   -- cache
   assert(
@@ -37,7 +33,7 @@ local function setup(opts)
   runtime.setup()
 
   vim.api.nvim_create_user_command(confs.command.name, function(command_opts)
-    local logger = logging.get("colorbox") --[[@as commons.logging.Logger]]
+    local logger = log.get("colorbox") --[[@as commons.logging.Logger]]
 
     -- logger.debug(
     --     "|colorbox.setup| command opts:%s",
