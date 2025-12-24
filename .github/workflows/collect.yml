@@ -13,16 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Google-Chrome
-        run: |
-          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo dpkg -i google-chrome-stable_current_amd64.deb
-          echo 'which google-chrome'
-          which google-chrome
-          echo 'google-chrome --version'
-          google-chrome --version
-          rm google-chrome-stable_current_amd64.deb
-      - uses: nanasess/setup-chromedriver@v2
+      - uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: latest
+          install-chromedriver: true
       - run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
