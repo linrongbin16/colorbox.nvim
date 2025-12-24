@@ -6,7 +6,7 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 jobs:
   bump:
-    name: Lint
+    name: Bump
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
