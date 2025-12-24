@@ -1,6 +1,6 @@
 local num = require("colorbox.commons.num")
 local str = require("colorbox.commons.str")
-local logging = require("colorbox.commons.logging")
+local log = require("colorbox.commons.log")
 local LogLevels = require("colorbox.commons.logging").LogLevels
 local async = require("colorbox.commons.async")
 local spawn = require("colorbox.commons.spawn")
@@ -13,17 +13,14 @@ local db = require("colorbox.db")
 local M = {}
 
 M.update = function()
-  if not logging.has("colorbox-update") then
-    logging.setup({
-      name = "colorbox-update",
-      level = LogLevels.DEBUG,
-      console_log = true,
-      file_log = true,
-      file_log_name = "colorbox_update.log",
-      file_log_mode = "w",
-    })
-  end
-  local logger = logging.get("colorbox-update")
+  log.setup({
+    name = "colorbox-update",
+    level = vim.log.levels.DEBUG,
+    use_console = true,
+    use_file = true,
+    file_name = "colorbox_update.log",
+  })
+  local logger = log.get("colorbox-update")
 
   local home_dir = vim.fn["colorbox#base_dir"]()
   local packstart = string.format("%s/pack/colorbox/start", home_dir)
@@ -125,7 +122,7 @@ end
 --- @return colorbox.Options?
 M._parse_args = function(args)
   local opts = nil
-  logging.get("colorbox"):debug(string.format("|_parse_args| args:%s", vim.inspect(args)))
+  log.get("colorbox"):debug(string.format("|_parse_args| args:%s", vim.inspect(args)))
   if str.not_blank(args) then
     local args_splits = str.split(vim.trim(args --[[@as string]]), " ", { trimempty = true })
     for _, arg_split in ipairs(args_splits) do
@@ -144,7 +141,7 @@ end
 M.shuffle = function()
   local ColorNamesList = runtime.colornames()
   if #ColorNamesList > 0 then
-    local logger = logging.get("colorbox")
+    local logger = log.get("colorbox")
     local random_index = num.random(1, #ColorNamesList)
     local color = ColorNamesList[random_index]
 
@@ -163,12 +160,12 @@ end
 
 --- @param args string?
 M.info = function(args)
-  local logger = logging.get("colorbox")
+  local logger = log.get("colorbox")
   local opts = M._parse_args(args)
   opts = opts or { scale = 0.7 }
   opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7) or 0.7
   opts.scale = num.bound(opts.scale, 0, 1)
-  logging.get("colorbox"):debug(string.format("|_info| opts:%s", vim.inspect(opts)))
+  log.get("colorbox"):debug(string.format("|_info| opts:%s", vim.inspect(opts)))
 
   local total_width = vim.o.columns
   local total_height = vim.o.lines
