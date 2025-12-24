@@ -2,7 +2,6 @@ local num = require("colorbox.commons.num")
 local str = require("colorbox.commons.str")
 local log = require("colorbox.commons.log")
 local async = require("colorbox.commons.async")
-local spawn = require("colorbox.commons.spawn")
 
 local loader = require("colorbox.loader")
 
@@ -35,12 +34,6 @@ M.update = function()
     prepared_count = prepared_count + 1
   end
   log.info(string.format("started %s jobs", vim.inspect(prepared_count)))
-
-  local async_run = async.wrap(3, function(cmd, opts, cb)
-    spawn.detached(cmd, opts, function(result)
-      cb(result)
-    end)
-  end)
 
   async.run(function()
     local finished_count = 0
@@ -113,7 +106,13 @@ M.update = function()
         --   )
         -- )
       end
-      async_run(param.cmd, param.opts)
+
+      async.wrap(1, function(cb)
+        vim.system(param.cmd, param.opts, function(result)
+          cb(result)
+        end)
+      end)()
+
       async.await(1, vim.schedule)
       finished_count = finished_count + 1
     end

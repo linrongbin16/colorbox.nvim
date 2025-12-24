@@ -1,5 +1,5 @@
 local num = require("colorbox.commons.num")
-local logging = require("colorbox.commons.logging")
+local log = require("colorbox.commons.log")
 
 local runtime = require("colorbox.runtime")
 local track = require("colorbox.track")
@@ -12,7 +12,7 @@ M.shuffle = function()
   if #ColorNamesList > 0 then
     local i = num.random(#ColorNamesList) --[[@as integer]]
     local color = track.get_next_color_name_by_idx(i)
-    logging.get("colorbox"):debug(
+    log.debug(
       string.format(
         "|_policy_shuffle| color:%s, ColorNamesList:%s (%d), i:%d",
         vim.inspect(color),
@@ -29,11 +29,10 @@ end
 M.in_order = function()
   local ColorNamesList = runtime.colornames()
   if #ColorNamesList > 0 then
-    local logger = logging.get("colorbox")
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local i = previous_track ~= nil and previous_track.color_number or 0
     local color = track.get_next_color_name_by_idx(i)
-    logger:debug(
+    log.debug(
       string.format(
         "|in_order| color:%s, i:%d, ColorNamesList(%d):%s",
         vim.inspect(color),
