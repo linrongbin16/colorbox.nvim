@@ -25,15 +25,15 @@ describe("colorbox.loader", function()
     it("load", function()
       local color_name_to_color_specs_map = db.get_color_name_to_color_specs_map()
 
-      -- if not github_actions then
-      local colors = runtime.colornames()
-      for i, c in ipairs(colors) do
-        local colorspec = color_name_to_color_specs_map[c]
-        if not disabled_colorspecs[colorspec.handle] then
-          loader.load(c)
+      if not github_actions then
+        local colors = runtime.colornames()
+        for i, c in ipairs(colors) do
+          local colorspec = color_name_to_color_specs_map[c]
+          if not disabled_colorspecs[colorspec.handle] then
+            loader.load(c)
+          end
         end
       end
-      -- end
     end)
   end)
 end)
