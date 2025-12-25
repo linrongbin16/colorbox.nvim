@@ -39,15 +39,15 @@ M.update = function()
     local finished_count = 0
 
     for handle, spec in pairs(HandleToColorSpecsMap) do
-      local buffer = nil
-      local function _on_output(err, data)
-        if data then
-          buffer = buffer and (buffer .. data) or data
-        end
-      end
-      local function _on_exit()
-        if str.not_empty(buffer) then
-          log.info(string.format("%s: %s", handle, buffer))
+      --- @param completed vim.SystemCompleted
+      local function on_exit(completed)
+        if type(completed) == "table" then
+          if str.not_blank(completed.stdout) then
+            log.info(string.format("%s: %s", handle, str.trim(completed.stdout)))
+          end
+          if str.not_blank(completed.stderr) then
+            log.info(string.format("%s: %s", handle, str.trim(completed.stderr)))
+          end
         end
       end
 
@@ -62,9 +62,6 @@ M.update = function()
           cmd = { "git", "pull" },
           opts = {
             cwd = full_pack_path,
-            stdout = _on_output,
-            stderr = _on_output,
-            on_exit = _on_exit,
             text = true,
           },
         }
@@ -94,9 +91,6 @@ M.update = function()
           },
           opts = {
             cwd = home_dir,
-            stdout = _on_output,
-            stderr = _on_output,
-            on_exit = _on_exit,
             text = true,
           },
         }
@@ -110,10 +104,15 @@ M.update = function()
       end
 
       async.wrap(1, function(cb)
-        vim.system(param.cmd, param.opts, function(result)
-          param.opts.on_exit()
-          cb(result)
-        end)
+        vim.system(
+          param.cmd,
+          param.opts,
+          --- @param completed vim.SystemCompleted
+          function(completed)
+            on_exit(completed)
+            cb(completed)
+          end
+        )
       end)()
 
       async.await(1, vim.schedule)
