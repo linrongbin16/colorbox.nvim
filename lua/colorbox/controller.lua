@@ -39,18 +39,6 @@ M.update = function()
     local finished_count = 0
 
     for handle, spec in pairs(HandleToColorSpecsMap) do
-      --- @param completed vim.SystemCompleted
-      local function on_exit(completed)
-        if type(completed) == "table" then
-          if str.not_blank(completed.stdout) then
-            log.info(string.format("%s: %s", handle, str.trim(completed.stdout)))
-          end
-          if str.not_blank(completed.stderr) then
-            log.info(string.format("%s: %s", handle, str.trim(completed.stderr)))
-          end
-        end
-      end
-
       local pack_path = db.get_pack_path(spec)
       local full_pack_path = db.get_full_pack_path(spec)
       local param = nil
@@ -109,7 +97,14 @@ M.update = function()
           param.opts,
           --- @param completed vim.SystemCompleted
           function(completed)
-            on_exit(completed)
+            if type(completed) == "table" then
+              if str.not_blank(completed.stdout) then
+                log.info(string.format("%s: %s", handle, str.trim(completed.stdout)))
+              end
+              if str.not_blank(completed.stderr) then
+                log.info(string.format("%s: %s", handle, str.trim(completed.stderr)))
+              end
+            end
             cb(completed)
           end
         )
