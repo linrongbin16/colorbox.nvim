@@ -767,8 +767,9 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
     # Collect data
     if not skip_fetch_opt:
         DB.truncate()
-        vcs = VimColorSchemes()
-        vcs.fetch()
+        # vimcolorscheme.com cannot be scratch any more
+        # vcs = VimColorSchemes()
+        # vcs.fetch()
         asm = AwesomeNeovimColorScheme()
         asm.fetch()
         filter_color_specs()
