@@ -25,7 +25,7 @@ from tinydb import Query, TinyDB
 # constants {
 
 # github
-GITHUB_STARS = 500
+GITHUB_STARS = 300
 LAST_GIT_COMMIT = 10 * 365 * 24 * 3600  # 10 years * 365 days * 24 hours * 3600 seconds
 BLACKLIST = [
     "rafi/awesome-vim-colorschemes",
