@@ -3,7 +3,6 @@
 import logging
 import sys
 import typing
-
 import click
 import luadata
 from mdutils.mdutils import MdUtils
