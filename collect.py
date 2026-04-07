@@ -398,18 +398,9 @@ class Builder:
     is_flag=True,
     help="enable debug",
 )
-@click.option("--no-headless", "no_headless_opt", is_flag=True, help="disable headless")
-@click.option("--skip-fetch", "skip_fetch_opt", is_flag=True, help="skip fetch")
-@click.option("--skip-clone", "skip_clone_opt", is_flag=True, help="skip clone")
-def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
-    # Initialize
-    global WEBDRIVER_HEADLESS
+def collect(debug_opt):
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
-    logging.debug(
-        f"debug_opt:{debug_opt}, no_headless_opt:{no_headless_opt}, skip_fetch_opt:{skip_fetch_opt}, skip_clone_opt:{skip_clone_opt}"
-    )
-    if no_headless_opt:
-        WEBDRIVER_HEADLESS = False
+    logging.debug(f"debug_opt:{debug_opt}")
 
     # Build new data source
     builder = Builder()
