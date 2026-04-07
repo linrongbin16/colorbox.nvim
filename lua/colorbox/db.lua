@@ -23,7 +23,7 @@ local function get_full_pack_path(spec)
 end
 
 --- @return table<string, colorbox.ColorSpec>
-local function get_handle_to_color_specs_map()
+local function get_specs_by_handle()
   return require("colorbox.meta.specs")
 end
 
@@ -43,7 +43,7 @@ local function get_color_names_list()
 end
 
 local M = {
-  get_handle_to_color_specs_map = get_handle_to_color_specs_map,
+  get_specs_by_handle = get_specs_by_handle,
   get_git_path_to_color_specs_map = get_git_path_to_color_specs_map,
   get_color_name_to_color_specs_map = get_color_name_to_color_specs_map,
   get_color_names_list = get_color_names_list,

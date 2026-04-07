@@ -27,7 +27,7 @@ M.update = function()
   )
   vim.opt.packpath:append(home_dir)
 
-  local HandleToColorSpecsMap = db.get_handle_to_color_specs_map()
+  local HandleToColorSpecsMap = db.get_specs_by_handle()
 
   local prepared_count = 0
   for _, _ in pairs(HandleToColorSpecsMap) do
@@ -199,7 +199,7 @@ M.info = function(args)
   local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
   local ColorNamesIndex = runtime.colornames_index()
-  local HandleToColorSpecsMap = require("colorbox.db").get_handle_to_color_specs_map()
+  local HandleToColorSpecsMap = require("colorbox.db").get_specs_by_handle()
   local color_specs_list = {}
   for handle, spec in pairs(HandleToColorSpecsMap) do
     table.insert(color_specs_list, spec)
