@@ -221,7 +221,7 @@ class Builder:
             prefix="return ",
         )
         luadata.write(
-            "lua/colorbox/meta/specs_by_gitpath.lua",
+            "lua/colorbox/meta/specs_by_install_path.lua",
             lua_specs_by_install_path,
             encoding="utf-8",
             indent="  ",

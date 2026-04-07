@@ -29,7 +29,7 @@ end
 
 --- @return table<string, colorbox.ColorSpec>
 local function get_specs_by_install_path()
-  return require("colorbox.meta.specs_by_gitpath")
+  return require("colorbox.meta.specs_by_install_path")
 end
 
 --- @return table<string, colorbox.ColorSpec>
