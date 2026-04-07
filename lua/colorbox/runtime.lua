@@ -23,7 +23,7 @@ M._build_colors = function()
   local colors_list = {}
   local colors_index = {}
   local ColorNameToColorSpecsMap = require("colorbox.db").get_specs_by_color_name()
-  local ColorNamesList = require("colorbox.db").get_color_names_list()
+  local ColorNamesList = require("colorbox.db").get_color_names()
   for _, color_name in pairs(ColorNamesList) do
     local spec = ColorNameToColorSpecsMap[color_name]
     local full_pack_path = db.get_full_pack_path(spec)
