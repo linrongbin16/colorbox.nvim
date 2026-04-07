@@ -22,33 +22,168 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from tinydb import Query, TinyDB
 
+
+class ColorSpec:
+    HANDLE = "handle"
+    COLOR_NAME = "color_name"
+    PLUGIN_NAME = "plugin_name"
+    URL = "url"
+    INSTALL_PATH = "install_path"
+    GIT_BRANCH = "git_branch"
+
+    def __init__(
+        self,
+        handle: str,
+        color_name: str,
+        url: typing.Optional[str] = None,
+        plugin_name: typing.Optional[str] = None,
+        git_branch: typing.Optional[str] = None,
+    ) -> None:
+        handle = self._normalize_handle(handle)
+        handle_splits = handle.split("/")
+        assert len(handle_splits) == 2
+        self.handle = handle
+        self.color_name = color_name
+        self.plugin_name = plugin_name if isinstance(plugin_name, str) else handle_splits[-1]
+        self.url = f"https://github.com/{handle}" if url is None else url
+        self.install_path = self.handle.replace("/", "-")
+        self.git_branch = git_branch
+
+    def _normalize_handle(self, handle: str) -> str:
+        handle = handle.strip()
+        while handle.startswith("/"):
+            handle = handle[1:]
+        while handle.endswith("/"):
+            handle = handle[:-1]
+        return handle.lower()
+
+    def __str__(self):
+        return f"<ColorSpec handle:{self.handle}, color_name:{self.color_name}, url:{self.url}, plugin_name: {self.plugin_name}, git_branch:{self.git_branch}, install_path:{self.install_path}>"
+
+    def __hash__(self):
+        return hash(self.handle.lower())
+
+    def __eq__(self, other):
+        return isinstance(other, ColorSpec) and self.handle.lower() == other.handle.lower()
+
+    def upsert(self) -> None:
+        q = Query()
+        count = DB.search(q.handle == self.handle)
+        obj = {
+            ColorSpec.HANDLE: self.handle,
+            ColorSpec.COLOR_NAME: self.color_name,
+            ColorSpec.PLUGIN_NAME: self.plugin_name,
+            ColorSpec.URL: self.url,
+            ColorSpec.INSTALL_PATH: self.install_path,
+            ColorSpec.GIT_BRANCH: self.git_branch,
+        }
+        if len(count) <= 0:
+            DB.insert(obj)
+            # logging.debug(f"add new repo: {self}")
+        else:
+            DB.update(obj, q.handle == self.handle)
+            # logging.debug(f"add(update) existed repo: {self}")
+
+
 # constants {
 
-# github
-GITHUB_STARS = 500
-LAST_GIT_COMMIT = 10 * 365 * 24 * 3600  # 10 years * 365 days * 24 hours * 3600 seconds
-BLACKLIST = [
-    "rafi/awesome-vim-colorschemes",
-    "mini.nvim#minischeme",
-    "mini.nvim#colorschemes",
-    "text-to-colorscheme",
-    "flazz/vim-colorschemes",
+ALL_COLORS = [
+    # ---- NEOVIM COLORS ----
+    ColorSpec(
+        "tomasiser/vim-code-dark",
+        "codedark",
+    ),
+    ColorSpec(
+        "Mofiqul/vscode.nvim",
+        "vscode",
+    ),
+    ColorSpec(
+        "marko-cerovac/material.nvim",
+        "material",
+    ),
+    ColorSpec(
+        "bluz71/vim-nightfly-colors",
+        "nightfly",
+    ),
+    ColorSpec("bluz71/vim-moonfly-colors", "moonfly"),
+    ColorSpec("folke/tokyonight.nvim", "tokyonight"),
+    ColorSpec("rebelot/kanagawa.nvim", "kanagawa"),
+    ColorSpec("vague-theme/vague.nvim", "vague"),
+    ColorSpec("olimorris/onedarkpro.nvim", "onedark"),
+    ColorSpec("craftzdog/solarized-osaka.nvim", "solarized-osaka"),
+    ColorSpec("sainnhe/sonokai", "sonokai"),
+    ColorSpec("nyoom-engineering/oxocarbon.nvim", "oxocarbon"),
+    ColorSpec("mhartington/oceanic-next", "OceanicNext"),
+    ColorSpec("sainnhe/edge", "edge"),
+    ColorSpec("savq/melange-nvim", "melange"),
+    ColorSpec("fenetikm/falcon", "falcon"),
+    ColorSpec("AlexvZyl/nordic.nvim", "nordic"),
+    ColorSpec("shaunsingh/nord.nvim", "nord"),
+    # replaced by "olimorris/onedarkpro.nvim"
+    # ColorSpec(
+    #   "navarasu/onedark.nvim",
+    #   "onedark"
+    # ),
+    ColorSpec("sainnhe/gruvbox-material", "gruvbox-material"),
+    ColorSpec("sainnhe/everforest", "everforest"),
+    ColorSpec(
+        "dracula/vim",
+        "dracula",
+        plugin_name="dracula",
+    ),
+    ColorSpec("projekt0n/github-nvim-theme", "github_dark"),
+    ColorSpec("rose-pine/neovim", "rose-pine"),
+    ColorSpec("zenbones-theme/zenbones.nvim", "zenbones"),
+    ColorSpec(
+        "catppuccin/nvim",
+        "catppuccin",
+        plugin_name="catppuccin",
+    ),
+    ColorSpec("EdenEast/nightfox.nvim", "nightfox"),
+    ColorSpec("scottmckendry/cyberdream.nvim", "cyberdream"),
+    ColorSpec("ellisonleao/gruvbox.nvim", "gruvbox"),
+    # ---- VIM COLORS ----
+    ColorSpec("ayu-theme/ayu-vim", "ayu"),
+    ColorSpec("romainl/Apprentice", "apprentice"),
+    ColorSpec("ajmwagar/vim-deus", "deus"),
+    ColorSpec("whatyouhide/vim-gotham", "gotham"),
+    # replaced by "ellisonleao/gruvbox.nvim"
+    # ColorSpec(
+    #   "morhetz/gruvbox",
+    #   "gruvbox"
+    # ),
+    ColorSpec("cocopon/iceberg.vim", "iceberg"),
+    ColorSpec("NLKNguyen/papercolor-theme", "PaperColor"),
+    ColorSpec("nanotech/jellybeans.vim", "jellybeans"),
+    # replaced by "shaunsingh/nord.nvim"
+    # ColorSpec(
+    #   "nordtheme/vim",
+    #   "nord",
+    # ),
+    # replaced by "mhartington/oceanic-next"
+    # ColorSpec(
+    #   "oceanic-next",
+    #   "mhartington/oceanic-next",
+    # ),
+    ColorSpec("rakr/vim-one", "one"),
+    # replaced by "navarasu/onedark.nvim"
+    # ColorSpec(
+    #   "joshdick/onedark.vim",
+    #   "onedark"
+    # ),
+    ColorSpec("junegunn/seoul256.vim", "seoul256"),
+    ColorSpec(
+        "lifepillar/vim-solarized8",
+        "solarized8",
+        url="https://codeberg.org/lifepillar/vim-solarized8",
+    ),
+    ColorSpec("jacoborus/tender.vim", "tender"),
 ]
 
-
-# chrome webdriver
-WEBDRIVER_HEADLESS = True
-WEBDRIVER_TIMEOUT = 30
-
-# git object
-DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S"
-DATE_FORMAT = "%Y-%m-%d"
-CANDIDATE_DIR = "candidate"
+# constants }
 
 # data
 DB = TinyDB("db.json")
-
-# constants }
 
 # utils {
 
@@ -175,10 +310,6 @@ REPO_META_CONFIG = {
 class ColorSpec:
     HANDLE = "handle"
     URL = "url"
-    GITHUB_STARS = "github_stars"
-    PRIORITY = "priority"
-    SOURCE = "source"
-    LAST_GIT_COMMIT = "last_git_commit"
     GIT_PATH = "git_path"
     GIT_BRANCH = "git_branch"
     COLOR_NAMES = "color_names"
