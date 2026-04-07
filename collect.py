@@ -2,24 +2,15 @@
 
 import datetime
 import logging
-import math
 import os
 import pathlib
-import shutil
 import subprocess
 import sys
-import time
 import typing
-from dataclasses import dataclass
 
 import click
 import luadata
 from mdutils.mdutils import MdUtils
-from selenium.webdriver import Chrome, ChromeOptions
-from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
 from tinydb import Query, TinyDB
 
 DB = TinyDB("db.json")
@@ -315,56 +306,51 @@ class Builder:
         pass
 
     def _build_lua_specs(self, all_specs: list[ColorSpec]) -> None:
-        lspecs = {}
-        lspecs_by_colorname = {}
-        lspecs_by_gitpath = {}
-        lcolornames = []
+        lua_specs_by_handle = {}
+        lua_specs_by_color_name = {}
+        lua_specs_by_install_path = {}
+        lua_color_names = []
 
         for i, spec in enumerate(all_specs):
             logging.info(f"dump lua specs for spec-{i}:{spec}")
-            lcolors = sorted(spec.get_vim_color_names())
             lobj = {
                 ColorSpec.HANDLE: spec.handle,
+                ColorSpec.COLOR_NAME: spec.color_name,
+                ColorSpec.PLUGIN_NAME: spec.plugin_name,
                 ColorSpec.URL: spec.url,
-                ColorSpec.GITHUB_STARS: spec.github_stars,
-                ColorSpec.LAST_GIT_COMMIT: date_tostring(spec.last_git_commit),
-                ColorSpec.PRIORITY: spec.priority,
-                ColorSpec.SOURCE: spec.source,
-                ColorSpec.GIT_PATH: spec.git_path,
+                ColorSpec.INSTALL_PATH: spec.install_path,
                 ColorSpec.GIT_BRANCH: spec.git_branch,
-                ColorSpec.COLOR_NAMES: lcolors,
             }
-            lspecs[spec.handle] = lobj
-            lspecs_by_gitpath[spec.git_path] = lobj
-            for j, color in enumerate(lcolors):
-                lcolornames.append(color)
-                lspecs_by_colorname[color] = lobj
+            lua_specs_by_handle[spec.handle] = lobj
+            lua_specs_by_install_path[spec.install_path] = lobj
+            lua_specs_by_color_name[spec.color_name] = lobj
+            lua_color_names.append(spec.color_name)
 
-        lcolornames = sorted(lcolornames, key=lambda c: c.lower())
+        lua_color_names = sorted(lua_color_names, key=lambda c: c.lower())
         luadata.write(
             "lua/colorbox/meta/specs.lua",
-            lspecs,
+            lua_specs_by_handle,
             encoding="utf-8",
             indent="  ",
             prefix="return ",
         )
         luadata.write(
             "lua/colorbox/meta/specs_by_colorname.lua",
-            lspecs_by_colorname,
+            lua_specs_by_color_name,
             encoding="utf-8",
             indent="  ",
             prefix="return ",
         )
         luadata.write(
             "lua/colorbox/meta/specs_by_gitpath.lua",
-            lspecs_by_gitpath,
+            lua_specs_by_install_path,
             encoding="utf-8",
             indent="  ",
             prefix="return ",
         )
         luadata.write(
             "lua/colorbox/meta/colornames.lua",
-            lcolornames,
+            lua_color_names,
             encoding="utf-8",
             indent="  ",
             prefix="return ",
@@ -375,17 +361,11 @@ class Builder:
         md = MdUtils(file_name="COLORSCHEMES", title=f"ColorSchemes List ({total})")
         for i, spec in enumerate(all_specs):
             logging.info(f"collect spec-{i}:{spec}")
-            color_names = spec.get_vim_color_names()
-            color_names = sorted(color_names)
-            md.new_line(
-                f"- {md.new_inline_link(link=spec.url, text=spec.handle)} (stars: {spec.github_stars}, last update: {date_tostring(spec.last_git_commit)})"
-            )
-            for cname in color_names:
-                md.new_line(f"  - {cname}")
+            md.new_line(f"- {md.new_inline_link(link=spec.url, text=spec.handle)}")
         md.create_md_file()
 
     def build(self) -> None:
-        all_specs = sorted(ColorSpec.all(), key=lambda s: s.github_stars, reverse=True)
+        all_specs = sorted(ColorSpec.all(), key=lambda s: s.color_name)
         self._build_md_list(all_specs)
         self._build_lua_specs(all_specs)
 
