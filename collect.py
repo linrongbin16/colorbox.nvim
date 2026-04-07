@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 
-import datetime
 import logging
-import os
-import pathlib
-import subprocess
 import sys
 import typing
 
@@ -41,6 +37,20 @@ class ColorSpec:
         self.url = f"https://github.com/{handle}" if url is None else url
         self.install_path = self.handle.replace("/", "-")
         self.git_branch = git_branch
+
+    @staticmethod
+    def from_raw(
+        handle: str,
+        color_name: str,
+        plugin_name: str,
+        url: str,
+        install_path: str,
+        git_branch: typing.Optional[str],
+    ) -> typing.Any:
+        cs = ColorSpec(handle, color_name, url, plugin_name, git_branch)
+        cs.plugin_name = plugin_name
+        cs.install_path = install_path
+        cs.git_branch = git_branch
 
     def _normalize_handle(self, handle: str) -> str:
         handle = handle.strip()
@@ -84,7 +94,7 @@ class ColorSpec:
             # for i, r in enumerate(records):
             #     logging.debug(f"all records-{i}:{r}")
             return [
-                ColorSpec(
+                ColorSpec.from_raw(
                     handle=r[ColorSpec.HANDLE],
                     color_name=r[ColorSpec.COLOR_NAME],
                     plugin_name=r[ColorSpec.PLUGIN_NAME],
@@ -207,95 +217,6 @@ def init_logging(level: typing.Optional[int]) -> None:
             logging.FileHandler(f"{sys.argv[0]}.log", mode="w"),
         ],
     )
-
-
-def parse_number(v: str) -> int:
-    def to_number(s: str):
-        assert isinstance(s, str)
-        s = s.lower()
-        suffix_map = {"k": 1000, "m": 1000000, "b": 1000000000}
-        if s[-1] in suffix_map.keys():
-            suffix = s[-1]
-            n = float(s[:-1]) * suffix_map[suffix]
-        else:
-            n = float(s)
-        return int(n)
-
-    i = 0
-    builder = None
-    while i < len(v):
-        c = v[i]
-        assert isinstance(c, str)
-        i += 1
-        if c.isdigit() or c == "." or c.lower() in ["k", "m", "b"]:
-            if builder is None:
-                builder = c
-            else:
-                builder = builder + c
-        else:
-            if builder is None:
-                continue
-            else:
-                return to_number(builder)
-    assert False
-
-
-def trim_quotes(s: str) -> str:
-    if s.startswith('"') or s.startswith("'"):
-        s = s[1:]
-    if s.endswith('"') or s.endswith("'"):
-        s = s[:-1]
-    return s
-
-
-def datetime_tostring(
-    value: typing.Optional[datetime.datetime],
-) -> typing.Optional[str]:
-    return value.strftime(DATETIME_FORMAT) if isinstance(value, datetime.datetime) else None
-
-
-def datetime_fromstring(
-    value: typing.Optional[str],
-) -> typing.Optional[datetime.datetime]:
-    return (
-        datetime.datetime.strptime(value, DATETIME_FORMAT)
-        if isinstance(value, str) and len(value.strip()) > 0
-        else None
-    )
-
-
-def date_tostring(value: typing.Optional[datetime.datetime]) -> typing.Optional[str]:
-    return value.strftime(DATE_FORMAT) if isinstance(value, datetime.datetime) else None
-
-
-def date_fromstring(
-    value: typing.Optional[str],
-) -> typing.Optional[datetime.datetime]:
-    return (
-        datetime.datetime.strptime(value, DATE_FORMAT)
-        if isinstance(value, str) and len(value.strip()) > 0
-        else None
-    )
-
-
-def path2str(p: pathlib.Path) -> str:
-    result = str(p)
-    if result.find("\\") >= 0:
-        result = result.replace("\\", "/")
-    return result
-
-
-def retrieve_last_git_commit_datetime(git_path: pathlib.Path) -> datetime.datetime:
-    saved_cwd = os.getcwd()
-    os.chdir(git_path)
-    last_commit_time = subprocess.check_output(
-        ["git", "log", "-1", '--format="%at"'], encoding="UTF-8"
-    ).strip()
-    last_commit_time = trim_quotes(last_commit_time)
-    dt = datetime.datetime.fromtimestamp(int(last_commit_time))
-    # logging.debug(f"repo ({git_path}) last git commit time:{dt}")
-    os.chdir(saved_cwd)
-    return dt
 
 
 # utils }
