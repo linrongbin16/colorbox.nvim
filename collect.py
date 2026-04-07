@@ -6,9 +6,6 @@ import typing
 import click
 import luadata
 from mdutils.mdutils import MdUtils
-from tinydb import Query, TinyDB
-
-DB = TinyDB("db.json")
 
 
 class ColorSpec:
@@ -67,44 +64,6 @@ class ColorSpec:
 
     def __eq__(self, other):
         return isinstance(other, ColorSpec) and self.handle.lower() == other.handle.lower()
-
-    def upsert(self) -> None:
-        q = Query()
-        count = DB.search(q.handle == self.handle)
-        obj = {
-            ColorSpec.HANDLE: self.handle,
-            ColorSpec.COLOR_NAME: self.color_name,
-            ColorSpec.PLUGIN_NAME: self.plugin_name,
-            ColorSpec.URL: self.url,
-            ColorSpec.INSTALL_PATH: self.install_path,
-            ColorSpec.GIT_BRANCH: self.git_branch,
-        }
-        if len(count) <= 0:
-            DB.insert(obj)
-            # logging.debug(f"add new repo: {self}")
-        else:
-            DB.update(obj, q.handle == self.handle)
-            # logging.debug(f"add(update) existed repo: {self}")
-
-    @staticmethod
-    def all() -> list:
-        try:
-            records = DB.all()
-            # for i, r in enumerate(records):
-            #     logging.debug(f"all records-{i}:{r}")
-            return [
-                ColorSpec.from_raw(
-                    handle=r[ColorSpec.HANDLE],
-                    color_name=r[ColorSpec.COLOR_NAME],
-                    plugin_name=r[ColorSpec.PLUGIN_NAME],
-                    url=r[ColorSpec.URL],
-                    install_path=r[ColorSpec.INSTALL_PATH],
-                    git_branch=r[ColorSpec.GIT_BRANCH],
-                )
-                for r in records
-            ]
-        except:
-            return []
 
 
 ALL_COLORS = [
@@ -285,7 +244,7 @@ class Builder:
         md.create_md_file()
 
     def build(self) -> None:
-        all_specs = sorted(ColorSpec.all(), key=lambda s: s.color_name)
+        all_specs = sorted(ALL_COLORS, key=lambda s: s.color_name)
         self._build_md_list(all_specs)
         self._build_lua_specs(all_specs)
 

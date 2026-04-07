@@ -1,4 +1,3 @@
-tinydb
 click
 mdutils
 typing-extensions
