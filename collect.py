@@ -385,15 +385,6 @@ class Builder:
         md.create_md_file()
 
     def build(self) -> None:
-        self._download()
-        # dedup candidates
-        deduped_specs = self._dedup()
-
-        for spec in ColorSpec.all():
-            if spec not in deduped_specs:
-                logging.debug(f"remove for duplicate - repo:{spec}")
-                spec.remove()
-
         all_specs = sorted(ColorSpec.all(), key=lambda s: s.github_stars, reverse=True)
         self._build_md_list(all_specs)
         self._build_lua_specs(all_specs)
@@ -427,7 +418,7 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
         result.write(f"{before}")
 
     # Build new data source
-    builder = Builder(clean_old_clones)
+    builder = Builder()
     builder.build()
 
     # After updating data
