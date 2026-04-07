@@ -411,21 +411,9 @@ def collect(debug_opt, no_headless_opt, skip_fetch_opt, skip_clone_opt):
     if no_headless_opt:
         WEBDRIVER_HEADLESS = False
 
-    # Before updating data
-    before = len(DB.all())
-    logging.info(f"Before updating, DB count:{before}")
-    with open("collect-before.log", "w") as result:
-        result.write(f"{before}")
-
     # Build new data source
     builder = Builder()
     builder.build()
-
-    # After updating data
-    after = len(DB.all())
-    logging.info(f"After updating, DB count:{after}")
-    with open("collect-after.log", "w") as result:
-        result.write(f"{after}")
 
 
 if __name__ == "__main__":
