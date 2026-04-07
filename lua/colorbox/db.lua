@@ -1,13 +1,10 @@
 --- @class colorbox.ColorSpec
 --- @field handle string "folke/tokyonight.nvim"
+--- @field color_name string "tokyonight"
+--- @field plugin_name string "tokyonight"
 --- @field url string "https://github.com/folke/tokyonight.nvim"
---- @field github_stars integer 4300
---- @field last_git_commit string "2023-10-25T18:20:36"
---- @field priority integer 100/0
---- @field source string "https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme"
---- @field git_path string "folke-tokyonight.nvim"
+--- @field install_path string "folke-tokyonight.nvim"
 --- @field git_branch string? nil|"neovim"
---- @field color_names string[] ["tokyonight","tokyonight-day","tokyonight-moon","tokyonight-night","tokyonight-storm"]
 local ColorSpec = {}
 
 -- plugin pack path: "pack/colorbox/start/folke-tokyonight.nvim"
