@@ -27,10 +27,10 @@ M.update = function()
   )
   vim.opt.packpath:append(home_dir)
 
-  local HandleToColorSpecsMap = db.get_specs_by_handle()
+  local SpecsByHandle = db.get_specs_by_handle()
 
   local prepared_count = 0
-  for _, _ in pairs(HandleToColorSpecsMap) do
+  for _, _ in pairs(SpecsByHandle) do
     prepared_count = prepared_count + 1
   end
   log.info(string.format("started %s jobs", vim.inspect(prepared_count)))
@@ -38,7 +38,7 @@ M.update = function()
   async.run(function()
     local finished_count = 0
 
-    for handle, spec in pairs(HandleToColorSpecsMap) do
+    for handle, spec in pairs(SpecsByHandle) do
       local pack_path = db.get_pack_path(spec)
       local full_pack_path = db.get_full_pack_path(spec)
       local param = nil
