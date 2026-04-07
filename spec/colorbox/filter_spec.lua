@@ -22,7 +22,7 @@ describe("colorbox.filter", function()
         debug = true,
         file_log = true,
       })
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
+      local ColorNameToColorSpecsMap = db.get_specs_by_color_name()
       for color, spec in pairs(ColorNameToColorSpecsMap) do
         local actual = filter.run(color, spec)
         assert_eq(type(actual), "boolean")
@@ -37,7 +37,7 @@ describe("colorbox.filter", function()
           return i >= 5
         end,
       })
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
+      local ColorNameToColorSpecsMap = db.get_specs_by_color_name()
       for color, spec in pairs(ColorNameToColorSpecsMap) do
         local actual = filter.run(color, spec)
         assert_eq(type(actual), "boolean")
@@ -46,14 +46,14 @@ describe("colorbox.filter", function()
       end
     end)
     it("_builtin_filter", function()
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
+      local ColorNameToColorSpecsMap = db.get_specs_by_color_name()
       for color, spec in pairs(ColorNameToColorSpecsMap) do
         local actual = filter._builtin_filter("primary", color, spec)
         assert_eq(type(actual), "boolean")
       end
     end)
     it("_function_filter", function()
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
+      local ColorNameToColorSpecsMap = db.get_specs_by_color_name()
       for color, spec in pairs(ColorNameToColorSpecsMap) do
         local actual = filter._function_filter(function(c, s)
           return true
@@ -70,7 +70,7 @@ describe("colorbox.filter", function()
       end
     end)
     it("_all_filter", function()
-      local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
+      local ColorNameToColorSpecsMap = db.get_specs_by_color_name()
       for color, spec in pairs(ColorNameToColorSpecsMap) do
         local actual = filter._all_filter({
           function(c, s)

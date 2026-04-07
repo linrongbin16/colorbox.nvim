@@ -22,7 +22,7 @@ local FilteredColorNameToIndexMap = {}
 M._build_colors = function()
   local colors_list = {}
   local colors_index = {}
-  local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
+  local ColorNameToColorSpecsMap = require("colorbox.db").get_specs_by_color_name()
   local ColorNamesList = require("colorbox.db").get_color_names_list()
   for _, color_name in pairs(ColorNamesList) do
     local spec = ColorNameToColorSpecsMap[color_name]
