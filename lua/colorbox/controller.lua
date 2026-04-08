@@ -199,13 +199,13 @@ M.info = function(args)
   local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
   local ColorNamesIndex = runtime.colornames_index()
-  local HandleToColorSpecsMap = require("colorbox.db").get_specs_by_handle()
+  local SpecsByHandle = require("colorbox.db").get_specs_by_handle()
   local color_specs_list = {}
-  for handle, spec in pairs(HandleToColorSpecsMap) do
+  for handle, spec in pairs(SpecsByHandle) do
     table.insert(color_specs_list, spec)
   end
   table.sort(color_specs_list, function(a, b)
-    return a.github_stars > b.github_stars
+    return a.color_name > b.color_name
   end)
   local total_plugins = 0
   local total_colors = 0
