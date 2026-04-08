@@ -207,77 +207,17 @@ M.info = function(args)
   table.sort(color_specs_list, function(a, b)
     return a.color_name > b.color_name
   end)
-  local total_plugins = 0
-  local total_colors = 0
-  local enabled_plugins = 0
-  local enabled_colors = 0
-  for i, spec in ipairs(color_specs_list) do
-    total_plugins = total_plugins + 1
-    local plugin_enabled = false
-    for j, color in ipairs(spec.color_names) do
-      total_colors = total_colors + 1
-      local color_enabled = ColorNamesIndex[color] ~= nil
-      if color_enabled then
-        enabled_colors = enabled_colors + 1
-        plugin_enabled = true
-      end
-    end
-    if plugin_enabled then
-      enabled_plugins = enabled_plugins + 1
-    end
-  end
+  local total_colors = #color_specs_list
 
-  local ns = vim.api.nvim_create_namespace("colorbox-info-panel")
   vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, {
-    string.format(
-      "# ColorSchemes List, total: %d(colors)/%d(plugins), enabled: %d(colors)/%d(plugins)",
-      total_colors,
-      total_plugins,
-      enabled_colors,
-      enabled_plugins
-    ),
+    string.format("# ColorSchemes List, total: %d", total_colors),
   })
   local lineno = 1
   for i, spec in ipairs(color_specs_list) do
     vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
-      string.format(
-        "- %s (stars: %s, last update at: %s)",
-        vim.inspect(spec.handle),
-        vim.inspect(spec.github_stars),
-        vim.inspect(spec.last_git_commit)
-      ),
+      string.format("- %s (%s)", spec.handle, spec.color_name),
     })
     lineno = lineno + 1
-    local color_names = vim.deepcopy(spec.color_names)
-    -- table.sort(color_names, function(a, b)
-    --   logger:debug(
-    --     string.format(
-    --       "|info| sort color_names:%s, ColorNamesIndex:%s",
-    --       vim.inspect(color_names),
-    --       vim.inspect(ColorNamesIndex)
-    --     )
-    --   )
-    --   local a_enabled = ColorNamesIndex[a] ~= nil
-    --   return a_enabled
-    -- end)
-
-    for _, color in ipairs(color_names) do
-      local enabled = ColorNamesIndex[color] ~= nil
-      local content = enabled and string.format("  - %s (**enabled**)", color)
-        or string.format("  - %s (disabled)", color)
-      vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, { content })
-
-      -- colorize the enabled colors
-      if enabled then
-        vim.api.nvim_buf_set_extmark(bufnr, ns, lineno, 0, {
-          end_row = lineno,
-          end_col = string.len(content),
-          strict = false,
-          line_hl_group = "Special",
-        })
-      end
-      lineno = lineno + 1
-    end
   end
   vim.schedule(function()
     vim.cmd(string.format([[call setpos('.', [%d, 1, 1])]], bufnr))
