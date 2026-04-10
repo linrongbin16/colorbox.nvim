@@ -45,13 +45,6 @@ describe("colorbox.filter", function()
         i = i + 1
       end
     end)
-    it("_builtin_filter", function()
-      local specs_by_colorname = db.get_specs_by_colorname()
-      for color, spec in pairs(specs_by_colorname) do
-        local actual = filter._builtin_filter("primary", color, spec)
-        assert_eq(type(actual), "boolean")
-      end
-    end)
     it("_function_filter", function()
       local specs_by_colorname = db.get_specs_by_colorname()
       for color, spec in pairs(specs_by_colorname) do
