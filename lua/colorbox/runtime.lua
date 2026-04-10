@@ -20,10 +20,10 @@ M._available_colors = function()
   -- Maps from color name to its index in `colors_list`
   local colors_index = {}
 
-  local specs_by_colorname = db.get_specs_by_color_name()
+  local specs_by_color_name = db.get_specs_by_color_name()
   local color_names = db.get_color_names()
   for _, color_name in pairs(color_names) do
-    local spec = specs_by_colorname[color_name]
+    local spec = specs_by_color_name[color_name]
     local full_pack_path = db.get_full_pack_path(spec)
     local pack_exist = uv.fs_stat(full_pack_path) ~= nil
     local yes = filter.run(color_name, spec)
