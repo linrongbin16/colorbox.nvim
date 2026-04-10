@@ -39,8 +39,9 @@ M.load = function(color_name, execute)
     return
   end
 
-  local autoload_path = string.format("%s/autoload", full_pack_path)
-  vim.opt.runtimepath:append(autoload_path)
+  -- local autoload_path = string.format("%s/autoload", full_pack_path)
+  vim.opt.runtimepath:append(full_pack_path)
+  -- vim.opt.packpath:append(full_pack_path)
   log.debug(
     string.format("|load| autoload_path:%s, spec:%s", vim.inspect(autoload_path), vim.inspect(spec))
   )
