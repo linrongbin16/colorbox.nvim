@@ -194,7 +194,6 @@ class Builder:
     def _build_lua_specs(self, all_specs: list[ColorSpec]) -> None:
         lua_specs_by_handle = {}
         lua_specs_by_color_name = {}
-        lua_specs_by_install_path = {}
         lua_color_names = []
 
         for i, spec in enumerate(all_specs):
@@ -208,7 +207,6 @@ class Builder:
                 ColorSpec.GIT_BRANCH: spec.git_branch,
             }
             lua_specs_by_handle[spec.handle] = lobj
-            lua_specs_by_install_path[spec.install_path] = lobj
             lua_specs_by_color_name[spec.color_name] = lobj
             lua_color_names.append(spec.color_name)
 
@@ -223,13 +221,6 @@ class Builder:
         luadata.write(
             "lua/colorbox/meta/specs_by_colorname.lua",
             lua_specs_by_color_name,
-            encoding="utf-8",
-            indent="  ",
-            prefix="return ",
-        )
-        luadata.write(
-            "lua/colorbox/meta/specs_by_install_path.lua",
-            lua_specs_by_install_path,
             encoding="utf-8",
             indent="  ",
             prefix="return ",
