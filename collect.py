@@ -118,7 +118,7 @@ ALL_COLORS = [
         plugin_name="dracula",
     ),
     ColorSpec("projekt0n/github-nvim-theme", "github_dark"),
-    ColorSpec("rose-pine/neovim", "rose-pine"),
+    ColorSpec("rose-pine/neovim", "rose-pine", plugin_name="rose-pine"),
     ColorSpec("zenbones-theme/zenbones.nvim", "zenbones"),
     ColorSpec(
         "catppuccin/nvim",
