@@ -12,12 +12,12 @@ local M = {}
 --- @param colorname string?
 --- @param execute boolean?
 M.load = function(colorname, execute)
-  local ColorNameToColorSpecsMap = require("colorbox.db").get_specs_by_colorname()
+  local specs_by_colorname = require("colorbox.db").get_specs_by_colorname()
 
   if str.empty(colorname) then
     return
   end
-  local spec = ColorNameToColorSpecsMap[colorname]
+  local spec = specs_by_colorname[colorname]
   if tbl.tbl_empty(spec) then
     return
   end
