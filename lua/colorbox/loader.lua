@@ -9,9 +9,9 @@ local db = require("colorbox.db")
 
 local M = {}
 
---- @param colorname string?
+--- @param color_name string?
 --- @param execute boolean?
-M.load = function(colorname, execute)
+M.load = function(color_name, execute)
   -- by default 'execute' is true
   if type(execute) ~= "boolean" then
     execute = true
@@ -19,10 +19,10 @@ M.load = function(colorname, execute)
 
   local specs_by_colorname = require("colorbox.db").get_specs_by_colorname()
 
-  if str.empty(colorname) then
+  if str.empty(color_name) then
     return
   end
-  local spec = specs_by_colorname[colorname]
+  local spec = specs_by_colorname[color_name]
   if tbl.tbl_empty(spec) then
     return
   end
@@ -64,8 +64,8 @@ M.load = function(colorname, execute)
   end
 
   if execute then
-    vim.cmd(string.format("color %s", colorname))
-    track.save_track(colorname)
+    vim.cmd(string.format("color %s", color_name))
+    track.save_track(color_name)
   end
 end
 
