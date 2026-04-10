@@ -15,18 +15,18 @@ local AvailableColorIndexes = {}
 
 --- @return {colors_list:string[],colors_index:table<string,integer>}
 M._available_colors = function()
-  -- All colorname list
+  -- All color name list
   local colors_list = {}
-  -- Maps from colorname to its index in `colors_list`
+  -- Maps from color name to its index in `colors_list`
   local colors_index = {}
 
   local specs_by_colorname = db.get_specs_by_colorname()
-  local colornames = db.get_colornames()
-  for _, colorname in pairs(colornames) do
-    local spec = specs_by_colorname[colorname]
+  local color_names = db.get_color_names()
+  for _, color_name in pairs(color_names) do
+    local spec = specs_by_colorname[color_name]
     local full_pack_path = db.get_full_pack_path(spec)
     local pack_exist = uv.fs_stat(full_pack_path) ~= nil
-    local yes = filter.run(colorname, spec)
+    local yes = filter.run(color_name, spec)
     -- logger:debug(
     --   string.format(
     --     "|_build_colors| color_name:%s, choose:%s, pack_exist:%s, full_pack_path:%s",
@@ -37,7 +37,7 @@ M._available_colors = function()
     --   )
     -- )
     if yes and pack_exist then
-      table.insert(colors_list, colorname)
+      table.insert(colors_list, color_name)
     end
   end
   for i, color_name in ipairs(colors_list) do
@@ -60,7 +60,7 @@ M.setup = function()
   -- logger:debug("|_init| FilteredColorNameToIndexMap:%s", vim.inspect(FilteredColorNameToIndexMap))
 end
 
-M.colornames = function()
+M.color_names = function()
   return AvailableColorNames
 end
 

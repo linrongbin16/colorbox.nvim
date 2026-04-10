@@ -70,7 +70,7 @@ end
 M.get_next_color_name_by_idx = function(idx)
   assert(type(idx) == "number")
   idx = idx + 1
-  local colornames = runtime.colornames()
+  local colornames = runtime.color_names()
   local n = #colornames
   if idx > n then
     idx = 1
@@ -84,7 +84,7 @@ end
 M.get_prev_color_name_by_idx = function(idx)
   assert(type(idx) == "number")
   idx = idx - 1
-  local colornames = runtime.colornames()
+  local colornames = runtime.color_names()
   local n = #colornames
   if idx < 1 then
     idx = n

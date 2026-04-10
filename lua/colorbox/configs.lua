@@ -47,7 +47,7 @@ local Defaults = {
   },
 
   -- (Optional) hook lua function after colorscheme is been choose.
-  --- @type function(colorname: string, color_spec: colorbox.ColorSpec):nil|nil
+  --- @type function(color_name: string, color_spec: colorbox.ColorSpec):nil|nil
   post_hook = nil,
 
   --- @type string

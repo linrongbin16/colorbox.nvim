@@ -26,7 +26,7 @@ describe("colorbox.loader", function()
       local specs_by_colorname = db.get_specs_by_colorname()
 
       if not github_actions then
-        local colornames = runtime.colornames()
+        local colornames = runtime.color_names()
         local color_indexes = runtime.color_indexes()
         print(
           string.format(

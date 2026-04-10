@@ -24,7 +24,7 @@ describe("colorbox.track", function()
   end)
   describe("[track]", function()
     it("save_track", function()
-      local colornames = runtime.colornames()
+      local colornames = runtime.color_names()
       for i, color in ipairs(colornames) do
         track.save_track(color)
       end
@@ -38,7 +38,7 @@ describe("colorbox.track", function()
       end
     end)
     it("next", function()
-      local colornames = runtime.colornames()
+      local colornames = runtime.color_names()
       local n = #colornames
       for i = 1, 2 * n do
         local actual, actual_idx = track.get_next_color_name_by_idx(i)
@@ -61,7 +61,7 @@ describe("colorbox.track", function()
       end
     end)
     it("prev", function()
-      local colornames = runtime.colornames()
+      local colornames = runtime.color_names()
       local n = #colornames
       for i = 0, 2 * n do
         local actual, actual_idx = track.get_prev_color_name_by_idx(i)

@@ -139,7 +139,7 @@ M._parse_args = function(args)
 end
 
 M.shuffle = function()
-  local colornames = runtime.colornames()
+  local colornames = runtime.color_names()
   if #colornames > 0 then
     local random_index = num.random(1, #colornames)
     local color = colornames[random_index]
@@ -211,12 +211,12 @@ M.info = function(args)
   })
   table.sort(color_specs_list, function(a, b)
     log.debug(string.format("|info| sort a:%s, b:%s", vim.inspect(a), vim.inspect(b)))
-    return a.colorname > b.colorname
+    return a.color_name > b.color_name
   end)
   local lineno = 1
   for i, spec in ipairs(color_specs_list) do
     vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
-      string.format("- %s (%s)", spec.handle, spec.colorname),
+      string.format("- %s (%s)", spec.handle, spec.color_name),
     })
     lineno = lineno + 1
   end

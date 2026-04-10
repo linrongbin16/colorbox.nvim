@@ -8,7 +8,7 @@ local loader = require("colorbox.loader")
 local M = {}
 
 M.shuffle = function()
-  local colornames = runtime.colornames()
+  local colornames = runtime.color_names()
   if #colornames > 0 then
     local i = num.random(#colornames) --[[@as integer]]
     local color = track.get_next_color_name_by_idx(i)
@@ -27,7 +27,7 @@ M.shuffle = function()
 end
 
 M.in_order = function()
-  local colornames = runtime.colornames()
+  local colornames = runtime.color_names()
   if #colornames > 0 then
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local i = previous_track ~= nil and previous_track.color_number or 0
@@ -47,7 +47,7 @@ M.in_order = function()
 end
 
 M.reverse_order = function()
-  local colornames = runtime.colornames()
+  local colornames = runtime.color_names()
   if #colornames > 0 then
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local i = previous_track ~= nil and previous_track.color_number or (#colornames + 1)
@@ -58,7 +58,7 @@ M.reverse_order = function()
 end
 
 M.single = function()
-  local colornames = runtime.colornames()
+  local colornames = runtime.color_names()
   if #colornames > 0 then
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local color = previous_track ~= nil and previous_track.color_name
