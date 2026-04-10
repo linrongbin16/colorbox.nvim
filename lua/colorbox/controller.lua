@@ -210,8 +210,8 @@ M.info = function(args)
     string.format("# ColorSchemes List, total: %d", total_colors),
   })
   table.sort(color_specs_list, function(a, b)
-    log.debug(string.format("|info| sort a:%s, b:%s", vim.inspect(a), vim.inspect(b)))
-    return a.color_name > b.color_name
+    -- log.debug(string.format("|info| sort a:%s, b:%s", vim.inspect(a), vim.inspect(b)))
+    return string.lower(a.color_name) < string.lower(b.color_name)
   end)
   local lineno = 1
   for i, spec in ipairs(color_specs_list) do
