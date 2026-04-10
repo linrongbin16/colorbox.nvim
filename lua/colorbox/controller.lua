@@ -146,7 +146,7 @@ M.shuffle = function()
 
     log.debug(
       string.format(
-        "|shuffle| color:%s, random_index:%d, ColorNamesList(%d):%s",
+        "|shuffle| color:%s, random_index:%d, color_names(%d):%s",
         vim.inspect(color),
         random_index,
         #color_names,
