@@ -187,9 +187,8 @@ For complete default options, please see [configs.lua](https://github.com/linron
 
 The `filter` option is to help user filter some colorschemes from the dataset, thus they will never show up.
 
-There're 3 kinds of filters:
+There're 2 kinds of filters:
 
-- Builtin filter: A lua string that presents the name of a builtin filter. For now we only have the `"primary"` builtin filter, it only enables the primary color in a plugin, filters all other color variants (when there're multiple colors in one plugin).
 - Function filter: A lua function that decides whether to enable/disable a color. It uses the function signature:
 
   ```lua
@@ -202,7 +201,7 @@ There're 3 kinds of filters:
 
   It returns `true` to enable a color, `false` to disable a color.
 
-- List filter: A lua list that contains multiple function filters and builtin filters. A colorscheme will only be enabled if _**all**_ these filters returns `true`.
+- List filter: A lua list that contains multiple function filters. A colorscheme will only be enabled if _**all**_ these filters returns `true`.
 
 ### Timing
 
