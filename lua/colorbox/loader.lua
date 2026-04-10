@@ -39,8 +39,10 @@ M.load = function(color_name, execute)
     return
   end
 
+  local home_dir = vim.fn["colorbox#base_dir"]()
   local autoload_path = string.format("%s/autoload", full_pack_path)
   vim.opt.runtimepath:append(full_pack_path)
+  vim.opt.packpath:append(home_dir)
   log.debug(
     string.format("|load| autoload_path:%s, spec:%s", vim.inspect(autoload_path), vim.inspect(spec))
   )
@@ -48,7 +50,6 @@ M.load = function(color_name, execute)
 
   local confs = configs.get()
   if type(confs.setup) == "table" and vim.is_callable(confs.setup[spec.handle]) then
-    local home_dir = vim.fn["colorbox#base_dir"]()
     local ok, setup_err = pcall(confs.setup[spec.handle], home_dir, spec)
     log.ensure(
       ok,
