@@ -56,17 +56,17 @@ M._all_filter = function(f, color_name, spec)
   return true
 end
 
---- @param color_name string
+--- @param colorname string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-M.run = function(color_name, spec)
+M.run = function(colorname, spec)
   local confs = configs.get()
   if type(confs.filter) == "string" then
-    return M._builtin_filter(confs.filter, color_name, spec)
+    return M._builtin_filter(confs.filter, colorname, spec)
   elseif type(confs.filter) == "function" then
-    return M._function_filter(confs.filter, color_name, spec)
+    return M._function_filter(confs.filter, colorname, spec)
   elseif type(confs.filter) == "table" then
-    return M._all_filter(confs.filter, color_name, spec)
+    return M._all_filter(confs.filter, colorname, spec)
   end
   return true
 end
