@@ -234,7 +234,7 @@ return {
   ["rose-pine/neovim"] = {
     handle = "rose-pine/neovim",
     color_name = "rose-pine",
-    plugin_name = "neovim",
+    plugin_name = "rose-pine",
     url = "https://github.com/rose-pine/neovim",
     install_path = "rose-pine-neovim",
     git_branch = nil,
