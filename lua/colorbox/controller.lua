@@ -17,7 +17,7 @@ M.update = function()
   })
 
   local home_dir = vim.fn["colorbox#base_dir"]()
-  local packstart = string.format("%s/pack/colorbox/start", home_dir)
+  local packstart = string.format("%s/pack/colorbox/opt", home_dir)
   log.debug(
     string.format(
       "|colorbox.init| home_dir:%s, packstart:%s",
@@ -163,7 +163,7 @@ M.info = function(args)
   opts = opts or { scale = 0.7 }
   opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7) or 0.7
   opts.scale = num.clamp(opts.scale, 0, 1)
-  log.debug(string.format("|_info| opts:%s", vim.inspect(opts)))
+  log.debug(string.format("|info| opts:%s", vim.inspect(opts)))
 
   local total_width = vim.o.columns
   local total_height = vim.o.lines
@@ -198,14 +198,14 @@ M.info = function(args)
   vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
   local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
-  local color_indexes = runtime.color_indexes()
   local specs_by_handle = db.get_specs_by_handle()
+  log.debug(string.format("|info| specs_by_handle:%s", vim.inspect(specs_by_handle)))
   local color_specs_list = {}
   for handle, spec in pairs(specs_by_handle) do
     table.insert(color_specs_list, spec)
   end
   table.sort(color_specs_list, function(a, b)
-    return a.color_name > b.color_name
+    return a.colorname > b.colorname
   end)
   local total_colors = #color_specs_list
 

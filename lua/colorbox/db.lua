@@ -11,7 +11,7 @@ local ColorSpec = {}
 --- @param spec colorbox.ColorSpec
 --- @return string
 local function get_pack_path(spec)
-  return string.format("pack/colorbox/start/%s", spec.install_path)
+  return string.format("pack/colorbox/opt/%s", spec.install_path)
 end
 
 --- plugin pack full path: "Users/linrongbin16/github/linrongbin16/colorbox.nvim/pack/colorbox/start/folke-tokyonight.nvim"
@@ -19,7 +19,7 @@ end
 --- @return string
 local function get_full_pack_path(spec)
   local cwd = vim.fn["colorbox#base_dir"]()
-  return string.format("%s/pack/colorbox/start/%s", cwd, spec.install_path)
+  return string.format("%s/pack/colorbox/opt/%s", cwd, spec.install_path)
 end
 
 --- @return table<string, colorbox.ColorSpec>
