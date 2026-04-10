@@ -215,8 +215,9 @@ M.info = function(args)
   end)
   local lineno = 1
   for i, spec in ipairs(color_specs_list) do
+    local pack_exists = runtime.is_package_available(spec)
     vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
-      string.format("- %s (%s)", spec.handle, spec.color_name),
+      string.format("- %s (color: %s, installed: %s)", spec.handle, spec.color_name, pack_exists),
     })
     lineno = lineno + 1
   end

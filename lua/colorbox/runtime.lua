@@ -13,6 +13,12 @@ local AvailableColorNames = {}
 --- @type table<string, integer>
 local AvailableColorIndexes = {}
 
+--- @param spec colorbox.ColorSpec
+M.is_package_available = function(spec)
+  local full_pack_path = db.get_full_pack_path(spec)
+  return uv.fs_stat(full_pack_path) ~= nil
+end
+
 --- @return {colors_list:string[],colors_index:table<string,integer>}
 M._available_colors = function()
   -- All color name list
@@ -24,8 +30,7 @@ M._available_colors = function()
   local color_names = db.get_color_names()
   for _, color_name in pairs(color_names) do
     local spec = specs_by_color_name[color_name]
-    local full_pack_path = db.get_full_pack_path(spec)
-    local pack_exist = uv.fs_stat(full_pack_path) ~= nil
+    local pack_exist = M.is_package_available(spec)
     local yes = filter.run(color_name, spec)
     -- logger:debug(
     --   string.format(
