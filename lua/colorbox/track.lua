@@ -18,8 +18,8 @@ end
 --- @alias colorbox.PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
 M.save_track = function(color_name)
+  log.debug(string.format("|save_track| color_name:%s", vim.inspect(color_name)))
   if str.blank(color_name) then
-    log.debug(string.format("|save_track| color_name is blank:%s", vim.inspect(color_name)))
     return
   end
 
