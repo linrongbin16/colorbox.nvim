@@ -204,20 +204,22 @@ M.info = function(args)
   for handle, spec in pairs(specs_by_handle) do
     table.insert(color_specs_list, spec)
   end
-  table.sort(color_specs_list, function(a, b)
-    return a.colorname > b.colorname
-  end)
   local total_colors = #color_specs_list
 
   vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, {
     string.format("# ColorSchemes List, total: %d", total_colors),
   })
-  local lineno = 1
-  for i, spec in ipairs(color_specs_list) do
-    vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
-      string.format("- %s (%s)", spec.handle, spec.colorname),
-    })
-    lineno = lineno + 1
+  if total_colors > 0 then
+    table.sort(color_specs_list, function(a, b)
+      return a.colorname > b.colorname
+    end)
+    local lineno = 1
+    for i, spec in ipairs(color_specs_list) do
+      vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
+        string.format("- %s (%s)", spec.handle, spec.colorname),
+      })
+      lineno = lineno + 1
+    end
   end
   vim.schedule(function()
     vim.cmd(string.format([[call setpos('.', [%d, 1, 1])]], bufnr))
