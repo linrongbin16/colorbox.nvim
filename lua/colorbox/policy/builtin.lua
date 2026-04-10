@@ -5,12 +5,15 @@ local runtime = require("colorbox.runtime")
 local track = require("colorbox.track")
 local loader = require("colorbox.loader")
 
+local uv = vim.uv or vim.loop
+
 local M = {}
 
 M.shuffle = function()
   local color_names = runtime.color_names()
   if #color_names > 0 then
-    local i = num.random(#color_names) --[[@as integer]]
+    local ts = uv.clock_gettime("realtime") --[[@as {sec:integer,nsec:integer} ]]
+    local i = math.floor(math.fmod(ts.nsec, #color_names)) + 1 --[[@as integer]]
     local color = track.get_next_color_name_by_idx(i)
     log.debug(
       string.format(
@@ -62,7 +65,7 @@ M.single = function()
   if #color_names > 0 then
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local color = previous_track ~= nil and previous_track.color_name
-      or track.get_next_color_name_by_idx(0)
+        or track.get_next_color_name_by_idx(0)
     if color ~= vim.g.colors_name then
       loader.load(color)
     end
