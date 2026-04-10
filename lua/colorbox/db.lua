@@ -29,12 +29,12 @@ end
 
 --- @return table<string, colorbox.ColorSpec>
 local function get_specs_by_colorname()
-  return require("colorbox.meta.specs_by_colorname")
+  return require("colorbox.meta.specs_by_color_name")
 end
 
 --- @return string[]
 local function get_color_names()
-  return require("colorbox.meta.colornames")
+  return require("colorbox.meta.color_names")
 end
 
 local M = {

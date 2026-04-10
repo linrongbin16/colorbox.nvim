@@ -25,10 +25,10 @@ describe("colorbox.runtime", function()
         assert_eq(actual.colors_index[color], i)
       end
     end)
-    it("colornames/colornames_index", function()
-      local colornames = runtime.color_names()
+    it("color_names/colornames_index", function()
+      local color_names = runtime.color_names()
       local color_indexes = runtime.color_indexes()
-      for i, color in ipairs(colornames) do
+      for i, color in ipairs(color_names) do
         assert_eq(color_indexes[color], i)
       end
     end)

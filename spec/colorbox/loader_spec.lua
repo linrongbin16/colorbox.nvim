@@ -26,16 +26,16 @@ describe("colorbox.loader", function()
       local specs_by_colorname = db.get_specs_by_colorname()
 
       if not github_actions then
-        local colornames = runtime.color_names()
+        local color_names = runtime.color_names()
         local color_indexes = runtime.color_indexes()
         print(
           string.format(
-            "colornames:%s, color_indexes:%s",
-            vim.inspect(colornames),
+            "color_names:%s, color_indexes:%s",
+            vim.inspect(color_names),
             vim.inspect(color_indexes)
           )
         )
-        for i, c in ipairs(colornames) do
+        for i, c in ipairs(color_names) do
           local spec = specs_by_colorname[c]
           if not disabled_colorspecs[spec.handle] then
             print(string.format("color:%s, spec:%s", vim.inspect(c), vim.inspect(spec)))

@@ -139,18 +139,18 @@ M._parse_args = function(args)
 end
 
 M.shuffle = function()
-  local colornames = runtime.color_names()
-  if #colornames > 0 then
-    local random_index = num.random(1, #colornames)
-    local color = colornames[random_index]
+  local color_names = runtime.color_names()
+  if #color_names > 0 then
+    local random_index = num.random(1, #color_names)
+    local color = color_names[random_index]
 
     log.debug(
       string.format(
         "|shuffle| color:%s, random_index:%d, ColorNamesList(%d):%s",
         vim.inspect(color),
         random_index,
-        #colornames,
-        vim.inspect(colornames)
+        #color_names,
+        vim.inspect(color_names)
       )
     )
     loader.load(color)
