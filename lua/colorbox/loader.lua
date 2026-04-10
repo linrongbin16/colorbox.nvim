@@ -12,6 +12,11 @@ local M = {}
 --- @param colorname string?
 --- @param execute boolean?
 M.load = function(colorname, execute)
+  -- by default 'execute' is true
+  if type(execute) ~= "boolean" then
+    execute = true
+  end
+
   local specs_by_colorname = require("colorbox.db").get_specs_by_colorname()
 
   if str.empty(colorname) then
@@ -55,9 +60,6 @@ M.load = function(colorname, execute)
     vim.opt.background = confs.background
   end
 
-  if type(execute) ~= "boolean" then
-    execute = true
-  end
   if execute then
     vim.cmd(string.format("color %s", colorname))
     track.save_track(colorname)
