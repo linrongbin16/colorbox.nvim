@@ -8,16 +8,16 @@ local loader = require("colorbox.loader")
 local M = {}
 
 M.shuffle = function()
-  local ColorNamesList = runtime.colornames()
-  if #ColorNamesList > 0 then
-    local i = num.random(#ColorNamesList) --[[@as integer]]
+  local colornames = runtime.colornames()
+  if #colornames > 0 then
+    local i = num.random(#colornames) --[[@as integer]]
     local color = track.get_next_color_name_by_idx(i)
     log.debug(
       string.format(
         "|_policy_shuffle| color:%s, ColorNamesList:%s (%d), i:%d",
         vim.inspect(color),
-        vim.inspect(ColorNamesList),
-        vim.inspect(#ColorNamesList),
+        vim.inspect(colornames),
+        vim.inspect(#colornames),
         vim.inspect(i)
       )
     )
