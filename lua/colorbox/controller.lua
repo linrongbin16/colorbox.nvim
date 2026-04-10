@@ -198,7 +198,7 @@ M.info = function(args)
   vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
   local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
-  local ColorNamesIndex = runtime.colornames_index()
+  local color_indexes = runtime.color_indexes()
   local specs_by_handle = db.get_specs_by_handle()
   local color_specs_list = {}
   for handle, spec in pairs(specs_by_handle) do

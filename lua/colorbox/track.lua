@@ -26,8 +26,8 @@ M.save_track = function(color_name)
   vim.schedule(function()
     local confs = configs.get()
 
-    local ColorNamesIndex = runtime.colornames_index()
-    local color_number = ColorNamesIndex[color_name] or 1
+    local color_indexes = runtime.color_indexes()
+    local color_number = color_indexes[color_name] or 1
 
     local content = vim.json.encode({
       color_name = color_name,
