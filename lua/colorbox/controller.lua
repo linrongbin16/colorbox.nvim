@@ -27,10 +27,10 @@ M.update = function()
   )
   vim.opt.packpath:append(home_dir)
 
-  local SpecsByHandle = db.get_specs_by_handle()
+  local specs_by_handle = db.get_specs_by_handle()
 
   local prepared_count = 0
-  for _, _ in pairs(SpecsByHandle) do
+  for _, _ in pairs(specs_by_handle) do
     prepared_count = prepared_count + 1
   end
   log.info(string.format("started %s jobs", vim.inspect(prepared_count)))
@@ -38,7 +38,7 @@ M.update = function()
   async.run(function()
     local finished_count = 0
 
-    for handle, spec in pairs(SpecsByHandle) do
+    for handle, spec in pairs(specs_by_handle) do
       local pack_path = db.get_pack_path(spec)
       local full_pack_path = db.get_full_pack_path(spec)
       local param = nil
@@ -199,9 +199,9 @@ M.info = function(args)
   local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
   local ColorNamesIndex = runtime.colornames_index()
-  local SpecsByHandle = require("colorbox.db").get_specs_by_handle()
+  local specs_by_handle = db.get_specs_by_handle()
   local color_specs_list = {}
-  for handle, spec in pairs(SpecsByHandle) do
+  for handle, spec in pairs(specs_by_handle) do
     table.insert(color_specs_list, spec)
   end
   table.sort(color_specs_list, function(a, b)
