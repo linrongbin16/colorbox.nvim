@@ -37,8 +37,8 @@ describe("colorbox.filter", function()
           return i >= 5
         end,
       })
-      local ColorNameToColorSpecsMap = db.get_specs_by_colorname()
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
+      local specs_by_colorname = db.get_specs_by_colorname()
+      for color, spec in pairs(specs_by_colorname) do
         local actual = filter.run(color, spec)
         assert_eq(type(actual), "boolean")
         assert_eq(actual, i >= 5)
@@ -46,22 +46,22 @@ describe("colorbox.filter", function()
       end
     end)
     it("_builtin_filter", function()
-      local ColorNameToColorSpecsMap = db.get_specs_by_colorname()
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
+      local specs_by_colorname = db.get_specs_by_colorname()
+      for color, spec in pairs(specs_by_colorname) do
         local actual = filter._builtin_filter("primary", color, spec)
         assert_eq(type(actual), "boolean")
       end
     end)
     it("_function_filter", function()
-      local ColorNameToColorSpecsMap = db.get_specs_by_colorname()
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
+      local specs_by_colorname = db.get_specs_by_colorname()
+      for color, spec in pairs(specs_by_colorname) do
         local actual = filter._function_filter(function(c, s)
           return true
         end, color, spec)
         assert_eq(type(actual), "boolean")
         assert_true(actual)
       end
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
+      for color, spec in pairs(specs_by_colorname) do
         local actual = filter._function_filter(function(c, s)
           return false
         end, color, spec)
@@ -70,8 +70,8 @@ describe("colorbox.filter", function()
       end
     end)
     it("_all_filter", function()
-      local ColorNameToColorSpecsMap = db.get_specs_by_colorname()
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
+      local specs_by_colorname = db.get_specs_by_colorname()
+      for color, spec in pairs(specs_by_colorname) do
         local actual = filter._all_filter({
           function(c, s)
             return true
@@ -83,7 +83,7 @@ describe("colorbox.filter", function()
         assert_eq(type(actual), "boolean")
         assert_true(actual)
       end
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
+      for color, spec in pairs(specs_by_colorname) do
         local actual = filter._all_filter({
           function(c, s)
             return false
