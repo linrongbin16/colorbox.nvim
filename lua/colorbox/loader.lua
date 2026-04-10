@@ -41,6 +41,9 @@ M.load = function(colorname, execute)
 
   local autoload_path = string.format("%s/autoload", full_pack_path)
   vim.opt.runtimepath:append(autoload_path)
+  log.debug(
+    string.format("|load| autoload_path:%s, spec:%s", vim.inspect(autoload_path), vim.inspect(spec))
+  )
   vim.cmd(string.format([[packadd %s]], spec.install_path))
 
   local confs = configs.get()
