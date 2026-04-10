@@ -38,7 +38,7 @@ local function get_specs_by_colorname()
 end
 
 --- @return string[]
-local function get_color_names()
+local function get_colornames()
   return require("colorbox.meta.colornames")
 end
 
@@ -46,7 +46,7 @@ local M = {
   get_specs_by_handle = get_specs_by_handle,
   get_specs_by_install_path = get_specs_by_install_path,
   get_specs_by_colorname = get_specs_by_colorname,
-  get_color_names = get_color_names,
+  get_colornames = get_colornames,
   get_pack_path = get_pack_path,
   get_full_pack_path = get_full_pack_path,
 }

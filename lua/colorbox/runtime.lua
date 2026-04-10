@@ -23,7 +23,7 @@ M._build_colors = function()
   local colors_list = {}
   local colors_index = {}
   local specs_by_colorname = db.get_specs_by_colorname()
-  local colornames = db.get_color_names()
+  local colornames = db.get_colornames()
   for _, colorname in pairs(colornames) do
     local spec = specs_by_colorname[colorname]
     local full_pack_path = db.get_full_pack_path(spec)

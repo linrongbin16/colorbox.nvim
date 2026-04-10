@@ -215,7 +215,7 @@ M.info = function(args)
   local lineno = 1
   for i, spec in ipairs(color_specs_list) do
     vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
-      string.format("- %s (%s)", spec.handle, spec.color_name),
+      string.format("- %s (%s)", spec.handle, spec.colorname),
     })
     lineno = lineno + 1
   end
