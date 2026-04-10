@@ -17,12 +17,12 @@ M.load = function(color_name, execute)
     execute = true
   end
 
-  local specs_by_colorname = require("colorbox.db").get_specs_by_color_name()
+  local specs_by_color_name = require("colorbox.db").get_specs_by_color_name()
 
   if str.empty(color_name) then
     return
   end
-  local spec = specs_by_colorname[color_name]
+  local spec = specs_by_color_name[color_name]
   if tbl.tbl_empty(spec) then
     return
   end
