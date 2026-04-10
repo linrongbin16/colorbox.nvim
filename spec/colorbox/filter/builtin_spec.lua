@@ -18,9 +18,9 @@ describe("colorbox.filter.builtin", function()
 
   describe("[builtin_filter]", function()
     it("primary", function()
-      local ColorNameToColorSpecsMap = db.get_specs_by_colorname()
+      local specs_by_colorname = db.get_specs_by_colorname()
       local input_color = "tokyonight"
-      local input_spec = ColorNameToColorSpecsMap[input_color]
+      local input_spec = specs_by_colorname[input_color]
       for _, c in ipairs(input_spec.color_names) do
         local actual = builtin_filter.primary(c, input_spec)
         print(
@@ -35,16 +35,16 @@ describe("colorbox.filter.builtin", function()
       end
     end)
     it("_minimal_color_name_len", function()
-      local ColorNameToColorSpecsMap = db.get_specs_by_colorname()
-      for _, spec in pairs(ColorNameToColorSpecsMap) do
+      local specs_by_colorname = db.get_specs_by_colorname()
+      for _, spec in pairs(specs_by_colorname) do
         local actual = builtin_filter._minimal_color_name_len(spec)
         assert_eq(type(actual), "number")
         assert_true(actual > 0)
       end
     end)
     it("_primary_score", function()
-      local ColorNameToColorSpecsMap = db.get_specs_by_colorname()
-      for _, spec in pairs(ColorNameToColorSpecsMap) do
+      local specs_by_colorname = db.get_specs_by_colorname()
+      for _, spec in pairs(specs_by_colorname) do
         for i, color in ipairs(spec.color_names) do
           local actual = builtin_filter._primary_score(color, spec)
           assert_eq(type(actual), "number")
