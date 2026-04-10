@@ -15,9 +15,9 @@ describe("colorbox.runtime", function()
     file_log = true,
   })
 
-  describe("[_build_colors]", function()
+  describe("[_all_colors]", function()
     it("test", function()
-      local actual = runtime._build_colors()
+      local actual = runtime._all_colors()
       print(string.format("_build_colors:%s\n", vim.inspect(actual)))
       assert_eq(type(vim.tbl_get(actual, "colors_list")), "table")
       assert_eq(type(vim.tbl_get(actual, "colors_index")), "table")

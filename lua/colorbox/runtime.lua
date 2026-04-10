@@ -19,9 +19,12 @@ local FilteredColorNamesList = {}
 local FilteredColorNameToIndexMap = {}
 
 --- @return {colors_list:string[],colors_index:table<string,integer>}
-M._build_colors = function()
+M._all_colors = function()
+  -- All colorname list
   local colors_list = {}
+  -- Maps from colorname to its index in `colors_list`
   local colors_index = {}
+
   local specs_by_colorname = db.get_specs_by_colorname()
   local colornames = db.get_colornames()
   for _, colorname in pairs(colornames) do
@@ -81,7 +84,7 @@ M.setup = function()
       found_cache = true
 
       vim.defer_fn(function()
-        local data = M._build_colors()
+        local data = M._all_colors()
         fio.asyncwritefile(confs.previous_colors_cache, table.concat(data.colors_list, ","), {
           on_complete = function()
             log.debug("|setup| found cache, update cache - done")
@@ -92,7 +95,7 @@ M.setup = function()
   end
 
   if not found_cache then
-    local data = M._build_colors()
+    local data = M._all_colors()
     log.debug(string.format("|setup| not found, data:%s", vim.inspect(data)))
     FilteredColorNamesList = data.colors_list
     FilteredColorNameToIndexMap = data.colors_index
