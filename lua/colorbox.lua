@@ -72,14 +72,14 @@ local function setup(opts)
 
   vim.api.nvim_create_autocmd("ColorSchemePre", {
     callback = function(event)
-      log.debug("ColorSchemePre event:%s", vim.inspect(event))
+      log.debug(string.format("ColorSchemePre event:%s", vim.inspect(event)))
       loader.load(vim.tbl_get(event, "match"), false)
     end,
   })
 
   vim.api.nvim_create_autocmd("ColorScheme", {
     callback = function(event)
-      log.debug("ColorScheme event:%s", vim.inspect(event))
+      log.debug(string.format("ColorScheme event:%s", vim.inspect(event)))
       vim.schedule(function()
         track.save_track(vim.g.colors_name)
       end)
