@@ -27,19 +27,14 @@ It uses GitHub actions to weekly collect/update the colorscheme dataset.
 
 > [!NOTE]
 >
-> The **most popular** colorschemes are picked from below websites:
+> The **most popular** colorschemes are manually picked from:
 >
-> - [vimcolorschemes.com](https://vimcolorschemes.com)
-> - [www.trackawesomelist.com - awesome-neovim](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
+> Awesome Neovim Colors: <https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/>
+> Awesome Vim Colors: <https://github.com/rafi/awesome-vim-colorschemes>
+> GitHub "neovim-colorscheme" topic: <https://github.com/topics/neovim-colorscheme>
+> GitHub "vim-colorscheme" topic: <https://github.com/topics/vim-colorscheme>
 >
-> With below conditions:
->
-> 1. GitHub stars &ge; 500 (by default it only enable &ge; 800, see [Configuration](#-configuration)).
-> 2. Last git commit is in last 10 years.
-> 3. For multiple plugins that contain the same color name, it picks one from them by a weighted scoring algorithm based on multiple attributes:
->    1. If a plugin is especially for Neovim (i.e. it is from **awesome-neovim**), it earns extra 10 points.
->    2. If a plugin has latest git commits, it earns extra 10 points.
->    3. In these multiple plugins, the score of each repository is the `star / max(stars of all repositories) * 80`. For example, if we have 3 plugins with stars 500, 380 and 71, then the 1st repository with most stars (500) has 80 points, the 2nd (380) has 60.8 points (`60.8 = 380 / 500 * 80`), the 3rd (71) has 11.36 points (`11.36 = 71 / 500 * 80`).
+> With GitHub stars &ge; 900. For plugins that conflicts on same color name, the one with more stars or Neovim featured are picked.
 >
 > Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorscheme dataset.
 
