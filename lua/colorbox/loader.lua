@@ -65,6 +65,7 @@ M.load = function(color_name, execute)
   end
 
   if execute then
+    log.debug(string.format("|load| execute color:%s", vim.inspect(color_name)))
     vim.cmd(string.format("color %s", color_name))
     track.save_track(color_name)
   end
