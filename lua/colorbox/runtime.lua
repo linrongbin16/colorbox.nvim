@@ -31,7 +31,7 @@ M._all_colors = function()
     local spec = specs_by_colorname[colorname]
     local full_pack_path = db.get_full_pack_path(spec)
     local pack_exist = uv.fs_stat(full_pack_path) ~= nil
-    local choose = filter.run(colorname, spec)
+    local yes = filter.run(colorname, spec)
     -- logger:debug(
     --   string.format(
     --     "|_build_colors| color_name:%s, choose:%s, pack_exist:%s, full_pack_path:%s",
@@ -41,7 +41,7 @@ M._all_colors = function()
     --     vim.inspect(full_pack_path)
     --   )
     -- )
-    if choose and pack_exist then
+    if yes and pack_exist then
       table.insert(colors_list, colorname)
     end
   end
