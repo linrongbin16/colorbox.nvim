@@ -6,24 +6,24 @@ local builtin_filters = require("colorbox.filter.builtin")
 local M = {}
 
 --- @param f colorbox.BuiltinFilterConfig
---- @param color_name string
+--- @param colorname string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-M._builtin_filter = function(f, color_name, spec)
+M._builtin_filter = function(f, colorname, spec)
   local fn = builtin_filters[f]
   if vim.is_callable(fn) then
-    return fn(color_name, spec)
+    return fn(colorname, spec)
   end
   return false
 end
 
 --- @param f colorbox.FunctionFilterConfig
---- @param color_name string
+--- @param colorname string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-M._function_filter = function(f, color_name, spec)
+M._function_filter = function(f, colorname, spec)
   if vim.is_callable(f) then
-    local ok, result = pcall(f, color_name, spec)
+    local ok, result = pcall(f, colorname, spec)
     if ok and type(result) == "boolean" then
       return result
     else
@@ -34,19 +34,19 @@ M._function_filter = function(f, color_name, spec)
 end
 
 --- @param f colorbox.AllFilterConfig
---- @param color_name string
+--- @param colorname string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-M._all_filter = function(f, color_name, spec)
+M._all_filter = function(f, colorname, spec)
   if type(f) == "table" then
     for _, f1 in ipairs(f) do
       if type(f1) == "string" then
-        local result = M._builtin_filter(f1, color_name, spec)
+        local result = M._builtin_filter(f1, colorname, spec)
         if not result then
           return result
         end
       elseif type(f1) == "function" then
-        local result = M._function_filter(f1, color_name, spec)
+        local result = M._function_filter(f1, colorname, spec)
         if not result then
           return result
         end
