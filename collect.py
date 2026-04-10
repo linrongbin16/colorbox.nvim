@@ -219,14 +219,14 @@ class Builder:
             prefix="return ",
         )
         luadata.write(
-            "lua/colorbox/meta/specs_by_colorname.lua",
+            "lua/colorbox/meta/specs_by_color_name.lua",
             lua_specs_by_color_name,
             encoding="utf-8",
             indent="  ",
             prefix="return ",
         )
         luadata.write(
-            "lua/colorbox/meta/colornames.lua",
+            "lua/colorbox/meta/color_names.lua",
             lua_color_names,
             encoding="utf-8",
             indent="  ",
