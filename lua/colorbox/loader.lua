@@ -41,7 +41,7 @@ M.load = function(colorname, execute)
 
   local autoload_path = string.format("%s/autoload", full_pack_path)
   vim.opt.runtimepath:append(autoload_path)
-  vim.cmd(string.format([[packadd %s]], spec.git_path))
+  vim.cmd(string.format([[packadd %s]], spec.install_path))
 
   local confs = configs.get()
   if type(confs.setup) == "table" and vim.is_callable(confs.setup[spec.handle]) then
