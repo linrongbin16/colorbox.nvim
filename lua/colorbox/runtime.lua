@@ -56,8 +56,8 @@ M.setup = function()
   AvailableColorNames = available_colors.colors_list
   AvailableColorIndexes = available_colors.colors_index
 
-  -- logger:debug("|_init| FilteredColorNamesList:%s", vim.inspect(FilteredColorNamesList))
-  -- logger:debug("|_init| FilteredColorNameToIndexMap:%s", vim.inspect(FilteredColorNameToIndexMap))
+  -- logger:debug("|_init| AvailableColorNames:%s", vim.inspect(AvailableColorNames))
+  -- logger:debug("|_init| AvailableColorIndexes:%s", vim.inspect(AvailableColorIndexes))
 end
 
 M.color_names = function()
