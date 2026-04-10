@@ -1,21 +1,8 @@
 local log = require("colorbox.commons.log")
 
 local configs = require("colorbox.configs")
-local builtin_filters = require("colorbox.filter.builtin")
 
 local M = {}
-
---- @param f colorbox.BuiltinFilterConfig
---- @param colorname string
---- @param spec colorbox.ColorSpec
---- @return boolean
-M._builtin_filter = function(f, colorname, spec)
-  local fn = builtin_filters[f]
-  if vim.is_callable(fn) then
-    return fn(colorname, spec)
-  end
-  return false
-end
 
 --- @param f colorbox.FunctionFilterConfig
 --- @param colorname string
@@ -40,12 +27,7 @@ end
 M._all_filter = function(f, colorname, spec)
   if type(f) == "table" then
     for _, f1 in ipairs(f) do
-      if type(f1) == "string" then
-        local result = M._builtin_filter(f1, colorname, spec)
-        if not result then
-          return result
-        end
-      elseif type(f1) == "function" then
+      if type(f1) == "function" then
         local result = M._function_filter(f1, colorname, spec)
         if not result then
           return result
@@ -61,9 +43,7 @@ end
 --- @return boolean
 M.run = function(colorname, spec)
   local confs = configs.get()
-  if type(confs.filter) == "string" then
-    return M._builtin_filter(confs.filter, colorname, spec)
-  elseif type(confs.filter) == "function" then
+  if type(confs.filter) == "function" then
     return M._function_filter(confs.filter, colorname, spec)
   elseif type(confs.filter) == "table" then
     return M._all_filter(confs.filter, colorname, spec)
