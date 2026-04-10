@@ -324,14 +324,14 @@ require("colorbox").setup({
 ### Disable by name
 
 ```lua
-local function colorname_disabled(colorname)
+local function disabled(color_name)
   for _, c in ipairs({
     "iceberg",
     "ayu",
     "edge",
     "nord",
   }) do
-    if string.lower(c) == string.lower(colorname) then
+    if string.lower(c) == string.lower(color_name) then
       return true
     end
   end
@@ -340,7 +340,7 @@ end
 
 require("colorbox").setup({
   filter = function(color, spec)
-    return colorname_disabled(spec.colorname)
+    return disabled(spec.color_name)
   end
 })
 ```

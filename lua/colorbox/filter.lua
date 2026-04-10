@@ -5,12 +5,12 @@ local configs = require("colorbox.configs")
 local M = {}
 
 --- @param f colorbox.FunctionFilterConfig
---- @param colorname string
+--- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-M._function_filter = function(f, colorname, spec)
+M._function_filter = function(f, color_name, spec)
   if vim.is_callable(f) then
-    local ok, result = pcall(f, colorname, spec)
+    local ok, result = pcall(f, color_name, spec)
     if ok and type(result) == "boolean" then
       return result
     else
@@ -21,14 +21,14 @@ M._function_filter = function(f, colorname, spec)
 end
 
 --- @param f colorbox.AllFilterConfig
---- @param colorname string
+--- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-M._all_filter = function(f, colorname, spec)
+M._all_filter = function(f, color_name, spec)
   if type(f) == "table" then
     for _, f1 in ipairs(f) do
       if type(f1) == "function" then
-        local result = M._function_filter(f1, colorname, spec)
+        local result = M._function_filter(f1, color_name, spec)
         if not result then
           return result
         end
@@ -38,15 +38,15 @@ M._all_filter = function(f, colorname, spec)
   return true
 end
 
---- @param colorname string
+--- @param color_name string
 --- @param spec colorbox.ColorSpec
 --- @return boolean
-M.run = function(colorname, spec)
+M.run = function(color_name, spec)
   local confs = configs.get()
   if type(confs.filter) == "function" then
-    return M._function_filter(confs.filter, colorname, spec)
+    return M._function_filter(confs.filter, color_name, spec)
   elseif type(confs.filter) == "table" then
-    return M._all_filter(confs.filter, colorname, spec)
+    return M._all_filter(confs.filter, color_name, spec)
   end
   return true
 end
