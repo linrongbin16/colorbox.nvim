@@ -22,8 +22,8 @@ describe("colorbox.filter", function()
         debug = true,
         file_log = true,
       })
-      local ColorNameToColorSpecsMap = db.get_specs_by_colorname()
-      for color, spec in pairs(ColorNameToColorSpecsMap) do
+      local specs_by_colorname = db.get_specs_by_colorname()
+      for color, spec in pairs(specs_by_colorname) do
         local actual = filter.run(color, spec)
         assert_eq(type(actual), "boolean")
       end
