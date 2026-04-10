@@ -45,9 +45,9 @@ M.save_track = function(color_name)
         )
         vim.schedule(function()
           if vim.is_callable(confs.post_hook) then
-            local ColorNameToColorSpecsMap = db.get_specs_by_colorname()
-            local color_spec = ColorNameToColorSpecsMap[color_name]
-            confs.post_hook(color_name, color_spec)
+            local specs_by_colorname = db.get_specs_by_colorname()
+            local spec = specs_by_colorname[color_name]
+            confs.post_hook(color_name, spec)
           end
         end)
       end,
