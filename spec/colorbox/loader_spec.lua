@@ -23,7 +23,7 @@ describe("colorbox.loader", function()
 
   describe("loader", function()
     it("load", function()
-      local specs_by_colorname = db.get_specs_by_colorname()
+      local specs_by_colorname = db.get_specs_by_color_name()
 
       if not github_actions then
         local color_names = runtime.color_names()

@@ -20,7 +20,7 @@ M._available_colors = function()
   -- Maps from color name to its index in `colors_list`
   local colors_index = {}
 
-  local specs_by_colorname = db.get_specs_by_colorname()
+  local specs_by_colorname = db.get_specs_by_color_name()
   local color_names = db.get_color_names()
   for _, color_name in pairs(color_names) do
     local spec = specs_by_colorname[color_name]

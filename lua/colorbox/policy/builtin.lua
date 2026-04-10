@@ -14,7 +14,7 @@ M.shuffle = function()
     local color = track.get_next_color_name_by_idx(i)
     log.debug(
       string.format(
-        "|_policy_shuffle| color:%s, ColorNamesList:%s (%d), i:%d",
+        "|_policy_shuffle| color:%s, color_names:%s (%d), i:%d",
         vim.inspect(color),
         vim.inspect(color_names),
         vim.inspect(#color_names),
@@ -34,7 +34,7 @@ M.in_order = function()
     local color = track.get_next_color_name_by_idx(i)
     log.debug(
       string.format(
-        "|in_order| color:%s, i:%d, ColorNamesList(%d):%s",
+        "|in_order| color:%s, i:%d, color_names(%d):%s",
         vim.inspect(color),
         vim.inspect(i),
         vim.inspect(#color_names),

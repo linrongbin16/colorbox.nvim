@@ -17,7 +17,7 @@ M.load = function(color_name, execute)
     execute = true
   end
 
-  local specs_by_colorname = require("colorbox.db").get_specs_by_colorname()
+  local specs_by_colorname = require("colorbox.db").get_specs_by_color_name()
 
   if str.empty(color_name) then
     return
