@@ -323,19 +323,6 @@ require("colorbox").setup({
 })
 ```
 
-### Enable only top stars (&ge; 1000) & primary colors
-
-```lua
-require("colorbox").setup({
-  filter = {
-    "primary",
-    function(color, spec)
-      return spec.github_stars >= 1000
-    end
-  },
-})
-```
-
 ### Disable by name
 
 ```lua
@@ -355,12 +342,7 @@ end
 
 require("colorbox").setup({
   filter = function(color, spec)
-    for _, c in ipairs(spec.color_names) do
-      if colorname_disabled(c) then
-        return false
-      end
-    end
-    return true
+    return colorname_disabled(spec.colorname)
   end
 })
 ```
@@ -368,14 +350,14 @@ require("colorbox").setup({
 ### Disable by plugin
 
 ```lua
-local function plugin_disabled(spec)
+local function plugin_disabled(handle)
   for _, p in ipairs({
     "cocopon/iceberg.vim",
     "folke/tokyonight.nvim",
     "ayu-theme/ayu-vim",
     "shaunsingh/nord.nvim",
   }) do
-    if string.lower(p) == string.lower(spec.handle) then
+    if string.lower(p) == string.lower(handle) then
       return true
     end
   end
@@ -384,7 +366,7 @@ end
 
 require("colorbox").setup({
   filter = function(color, spec)
-    return not plugin_disabled(spec)
+    return not plugin_disabled(spec.handle)
   end
 })
 ```
