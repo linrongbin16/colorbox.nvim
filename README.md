@@ -74,7 +74,6 @@ And multiple trigger timings:
   - [Change random color per second](#change-random-color-per-second)
   - [Choose color by file type](#choose-color-by-file-type)
   - [Enable all colors](#enable-all-colors)
-  - [Enable only top stars (&ge; 1000) & primary colors](#enable-only-top-stars--1000--primary-colors)
   - [Disable by name](#disable-by-name)
   - [Disable by plugin](#disable-by-plugin)
 - [Development](#%EF%B8%8F-development)
