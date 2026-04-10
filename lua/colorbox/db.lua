@@ -33,7 +33,7 @@ local function get_specs_by_install_path()
 end
 
 --- @return table<string, colorbox.ColorSpec>
-local function get_specs_by_color_name()
+local function get_specs_by_colorname()
   return require("colorbox.meta.specs_by_colorname")
 end
 
@@ -45,7 +45,7 @@ end
 local M = {
   get_specs_by_handle = get_specs_by_handle,
   get_specs_by_install_path = get_specs_by_install_path,
-  get_specs_by_color_name = get_specs_by_color_name,
+  get_specs_by_colorname = get_specs_by_colorname,
   get_color_names = get_color_names,
   get_pack_path = get_pack_path,
   get_full_pack_path = get_full_pack_path,
