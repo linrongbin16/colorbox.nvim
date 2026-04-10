@@ -59,7 +59,7 @@ M.load = function(colorname, execute)
     execute = true
   end
   if execute then
-    vim.cmd(string.format("colorscheme %s", colorname))
+    vim.cmd(string.format("color %s", colorname))
     track.save_track(colorname)
   end
 end
