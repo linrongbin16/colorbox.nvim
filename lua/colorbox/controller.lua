@@ -209,17 +209,15 @@ M.info = function(args)
   vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, {
     string.format("# ColorSchemes List, total: %d", total_colors),
   })
-  if total_colors > 0 then
-    table.sort(color_specs_list, function(a, b)
-      return a.colorname > b.colorname
-    end)
-    local lineno = 1
-    for i, spec in ipairs(color_specs_list) do
-      vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
-        string.format("- %s (%s)", spec.handle, spec.colorname),
-      })
-      lineno = lineno + 1
-    end
+  table.sort(color_specs_list, function(a, b)
+    return a.colorname > b.colorname
+  end)
+  local lineno = 1
+  for i, spec in ipairs(color_specs_list) do
+    vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
+      string.format("- %s (%s)", spec.handle, spec.colorname),
+    })
+    lineno = lineno + 1
   end
   vim.schedule(function()
     vim.cmd(string.format([[call setpos('.', [%d, 1, 1])]], bufnr))
