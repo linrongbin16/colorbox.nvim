@@ -47,10 +47,10 @@ M.in_order = function()
 end
 
 M.reverse_order = function()
-  local colornames = runtime.color_names()
-  if #colornames > 0 then
+  local color_names = runtime.color_names()
+  if #color_names > 0 then
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
-    local i = previous_track ~= nil and previous_track.color_number or (#colornames + 1)
+    local i = previous_track ~= nil and previous_track.color_number or (#color_names + 1)
     local color = track.get_prev_color_name_by_idx(i)
 
     loader.load(color)
@@ -58,8 +58,8 @@ M.reverse_order = function()
 end
 
 M.single = function()
-  local colornames = runtime.color_names()
-  if #colornames > 0 then
+  local color_names = runtime.color_names()
+  if #color_names > 0 then
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local color = previous_track ~= nil and previous_track.color_name
       or track.get_next_color_name_by_idx(0)
