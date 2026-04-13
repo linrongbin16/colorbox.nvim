@@ -198,21 +198,13 @@ M.info = function(args)
   vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
   local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
-  local specs_by_handle = db.get_specs_by_handle()
-  log.debug(string.format("|info| specs_by_handle:%s", vim.inspect(specs_by_handle)))
-  local color_specs_list = {}
-  for handle, spec in pairs(specs_by_handle) do
-    table.insert(color_specs_list, spec)
-  end
+  local color_specs_list = db.get_specs_by_handle()
+  log.debug(string.format("|info| specs_by_handle:%s", vim.inspect(color_specs_list)))
   local total_colors = #color_specs_list
 
   vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, {
     string.format("# ColorSchemes List, total: %d", total_colors),
   })
-  table.sort(color_specs_list, function(a, b)
-    -- log.debug(string.format("|info| sort a:%s, b:%s", vim.inspect(a), vim.inspect(b)))
-    return string.lower(a.color_name) < string.lower(b.color_name)
-  end)
   local lineno = 1
   for i, spec in ipairs(color_specs_list) do
     local pack_exists = runtime.is_package_available(spec)
