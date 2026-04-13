@@ -197,7 +197,6 @@ class Builder:
         lua_color_names = []
 
         for i, spec in enumerate(all_specs):
-            logging.info(f"dump lua specs for spec-{i}:{spec}")
             lobj = {
                 ColorSpec.HANDLE: spec.handle,
                 ColorSpec.COLOR_NAME: spec.color_name,
@@ -237,7 +236,6 @@ class Builder:
         total = len(all_specs)
         md = MdUtils(file_name="COLORSCHEMES", title=f"ColorSchemes List ({total})")
         for i, spec in enumerate(all_specs):
-            logging.info(f"collect spec-{i}:{spec}")
             md.new_line(
                 f"- {md.new_inline_link(link=spec.url, text=spec.handle)}: {spec.color_name}"
             )
@@ -245,6 +243,8 @@ class Builder:
 
     def build(self) -> None:
         all_specs = sorted(ALL_COLORS, key=lambda s: s.color_name)
+        logging.info("all color spces")
+        logging.info(f"{all_specs}")
         self._build_md_list(all_specs)
         self._build_lua_specs(all_specs)
 

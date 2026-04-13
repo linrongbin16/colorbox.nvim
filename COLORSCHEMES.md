@@ -2,42 +2,42 @@
 ColorSchemes List (39)
 ======================
 
-- [mhartington/oceanic-next](https://github.com/mhartington/oceanic-next)
-- [nlknguyen/papercolor-theme](https://github.com/nlknguyen/papercolor-theme)
-- [romainl/apprentice](https://github.com/romainl/apprentice)
-- [ayu-theme/ayu-vim](https://github.com/ayu-theme/ayu-vim)
-- [catppuccin/nvim](https://github.com/catppuccin/nvim)
-- [tomasiser/vim-code-dark](https://github.com/tomasiser/vim-code-dark)
-- [scottmckendry/cyberdream.nvim](https://github.com/scottmckendry/cyberdream.nvim)
-- [ajmwagar/vim-deus](https://github.com/ajmwagar/vim-deus)
-- [dracula/vim](https://github.com/dracula/vim)
-- [sainnhe/edge](https://github.com/sainnhe/edge)
-- [sainnhe/everforest](https://github.com/sainnhe/everforest)
-- [fenetikm/falcon](https://github.com/fenetikm/falcon)
-- [projekt0n/github-nvim-theme](https://github.com/projekt0n/github-nvim-theme)
-- [whatyouhide/vim-gotham](https://github.com/whatyouhide/vim-gotham)
-- [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim)
-- [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material)
-- [cocopon/iceberg.vim](https://github.com/cocopon/iceberg.vim)
-- [nanotech/jellybeans.vim](https://github.com/nanotech/jellybeans.vim)
-- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim)
-- [marko-cerovac/material.nvim](https://github.com/marko-cerovac/material.nvim)
-- [savq/melange-nvim](https://github.com/savq/melange-nvim)
-- [bluz71/vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors)
-- [bluz71/vim-nightfly-colors](https://github.com/bluz71/vim-nightfly-colors)
-- [edeneast/nightfox.nvim](https://github.com/edeneast/nightfox.nvim)
-- [shaunsingh/nord.nvim](https://github.com/shaunsingh/nord.nvim)
-- [alexvzyl/nordic.nvim](https://github.com/alexvzyl/nordic.nvim)
-- [rakr/vim-one](https://github.com/rakr/vim-one)
-- [olimorris/onedarkpro.nvim](https://github.com/olimorris/onedarkpro.nvim)
-- [nyoom-engineering/oxocarbon.nvim](https://github.com/nyoom-engineering/oxocarbon.nvim)
-- [rose-pine/neovim](https://github.com/rose-pine/neovim)
-- [junegunn/seoul256.vim](https://github.com/junegunn/seoul256.vim)
-- [craftzdog/solarized-osaka.nvim](https://github.com/craftzdog/solarized-osaka.nvim)
-- [lifepillar/vim-solarized8](https://codeberg.org/lifepillar/vim-solarized8)
-- [sainnhe/sonokai](https://github.com/sainnhe/sonokai)
-- [jacoborus/tender.vim](https://github.com/jacoborus/tender.vim)
-- [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
-- [vague-theme/vague.nvim](https://github.com/vague-theme/vague.nvim)
-- [mofiqul/vscode.nvim](https://github.com/mofiqul/vscode.nvim)
-- [zenbones-theme/zenbones.nvim](https://github.com/zenbones-theme/zenbones.nvim)
+- [mhartington/oceanic-next](https://github.com/mhartington/oceanic-next): OceanicNext
+- [nlknguyen/papercolor-theme](https://github.com/nlknguyen/papercolor-theme): PaperColor
+- [romainl/apprentice](https://github.com/romainl/apprentice): apprentice
+- [ayu-theme/ayu-vim](https://github.com/ayu-theme/ayu-vim): ayu
+- [catppuccin/nvim](https://github.com/catppuccin/nvim): catppuccin
+- [tomasiser/vim-code-dark](https://github.com/tomasiser/vim-code-dark): codedark
+- [scottmckendry/cyberdream.nvim](https://github.com/scottmckendry/cyberdream.nvim): cyberdream
+- [ajmwagar/vim-deus](https://github.com/ajmwagar/vim-deus): deus
+- [dracula/vim](https://github.com/dracula/vim): dracula
+- [sainnhe/edge](https://github.com/sainnhe/edge): edge
+- [sainnhe/everforest](https://github.com/sainnhe/everforest): everforest
+- [fenetikm/falcon](https://github.com/fenetikm/falcon): falcon
+- [projekt0n/github-nvim-theme](https://github.com/projekt0n/github-nvim-theme): github_dark
+- [whatyouhide/vim-gotham](https://github.com/whatyouhide/vim-gotham): gotham
+- [ellisonleao/gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim): gruvbox
+- [sainnhe/gruvbox-material](https://github.com/sainnhe/gruvbox-material): gruvbox-material
+- [cocopon/iceberg.vim](https://github.com/cocopon/iceberg.vim): iceberg
+- [nanotech/jellybeans.vim](https://github.com/nanotech/jellybeans.vim): jellybeans
+- [rebelot/kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim): kanagawa
+- [marko-cerovac/material.nvim](https://github.com/marko-cerovac/material.nvim): material
+- [savq/melange-nvim](https://github.com/savq/melange-nvim): melange
+- [bluz71/vim-moonfly-colors](https://github.com/bluz71/vim-moonfly-colors): moonfly
+- [bluz71/vim-nightfly-colors](https://github.com/bluz71/vim-nightfly-colors): nightfly
+- [edeneast/nightfox.nvim](https://github.com/edeneast/nightfox.nvim): nightfox
+- [shaunsingh/nord.nvim](https://github.com/shaunsingh/nord.nvim): nord
+- [alexvzyl/nordic.nvim](https://github.com/alexvzyl/nordic.nvim): nordic
+- [rakr/vim-one](https://github.com/rakr/vim-one): one
+- [olimorris/onedarkpro.nvim](https://github.com/olimorris/onedarkpro.nvim): onedark
+- [nyoom-engineering/oxocarbon.nvim](https://github.com/nyoom-engineering/oxocarbon.nvim): oxocarbon
+- [rose-pine/neovim](https://github.com/rose-pine/neovim): rose-pine
+- [junegunn/seoul256.vim](https://github.com/junegunn/seoul256.vim): seoul256
+- [craftzdog/solarized-osaka.nvim](https://github.com/craftzdog/solarized-osaka.nvim): solarized-osaka
+- [lifepillar/vim-solarized8](https://codeberg.org/lifepillar/vim-solarized8): solarized8
+- [sainnhe/sonokai](https://github.com/sainnhe/sonokai): sonokai
+- [jacoborus/tender.vim](https://github.com/jacoborus/tender.vim): tender
+- [folke/tokyonight.nvim](https://github.com/folke/tokyonight.nvim): tokyonight
+- [vague-theme/vague.nvim](https://github.com/vague-theme/vague.nvim): vague
+- [mofiqul/vscode.nvim](https://github.com/mofiqul/vscode.nvim): vscode
+- [zenbones-theme/zenbones.nvim](https://github.com/zenbones-theme/zenbones.nvim): zenbones
