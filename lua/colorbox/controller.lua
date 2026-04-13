@@ -197,8 +197,15 @@ M.info = function(args)
   }
   local _winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
-  local color_specs_list = db.get_specs_by_handle()
-  log.debug(string.format("|info| specs_by_handle:%s", vim.inspect(color_specs_list)))
+  local specs_by_handle = db.get_specs_by_handle()
+  local color_specs_list = {}
+  for handle, spec in pairs(specs_by_handle) do
+    table.insert(color_specs_list, spec)
+  end
+  table.sort(color_specs_list, function(a, b)
+    return string.lower(a.color_name) < string.lower(b.color_name)
+  end)
+  log.debug(string.format("|info| color_specs_list:%s", vim.inspect(color_specs_list)))
   local total_colors = #color_specs_list
 
   vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, {
@@ -208,7 +215,7 @@ M.info = function(args)
   for i, spec in ipairs(color_specs_list) do
     local pack_exists = runtime.is_package_available(spec)
     vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
-      string.format("- %s (color: %s, installed: %s)", spec.handle, spec.color_name, pack_exists),
+      string.format("- %s: %s (installed: %s)", spec.color_name, spec.handle, pack_exists),
     })
     lineno = lineno + 1
   end
