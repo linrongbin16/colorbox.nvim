@@ -91,20 +91,16 @@ And multiple trigger timings:
 
 > [!IMPORTANT]
 >
-> If this plugin provides the main colorscheme (i.e. the color show right after nvim start), then make sure:
->
 > 1. Don't lazy load it.
 > 2. Load it before all other plugins.
 
 > [!IMPORTANT]
 >
-> Some colorschemes have specific requirements:
+> Please add below dependencies if your colorschemes need them:
 >
 > - [termguicolors](https://neovim.io/doc/user/options.html#'termguicolors')
 > - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 > - [lush.nvim](https://github.com/rktjmp/lush.nvim)
->
-> Please manually add these dependencies if you enable them.
 
 <details>
 <summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></b></summary>
@@ -114,13 +110,19 @@ require('lazy').setup({
   {
     'linrongbin16/colorbox.nvim',
 
-    -- don't lazy load
+    -- don't lazy load and load it before all other plugins.
     lazy = false,
-    -- load with highest priority
     priority = 1000,
 
+    -- add dependencies if colorschemes need them
+    dependencies = {"nvim-treesitter/nvim-treesitter", "rktjmp/lush.nvim"},
+
     build = function() require("colorbox").update() end,
-    config = function() require("colorbox").setup() end,
+    config = function()
+      -- Enable 'termguicolors' option
+      vim.o.termguicolors = true
+      require("colorbox").setup()
+    end,
   }
 })
 ```
@@ -135,8 +137,15 @@ require('pckr').add({
   {
     'linrongbin16/colorbox.nvim',
 
+    -- add dependencies if colorschemes need them
+    requires = {"nvim-treesitter/nvim-treesitter", "rktjmp/lush.nvim"},
+
     run = function() require("colorbox").update() end,
-    config = function() require("colorbox").setup() end,
+    config = function()
+      -- Enable 'termguicolors' option
+      vim.o.termguicolors = true
+      require("colorbox").setup()
+    end,
   };
 })
 ```
