@@ -176,9 +176,14 @@ M.info = function(args)
     return num.clamp(base + shift, 0, totalsize - modalsize)
   end
 
+  local bufnr = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
+  vim.api.nvim_set_option_value("buflisted", false, { buf = bufnr })
+  vim.api.nvim_set_option_value("filetype", "markdown", { buf = bufnr })
+  vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
+
   local row = get_shift(total_height, height, 0)
   local col = get_shift(total_width, width, 0)
-
   local win_config = {
     anchor = "NW",
     relative = "editor",
@@ -190,13 +195,7 @@ M.info = function(args)
     border = "rounded",
     zindex = 51,
   }
-
-  local bufnr = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
-  vim.api.nvim_set_option_value("buflisted", false, { buf = bufnr })
-  vim.api.nvim_set_option_value("filetype", "markdown", { buf = bufnr })
-  vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
-  local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
+  local _winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
   local color_specs_list = db.get_specs_by_handle()
   log.debug(string.format("|info| specs_by_handle:%s", vim.inspect(color_specs_list)))
