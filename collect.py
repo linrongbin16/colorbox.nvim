@@ -238,7 +238,9 @@ class Builder:
         md = MdUtils(file_name="COLORSCHEMES", title=f"ColorSchemes List ({total})")
         for i, spec in enumerate(all_specs):
             logging.info(f"collect spec-{i}:{spec}")
-            md.new_line(f"- {md.new_inline_link(link=spec.url, text=spec.handle)}")
+            md.new_line(
+                f"- {md.new_inline_link(link=spec.url, text=spec.handle)}: {spec.color_name}"
+            )
         md.create_md_file()
 
     def build(self) -> None:
