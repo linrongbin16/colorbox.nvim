@@ -66,7 +66,7 @@ class ColorSpec:
         return isinstance(other, ColorSpec) and self.handle.lower() == other.handle.lower()
 
 
-# ColorSchemes are picked from:
+# ColorSchemes are picked from below websites, with GitHub stars >= 900:
 #
 # - Awesome Neovim Colors: <https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/>
 # - Awesome Vim Colors: <https://github.com/rafi/awesome-vim-colorschemes>
