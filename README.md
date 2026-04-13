@@ -34,7 +34,7 @@ It uses GitHub actions to weekly collect/update the colorscheme dataset.
 > GitHub "neovim-colorscheme" topic: <https://github.com/topics/neovim-colorscheme>
 > GitHub "vim-colorscheme" topic: <https://github.com/topics/vim-colorscheme>
 >
-> With GitHub stars &ge; 900. For plugins that conflicts on same color name, the one with more stars or Neovim featured are picked.
+> With GitHub stars &ge; 800. For plugins that conflicts on same color name, the one with more stars or Neovim featured are picked.
 >
 > Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorscheme dataset.
 >
