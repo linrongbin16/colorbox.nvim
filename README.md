@@ -192,11 +192,11 @@ There're 2 kinds of filters:
 - Function filter: A lua function that decides whether to enable/disable a color. It uses the function signature:
 
   ```lua
-  function(color:string, spec:colorbox.ColorSpec):boolean
+  function(color_name:string, spec:colorbox.ColorSpec):boolean
   ```
 
   The function has two parameters:
-  - `color`: The colorscheme name.
+  - `color_name`: The colorscheme name.
   - `spec`: The colorscheme's meta info, please see [`@class colorbox.ColorSpec`](https://github.com/linrongbin16/colorbox.nvim/blob/ef4223bd217d47c87b923dd51e9b9daf7b296f30/lua/colorbox/db.lua?plain=1#L1-L7) for more details.
 
   It returns `true` to enable a color, `false` to disable a color.
