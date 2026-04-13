@@ -1,20 +1,4 @@
 return {
-  OceanicNext = {
-    handle = "mhartington/oceanic-next",
-    color_name = "OceanicNext",
-    plugin_name = "oceanic-next",
-    url = "https://github.com/mhartington/oceanic-next",
-    install_path = "mhartington-oceanic-next",
-    git_branch = nil,
-  },
-  PaperColor = {
-    handle = "nlknguyen/papercolor-theme",
-    color_name = "PaperColor",
-    plugin_name = "papercolor-theme",
-    url = "https://github.com/nlknguyen/papercolor-theme",
-    install_path = "nlknguyen-papercolor-theme",
-    git_branch = nil,
-  },
   apprentice = {
     handle = "romainl/apprentice",
     color_name = "apprentice",
@@ -207,6 +191,14 @@ return {
     install_path = "alexvzyl-nordic.nvim",
     git_branch = nil,
   },
+  OceanicNext = {
+    handle = "mhartington/oceanic-next",
+    color_name = "OceanicNext",
+    plugin_name = "oceanic-next",
+    url = "https://github.com/mhartington/oceanic-next",
+    install_path = "mhartington-oceanic-next",
+    git_branch = nil,
+  },
   one = {
     handle = "rakr/vim-one",
     color_name = "one",
@@ -229,6 +221,14 @@ return {
     plugin_name = "oxocarbon.nvim",
     url = "https://github.com/nyoom-engineering/oxocarbon.nvim",
     install_path = "nyoom-engineering-oxocarbon.nvim",
+    git_branch = nil,
+  },
+  PaperColor = {
+    handle = "nlknguyen/papercolor-theme",
+    color_name = "PaperColor",
+    plugin_name = "papercolor-theme",
+    url = "https://github.com/nlknguyen/papercolor-theme",
+    install_path = "nlknguyen-papercolor-theme",
     git_branch = nil,
   },
   ["rose-pine"] = {

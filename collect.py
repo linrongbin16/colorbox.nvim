@@ -237,14 +237,15 @@ class Builder:
         md = MdUtils(file_name="COLORSCHEMES", title=f"ColorSchemes List ({total})")
         for i, spec in enumerate(all_specs):
             md.new_line(
-                f"- {md.new_inline_link(link=spec.url, text=spec.handle)}: {spec.color_name}"
+                f"- {spec.color_name}: {md.new_inline_link(link=spec.url, text=spec.handle)}"
             )
         md.create_md_file()
 
     def build(self) -> None:
-        all_specs = sorted(ALL_COLORS, key=lambda s: s.color_name)
+        all_specs = sorted(ALL_COLORS, key=lambda s: s.color_name.lower())
         logging.info("all color spces")
-        logging.info(f"{all_specs}")
+        for i, spec in enumerate(all_specs):
+            logging.info(f"[{i}]:{spec}")
         self._build_md_list(all_specs)
         self._build_lua_specs(all_specs)
 
