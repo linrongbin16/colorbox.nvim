@@ -27,21 +27,18 @@ It uses GitHub actions to weekly collect/update the colorscheme dataset.
 
 > [!NOTE]
 >
-> The **most popular** colorschemes are picked from below websites:
+> The **most popular** colorschemes are manually picked from below websites, with GitHub stars &ge; 800:
 >
-> - [vimcolorschemes.com](https://vimcolorschemes.com)
-> - [www.trackawesomelist.com - awesome-neovim](https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/#colorscheme)
+> - Awesome Neovim Colors: <https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/>
+> - Awesome Vim Colors: <https://github.com/rafi/awesome-vim-colorschemes>
+> - GitHub "neovim-colorscheme" topic: <https://github.com/topics/neovim-colorscheme>
+> - GitHub "vim-colorscheme" topic: <https://github.com/topics/vim-colorscheme>
 >
-> With below conditions:
->
-> 1. GitHub stars &ge; 500 (by default it only enable &ge; 800, see [Configuration](#-configuration)).
-> 2. Last git commit is in last 10 years.
-> 3. For multiple plugins that contain the same color name, it picks one from them by a weighted scoring algorithm based on multiple attributes:
->    1. If a plugin is especially for Neovim (i.e. it is from **awesome-neovim**), it earns extra 10 points.
->    2. If a plugin has latest git commits, it earns extra 10 points.
->    3. In these multiple plugins, the score of each repository is the `star / max(stars of all repositories) * 80`. For example, if we have 3 plugins with stars 500, 380 and 71, then the 1st repository with most stars (500) has 80 points, the 2nd (380) has 60.8 points (`60.8 = 380 / 500 * 80`), the 3rd (71) has 11.36 points (`11.36 = 71 / 500 * 80`).
+> For plugins that conflicts on same color name, the one with more stars or Neovim features are picked.
 >
 > Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorscheme dataset.
+>
+> Once before, we used a autobot to crawl colorscheme plugins and automatically update the ranking list, but now the website data sources are no longer pick-able, so we are forced to manual maintenance.
 
 It installs colorschemes via git submodule instead of copy-paste source code, so you get continuously updates from original authors.
 
@@ -77,7 +74,6 @@ And multiple trigger timings:
   - [Change random color per second](#change-random-color-per-second)
   - [Choose color by file type](#choose-color-by-file-type)
   - [Enable all colors](#enable-all-colors)
-  - [Enable only top stars (&ge; 1000) & primary colors](#enable-only-top-stars--1000--primary-colors)
   - [Disable by name](#disable-by-name)
   - [Disable by plugin](#disable-by-plugin)
 - [Development](#%EF%B8%8F-development)
@@ -95,20 +91,16 @@ And multiple trigger timings:
 
 > [!IMPORTANT]
 >
-> If this plugin provides the main colorscheme (i.e. the color show right after nvim start), then make sure:
->
 > 1. Don't lazy load it.
 > 2. Load it before all other plugins.
 
 > [!IMPORTANT]
 >
-> Some colorschemes have specific requirements:
+> Please add below dependencies if your colorschemes need them:
 >
 > - [termguicolors](https://neovim.io/doc/user/options.html#'termguicolors')
 > - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 > - [lush.nvim](https://github.com/rktjmp/lush.nvim)
->
-> Please manually add these dependencies if you enable them.
 
 <details>
 <summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></b></summary>
@@ -118,13 +110,19 @@ require('lazy').setup({
   {
     'linrongbin16/colorbox.nvim',
 
-    -- don't lazy load
+    -- don't lazy load and load it before all other plugins.
     lazy = false,
-    -- load with highest priority
     priority = 1000,
 
+    -- add dependencies if colorschemes need them
+    dependencies = {"nvim-treesitter/nvim-treesitter", "rktjmp/lush.nvim"},
+
     build = function() require("colorbox").update() end,
-    config = function() require("colorbox").setup() end,
+    config = function()
+      -- Enable 'termguicolors' option
+      vim.o.termguicolors = true
+      require("colorbox").setup()
+    end,
   }
 })
 ```
@@ -139,8 +137,15 @@ require('pckr').add({
   {
     'linrongbin16/colorbox.nvim',
 
+    -- add dependencies if colorschemes need them
+    requires = {"nvim-treesitter/nvim-treesitter", "rktjmp/lush.nvim"},
+
     run = function() require("colorbox").update() end,
-    config = function() require("colorbox").setup() end,
+    config = function()
+      -- Enable 'termguicolors' option
+      vim.o.termguicolors = true
+      require("colorbox").setup()
+    end,
   };
 })
 ```
@@ -191,22 +196,21 @@ For complete default options, please see [configs.lua](https://github.com/linron
 
 The `filter` option is to help user filter some colorschemes from the dataset, thus they will never show up.
 
-There're 3 kinds of filters:
+There're 2 kinds of filters:
 
-- Builtin filter: A lua string that presents the name of a builtin filter. For now we only have the `"primary"` builtin filter, it only enables the primary color in a plugin, filters all other color variants (when there're multiple colors in one plugin).
 - Function filter: A lua function that decides whether to enable/disable a color. It uses the function signature:
 
   ```lua
-  function(color:string, spec:colorbox.ColorSpec):boolean
+  function(color_name:string, spec:colorbox.ColorSpec):boolean
   ```
 
   The function has two parameters:
-  - `color`: The colorscheme name.
-  - `spec`: The colorscheme's meta info, please see [`@class colorbox.ColorSpec`](https://github.com/linrongbin16/colorbox.nvim/blob/67b7724adfb38d84ad86ff9f3e780ad8118f6fff/lua/colorbox/db.lua?plain=1#L1-L11) for more details.
+  - `color_name`: The colorscheme name.
+  - `spec`: The colorscheme's meta info, please see [`@class colorbox.ColorSpec`](https://github.com/linrongbin16/colorbox.nvim/blob/ef4223bd217d47c87b923dd51e9b9daf7b296f30/lua/colorbox/db.lua?plain=1#L1-L7) for more details.
 
   It returns `true` to enable a color, `false` to disable a color.
 
-- List filter: A lua list that contains multiple function filters and builtin filters. A colorscheme will only be enabled if _**all**_ these filters returns `true`.
+- List filter: A lua list that contains multiple function filters. A colorscheme will only be enabled if _**all**_ these filters returns `true`.
 
 ### Timing
 
@@ -326,30 +330,17 @@ require("colorbox").setup({
 })
 ```
 
-### Enable only top stars (&ge; 1000) & primary colors
-
-```lua
-require("colorbox").setup({
-  filter = {
-    "primary",
-    function(color, spec)
-      return spec.github_stars >= 1000
-    end
-  },
-})
-```
-
 ### Disable by name
 
 ```lua
-local function colorname_disabled(colorname)
+local function disabled(color_name)
   for _, c in ipairs({
     "iceberg",
     "ayu",
     "edge",
     "nord",
   }) do
-    if string.lower(c) == string.lower(colorname) then
+    if string.lower(c) == string.lower(color_name) then
       return true
     end
   end
@@ -358,12 +349,7 @@ end
 
 require("colorbox").setup({
   filter = function(color, spec)
-    for _, c in ipairs(spec.color_names) do
-      if colorname_disabled(c) then
-        return false
-      end
-    end
-    return true
+    return disabled(spec.color_name)
   end
 })
 ```
@@ -371,14 +357,14 @@ require("colorbox").setup({
 ### Disable by plugin
 
 ```lua
-local function plugin_disabled(spec)
+local function plugin_disabled(handle)
   for _, p in ipairs({
     "cocopon/iceberg.vim",
     "folke/tokyonight.nvim",
     "ayu-theme/ayu-vim",
     "shaunsingh/nord.nvim",
   }) do
-    if string.lower(p) == string.lower(spec.handle) then
+    if string.lower(p) == string.lower(handle) then
       return true
     end
   end
@@ -387,7 +373,7 @@ end
 
 require("colorbox").setup({
   filter = function(color, spec)
-    return not plugin_disabled(spec)
+    return not plugin_disabled(spec.handle)
   end
 })
 ```

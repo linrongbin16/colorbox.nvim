@@ -9,15 +9,20 @@ local db = require("colorbox.db")
 
 local M = {}
 
---- @param colorname string?
+--- @param color_name string?
 --- @param execute boolean?
-M.load = function(colorname, execute)
-  local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
+M.load = function(color_name, execute)
+  -- by default 'execute' is true
+  if type(execute) ~= "boolean" then
+    execute = true
+  end
 
-  if str.empty(colorname) then
+  local specs_by_color_name = require("colorbox.db").get_specs_by_color_name()
+
+  if str.empty(color_name) then
     return
   end
-  local spec = ColorNameToColorSpecsMap[colorname]
+  local spec = specs_by_color_name[color_name]
   if tbl.tbl_empty(spec) then
     return
   end
@@ -34,13 +39,17 @@ M.load = function(colorname, execute)
     return
   end
 
+  local home_dir = vim.fn["colorbox#base_dir"]()
   local autoload_path = string.format("%s/autoload", full_pack_path)
-  vim.opt.runtimepath:append(autoload_path)
-  vim.cmd(string.format([[packadd %s]], spec.git_path))
+  vim.opt.runtimepath:append(full_pack_path)
+  vim.opt.packpath:append(home_dir)
+  log.debug(
+    string.format("|load| autoload_path:%s, spec:%s", vim.inspect(autoload_path), vim.inspect(spec))
+  )
+  vim.cmd(string.format([[packadd %s]], spec.install_path))
 
   local confs = configs.get()
   if type(confs.setup) == "table" and vim.is_callable(confs.setup[spec.handle]) then
-    local home_dir = vim.fn["colorbox#base_dir"]()
     local ok, setup_err = pcall(confs.setup[spec.handle], home_dir, spec)
     log.ensure(
       ok,
@@ -55,12 +64,10 @@ M.load = function(colorname, execute)
     vim.opt.background = confs.background
   end
 
-  if type(execute) ~= "boolean" then
-    execute = true
-  end
   if execute then
-    vim.cmd(string.format("colorscheme %s", colorname))
-    track.save_track(colorname)
+    log.debug(string.format("|load| execute color:%s", vim.inspect(color_name)))
+    vim.cmd(string.format("color %s", color_name))
+    track.save_track(color_name)
   end
 end
 

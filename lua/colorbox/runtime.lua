@@ -1,34 +1,37 @@
-local tbl = require("colorbox.commons.tbl")
-local str = require("colorbox.commons.str")
-local fio = require("colorbox.commons.fio")
 local log = require("colorbox.commons.log")
-
-local uv = vim.uv or vim.loop
-local configs = require("colorbox.configs")
 local filter = require("colorbox.filter")
 local db = require("colorbox.db")
+local uv = vim.uv or vim.loop
 
 local M = {}
 
 -- filtered color names list
 --- @type string[]
-local FilteredColorNamesList = {}
+local AvailableColorNames = {}
 
 -- the reverse of FilteredColorNamesList (index => name)
 --- @type table<string, integer>
-local FilteredColorNameToIndexMap = {}
+local AvailableColorIndexes = {}
+
+--- @param spec colorbox.ColorSpec
+M.is_package_available = function(spec)
+  local full_pack_path = db.get_full_pack_path(spec)
+  return uv.fs_stat(full_pack_path) ~= nil
+end
 
 --- @return {colors_list:string[],colors_index:table<string,integer>}
-M._build_colors = function()
+M._available_colors = function()
+  -- All color name list
   local colors_list = {}
+  -- Maps from color name to its index in `colors_list`
   local colors_index = {}
-  local ColorNameToColorSpecsMap = require("colorbox.db").get_color_name_to_color_specs_map()
-  local ColorNamesList = require("colorbox.db").get_color_names_list()
-  for _, color_name in pairs(ColorNamesList) do
-    local spec = ColorNameToColorSpecsMap[color_name]
-    local full_pack_path = db.get_full_pack_path(spec)
-    local pack_exist = uv.fs_stat(full_pack_path) ~= nil
-    local choose = filter.run(color_name, spec)
+
+  local specs_by_color_name = db.get_specs_by_color_name()
+  local color_names = db.get_color_names()
+  for _, color_name in pairs(color_names) do
+    local spec = specs_by_color_name[color_name]
+    local pack_exist = M.is_package_available(spec)
+    local yes = filter.run(color_name, spec)
     -- logger:debug(
     --   string.format(
     --     "|_build_colors| color_name:%s, choose:%s, pack_exist:%s, full_pack_path:%s",
@@ -38,7 +41,7 @@ M._build_colors = function()
     --     vim.inspect(full_pack_path)
     --   )
     -- )
-    if choose and pack_exist then
+    if yes and pack_exist then
       table.insert(colors_list, color_name)
     end
   end
@@ -53,69 +56,21 @@ M._build_colors = function()
 end
 
 M.setup = function()
-  local home_dir = vim.fn["colorbox#base_dir"]()
-  vim.opt.packpath:append(home_dir)
+  local available_colors = M._available_colors()
+  log.debug(string.format("|setup| available_colors:%s", vim.inspect(available_colors)))
+  AvailableColorNames = available_colors.colors_list
+  AvailableColorIndexes = available_colors.colors_index
 
-  local confs = configs.get()
-  log.debug(
-    string.format(
-      "|setup| confs.previous_colors_cache:%s",
-      vim.inspect(confs.previous_colors_cache)
-    )
-  )
-  local cache_content = fio.readfile(confs.previous_colors_cache)
-  cache_content = str.not_empty(cache_content) and str.trim(cache_content) or ""
-  log.debug(string.format("|setup| cache_content:%s", vim.inspect(cache_content)))
-  local found_cache = false
-
-  if cache_content then
-    local colors_list = str.split(cache_content, ",")
-    log.debug(string.format("|setup| colors_list:%s", vim.inspect(colors_list)))
-    if tbl.list_not_empty(colors_list) then
-      FilteredColorNamesList = colors_list
-
-      FilteredColorNameToIndexMap = {}
-      for i, color_name in ipairs(colors_list) do
-        FilteredColorNameToIndexMap[color_name] = i
-      end
-      found_cache = true
-
-      vim.defer_fn(function()
-        local data = M._build_colors()
-        fio.asyncwritefile(confs.previous_colors_cache, table.concat(data.colors_list, ","), {
-          on_complete = function()
-            log.debug("|setup| found cache, update cache - done")
-          end,
-        })
-      end, 100)
-    end
-  end
-
-  if not found_cache then
-    local data = M._build_colors()
-    log.debug(string.format("|setup| not found, data:%s", vim.inspect(data)))
-    FilteredColorNamesList = data.colors_list
-    FilteredColorNameToIndexMap = data.colors_index
-
-    vim.defer_fn(function()
-      fio.asyncwritefile(confs.previous_colors_cache, table.concat(FilteredColorNamesList, ","), {
-        on_complete = function()
-          log.debug("|setup| not found cache, dump cache - done")
-        end,
-      })
-    end, 100)
-  end
-
-  -- logger:debug("|_init| FilteredColorNamesList:%s", vim.inspect(FilteredColorNamesList))
-  -- logger:debug("|_init| FilteredColorNameToIndexMap:%s", vim.inspect(FilteredColorNameToIndexMap))
+  -- logger:debug("|_init| AvailableColorNames:%s", vim.inspect(AvailableColorNames))
+  -- logger:debug("|_init| AvailableColorIndexes:%s", vim.inspect(AvailableColorIndexes))
 end
 
-M.colornames = function()
-  return FilteredColorNamesList
+M.color_names = function()
+  return AvailableColorNames
 end
 
-M.colornames_index = function()
-  return FilteredColorNameToIndexMap
+M.color_indexes = function()
+  return AvailableColorIndexes
 end
 
 return M

@@ -136,13 +136,9 @@ dmypy.json
 # Candidates
 /candidate
 
-# pack/colorbox/start
+# Downloaded git repos
 /pack/colorbox/start
+/pack/colorbox/opt
 
 # logs
-*colorbox.nvim_colorbox.nvim_lua.log
-service.log
-stderr.txt
-stdout.txt
-collect-before.log
-collect-after.log
+*.log

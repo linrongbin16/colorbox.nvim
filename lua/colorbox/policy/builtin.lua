@@ -5,19 +5,22 @@ local runtime = require("colorbox.runtime")
 local track = require("colorbox.track")
 local loader = require("colorbox.loader")
 
+local uv = vim.uv or vim.loop
+
 local M = {}
 
 M.shuffle = function()
-  local ColorNamesList = runtime.colornames()
-  if #ColorNamesList > 0 then
-    local i = num.random(#ColorNamesList) --[[@as integer]]
+  local color_names = runtime.color_names()
+  if #color_names > 0 then
+    local ts = uv.clock_gettime("realtime") --[[@as {sec:integer,nsec:integer} ]]
+    local i = math.floor(math.fmod(ts.nsec, #color_names)) + 1 --[[@as integer]]
     local color = track.get_next_color_name_by_idx(i)
     log.debug(
       string.format(
-        "|_policy_shuffle| color:%s, ColorNamesList:%s (%d), i:%d",
+        "|_policy_shuffle| color:%s, color_names:%s (%d), i:%d",
         vim.inspect(color),
-        vim.inspect(ColorNamesList),
-        vim.inspect(#ColorNamesList),
+        vim.inspect(color_names),
+        vim.inspect(#color_names),
         vim.inspect(i)
       )
     )
@@ -27,18 +30,18 @@ M.shuffle = function()
 end
 
 M.in_order = function()
-  local ColorNamesList = runtime.colornames()
-  if #ColorNamesList > 0 then
+  local color_names = runtime.color_names()
+  if #color_names > 0 then
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local i = previous_track ~= nil and previous_track.color_number or 0
     local color = track.get_next_color_name_by_idx(i)
     log.debug(
       string.format(
-        "|in_order| color:%s, i:%d, ColorNamesList(%d):%s",
+        "|in_order| color:%s, i:%d, color_names(%d):%s",
         vim.inspect(color),
         vim.inspect(i),
-        vim.inspect(#ColorNamesList),
-        vim.inspect(ColorNamesList)
+        vim.inspect(#color_names),
+        vim.inspect(color_names)
       )
     )
 
@@ -47,10 +50,10 @@ M.in_order = function()
 end
 
 M.reverse_order = function()
-  local ColorNamesList = runtime.colornames()
-  if #ColorNamesList > 0 then
+  local color_names = runtime.color_names()
+  if #color_names > 0 then
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
-    local i = previous_track ~= nil and previous_track.color_number or (#ColorNamesList + 1)
+    local i = previous_track ~= nil and previous_track.color_number or (#color_names + 1)
     local color = track.get_prev_color_name_by_idx(i)
 
     loader.load(color)
@@ -58,11 +61,11 @@ M.reverse_order = function()
 end
 
 M.single = function()
-  local ColorNamesList = runtime.colornames()
-  if #ColorNamesList > 0 then
+  local color_names = runtime.color_names()
+  if #color_names > 0 then
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local color = previous_track ~= nil and previous_track.color_name
-      or track.get_next_color_name_by_idx(0)
+        or track.get_next_color_name_by_idx(0)
     if color ~= vim.g.colors_name then
       loader.load(color)
     end

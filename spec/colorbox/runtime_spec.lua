@@ -15,9 +15,9 @@ describe("colorbox.runtime", function()
     file_log = true,
   })
 
-  describe("[_build_colors]", function()
+  describe("[_available_colors]", function()
     it("test", function()
-      local actual = runtime._build_colors()
+      local actual = runtime._available_colors()
       print(string.format("_build_colors:%s\n", vim.inspect(actual)))
       assert_eq(type(vim.tbl_get(actual, "colors_list")), "table")
       assert_eq(type(vim.tbl_get(actual, "colors_index")), "table")
@@ -25,11 +25,11 @@ describe("colorbox.runtime", function()
         assert_eq(actual.colors_index[color], i)
       end
     end)
-    it("colornames/colornames_index", function()
-      local colornames = runtime.colornames()
-      local colornames_index = runtime.colornames_index()
-      for i, color in ipairs(colornames) do
-        assert_eq(colornames_index[color], i)
+    it("color_names/color_indexes", function()
+      local color_names = runtime.color_names()
+      local color_indexes = runtime.color_indexes()
+      for i, color in ipairs(color_names) do
+        assert_eq(color_indexes[color], i)
       end
     end)
     it("setup", function()

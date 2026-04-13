@@ -8,6 +8,8 @@ local runtime = require("colorbox.runtime")
 local controller = require("colorbox.controller")
 local loader = require("colorbox.loader")
 
+local uv = vim.uv or vim.loop
+
 --- @param opts colorbox.Options?
 local function setup(opts)
   local confs = configs.setup(opts)
@@ -20,13 +22,14 @@ local function setup(opts)
   })
 
   -- cache
+  if not uv.fs_stat(confs.cache_dir) then
+    vim.fn.mkdir(confs.cache_dir, "p")
+  end
   assert(
     vim.fn.filereadable(confs.cache_dir) <= 0,
     string.format("%s (cache_dir option) already exist but not a directory!", confs.cache_dir)
   )
-  vim.fn.mkdir(confs.cache_dir, "p")
   confs.previous_track_cache = string.format("%s/previous_track_cache", confs.cache_dir)
-  confs.previous_colors_cache = string.format("%s/previous_colors_cache", confs.cache_dir)
   confs = configs.set(confs)
 
   runtime.setup()
@@ -73,12 +76,14 @@ local function setup(opts)
 
   vim.api.nvim_create_autocmd("ColorSchemePre", {
     callback = function(event)
+      log.debug(string.format("ColorSchemePre event:%s", vim.inspect(event)))
       loader.load(vim.tbl_get(event, "match"), false)
     end,
   })
 
   vim.api.nvim_create_autocmd("ColorScheme", {
-    callback = function()
+    callback = function(event)
+      log.debug(string.format("ColorScheme event:%s", vim.inspect(event)))
       vim.schedule(function()
         track.save_track(vim.g.colors_name)
       end)

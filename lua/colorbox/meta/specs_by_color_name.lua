@@ -1,5 +1,5 @@
 return {
-  ["romainl/apprentice"] = {
+  apprentice = {
     handle = "romainl/apprentice",
     color_name = "apprentice",
     plugin_name = "apprentice",
@@ -7,7 +7,7 @@ return {
     install_path = "romainl-apprentice",
     git_branch = nil,
   },
-  ["ayu-theme/ayu-vim"] = {
+  ayu = {
     handle = "ayu-theme/ayu-vim",
     color_name = "ayu",
     plugin_name = "ayu-vim",
@@ -15,7 +15,7 @@ return {
     install_path = "ayu-theme-ayu-vim",
     git_branch = nil,
   },
-  ["catppuccin/nvim"] = {
+  catppuccin = {
     handle = "catppuccin/nvim",
     color_name = "catppuccin",
     plugin_name = "catppuccin",
@@ -23,7 +23,7 @@ return {
     install_path = "catppuccin-nvim",
     git_branch = nil,
   },
-  ["tomasiser/vim-code-dark"] = {
+  codedark = {
     handle = "tomasiser/vim-code-dark",
     color_name = "codedark",
     plugin_name = "vim-code-dark",
@@ -31,7 +31,7 @@ return {
     install_path = "tomasiser-vim-code-dark",
     git_branch = nil,
   },
-  ["scottmckendry/cyberdream.nvim"] = {
+  cyberdream = {
     handle = "scottmckendry/cyberdream.nvim",
     color_name = "cyberdream",
     plugin_name = "cyberdream.nvim",
@@ -39,7 +39,7 @@ return {
     install_path = "scottmckendry-cyberdream.nvim",
     git_branch = nil,
   },
-  ["ajmwagar/vim-deus"] = {
+  deus = {
     handle = "ajmwagar/vim-deus",
     color_name = "deus",
     plugin_name = "vim-deus",
@@ -47,7 +47,7 @@ return {
     install_path = "ajmwagar-vim-deus",
     git_branch = nil,
   },
-  ["dracula/vim"] = {
+  dracula = {
     handle = "dracula/vim",
     color_name = "dracula",
     plugin_name = "dracula",
@@ -55,7 +55,7 @@ return {
     install_path = "dracula-vim",
     git_branch = nil,
   },
-  ["sainnhe/edge"] = {
+  edge = {
     handle = "sainnhe/edge",
     color_name = "edge",
     plugin_name = "edge",
@@ -63,7 +63,7 @@ return {
     install_path = "sainnhe-edge",
     git_branch = nil,
   },
-  ["sainnhe/everforest"] = {
+  everforest = {
     handle = "sainnhe/everforest",
     color_name = "everforest",
     plugin_name = "everforest",
@@ -71,7 +71,7 @@ return {
     install_path = "sainnhe-everforest",
     git_branch = nil,
   },
-  ["fenetikm/falcon"] = {
+  falcon = {
     handle = "fenetikm/falcon",
     color_name = "falcon",
     plugin_name = "falcon",
@@ -79,7 +79,7 @@ return {
     install_path = "fenetikm-falcon",
     git_branch = nil,
   },
-  ["projekt0n/github-nvim-theme"] = {
+  github_dark = {
     handle = "projekt0n/github-nvim-theme",
     color_name = "github_dark",
     plugin_name = "github-nvim-theme",
@@ -87,7 +87,7 @@ return {
     install_path = "projekt0n-github-nvim-theme",
     git_branch = nil,
   },
-  ["whatyouhide/vim-gotham"] = {
+  gotham = {
     handle = "whatyouhide/vim-gotham",
     color_name = "gotham",
     plugin_name = "vim-gotham",
@@ -95,7 +95,7 @@ return {
     install_path = "whatyouhide-vim-gotham",
     git_branch = nil,
   },
-  ["ellisonleao/gruvbox.nvim"] = {
+  gruvbox = {
     handle = "ellisonleao/gruvbox.nvim",
     color_name = "gruvbox",
     plugin_name = "gruvbox.nvim",
@@ -103,7 +103,7 @@ return {
     install_path = "ellisonleao-gruvbox.nvim",
     git_branch = nil,
   },
-  ["sainnhe/gruvbox-material"] = {
+  ["gruvbox-material"] = {
     handle = "sainnhe/gruvbox-material",
     color_name = "gruvbox-material",
     plugin_name = "gruvbox-material",
@@ -111,7 +111,7 @@ return {
     install_path = "sainnhe-gruvbox-material",
     git_branch = nil,
   },
-  ["cocopon/iceberg.vim"] = {
+  iceberg = {
     handle = "cocopon/iceberg.vim",
     color_name = "iceberg",
     plugin_name = "iceberg.vim",
@@ -119,7 +119,7 @@ return {
     install_path = "cocopon-iceberg.vim",
     git_branch = nil,
   },
-  ["nanotech/jellybeans.vim"] = {
+  jellybeans = {
     handle = "nanotech/jellybeans.vim",
     color_name = "jellybeans",
     plugin_name = "jellybeans.vim",
@@ -127,7 +127,7 @@ return {
     install_path = "nanotech-jellybeans.vim",
     git_branch = nil,
   },
-  ["rebelot/kanagawa.nvim"] = {
+  kanagawa = {
     handle = "rebelot/kanagawa.nvim",
     color_name = "kanagawa",
     plugin_name = "kanagawa.nvim",
@@ -135,7 +135,7 @@ return {
     install_path = "rebelot-kanagawa.nvim",
     git_branch = nil,
   },
-  ["marko-cerovac/material.nvim"] = {
+  material = {
     handle = "marko-cerovac/material.nvim",
     color_name = "material",
     plugin_name = "material.nvim",
@@ -143,7 +143,7 @@ return {
     install_path = "marko-cerovac-material.nvim",
     git_branch = nil,
   },
-  ["savq/melange-nvim"] = {
+  melange = {
     handle = "savq/melange-nvim",
     color_name = "melange",
     plugin_name = "melange-nvim",
@@ -151,7 +151,7 @@ return {
     install_path = "savq-melange-nvim",
     git_branch = nil,
   },
-  ["bluz71/vim-moonfly-colors"] = {
+  moonfly = {
     handle = "bluz71/vim-moonfly-colors",
     color_name = "moonfly",
     plugin_name = "vim-moonfly-colors",
@@ -159,7 +159,7 @@ return {
     install_path = "bluz71-vim-moonfly-colors",
     git_branch = nil,
   },
-  ["bluz71/vim-nightfly-colors"] = {
+  nightfly = {
     handle = "bluz71/vim-nightfly-colors",
     color_name = "nightfly",
     plugin_name = "vim-nightfly-colors",
@@ -167,7 +167,7 @@ return {
     install_path = "bluz71-vim-nightfly-colors",
     git_branch = nil,
   },
-  ["edeneast/nightfox.nvim"] = {
+  nightfox = {
     handle = "edeneast/nightfox.nvim",
     color_name = "nightfox",
     plugin_name = "nightfox.nvim",
@@ -175,7 +175,7 @@ return {
     install_path = "edeneast-nightfox.nvim",
     git_branch = nil,
   },
-  ["shaunsingh/nord.nvim"] = {
+  nord = {
     handle = "shaunsingh/nord.nvim",
     color_name = "nord",
     plugin_name = "nord.nvim",
@@ -183,7 +183,7 @@ return {
     install_path = "shaunsingh-nord.nvim",
     git_branch = nil,
   },
-  ["alexvzyl/nordic.nvim"] = {
+  nordic = {
     handle = "alexvzyl/nordic.nvim",
     color_name = "nordic",
     plugin_name = "nordic.nvim",
@@ -191,7 +191,7 @@ return {
     install_path = "alexvzyl-nordic.nvim",
     git_branch = nil,
   },
-  ["mhartington/oceanic-next"] = {
+  OceanicNext = {
     handle = "mhartington/oceanic-next",
     color_name = "OceanicNext",
     plugin_name = "oceanic-next",
@@ -199,7 +199,7 @@ return {
     install_path = "mhartington-oceanic-next",
     git_branch = nil,
   },
-  ["rakr/vim-one"] = {
+  one = {
     handle = "rakr/vim-one",
     color_name = "one",
     plugin_name = "vim-one",
@@ -207,7 +207,7 @@ return {
     install_path = "rakr-vim-one",
     git_branch = nil,
   },
-  ["olimorris/onedarkpro.nvim"] = {
+  onedark = {
     handle = "olimorris/onedarkpro.nvim",
     color_name = "onedark",
     plugin_name = "onedarkpro.nvim",
@@ -215,7 +215,7 @@ return {
     install_path = "olimorris-onedarkpro.nvim",
     git_branch = nil,
   },
-  ["nyoom-engineering/oxocarbon.nvim"] = {
+  oxocarbon = {
     handle = "nyoom-engineering/oxocarbon.nvim",
     color_name = "oxocarbon",
     plugin_name = "oxocarbon.nvim",
@@ -223,7 +223,7 @@ return {
     install_path = "nyoom-engineering-oxocarbon.nvim",
     git_branch = nil,
   },
-  ["nlknguyen/papercolor-theme"] = {
+  PaperColor = {
     handle = "nlknguyen/papercolor-theme",
     color_name = "PaperColor",
     plugin_name = "papercolor-theme",
@@ -231,7 +231,7 @@ return {
     install_path = "nlknguyen-papercolor-theme",
     git_branch = nil,
   },
-  ["rose-pine/neovim"] = {
+  ["rose-pine"] = {
     handle = "rose-pine/neovim",
     color_name = "rose-pine",
     plugin_name = "rose-pine",
@@ -239,7 +239,7 @@ return {
     install_path = "rose-pine-neovim",
     git_branch = nil,
   },
-  ["junegunn/seoul256.vim"] = {
+  seoul256 = {
     handle = "junegunn/seoul256.vim",
     color_name = "seoul256",
     plugin_name = "seoul256.vim",
@@ -247,7 +247,7 @@ return {
     install_path = "junegunn-seoul256.vim",
     git_branch = nil,
   },
-  ["craftzdog/solarized-osaka.nvim"] = {
+  ["solarized-osaka"] = {
     handle = "craftzdog/solarized-osaka.nvim",
     color_name = "solarized-osaka",
     plugin_name = "solarized-osaka.nvim",
@@ -255,7 +255,7 @@ return {
     install_path = "craftzdog-solarized-osaka.nvim",
     git_branch = nil,
   },
-  ["lifepillar/vim-solarized8"] = {
+  solarized8 = {
     handle = "lifepillar/vim-solarized8",
     color_name = "solarized8",
     plugin_name = "vim-solarized8",
@@ -263,7 +263,7 @@ return {
     install_path = "lifepillar-vim-solarized8",
     git_branch = "neovim",
   },
-  ["sainnhe/sonokai"] = {
+  sonokai = {
     handle = "sainnhe/sonokai",
     color_name = "sonokai",
     plugin_name = "sonokai",
@@ -271,7 +271,7 @@ return {
     install_path = "sainnhe-sonokai",
     git_branch = nil,
   },
-  ["jacoborus/tender.vim"] = {
+  tender = {
     handle = "jacoborus/tender.vim",
     color_name = "tender",
     plugin_name = "tender.vim",
@@ -279,7 +279,7 @@ return {
     install_path = "jacoborus-tender.vim",
     git_branch = nil,
   },
-  ["folke/tokyonight.nvim"] = {
+  tokyonight = {
     handle = "folke/tokyonight.nvim",
     color_name = "tokyonight",
     plugin_name = "tokyonight.nvim",
@@ -287,7 +287,7 @@ return {
     install_path = "folke-tokyonight.nvim",
     git_branch = nil,
   },
-  ["vague-theme/vague.nvim"] = {
+  vague = {
     handle = "vague-theme/vague.nvim",
     color_name = "vague",
     plugin_name = "vague.nvim",
@@ -295,7 +295,7 @@ return {
     install_path = "vague-theme-vague.nvim",
     git_branch = nil,
   },
-  ["mofiqul/vscode.nvim"] = {
+  vscode = {
     handle = "mofiqul/vscode.nvim",
     color_name = "vscode",
     plugin_name = "vscode.nvim",
@@ -303,7 +303,7 @@ return {
     install_path = "mofiqul-vscode.nvim",
     git_branch = nil,
   },
-  ["zenbones-theme/zenbones.nvim"] = {
+  zenbones = {
     handle = "zenbones-theme/zenbones.nvim",
     color_name = "zenbones",
     plugin_name = "zenbones.nvim",

@@ -18,16 +18,16 @@ end
 --- @alias colorbox.PreviousTrack {color_name:string,color_number:integer}
 --- @param color_name string
 M.save_track = function(color_name)
+  log.debug(string.format("|save_track| color_name:%s", vim.inspect(color_name)))
   if str.blank(color_name) then
-    log.debug(string.format("|save_track| color_name is blank:%s", vim.inspect(color_name)))
     return
   end
 
   vim.schedule(function()
     local confs = configs.get()
 
-    local ColorNamesIndex = runtime.colornames_index()
-    local color_number = ColorNamesIndex[color_name] or 1
+    local color_indexes = runtime.color_indexes()
+    local color_number = color_indexes[color_name] or 1
 
     local content = vim.json.encode({
       color_name = color_name,
@@ -45,9 +45,9 @@ M.save_track = function(color_name)
         )
         vim.schedule(function()
           if vim.is_callable(confs.post_hook) then
-            local ColorNameToColorSpecsMap = db.get_color_name_to_color_specs_map()
-            local color_spec = ColorNameToColorSpecsMap[color_name]
-            confs.post_hook(color_name, color_spec)
+            local specs_by_color_name = db.get_specs_by_color_name()
+            local spec = specs_by_color_name[color_name]
+            confs.post_hook(color_name, spec)
           end
         end)
       end,
@@ -70,13 +70,13 @@ end
 M.get_next_color_name_by_idx = function(idx)
   assert(type(idx) == "number")
   idx = idx + 1
-  local ColorNamesList = runtime.colornames()
-  local n = #ColorNamesList
+  local color_names = runtime.color_names()
+  local n = #color_names
   if idx > n then
     idx = 1
   end
   idx = num.clamp(idx, 1, n)
-  return ColorNamesList[idx], idx
+  return color_names[idx], idx
 end
 
 --- @param idx integer
@@ -84,13 +84,13 @@ end
 M.get_prev_color_name_by_idx = function(idx)
   assert(type(idx) == "number")
   idx = idx - 1
-  local ColorNamesList = runtime.colornames()
-  local n = #ColorNamesList
+  local color_names = runtime.color_names()
+  local n = #color_names
   if idx < 1 then
     idx = n
   end
   idx = num.clamp(idx, 1, n)
-  return ColorNamesList[idx], idx
+  return color_names[idx], idx
 end
 
 return M

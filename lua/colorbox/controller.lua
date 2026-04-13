@@ -27,10 +27,10 @@ M.update = function()
   )
   vim.opt.packpath:append(home_dir)
 
-  local HandleToColorSpecsMap = db.get_handle_to_color_specs_map()
+  local specs_by_handle = db.get_specs_by_handle()
 
   local prepared_count = 0
-  for _, _ in pairs(HandleToColorSpecsMap) do
+  for _, _ in pairs(specs_by_handle) do
     prepared_count = prepared_count + 1
   end
   log.info(string.format("started %s jobs", vim.inspect(prepared_count)))
@@ -38,7 +38,7 @@ M.update = function()
   async.run(function()
     local finished_count = 0
 
-    for handle, spec in pairs(HandleToColorSpecsMap) do
+    for handle, spec in pairs(specs_by_handle) do
       local pack_path = db.get_pack_path(spec)
       local full_pack_path = db.get_full_pack_path(spec)
       local param = nil
@@ -139,18 +139,18 @@ M._parse_args = function(args)
 end
 
 M.shuffle = function()
-  local ColorNamesList = runtime.colornames()
-  if #ColorNamesList > 0 then
-    local random_index = num.random(1, #ColorNamesList)
-    local color = ColorNamesList[random_index]
+  local color_names = runtime.color_names()
+  if #color_names > 0 then
+    local random_index = num.random(1, #color_names)
+    local color = color_names[random_index]
 
     log.debug(
       string.format(
-        "|shuffle| color:%s, random_index:%d, ColorNamesList(%d):%s",
+        "|shuffle| color:%s, random_index:%d, color_names(%d):%s",
         vim.inspect(color),
         random_index,
-        #ColorNamesList,
-        vim.inspect(ColorNamesList)
+        #color_names,
+        vim.inspect(color_names)
       )
     )
     loader.load(color)
@@ -163,7 +163,7 @@ M.info = function(args)
   opts = opts or { scale = 0.7 }
   opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7) or 0.7
   opts.scale = num.clamp(opts.scale, 0, 1)
-  log.debug(string.format("|_info| opts:%s", vim.inspect(opts)))
+  log.debug(string.format("|info| opts:%s", vim.inspect(opts)))
 
   local total_width = vim.o.columns
   local total_height = vim.o.lines
@@ -176,9 +176,14 @@ M.info = function(args)
     return num.clamp(base + shift, 0, totalsize - modalsize)
   end
 
+  local bufnr = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
+  vim.api.nvim_set_option_value("buflisted", false, { buf = bufnr })
+  vim.api.nvim_set_option_value("filetype", "markdown", { buf = bufnr })
+  vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
+
   local row = get_shift(total_height, height, 0)
   local col = get_shift(total_width, width, 0)
-
   local win_config = {
     anchor = "NW",
     relative = "editor",
@@ -190,94 +195,22 @@ M.info = function(args)
     border = "rounded",
     zindex = 51,
   }
+  local _winnr = vim.api.nvim_open_win(bufnr, true, win_config)
 
-  local bufnr = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
-  vim.api.nvim_set_option_value("buflisted", false, { buf = bufnr })
-  vim.api.nvim_set_option_value("filetype", "markdown", { buf = bufnr })
-  vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
-  local winnr = vim.api.nvim_open_win(bufnr, true, win_config)
+  local color_specs_list = db.get_specs_by_handle()
+  log.debug(string.format("|info| specs_by_handle:%s", vim.inspect(color_specs_list)))
+  local total_colors = #color_specs_list
 
-  local ColorNamesIndex = runtime.colornames_index()
-  local HandleToColorSpecsMap = require("colorbox.db").get_handle_to_color_specs_map()
-  local color_specs_list = {}
-  for handle, spec in pairs(HandleToColorSpecsMap) do
-    table.insert(color_specs_list, spec)
-  end
-  table.sort(color_specs_list, function(a, b)
-    return a.github_stars > b.github_stars
-  end)
-  local total_plugins = 0
-  local total_colors = 0
-  local enabled_plugins = 0
-  local enabled_colors = 0
-  for i, spec in ipairs(color_specs_list) do
-    total_plugins = total_plugins + 1
-    local plugin_enabled = false
-    for j, color in ipairs(spec.color_names) do
-      total_colors = total_colors + 1
-      local color_enabled = ColorNamesIndex[color] ~= nil
-      if color_enabled then
-        enabled_colors = enabled_colors + 1
-        plugin_enabled = true
-      end
-    end
-    if plugin_enabled then
-      enabled_plugins = enabled_plugins + 1
-    end
-  end
-
-  local ns = vim.api.nvim_create_namespace("colorbox-info-panel")
   vim.api.nvim_buf_set_lines(bufnr, 0, 0, true, {
-    string.format(
-      "# ColorSchemes List, total: %d(colors)/%d(plugins), enabled: %d(colors)/%d(plugins)",
-      total_colors,
-      total_plugins,
-      enabled_colors,
-      enabled_plugins
-    ),
+    string.format("# ColorSchemes List, total: %d", total_colors),
   })
   local lineno = 1
   for i, spec in ipairs(color_specs_list) do
+    local pack_exists = runtime.is_package_available(spec)
     vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, {
-      string.format(
-        "- %s (stars: %s, last update at: %s)",
-        vim.inspect(spec.handle),
-        vim.inspect(spec.github_stars),
-        vim.inspect(spec.last_git_commit)
-      ),
+      string.format("- %s (color: %s, installed: %s)", spec.handle, spec.color_name, pack_exists),
     })
     lineno = lineno + 1
-    local color_names = vim.deepcopy(spec.color_names)
-    -- table.sort(color_names, function(a, b)
-    --   logger:debug(
-    --     string.format(
-    --       "|info| sort color_names:%s, ColorNamesIndex:%s",
-    --       vim.inspect(color_names),
-    --       vim.inspect(ColorNamesIndex)
-    --     )
-    --   )
-    --   local a_enabled = ColorNamesIndex[a] ~= nil
-    --   return a_enabled
-    -- end)
-
-    for _, color in ipairs(color_names) do
-      local enabled = ColorNamesIndex[color] ~= nil
-      local content = enabled and string.format("  - %s (**enabled**)", color)
-        or string.format("  - %s (disabled)", color)
-      vim.api.nvim_buf_set_lines(bufnr, lineno, lineno, true, { content })
-
-      -- colorize the enabled colors
-      if enabled then
-        vim.api.nvim_buf_set_extmark(bufnr, ns, lineno, 0, {
-          end_row = lineno,
-          end_col = string.len(content),
-          strict = false,
-          line_hl_group = "Special",
-        })
-      end
-      lineno = lineno + 1
-    end
   end
   vim.schedule(function()
     vim.cmd(string.format([[call setpos('.', [%d, 1, 1])]], bufnr))
