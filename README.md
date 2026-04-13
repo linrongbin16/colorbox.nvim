@@ -27,14 +27,14 @@ It uses GitHub actions to weekly collect/update the colorscheme dataset.
 
 > [!NOTE]
 >
-> The **most popular** colorschemes are manually picked from :
+> The **most popular** colorschemes are manually picked from below websites, with GitHub stars &ge; 800:
 >
-> Awesome Neovim Colors: <https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/>
-> Awesome Vim Colors: <https://github.com/rafi/awesome-vim-colorschemes>
-> GitHub "neovim-colorscheme" topic: <https://github.com/topics/neovim-colorscheme>
-> GitHub "vim-colorscheme" topic: <https://github.com/topics/vim-colorscheme>
+> - Awesome Neovim Colors: <https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/>
+> - Awesome Vim Colors: <https://github.com/rafi/awesome-vim-colorschemes>
+> - GitHub "neovim-colorscheme" topic: <https://github.com/topics/neovim-colorscheme>
+> - GitHub "vim-colorscheme" topic: <https://github.com/topics/vim-colorscheme>
 >
-> With GitHub stars &ge; 800. For plugins that conflicts on same color name, the one with more stars or Neovim featured are picked.
+> For plugins that conflicts on same color name, the one with more stars or Neovim featured are picked.
 >
 > Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorscheme dataset.
 >
