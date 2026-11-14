@@ -24,4 +24,40 @@ describe("colorbox.db", function()
       assert_eq(type(color_names), "table")
     end)
   end)
+  describe("[dataset]", function()
+    it("expands every entry into a full color spec", function()
+      local specs_by_handle = db.get_specs_by_handle()
+      local specs_by_color_name = db.get_specs_by_color_name()
+      local color_names = db.get_color_names()
+      local count = 0
+      for handle, spec in pairs(specs_by_handle) do
+        count = count + 1
+        assert_eq(spec.handle, handle)
+        assert_eq(type(spec.color_name), "string")
+        assert_eq(type(spec.plugin_name), "string")
+        assert_eq(type(spec.url), "string")
+        assert_eq(spec.install_path, string.gsub(handle, "/", "-"))
+        assert_true(specs_by_color_name[spec.color_name] == spec)
+      end
+      assert_eq(count, #color_names)
+    end)
+    it("sorts color names case insensitively", function()
+      local color_names = db.get_color_names()
+      for i = 2, #color_names do
+        local prev = string.lower(color_names[i - 1])
+        local curr = string.lower(color_names[i])
+        assert_true(prev <= curr)
+      end
+    end)
+    it("applies overrides", function()
+      local specs_by_handle = db.get_specs_by_handle()
+      local solarized8 = specs_by_handle["lifepillar/vim-solarized8"]
+      assert_eq(solarized8.url, "https://codeberg.org/lifepillar/vim-solarized8")
+      assert_eq(solarized8.git_branch, "neovim")
+      local dracula = specs_by_handle["dracula/vim"]
+      assert_eq(dracula.plugin_name, "dracula")
+      assert_eq(dracula.url, "https://github.com/dracula/vim")
+      assert_eq(dracula.git_branch, nil)
+    end)
+  end)
 end)
