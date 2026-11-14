@@ -4,10 +4,12 @@
 The hand-maintained list below (:data:`ALL_COLORS`) is the single source of
 truth. Running this script regenerates:
 
-- ``lua/colorbox/meta/specs.lua``: specs keyed by git handle.
-- ``lua/colorbox/meta/specs_by_color_name.lua``: specs keyed by color name.
-- ``lua/colorbox/meta/color_names.lua``: color names, alphabetically sorted.
+- ``lua/colorbox/db/dataset.lua``: handle => color name, plus the handful of
+  fields that cannot be derived from the handle.
 - ``COLORSCHEMES.md``: human readable list.
+
+``lua/colorbox/db.lua`` expands the dataset into full ``colorbox.ColorSpec``
+tables at runtime, so the checked-in data stays minimal.
 
 Usage::
 
@@ -20,17 +22,15 @@ import logging
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import click
 import luadata
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-LUA_META_DIR = SCRIPT_DIR / "lua" / "colorbox" / "meta"
+LUA_DB_DIR = SCRIPT_DIR / "lua" / "colorbox" / "db"
 
-SPECS_LUA = LUA_META_DIR / "specs.lua"
-SPECS_BY_COLOR_NAME_LUA = LUA_META_DIR / "specs_by_color_name.lua"
-COLOR_NAMES_LUA = LUA_META_DIR / "color_names.lua"
+DATASET_LUA = LUA_DB_DIR / "dataset.lua"
 COLORSCHEMES_MD = SCRIPT_DIR / "COLORSCHEMES.md"
 
 LUA_INDENT = "  "
@@ -76,16 +76,23 @@ class ColorSpec:
         if self.plugin_name is None:
             object.__setattr__(self, "plugin_name", repo)
 
-    def to_lua(self) -> dict[str, Any]:
-        """Convert to the plain dict serialized into the Lua dataset."""
-        return {
-            "handle": self.handle,
-            "color_name": self.color_name,
-            "plugin_name": self.plugin_name,
-            "url": self.url,
-            "install_path": self.install_path,
-            "git_branch": self.git_branch,
-        }
+    @property
+    def repo(self) -> str:
+        """The repository name, i.e. the part after ``owner/``."""
+        return self.handle.partition("/")[2]
+
+    def to_overrides(self) -> dict[str, str]:
+        """Fields that ``db.lua`` cannot derive from the handle."""
+        plugin_name = cast(str, self.plugin_name)
+        url = cast(str, self.url)
+        overrides: dict[str, str] = {}
+        if plugin_name != self.repo:
+            overrides["plugin_name"] = plugin_name
+        if url != f"https://github.com/{self.handle}":
+            overrides["url"] = url
+        if self.git_branch is not None:
+            overrides["git_branch"] = self.git_branch
+        return overrides
 
     def __str__(self) -> str:
         return (
@@ -235,6 +242,9 @@ def validate_specs(specs: Iterable[ColorSpec]) -> list[ColorSpec]:
 
 def write_lua(path: Path, data: Any) -> None:
     luadata.write(str(path), data, encoding="utf-8", indent=LUA_INDENT, prefix=LUA_PREFIX)
+    # luadata writes no trailing newline, add one so editors/formatters stay happy.
+    with path.open("a", encoding="utf-8") as f:
+        f.write("\n")
     logger.debug("wrote %s", path)
 
 
@@ -246,16 +256,23 @@ def render_colorschemes_markdown(specs: Iterable[ColorSpec]) -> str:
     return f"\n{title}\n{'=' * len(title)}\n\n" + "\n".join(lines)
 
 
+def render_dataset(specs: Iterable[ColorSpec]) -> dict[str, Any]:
+    """Render the Lua dataset: color names keyed by handle, plus overrides.
+
+    Everything else (``url``, ``plugin_name``, ``install_path``) is derived from
+    the handle by ``lua/colorbox/db.lua``, so it is not duplicated here.
+    """
+    dataset: dict[str, Any] = {spec.handle: spec.color_name for spec in specs}
+    overrides = {spec.handle: spec.to_overrides() for spec in specs}
+    overrides = {handle: fields for handle, fields in overrides.items() if fields}
+    return {"specs": dataset, "overrides": overrides}
+
+
 def generate(specs: Iterable[ColorSpec] = ALL_COLORS) -> None:
     """Regenerate every dataset file from ``specs``."""
     sorted_specs = validate_specs(specs)
 
-    write_lua(SPECS_LUA, {spec.handle: spec.to_lua() for spec in sorted_specs})
-    write_lua(
-        SPECS_BY_COLOR_NAME_LUA,
-        {spec.color_name: spec.to_lua() for spec in sorted_specs},
-    )
-    write_lua(COLOR_NAMES_LUA, [spec.color_name for spec in sorted_specs])
+    write_lua(DATASET_LUA, render_dataset(sorted_specs))
 
     COLORSCHEMES_MD.write_text(render_colorschemes_markdown(sorted_specs), encoding="utf-8")
     logger.debug("wrote %s", COLORSCHEMES_MD)
