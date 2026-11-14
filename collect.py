@@ -1,69 +1,98 @@
 #!/usr/bin/env python3
+"""Generate the colorscheme dataset consumed by colorbox.nvim.
+
+The hand-maintained list below (:data:`ALL_COLORS`) is the single source of
+truth. Running this script regenerates:
+
+- ``lua/colorbox/meta/specs.lua``: specs keyed by git handle.
+- ``lua/colorbox/meta/specs_by_color_name.lua``: specs keyed by color name.
+- ``lua/colorbox/meta/color_names.lua``: color names, alphabetically sorted.
+- ``COLORSCHEMES.md``: human readable list.
+
+Usage::
+
+    python3 collect.py [--debug]
+"""
+
+from __future__ import annotations
 
 import logging
-import sys
-import typing
+from collections.abc import Iterable
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any
+
 import click
 import luadata
-from mdutils.mdutils import MdUtils
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+LUA_META_DIR = SCRIPT_DIR / "lua" / "colorbox" / "meta"
+
+SPECS_LUA = LUA_META_DIR / "specs.lua"
+SPECS_BY_COLOR_NAME_LUA = LUA_META_DIR / "specs_by_color_name.lua"
+COLOR_NAMES_LUA = LUA_META_DIR / "color_names.lua"
+COLORSCHEMES_MD = SCRIPT_DIR / "COLORSCHEMES.md"
+
+LUA_INDENT = "  "
+LUA_PREFIX = "return "
+
+logger = logging.getLogger("collect")
 
 
+class ColorSpecError(ValueError):
+    """Raised when a colorscheme spec in :data:`ALL_COLORS` is invalid."""
+
+
+def normalize_handle(handle: str) -> str:
+    """Normalize a ``owner/repo`` git handle: trim slashes, lowercase."""
+    return handle.strip().strip("/").lower()
+
+
+@dataclass(frozen=True)
 class ColorSpec:
-    HANDLE = "handle"
-    COLOR_NAME = "color_name"
-    PLUGIN_NAME = "plugin_name"
-    URL = "url"
-    INSTALL_PATH = "install_path"
-    GIT_BRANCH = "git_branch"
+    """A colorscheme plugin, plus the metadata needed to install and load it."""
 
-    def __init__(
-        self,
-        handle: str,
-        color_name: str,
-        url: typing.Optional[str] = None,
-        plugin_name: typing.Optional[str] = None,
-        git_branch: typing.Optional[str] = None,
-    ) -> None:
-        handle = self._normalize_handle(handle)
-        handle_splits = handle.split("/")
-        assert len(handle_splits) == 2
-        self.handle = handle
-        self.color_name = color_name
-        self.plugin_name = plugin_name if isinstance(plugin_name, str) else handle_splits[-1]
-        self.url = f"https://github.com/{handle}" if url is None else url
-        self.install_path = self.handle.replace("/", "-")
-        self.git_branch = git_branch
+    handle: str
+    color_name: str
+    url: str | None = field(default=None)
+    plugin_name: str | None = field(default=None)
+    git_branch: str | None = field(default=None)
+    install_path: str = field(default="", init=False)
 
-    @staticmethod
-    def from_raw(
-        handle: str,
-        color_name: str,
-        plugin_name: str,
-        url: str,
-        install_path: str,
-        git_branch: typing.Optional[str],
-    ) -> typing.Any:
-        cs = ColorSpec(handle, color_name, url, plugin_name, git_branch)
-        cs.plugin_name = plugin_name
-        cs.install_path = install_path
-        cs.git_branch = git_branch
+    def __post_init__(self) -> None:
+        handle = normalize_handle(self.handle)
+        owner, sep, repo = handle.partition("/")
+        if not sep or not owner or not repo or "/" in repo:
+            raise ColorSpecError(
+                f"invalid handle {self.handle!r} for color {self.color_name!r}: expect 'owner/repo'"
+            )
+        if not self.color_name.strip():
+            raise ColorSpecError(f"empty color name for handle {handle!r}")
 
-    def _normalize_handle(self, handle: str) -> str:
-        handle = handle.strip()
-        while handle.startswith("/"):
-            handle = handle[1:]
-        while handle.endswith("/"):
-            handle = handle[:-1]
-        return handle.lower()
+        object.__setattr__(self, "handle", handle)
+        object.__setattr__(self, "install_path", handle.replace("/", "-"))
+        if self.url is None:
+            object.__setattr__(self, "url", f"https://github.com/{handle}")
+        if self.plugin_name is None:
+            object.__setattr__(self, "plugin_name", repo)
 
-    def __str__(self):
-        return f"<ColorSpec handle:{self.handle}, color_name:{self.color_name}, url:{self.url}, plugin_name: {self.plugin_name}, git_branch:{self.git_branch}, install_path:{self.install_path}>"
+    def to_lua(self) -> dict[str, Any]:
+        """Convert to the plain dict serialized into the Lua dataset."""
+        return {
+            "handle": self.handle,
+            "color_name": self.color_name,
+            "plugin_name": self.plugin_name,
+            "url": self.url,
+            "install_path": self.install_path,
+            "git_branch": self.git_branch,
+        }
 
-    def __hash__(self):
-        return hash(self.handle.lower())
-
-    def __eq__(self, other):
-        return isinstance(other, ColorSpec) and self.handle.lower() == other.handle.lower()
+    def __str__(self) -> str:
+        return (
+            f"<ColorSpec handle:{self.handle}, color_name:{self.color_name}, "
+            f"url:{self.url}, plugin_name:{self.plugin_name}, "
+            f"git_branch:{self.git_branch}, install_path:{self.install_path}>"
+        )
 
 
 # ColorSchemes are picked from below websites, with GitHub stars >= 800:
@@ -73,7 +102,7 @@ class ColorSpec:
 # - GitHub "neovim-colorscheme" topic: <https://github.com/topics/neovim-colorscheme>
 # - GitHub "vim-colorscheme" topic: <https://github.com/topics/vim-colorscheme>
 
-ALL_COLORS = [
+ALL_COLORS: list[ColorSpec] = [
     # ---- NEOVIM COLORS ----
     ColorSpec(
         "tomasiser/vim-code-dark",
@@ -168,104 +197,81 @@ ALL_COLORS = [
 ]
 
 
-# utils {
-
-
-def init_logging(level: typing.Optional[int]) -> None:
-    assert isinstance(level, int) or level is None
-    level = logging.WARNING if level is None else level
+def init_logging(level: int | None) -> None:
     logging.basicConfig(
         format="%(asctime)s %(levelname)s [%(filename)s:%(lineno)d](%(funcName)s) - %(message)s",
-        level=level,
+        level=logging.INFO if level is None else level,
         handlers=[
             logging.StreamHandler(),
-            logging.FileHandler(f"{sys.argv[0]}.log", mode="w"),
+            logging.FileHandler(f"{SCRIPT_DIR / 'collect.py'}.log", mode="w"),
         ],
     )
 
 
-# utils }
+def validate_specs(specs: Iterable[ColorSpec]) -> list[ColorSpec]:
+    """Sort specs by color name, rejecting duplicate handles or color names."""
+    sorted_specs = sorted(specs, key=lambda spec: spec.color_name.lower())
 
-
-class Builder:
-    def __init__(self) -> None:
-        pass
-
-    def _build_lua_specs(self, all_specs: list[ColorSpec]) -> None:
-        lua_specs_by_handle = {}
-        lua_specs_by_color_name = {}
-        lua_color_names = []
-
-        for i, spec in enumerate(all_specs):
-            lobj = {
-                ColorSpec.HANDLE: spec.handle,
-                ColorSpec.COLOR_NAME: spec.color_name,
-                ColorSpec.PLUGIN_NAME: spec.plugin_name,
-                ColorSpec.URL: spec.url,
-                ColorSpec.INSTALL_PATH: spec.install_path,
-                ColorSpec.GIT_BRANCH: spec.git_branch,
-            }
-            lua_specs_by_handle[spec.handle] = lobj
-            lua_specs_by_color_name[spec.color_name] = lobj
-            lua_color_names.append(spec.color_name)
-
-        lua_color_names = sorted(lua_color_names, key=lambda c: c.lower())
-        luadata.write(
-            "lua/colorbox/meta/specs.lua",
-            lua_specs_by_handle,
-            encoding="utf-8",
-            indent="  ",
-            prefix="return ",
-        )
-        luadata.write(
-            "lua/colorbox/meta/specs_by_color_name.lua",
-            lua_specs_by_color_name,
-            encoding="utf-8",
-            indent="  ",
-            prefix="return ",
-        )
-        luadata.write(
-            "lua/colorbox/meta/color_names.lua",
-            lua_color_names,
-            encoding="utf-8",
-            indent="  ",
-            prefix="return ",
-        )
-
-    def _build_md_list(self, all_specs: list[ColorSpec]) -> None:
-        total = len(all_specs)
-        md = MdUtils(file_name="COLORSCHEMES", title=f"ColorSchemes List ({total})")
-        for i, spec in enumerate(all_specs):
-            md.new_line(
-                f"- {spec.color_name}: {md.new_inline_link(link=spec.url, text=spec.handle)}"
+    seen_handles: dict[str, str] = {}
+    seen_color_names: dict[str, str] = {}
+    for spec in sorted_specs:
+        if spec.handle in seen_handles:
+            raise ColorSpecError(
+                f"duplicate handle {spec.handle!r}: "
+                f"{seen_handles[spec.handle]!r} and {spec.color_name!r}"
             )
-        md.create_md_file()
+        seen_handles[spec.handle] = spec.color_name
 
-    def build(self) -> None:
-        all_specs = sorted(ALL_COLORS, key=lambda s: s.color_name.lower())
-        logging.info("all color spces")
-        for i, spec in enumerate(all_specs):
-            logging.info(f"[{i}]:{spec}")
-        self._build_md_list(all_specs)
-        self._build_lua_specs(all_specs)
+        key = spec.color_name.lower()
+        if key in seen_color_names:
+            raise ColorSpecError(
+                f"duplicate color name {spec.color_name!r}: "
+                f"{seen_color_names[key]!r} and {spec.handle!r}"
+            )
+        seen_color_names[key] = spec.handle
+
+    return sorted_specs
+
+
+def write_lua(path: Path, data: Any) -> None:
+    luadata.write(str(path), data, encoding="utf-8", indent=LUA_INDENT, prefix=LUA_PREFIX)
+    logger.debug("wrote %s", path)
+
+
+def render_colorschemes_markdown(specs: Iterable[ColorSpec]) -> str:
+    """Render ``COLORSCHEMES.md``: a setext title followed by a link list."""
+    specs = list(specs)
+    title = f"ColorSchemes List ({len(specs)})"
+    lines = [f"- {spec.color_name}: [{spec.handle}]({spec.url})" for spec in specs]
+    return f"\n{title}\n{'=' * len(title)}\n\n" + "\n".join(lines)
+
+
+def generate(specs: Iterable[ColorSpec] = ALL_COLORS) -> None:
+    """Regenerate every dataset file from ``specs``."""
+    sorted_specs = validate_specs(specs)
+
+    write_lua(SPECS_LUA, {spec.handle: spec.to_lua() for spec in sorted_specs})
+    write_lua(
+        SPECS_BY_COLOR_NAME_LUA,
+        {spec.color_name: spec.to_lua() for spec in sorted_specs},
+    )
+    write_lua(COLOR_NAMES_LUA, [spec.color_name for spec in sorted_specs])
+
+    COLORSCHEMES_MD.write_text(render_colorschemes_markdown(sorted_specs), encoding="utf-8")
+    logger.debug("wrote %s", COLORSCHEMES_MD)
 
 
 @click.command()
-@click.option(
-    "-d",
-    "--debug",
-    "debug_opt",
-    is_flag=True,
-    help="enable debug",
-)
-def collect(debug_opt):
+@click.option("-d", "--debug", "debug_opt", is_flag=True, help="enable debug logging.")
+def main(debug_opt: bool) -> None:
     init_logging(logging.DEBUG if debug_opt else logging.INFO)
-    logging.debug(f"debug_opt:{debug_opt}")
 
-    # Build new data source
-    builder = Builder()
-    builder.build()
+    logger.info("generating dataset from %d colorschemes", len(ALL_COLORS))
+    for index, spec in enumerate(ALL_COLORS):
+        logger.debug("[%d]:%s", index, spec)
+
+    generate()
 
 
 if __name__ == "__main__":
-    collect()
+    main()
