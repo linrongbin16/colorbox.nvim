@@ -18,7 +18,7 @@ local ColorSpec = {}
 --- @class colorbox.Dataset
 --- @field specs table<string, string>
 --- @field overrides table<string, colorbox.SpecOverrides>
-local dataset = require("colorbox.meta.dataset")
+local dataset = require("colorbox.db.dataset")
 
 --- Split a git handle into owner and repository name.
 --- @param handle string

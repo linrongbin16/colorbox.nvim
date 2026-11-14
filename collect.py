@@ -4,7 +4,7 @@
 The hand-maintained list below (:data:`ALL_COLORS`) is the single source of
 truth. Running this script regenerates:
 
-- ``lua/colorbox/meta/dataset.lua``: handle => color name, plus the handful of
+- ``lua/colorbox/db/dataset.lua``: handle => color name, plus the handful of
   fields that cannot be derived from the handle.
 - ``COLORSCHEMES.md``: human readable list.
 
@@ -28,9 +28,9 @@ import click
 import luadata
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-LUA_META_DIR = SCRIPT_DIR / "lua" / "colorbox" / "meta"
+LUA_DB_DIR = SCRIPT_DIR / "lua" / "colorbox" / "db"
 
-DATASET_LUA = LUA_META_DIR / "dataset.lua"
+DATASET_LUA = LUA_DB_DIR / "dataset.lua"
 COLORSCHEMES_MD = SCRIPT_DIR / "COLORSCHEMES.md"
 
 LUA_INDENT = "  "
