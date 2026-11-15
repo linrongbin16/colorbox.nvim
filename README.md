@@ -113,7 +113,6 @@ require('lazy').setup({
     -- add dependencies if colorschemes need them
     dependencies = {"nvim-treesitter/nvim-treesitter", "rktjmp/lush.nvim"},
 
-    build = function() require("colorbox").update() end,
     config = function()
       -- Enable 'termguicolors' option
       vim.o.termguicolors = true
@@ -136,7 +135,6 @@ require('pckr').add({
     -- add dependencies if colorschemes need them
     requires = {"nvim-treesitter/nvim-treesitter", "rktjmp/lush.nvim"},
 
-    run = function() require("colorbox").update() end,
     config = function()
       -- Enable 'termguicolors' option
       vim.o.termguicolors = true
@@ -165,7 +163,7 @@ When a timing is triggered, it does below steps:
 
 You can use the `Colorbox` command with below subcommands:
 
-- `update`: Update all git submodules.
+- `update`: Install/update all git submodules.
 - `info`: Show detailed information and configured status.
 
   > **Note:** use `scale=0.7` to specify popup window's size in range `(0, 1]`, by default is `scale=0.7`.
