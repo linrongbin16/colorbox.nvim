@@ -18,10 +18,6 @@ local function is_directory(path)
 end
 
 M.update = function()
-  log.setup({
-    level = vim.log.levels.DEBUG,
-  })
-
   local home_dir = vim.fn["colorbox#base_dir"]()
   local packstart = vim.fs.joinpath(home_dir, "pack/colorbox/start")
   log.debug(

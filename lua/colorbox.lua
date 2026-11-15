@@ -95,7 +95,6 @@ end
 
 local M = {
   setup = setup,
-  update = controller.update,
 }
 
 return M
