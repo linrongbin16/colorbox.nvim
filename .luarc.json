@@ -20,5 +20,9 @@
     "missing-return"
   ],
   "runtime.version": "LuaJIT",
-  "workspace.checkThirdParty": "Disable"
+  "workspace.checkThirdParty": "Disable",
+  "workspace.ignoreDir": [
+    "lua/colorbox/async",
+    "lua/colorbox/async.lua"
+  ]
 }

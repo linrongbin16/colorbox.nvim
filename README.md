@@ -380,11 +380,9 @@ To develop the project and make PR, please setup with:
 - [stylua](https://github.com/JohnnyMorganz/StyLua).
 - [selene](https://github.com/Kampfkarren/selene).
 
-To run unit tests, please install below dependencies:
+Do not touch below files as they are vendored from other projects:
 
-- [vusted](https://github.com/notomo/vusted).
-
-Then test with `vusted ./spec`.
+- `lua/colorbox/async.lua` and `lua/colorbox/async/` are from [async.nvim](https://github.com/lewis6991/async.nvim).
 
 ## 🎁 Contribute
 

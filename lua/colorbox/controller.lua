@@ -1,7 +1,6 @@
-local num = require("colorbox.commons.num")
-local str = require("colorbox.commons.str")
+local types = require("colorbox.types")
 local log = require("colorbox.log")
-local async = require("colorbox.commons.async")
+local async = require("colorbox.async")
 
 local loader = require("colorbox.loader")
 
@@ -61,7 +60,7 @@ M.update = function()
         -- )
       else
         param = {
-          cmd = str.not_empty(spec.git_branch) and {
+          cmd = types.str_not_empty(spec.git_branch) and {
             "git",
             "clone",
             "--branch",
@@ -97,11 +96,11 @@ M.update = function()
           --- @param completed vim.SystemCompleted
           function(completed)
             if type(completed) == "table" then
-              if str.not_blank(completed.stdout) then
-                log.info(string.format("%s: %s", handle, str.trim(completed.stdout)))
+              if types.str_not_blank(completed.stdout) then
+                log.info(string.format("%s: %s", handle, types.str_trim(completed.stdout)))
               end
-              if str.not_blank(completed.stderr) then
-                log.info(string.format("%s: %s", handle, str.trim(completed.stderr)))
+              if types.str_not_blank(completed.stderr) then
+                log.info(string.format("%s: %s", handle, types.str_trim(completed.stderr)))
               end
             end
             cb(completed)
@@ -122,11 +121,11 @@ end
 M._parse_args = function(args)
   local opts = nil
   log.debug(string.format("|_parse_args| args:%s", vim.inspect(args)))
-  if str.not_blank(args) then
-    local args_splits = str.split(vim.trim(args --[[@as string]]), " ", { trimempty = true })
+  if types.str_not_blank(args) then
+    local args_splits = types.str_split(vim.trim(args --[[@as string]]), " ", { trimempty = true })
     for _, arg_split in ipairs(args_splits) do
-      local item_splits = str.split(vim.trim(arg_split), "=", { trimempty = true })
-      if str.not_blank(item_splits[1]) then
+      local item_splits = types.str_split(vim.trim(arg_split), "=", { trimempty = true })
+      if types.str_not_blank(item_splits[1]) then
         if opts == nil then
           opts = {}
         end
@@ -140,7 +139,7 @@ end
 M.shuffle = function()
   local color_names = runtime.color_names()
   if #color_names > 0 then
-    local random_index = num.random(1, #color_names)
+    local random_index = types.random(1, #color_names)
     local color = color_names[random_index]
 
     log.debug(
@@ -161,7 +160,7 @@ M.info = function(args)
   local opts = M._parse_args(args)
   opts = opts or { scale = 0.7 }
   opts.scale = type(opts.scale) == "string" and (tonumber(opts.scale) or 0.7) or 0.7
-  opts.scale = num.clamp(opts.scale, 0, 1)
+  opts.scale = types.clamp(opts.scale, 0, 1)
   log.debug(string.format("|info| opts:%s", vim.inspect(opts)))
 
   local total_width = vim.o.columns
@@ -172,7 +171,7 @@ M.info = function(args)
   local function get_shift(totalsize, modalsize, offset)
     local base = math.floor((totalsize - modalsize) * 0.5)
     local shift = offset > -1 and math.ceil((totalsize - modalsize) * offset) or offset
-    return num.clamp(base + shift, 0, totalsize - modalsize)
+    return types.clamp(base + shift, 0, totalsize - modalsize)
   end
 
   local bufnr = vim.api.nvim_create_buf(false, true)

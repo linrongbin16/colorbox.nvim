@@ -1,6 +1,4 @@
-local str = require("colorbox.commons.str")
-local num = require("colorbox.commons.num")
-local fio = require("colorbox.commons.fio")
+local types = require("colorbox.types")
 local log = require("colorbox.log")
 
 local configs = require("colorbox.configs")
@@ -19,7 +17,7 @@ end
 --- @param color_name string
 M.save_track = function(color_name)
   log.debug(string.format("|save_track| color_name:%s", vim.inspect(color_name)))
-  if str.blank(color_name) then
+  if types.str_blank(color_name) then
     return
   end
 
@@ -34,7 +32,7 @@ M.save_track = function(color_name)
       color_number = color_number,
     }) --[[@as string]]
 
-    fio.asyncwritefile(confs.previous_track_cache, content, {
+    local ok, err = types.write_file_async(confs.previous_track_cache, content, {
       on_complete = function()
         log.debug(
           string.format(
@@ -52,17 +50,32 @@ M.save_track = function(color_name)
         end)
       end,
     })
+    if not ok then
+      log.warn(
+        string.format(
+          "|save_track| failed to save track for color_name:%s, error:%s",
+          vim.inspect(color_name),
+          vim.inspect(err)
+        )
+      )
+    end
   end)
 end
 
 --- @return colorbox.PreviousTrack?
 M.previous_track = function()
   local confs = configs.get()
-  local content = fio.readfile(confs.previous_track_cache)
-  if str.empty(content) then
+  local content, err = types.read_file(confs.previous_track_cache)
+  if err ~= nil then
+    log.debug(
+      string.format("|previous_track| failed to read track cache, error:%s", vim.inspect(err))
+    )
     return nil
   end
-  return vim.json.decode(content) --[[@as colorbox.PreviousTrack?]]
+  if types.str_empty(content) then
+    return nil
+  end
+  return vim.json.decode(content --[[@as string]]) --[[@as colorbox.PreviousTrack?]]
 end
 
 --- @param idx integer
@@ -75,7 +88,7 @@ M.get_next_color_name_by_idx = function(idx)
   if idx > n then
     idx = 1
   end
-  idx = num.clamp(idx, 1, n)
+  idx = types.clamp(idx, 1, n)
   return color_names[idx], idx
 end
 
@@ -89,7 +102,7 @@ M.get_prev_color_name_by_idx = function(idx)
   if idx < 1 then
     idx = n
   end
-  idx = num.clamp(idx, 1, n)
+  idx = types.clamp(idx, 1, n)
   return color_names[idx], idx
 end
 
