@@ -1,5 +1,5 @@
+local types = require("colorbox.types")
 local log = require("colorbox.log")
-local str = require("colorbox.commons.str")
 
 local configs = require("colorbox.configs")
 local timing = require("colorbox.timing")
@@ -65,7 +65,7 @@ local function setup(opts)
     complete = function(ArgLead, CmdLine, CursorPos)
       local complete_args = {}
       for k, v in pairs(controller) do
-        if not str.startswith(k, "_") and vim.is_callable(v) then
+        if not types.str_startswith(k, "_") and vim.is_callable(v) then
           table.insert(complete_args, k)
         end
       end

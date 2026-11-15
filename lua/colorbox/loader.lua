@@ -1,5 +1,4 @@
-local str = require("colorbox.commons.str")
-local tbl = require("colorbox.commons.tbl")
+local types = require("colorbox.types")
 local log = require("colorbox.log")
 
 local uv = vim.uv
@@ -19,11 +18,11 @@ M.load = function(color_name, execute)
 
   local specs_by_color_name = require("colorbox.db").get_specs_by_color_name()
 
-  if str.empty(color_name) then
+  if types.str_empty(color_name) then
     return
   end
   local spec = specs_by_color_name[color_name]
-  if tbl.tbl_empty(spec) then
+  if types.tbl_empty(spec) then
     return
   end
   local full_pack_path = db.get_full_pack_path(spec)

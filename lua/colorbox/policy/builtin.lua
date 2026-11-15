@@ -1,4 +1,3 @@
-local num = require("colorbox.commons.num")
 local log = require("colorbox.log")
 
 local runtime = require("colorbox.runtime")
