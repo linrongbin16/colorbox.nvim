@@ -1,6 +1,6 @@
 local types = require("colorbox.types")
 local log = require("colorbox.log")
-local async = require("colorbox.commons.async")
+local async = require("colorbox.async")
 
 local loader = require("colorbox.loader")
 

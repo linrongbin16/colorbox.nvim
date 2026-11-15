@@ -386,6 +386,10 @@ To run unit tests, please install below dependencies:
 
 Then test with `vusted ./spec`.
 
+Do not touch below files as they are vendored from other projects:
+
+- `lua/colorbox/async.lua` and `lua/colorbox/async/` are from [async.nvim](https://github.com/lewis6991/async.nvim).
+
 ## 🎁 Contribute
 
 Please open [issue](https://github.com/linrongbin16/colorbox.nvim/issues)/[PR](https://github.com/linrongbin16/colorbox.nvim/pulls) for anything about colorbox.nvim.
