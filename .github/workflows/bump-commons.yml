@@ -23,6 +23,11 @@ jobs:
           cd ./lua/colorbox/commons
           find . -type f -name '*.lua' -exec sed -i 's/require("commons/require("colorbox.commons/g' {} \;
           find . -type f -name '*.lua' -exec sed -i "s/require('commons/require('colorbox.commons/g" {} \;
+      - name: Prune unused commons
+        if: ${{ github.ref != 'refs/heads/master' }}
+        shell: bash
+        run: |
+          python3 .github/scripts/prune_commons.py
       - uses: stefanzweifel/git-auto-commit-action@v5
         if: ${{ github.ref != 'refs/heads/master' }}
         with:
