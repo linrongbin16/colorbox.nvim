@@ -4,6 +4,7 @@ local util = require('colorbox.commons.async._util')
 local pack_len = util.pack_len
 local unpack_len = util.unpack_len
 local is_callable = util.is_callable
+local gc_fun = util.gc_fun
 
 --- This module implements an asynchronous programming library for Neovim,
 --- centered around the principle of **Structured Concurrency**. This design
@@ -73,6 +74,12 @@ local is_callable = util.is_callable
 ---
 --- - **Callback Wrapping:** Convert traditional callback-based functions into
 ---   modern async functions with `vim.async.wrap()`.
+---
+--- - **Concurrency Utilities:** `await_all`, `await_any`, and `iter` provide
+---   powerful tools for managing groups of tasks.
+---
+--- - **Synchronization Primitives:** `event`, `queue`, and `semaphore` are
+---   available for more complex coordination patterns.
 ---
 --- ### Example
 ---
@@ -284,7 +291,7 @@ end
 --- Mark task for internal use. Used for awaiting children tasks on complete.
 --- @field package _internal? string
 ---
---- The source line that created this task.
+--- The source line that created this task, used for inspect().
 --- @field package _caller? string
 ---
 --- Maintain children as an array to preserve closure order.
@@ -929,6 +936,100 @@ do --- M.await()
   end
 end
 
+--- Returns true if the current task has been closed.
+---
+--- Can be used in an async function to do cleanup when a task is closing.
+--- @return boolean
+function M.is_closing()
+  local task = running()
+  return task and task._closing or false
+end
+
+--- Protected call for async functions that propagates child task errors.
+---
+--- Similar to Lua's built-in `pcall`, but with special handling for child task
+--- errors. This function will:
+--- - Catch regular errors (return `false, err`)
+--- - Propagate child task errors (re-throw them)
+--- - Propagate cancellation errors (re-throw them)
+---
+--- This is useful when you want to handle regular errors locally, but allow
+--- child task failures to bubble up to the parent task, maintaining the
+--- structured concurrency guarantees.
+---
+--- Note: This function uses `xpcall` with a custom error handler to capture the
+--- full stack trace before the stack is unwound. When re-throwing child errors
+--- or cancellation errors, the traceback is preserved. Regular errors are
+--- caught and returned with their error messages as usual.
+---
+--- Example:
+--- ```lua
+--- vim.async.run(function()
+---   local child = vim.async.run(function()
+---     vim.async.sleep(10)
+---     error('CHILD_FAILED')
+---   end)
+---
+---   -- Regular pcall would catch the child error
+---   local ok1, err1 = pcall(function()
+---     vim.async.sleep(100)
+---   end)
+---   -- ok1 = false, err1 = 'child error: CHILD_FAILED'
+---
+---   -- async.pcall propagates child errors
+---   local ok2, err2 = vim.async.pcall(function()
+---     error('REGULAR_ERROR')
+---   end)
+---   -- ok2 = false, err2 = 'REGULAR_ERROR'
+---
+---   -- But child errors propagate:
+---   vim.async.pcall(function()
+---     vim.async.sleep(100)
+---   end)
+---   -- This will error with 'child error: CHILD_FAILED'
+--- end)
+--- ```
+---
+--- @async
+--- @generic T
+--- @param fn async fun(): T...
+--- @return boolean ok
+--- @return any|T... err_or_result
+function M.pcall(fn)
+  vim.validate('fn', fn, 'callable')
+
+  local captured_traceback
+  local results = pack_len(xpcall(fn, function(err)
+    -- Error handler runs before stack is unwound
+    -- Capture the full traceback here
+    captured_traceback = debug.traceback(err, 2)
+
+    -- Check if this is a child error or cancellation
+    if type(err) == 'string' then
+      if err:match('^child error: ') or err == 'closed' then
+        -- For child errors/cancellations, return the traceback so it can be re-thrown
+        return captured_traceback
+      end
+    end
+
+    -- For regular errors, just return the error message
+    return err
+  end))
+
+  local ok = results[1]
+
+  if not ok then
+    local err = results[2]
+    -- If this is a child error or cancellation, re-throw with the full traceback
+    if err == captured_traceback then
+      -- This is a child error or cancellation - re-throw it
+      error(err, 0)
+    end
+  end
+
+  return unpack_len(results)
+end
+
 --- Creates an async function from a callback style function.
 ---
 --- `func` can optionally return an object with a close method to clean up
@@ -966,6 +1067,227 @@ function M.wrap(argc, func)
   return function(...)
     return M.await(argc, func, ...)
   end
+end
+
+do --- M.iter(), M.await_all(), M.await_any()
+  --- @async
+  --- @generic R
+  --- @param tasks vim.async.Task<R>[] A list of tasks to wait for and iterate over.
+  --- @return async fun(): (integer?, any?, ...R) iterator that yields the index, error, and results of each task.
+  local function iter(tasks)
+    vim.validate('tasks', tasks, 'table')
+
+    -- TODO(lewis6991): do not return err, instead raise any errors as they occur
+    assert(running(), 'Not in async context')
+
+    local remaining = #tasks
+    local queue = M._queue()
+
+    -- Keep track of the callbacks so we can remove them when the iterator
+    -- is garbage collected.
+    --- @type table<vim.async.Task<any>,function>
+    local task_cbs = setmetatable({}, { __mode = 'v' })
+
+    -- Wait on all the tasks. Keep references to the task futures and wait
+    -- callbacks so we can remove them when the iterator is garbage collected.
+    for i, task in ipairs(tasks) do
+      local function cb(err, ...)
+        remaining = remaining - 1
+        queue:put_nowait(pack_len(err, i, ...))
+        if remaining == 0 then
+          queue:put_nowait()
+        end
+      end
+
+      task_cbs[task] = cb
+      task:wait(cb)
+    end
+
+    --- @async
+    return gc_fun(function()
+      local r = queue:get()
+      if r then
+        local err = r[1]
+        if err then
+          -- -- Note: if the task was a child, then an error should have already been
+          -- -- raised in _complete_task(). This should only trigger to detached tasks.
+          -- assert(assert(tasks[r[2]])._parent == nil)
+          error(('iter error[index:%d]: %s'):format(r[2], r[1]), 3)
+        end
+        return unpack_len(r, 2)
+      end
+    end, function()
+      for t, tcb in pairs(task_cbs) do
+        t:_unwait(tcb)
+      end
+    end)
+  end
+
+  --- Waits for multiple tasks to finish and iterates over their results.
+  ---
+  --- This function allows you to run multiple asynchronous tasks concurrently and
+  --- process their results as they complete. It returns an iterator function that
+  --- yields the index of the task, any error encountered, and the results of the
+  --- task.
+  ---
+  --- If a task completes with an error, the error is returned as the second
+  --- value. Otherwise, the results of the task are returned as subsequent values.
+  ---
+  --- Example:
+  --- ```lua
+  --- local task1 = vim.async.run(function()
+  ---   return 1, 'a'
+  --- end)
+  ---
+  --- local task2 = vim.async.run(function()
+  ---   return 2, 'b'
+  --- end)
+  ---
+  --- local task3 = vim.async.run(function()
+  ---   error('task3 error')
+  --- end)
+  ---
+  --- vim.async.run(function()
+  ---   for i, err, r1, r2 in vim.async.iter({task1, task2, task3}) do
+  ---     print(i, err, r1, r2)
+  ---   end
+  --- end)
+  --- ```
+  ---
+  --- Prints:
+  --- ```
+  --- 1 nil 1 'a'
+  --- 2 nil 2 'b'
+  --- 3 'task3 error' nil nil
+  --- ```
+  ---
+  --- @async
+  --- @generic R
+  --- @param tasks vim.async.Task<R>[] A list of tasks to wait for and iterate over.
+  --- @return async fun(): (integer?, any?, ...R) iterator that yields the index, error, and results of each task.
+  function M.iter(tasks)
+    return iter(tasks)
+  end
+
+  --- Wait for all tasks to finish and return their results.
+  ---
+  --- Example:
+  --- ```lua
+  --- local task1 = vim.async.run(function()
+  ---   return 1, 'a'
+  --- end)
+  ---
+  --- local task2 = vim.async.run(function()
+  ---   return 1, 'a'
+  --- end)
+  ---
+  --- local task3 = vim.async.run(function()
+  ---   error('task3 error')
+  --- end)
+  ---
+  --- vim.async.run(function()
+  ---   local results = vim.async.await_all({task1, task2, task3})
+  ---   print(vim.inspect(results))
+  --- end)
+  --- ```
+  ---
+  --- Prints:
+  --- ```
+  --- {
+  ---   [1] = { nil, 1, 'a' },
+  ---   [2] = { nil, 2, 'b' },
+  ---   [3] = { 'task2 error' },
+  --- }
+  --- ```
+  --- @async
+  --- @param tasks vim.async.Task<any>[]
+  --- @return table<integer,[any?,...?]>
+  function M.await_all(tasks)
+    assert(running(), 'Not in async context')
+    local itr = iter(tasks)
+    local results = {} --- @type table<integer,table>
+
+    local function collect(i, ...)
+      if i then
+        results[i] = pack_len(...)
+      end
+      return i ~= nil
+    end
+
+    while collect(itr()) do
+    end
+
+    return results
+  end
+
+  --- Wait for the first task to complete and return its result.
+  ---
+  --- Example:
+  --- ```lua
+  --- local task1 = vim.async.run(function()
+  ---   vim.async.sleep(100)
+  ---   return 1, 'a'
+  --- end)
+  ---
+  --- local task2 = vim.async.run(function()
+  ---   return 2, 'b'
+  --- end)
+  ---
+  --- vim.async.run(function()
+  ---   local i, err, r1, r2 = vim.async.await_any({task1, task2})
+  ---   assert(i == 2)
+  ---   assert(err == nil)
+  ---   assert(r1 == 2)
+  ---   assert(r2 == 'b')
+  --- end)
+  --- ```
+  --- @async
+  --- @param tasks vim.async.Task<any>[]
+  --- @return integer? index
+  --- @return any? err
+  --- @return any ... results
+  function M.await_any(tasks)
+    return iter(tasks)()
+  end
+end
+
+--- Asynchronously sleep for a given duration.
+---
+--- Blocks the current task for the given duration, but does not block the main
+--- thread.
+--- @async
+--- @param duration integer ms
+function M.sleep(duration)
+  vim.validate('duration', duration, 'number')
+  M.await(1, function(callback)
+    -- TODO(lewis6991): should return the result of defer_fn here.
+    vim.defer_fn(callback, duration)
+  end)
+end
+
+--- Run a task with a timeout.
+---
+--- If the task does not complete within the specified duration, it is closed
+--- and an error is thrown.
+--- @async
+--- @generic R
+--- @param duration integer Timeout duration in milliseconds
+--- @param task vim.async.Task<R>
+--- @return R
+function M.timeout(duration, task)
+  vim.validate('duration', duration, 'number')
+  vim.validate('task', task, 'table')
+  local timer = M.run(M.await, function(callback)
+    local t = assert(vim.uv.new_timer())
+    t:start(duration, 0, callback)
+    return t
+  end)
+  if M.await_any({ task, timer }) == 2 then
+    -- Timer completed first, close the task
+    task:close()
+    error('timeout')
+  end
+  return M.await(task)
 end
 
 do --- M._future()
@@ -1295,6 +1617,155 @@ do --- M._queue()
     self._non_full:set()
 
     return self
+  end
+end
+
+do --- M.semaphore()
+  --- A semaphore manages an internal counter which is decremented by each
+  --- `acquire()` call and incremented by each `release()` call. The counter can
+  --- never go below zero; when `acquire()` finds that it is zero, it blocks,
+  --- waiting until some task calls `release()`.
+  ---
+  --- The preferred way to use a Semaphore is with the `with()` method, which
+  --- automatically acquires and releases the semaphore around a function call.
+  --- @class vim.async.Semaphore
+  --- @field private _permits integer
+  --- @field private _max_permits integer
+  --- @field package _event vim.async.Event
+  local Semaphore = {}
+  Semaphore.__index = Semaphore
+
+  --- Executes a function within the semaphore.
+  ---
+  --- This acquires the semaphore before running the function and releases it
+  --- after the function completes, even if it errors.
+  --- @async
+  --- @generic R
+  --- @param fn async fun(): R... # Function to execute within the semaphore's context.
+  --- @return R... # Result(s) of the executed function.
+  function Semaphore:with(fn)
+    self:acquire()
+    local r = pack_len(pcall(fn))
+    self:release()
+    local stat = r[1]
+    if not stat then
+      local err = r[2]
+      error(err)
+    end
+    return unpack_len(r, 2)
+  end
+
+  --- Acquire a semaphore.
+  ---
+  --- If the internal counter is greater than zero, decrement it by `1` and
+  --- return immediately. If it is `0`, wait until a `release()` is called.
+  --- @async
+  function Semaphore:acquire()
+    self._event:wait()
+    self._permits = self._permits - 1
+    assert(self._permits >= 0, 'Semaphore value is negative')
+    if self._permits == 0 then
+      self._event:clear()
+    end
+  end
+
+  --- Release a semaphore.
+  ---
+  --- Increments the internal counter by `1`. Can wake
+  --- up a task waiting to acquire the semaphore.
+  function Semaphore:release()
+    if self._permits >= self._max_permits then
+      error('Semaphore value is greater than max permits', 2)
+    end
+    self._permits = self._permits + 1
+    self._event:set(1)
+  end
+
+  --- Create an async semaphore that allows up to a given number of acquisitions.
+  ---
+  --- ```lua
+  --- vim.async.run(function()
+  ---   local semaphore = vim.async.semaphore(2)
+  ---
+  ---   local tasks = {}
+  ---
+  ---   local value = 0
+  ---   for i = 1, 10 do
+  ---     tasks[i] = vim.async.run(function()
+  ---       semaphore:with(function()
+  ---         value = value + 1
+  ---         vim.async.sleep(10)
+  ---         print(value) -- Never more than 2
+  ---         value = value - 1
+  ---       end)
+  ---     end)
+  ---   end
+  ---
+  ---   vim.async.await_all(tasks)
+  ---   assert(value <= 2)
+  --- end)
+  --- ```
+  --- @param permits? integer (default: 1)
+  --- @return vim.async.Semaphore
+  function M.semaphore(permits)
+    vim.validate('permits', permits, 'number', true)
+    permits = permits or 1
+    local obj = setmetatable({
+      _max_permits = permits,
+      _permits = permits,
+      _event = M._event(),
+    }, Semaphore)
+    obj._event:set()
+    return obj
+  end
+end
+
+do --- M._inspect_tree()
+  --- @private
+  --- @param parent? vim.async.Task
+  --- @param prefix? string
+  --- @return string[]
+  local function inspect(parent, prefix)
+    local tasks = {} --- @type table<any, vim.async.Task<any>?>
+    if parent then
+      for _, task in pairs(parent._children) do
+        if not task._internal then
+          tasks[#tasks + 1] = task
+        end
+      end
+    else
+      -- Gather for all detached tasks
+      for _, task in pairs(threads) do
+        if not task._parent and not task._internal then
+          tasks[#tasks + 1] = task
+        end
+      end
+    end
+
+    local r = {} --- @type string[]
+    for i, task in ipairs(tasks) do
+      local last = i == #tasks
+      r[#r + 1] = ('%s%s%s%s [%s]'):format(
+        prefix or '',
+        parent and (last and '└─ ' or '├─ ') or '',
+        task.name or '',
+        task._caller,
+        task:status()
+      )
+      local child_prefix = (prefix or '') .. (parent and (last and '   ' or '│  ') or '')
+      vim.list_extend(r, inspect(task, child_prefix))
+    end
+    return r
+  end
+
+  --- Inspect the current async task tree.
+  ---
+  --- Returns a string representation of the task tree, showing the names and
+  --- statuses of each task.
+  --- @return string
+  function M._inspect_tree()
+    -- Inspired by https://docs.python.org/3.14/whatsnew/3.14.html#asyncio-introspection-capabilities
+    return table.concat(inspect(), '\n')
   end
 end
 
