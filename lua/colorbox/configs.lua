@@ -51,7 +51,7 @@ local Defaults = {
   post_hook = nil,
 
   --- @type string
-  cache_dir = string.format("%s/colorbox.nvim", vim.fn.stdpath("data")),
+  cache_dir = vim.fs.joinpath(vim.fn.stdpath("data"), "colorbox.nvim"),
 
   -- enable debug
   debug = false,

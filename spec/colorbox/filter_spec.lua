@@ -1,4 +1,4 @@
-local cwd = vim.fn.getcwd()
+local cwd = vim.uv.cwd()
 
 describe("colorbox.filter", function()
   local assert_eq = assert.is_equal

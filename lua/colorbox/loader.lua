@@ -1,8 +1,8 @@
 local str = require("colorbox.commons.str")
 local tbl = require("colorbox.commons.tbl")
-local log = require("colorbox.commons.log")
+local log = require("colorbox.log")
 
-local uv = vim.uv or vim.loop
+local uv = vim.uv
 local configs = require("colorbox.configs")
 local track = require("colorbox.track")
 local db = require("colorbox.db")
@@ -40,7 +40,7 @@ M.load = function(color_name, execute)
   end
 
   local home_dir = vim.fn["colorbox#base_dir"]()
-  local autoload_path = string.format("%s/autoload", full_pack_path)
+  local autoload_path = vim.fs.joinpath(full_pack_path, "autoload")
   vim.opt.runtimepath:append(full_pack_path)
   vim.opt.packpath:append(home_dir)
   log.debug(

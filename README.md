@@ -1,7 +1,7 @@
 # 🌈 colorbox.nvim
 
 <p>
-<a href="https://github.com/neovim/neovim/releases/"><img alt="require" src="https://img.shields.io/badge/require-stable-blue" /></a>
+<a href="https://github.com/neovim/neovim/releases/tag/v0.12.0"><img alt="Neovim" src="https://img.shields.io/badge/require-0.12%2B-blue" /></a>
 <a href="https://github.com/linrongbin16/colorbox.nvim/actions/workflows/ci.yml"><img alt="ci.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/colorbox.nvim/ci.yml?label=ci" /></a>
 </p>
 
@@ -23,11 +23,11 @@ require("colorbox").setup({
 
 </details>
 
-It uses GitHub actions to weekly collect/update the colorscheme dataset.
+It collects the most popular colorschemes from GitHub, with stars &ge; 800. Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorscheme dataset.
 
 > [!NOTE]
 >
-> The **most popular** colorschemes are manually picked from below websites, with GitHub stars &ge; 800:
+> The **most popular** colorschemes are manually picked from:
 >
 > - Awesome Neovim Colors: <https://www.trackawesomelist.com/rockerBOO/awesome-neovim/readme/>
 > - Awesome Vim Colors: <https://github.com/rafi/awesome-vim-colorschemes>
@@ -35,10 +35,6 @@ It uses GitHub actions to weekly collect/update the colorscheme dataset.
 > - GitHub "vim-colorscheme" topic: <https://github.com/topics/vim-colorscheme>
 >
 > For plugins that conflicts on same color name, the one with more stars or Neovim features are picked.
->
-> Please check [COLORSCHEMES.md](https://github.com/linrongbin16/colorbox.nvim/blob/main/COLORSCHEMES.md) for full colorscheme dataset.
->
-> Once before, we used a autobot to crawl colorscheme plugins and automatically update the ranking list, but now the website data sources are no longer pick-able, so we are forced to manual maintenance.
 
 It installs colorschemes via git submodule instead of copy-paste source code, so you get continuously updates from original authors.
 
@@ -84,7 +80,7 @@ And multiple trigger timings:
 > [!NOTE]
 > This plugin always supports with the latest stable and (possibly) nightly Neovim version.
 
-- Neovim &ge; 0.10.
+- Neovim &ge; 0.12.
 - [Git](https://git-scm.com/).
 
 ## 📦 Install
