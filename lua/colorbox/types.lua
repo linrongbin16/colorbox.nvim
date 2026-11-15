@@ -140,7 +140,8 @@ M.random = function(m, n)
   assert(hi >= lo, "upper bound must be >= lower bound")
 
   -- `uv.random` only produces bytes, assemble them big-endian into a 32-bit unsigned integer.
-  local b1, b2, b3, b4 = string_byte(uv.random(4) --[[@as string]], 1, 4)
+  local result = uv.random(4) --[[@as string]]
+  local b1, b2, b3, b4 = string_byte(result, 1, 4)
   local value = ((b1 * 256 + b2) * 256 + b3) * 256 + b4
   return lo + value % (hi - lo + 1)
 end
