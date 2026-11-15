@@ -1,4 +1,4 @@
-local log = require("colorbox.commons.log")
+local log = require("colorbox.log")
 
 local configs = require("colorbox.configs")
 

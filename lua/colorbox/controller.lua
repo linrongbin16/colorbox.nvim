@@ -1,6 +1,6 @@
 local num = require("colorbox.commons.num")
 local str = require("colorbox.commons.str")
-local log = require("colorbox.commons.log")
+local log = require("colorbox.log")
 local async = require("colorbox.commons.async")
 
 local loader = require("colorbox.loader")
@@ -10,14 +10,16 @@ local db = require("colorbox.db")
 
 local M = {}
 
-M.update = function()
-  log.setup({
-    name = "colorbox-update",
-    level = vim.log.levels.DEBUG,
-  })
+--- @param path string
+--- @return boolean
+local function is_directory(path)
+  local stat = vim.uv.fs_stat(path)
+  return stat ~= nil and stat.type == "directory"
+end
 
+M.update = function()
   local home_dir = vim.fn["colorbox#base_dir"]()
-  local packstart = string.format("%s/pack/colorbox/start", home_dir)
+  local packstart = vim.fs.joinpath(home_dir, "pack/colorbox/start")
   log.debug(
     string.format(
       "|colorbox.init| home_dir:%s, packstart:%s",
@@ -42,10 +44,7 @@ M.update = function()
       local pack_path = db.get_pack_path(spec)
       local full_pack_path = db.get_full_pack_path(spec)
       local param = nil
-      if
-        vim.fn.isdirectory(full_pack_path) > 0
-        and vim.fn.isdirectory(full_pack_path .. "/.git") > 0
-      then
+      if is_directory(full_pack_path) and is_directory(vim.fs.joinpath(full_pack_path, ".git")) then
         param = {
           cmd = { "git", "pull" },
           opts = {

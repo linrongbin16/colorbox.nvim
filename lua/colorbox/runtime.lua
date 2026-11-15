@@ -1,7 +1,7 @@
-local log = require("colorbox.commons.log")
+local log = require("colorbox.log")
 local filter = require("colorbox.filter")
 local db = require("colorbox.db")
-local uv = vim.uv or vim.loop
+local uv = vim.uv
 
 local M = {}
 

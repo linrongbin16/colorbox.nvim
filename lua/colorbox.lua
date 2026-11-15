@@ -1,4 +1,4 @@
-local log = require("colorbox.commons.log")
+local log = require("colorbox.log")
 local str = require("colorbox.commons.str")
 
 local configs = require("colorbox.configs")
@@ -8,28 +8,28 @@ local runtime = require("colorbox.runtime")
 local controller = require("colorbox.controller")
 local loader = require("colorbox.loader")
 
-local uv = vim.uv or vim.loop
+local uv = vim.uv
 
 --- @param opts colorbox.Options?
 local function setup(opts)
   local confs = configs.setup(opts)
   log.setup({
-    name = "colorbox",
     level = confs.debug and vim.log.levels.DEBUG or vim.log.levels.INFO,
     use_console = confs.console_log,
     use_file = confs.file_log,
-    file_name = "colorbox.log",
   })
 
   -- cache
-  if not uv.fs_stat(confs.cache_dir) then
+  local cache_dir_stat = uv.fs_stat(confs.cache_dir)
+  if not cache_dir_stat then
     vim.fn.mkdir(confs.cache_dir, "p")
+    cache_dir_stat = uv.fs_stat(confs.cache_dir)
   end
   assert(
-    vim.fn.filereadable(confs.cache_dir) <= 0,
+    cache_dir_stat ~= nil and cache_dir_stat.type == "directory",
     string.format("%s (cache_dir option) already exist but not a directory!", confs.cache_dir)
   )
-  confs.previous_track_cache = string.format("%s/previous_track_cache", confs.cache_dir)
+  confs.previous_track_cache = vim.fs.joinpath(confs.cache_dir, "previous_track_cache")
   confs = configs.set(confs)
 
   runtime.setup()
@@ -95,7 +95,6 @@ end
 
 local M = {
   setup = setup,
-  update = controller.update,
 }
 
 return M

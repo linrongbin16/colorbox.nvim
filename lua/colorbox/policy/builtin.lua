@@ -1,11 +1,11 @@
 local num = require("colorbox.commons.num")
-local log = require("colorbox.commons.log")
+local log = require("colorbox.log")
 
 local runtime = require("colorbox.runtime")
 local track = require("colorbox.track")
 local loader = require("colorbox.loader")
 
-local uv = vim.uv or vim.loop
+local uv = vim.uv
 
 local M = {}
 
@@ -65,7 +65,7 @@ M.single = function()
   if #color_names > 0 then
     local previous_track = track.previous_track() --[[@as colorbox.PreviousTrack]]
     local color = previous_track ~= nil and previous_track.color_name
-        or track.get_next_color_name_by_idx(0)
+      or track.get_next_color_name_by_idx(0)
     if color ~= vim.g.colors_name then
       loader.load(color)
     end

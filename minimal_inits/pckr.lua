@@ -5,9 +5,9 @@ vim.o.swapfile = false
 vim.o.confirm = true
 
 local function bootstrap_pckr()
-  local pckr_path = vim.fn.stdpath("data") .. "/pckr/pckr.nvim"
+  local pckr_path = vim.fs.joinpath(vim.fn.stdpath("data"), "pckr", "pckr.nvim")
 
-  if not vim.loop.fs_stat(pckr_path) then
+  if not vim.uv.fs_stat(pckr_path) then
     vim.fn.system({
       "git",
       "clone",

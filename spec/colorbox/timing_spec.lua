@@ -1,4 +1,4 @@
-local cwd = vim.fn.getcwd()
+local cwd = vim.uv.cwd()
 
 describe("colorbox.timing", function()
   local assert_eq = assert.is_equal
