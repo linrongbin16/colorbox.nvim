@@ -14,15 +14,6 @@ local LogLevelNames = {
   [5] = "OFF",
 }
 
-local LogHighlights = {
-  [0] = "Comment",
-  [1] = "Comment",
-  [2] = "None",
-  [3] = "WarningMsg",
-  [4] = "ErrorMsg",
-  [5] = "ErrorMsg",
-}
-
 local LogConfigs = {
   name = nil,
   level = LogLevels.INFO,
@@ -135,11 +126,9 @@ end
 local M = {
   setup = setup,
   debug = debug,
-  log = log,
   info = info,
   warn = warn,
   err = err,
-  throw = throw,
   ensure = ensure,
 }
 
