@@ -29,14 +29,23 @@ end
 
 M.setup = function()
   local confs = configs.get()
+
+  -- A `timing`/`policy` pair that cannot work together is reported here, while
+  -- Neovim starts, rather than skipped silently or reported from an autocmd that
+  -- would then keep firing.
+  local ok, msg = policy.validate(confs)
+  if not ok then
+    policy.report(msg --[[@as string]])
+    return
+  end
+
   if confs.timing == "startup" then
     M.startup()
   elseif confs.timing == "interval" then
     M.fixed_interval()
-  elseif confs.timing == "bufferchanged" or confs.timing == "filetype" then
-    M.filetype()
   else
-    error(string.format("invalid timing: %s!", vim.inspect(confs.timing)))
+    -- `validate` above only lets the documented timings through.
+    M.filetype()
   end
 end
 
