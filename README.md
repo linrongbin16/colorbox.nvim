@@ -69,7 +69,6 @@ And multiple trigger timings:
   - [Choose random color on nvim start](#choose-fixed-color-on-nvim-start)
   - [Change random color per second](#change-random-color-per-second)
   - [Choose color by file type](#choose-color-by-file-type)
-  - [Enable all colors](#enable-all-colors)
   - [Disable by name](#disable-by-name)
   - [Disable by plugin](#disable-by-plugin)
 - [Development](#%EF%B8%8F-development)
@@ -317,16 +316,6 @@ require("colorbox").setup({
   },
 })
 ```
-
-### Enable all colors
-
-All colors are enabled by default, i.e. `filter` defaults to `nil`, so nothing needs to be configured:
-
-```lua
-require("colorbox").setup()
-```
-
-Note: the `"primary"` builtin filter is no longer supported, passing it now logs a warning and enables all colors.
 
 ### Disable by name
 
