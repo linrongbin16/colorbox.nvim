@@ -1,3 +1,4 @@
+---@diagnostic disable
 local util = require('colorbox.async._util')
 local compat = require('colorbox.async._compat')
 local new_event = require('colorbox.async._event')

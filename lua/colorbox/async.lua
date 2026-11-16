@@ -1,3 +1,4 @@
+---@diagnostic disable
 local core = require('colorbox.async._core')
 local compat = require('colorbox.async._compat')
 local new_queue = require('colorbox.async._queue')
@@ -307,7 +308,7 @@ function M.timeout(duration, task)
     timed_out = true
     task:close()
   end)
-  --- @diagnostic disable-next-line: invisible
+  --- @diagnostic disable-next-line: access-invisible
   timer._hidden = true
 
   local result = util.pack_len(M.pawait(task))

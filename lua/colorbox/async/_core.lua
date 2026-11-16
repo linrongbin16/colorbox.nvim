@@ -1,3 +1,4 @@
+---@diagnostic disable
 local util = require('colorbox.async._util')
 local compat = require('colorbox.async._compat')
 local errors = require('colorbox.async._errors')
@@ -21,7 +22,7 @@ local threads = {}
 --- Returns the currently running task.
 --- @return vim.async.Task<any>?
 local function running()
-  --- @diagnostic disable-next-line: undefined-field
+  --- @diagnostic disable-next-line: access-invisible, undefined-field
   local task = threads[compat.running()]
   if task and not task:completed() then
     return task
@@ -292,7 +293,7 @@ do --- Task
     local thread = '[' .. tostring(self._thread) .. '] '
 
     local awaiting = self._awaiting
-    if awaiting and is_task(awaiting) then
+    if is_task(awaiting) then
       msg = awaiting:traceback(msg, level + 1)
     end
 
@@ -658,12 +659,10 @@ do --- Task
       if not is_closable(awaiting) then
         awaiting = nil
       end
-      --- @cast awaiting (vim.async.Task<any> | vim.async.Closable)?
       task._awaiting = awaiting
 
-      if awaiting and is_task(awaiting) then
+      if is_task(awaiting) then
         if not settled and unsubscribe then
-          --- @cast unsubscribe fun()
           task._awaiting_unsubscribe = unsubscribe
         end
         awaiting:_start()
@@ -1011,7 +1010,6 @@ end
 --- @return R...
 function M.await(...)
   check_current_task()
-  --- @diagnostic disable-next-line: return-type-mismatch
   return check_yield(coroutine.yield(yield_marker, to_awaitable(...)))
 end
 
@@ -1049,7 +1047,6 @@ end
 --- @return_overload false, any
 function M.pawait(...)
   check_current_task()
-  --- @diagnostic disable-next-line: return-type-mismatch
   return check_yield(coroutine.yield(yield_marker, to_awaitable(...), true))
 end
 

@@ -1,3 +1,4 @@
+---@diagnostic disable
 local async = require('colorbox.async._core')
 local runtime = require('colorbox.async._runtime')
 

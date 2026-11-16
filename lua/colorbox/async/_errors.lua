@@ -1,3 +1,4 @@
+---@diagnostic disable
 local M = {}
 
 local nil_error = 'error(nil)'

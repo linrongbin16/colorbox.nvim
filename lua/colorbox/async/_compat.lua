@@ -1,3 +1,4 @@
+---@diagnostic disable
 local safe_pcall = pcall
 local safe_running = coroutine.running
 local ok, coxpcall = pcall(require, 'coxpcall')
