@@ -238,6 +238,16 @@ There're 3 kinds of policies (they work with the corresponding timings):
   - (Optional) `empty`: The color name when the file type is empty lua string. When set to `nil`, it does nothing.
   - (Optional) `fallback`: The color name when the file type is not found in `mapping` field. When set to `nil`, it does nothing.
 
+Each timing drives exactly one kind of policy, the combinations below are the only ones that work:
+
+| `timing`   | `policy`                      | Behavior                                                            |
+| ---------- | ----------------------------- | ------------------------------------------------------------------- |
+| `startup`  | builtin policy (lua string)   | Change to the next colorscheme on nvim start.                       |
+| `interval` | fixed interval timeout policy | Change to the next colorscheme every `seconds`.                     |
+| `filetype` | file type policy (lua table)  | Change to the colorscheme mapped by the current buffer's file type. |
+
+Any other pair (i.e. `timing = "startup"` with a file type policy) is rejected with an error message naming both options, nothing is scheduled. An unknown `timing` or `policy` is rejected the same way.
+
 ### Background
 
 The `background` option runs `set background=dark/light` every time before running the `colorscheme` command (to change a colorscheme).

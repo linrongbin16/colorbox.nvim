@@ -8,6 +8,30 @@ local uv = vim.uv
 
 local M = {}
 
+--- The builtin policy names, in the order they are documented in the README.
+--- @type colorbox.BuiltinPolicyConfig[]
+local Names = { "shuffle", "in_order", "reverse_order", "single" }
+
+--- @return colorbox.BuiltinPolicyConfig[]
+M.names = function()
+  return Names
+end
+
+--- A builtin policy is configured by its name, everything else is a policy table.
+--- @param po any
+--- @return boolean
+M.is_builtin_policy = function(po)
+  if type(po) ~= "string" then
+    return false
+  end
+  for _, name in ipairs(Names) do
+    if po == name then
+      return true
+    end
+  end
+  return false
+end
+
 M.shuffle = function()
   local color_names = runtime.color_names()
   if #color_names > 0 then
