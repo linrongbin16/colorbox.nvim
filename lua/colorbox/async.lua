@@ -307,7 +307,7 @@ function M.timeout(duration, task)
     timed_out = true
     task:close()
   end)
-  --- @diagnostic disable-next-line: access-invisible
+  --- @diagnostic disable-next-line: invisible
   timer._hidden = true
 
   local result = util.pack_len(M.pawait(task))
