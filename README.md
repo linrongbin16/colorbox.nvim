@@ -266,6 +266,8 @@ The `policy` of the `interval` timing is a lua table, see [Change random color p
 | `seconds`   | `integer`, must be `> 0`       | Choose next colorscheme on every X seconds.                       |
 | `implement` | `colorbox.BuiltinPolicyConfig` | The builtin policy that chooses how to pick the next colorscheme. |
 
+A colorscheme that fails to load (an old theme referencing an option your Neovim no longer accepts, say) does not stop the playback: the failure is reported once, and the next timeout picks the next colorscheme. Configuring the `interval` timing again replaces the running timer instead of leaving a second one behind, so `:Lazy reload` does not double the playback speed.
+
 #### File type policy
 
 The `policy` of the `filetype` timing is a lua table, see [Choose color by file type](#choose-color-by-file-type):

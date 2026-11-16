@@ -52,7 +52,9 @@ describe("colorbox.setup", function()
     it("repeated setup runs the post hook once per colorscheme", function()
       local color_name
       for _, c in ipairs(runtime.color_names()) do
-        if pcall(loader.load, c) then
+        -- `load()` reports a colorscheme it could not apply through its return
+        -- value, and never raises.
+        if loader.load(c) then
           color_name = c
           break
         end

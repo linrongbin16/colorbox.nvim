@@ -34,7 +34,9 @@ describe("colorbox.loader", function()
         return loadable_color
       end
       for _, color_name in ipairs(runtime.color_names()) do
-        if pcall(loader.load, color_name) then
+        -- `load()` reports a colorscheme it could not apply through its return
+        -- value, and never raises.
+        if loader.load(color_name) then
           loadable_color = color_name
           return color_name
         end
@@ -137,7 +139,7 @@ describe("colorbox.loader", function()
           error("setup failed on purpose")
         end,
       }
-      local ok = pcall(loader.load, color_name)
+      local ok = loader.load(color_name)
       confs.get().setup = original_setup
 
       assert_false(ok)
