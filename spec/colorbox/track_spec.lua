@@ -109,6 +109,52 @@ describe("colorbox.track", function()
       assert_eq(tck.color_name, color_name)
       assert_eq(tck.color_number, 1)
     end)
+    it("previous_track drops a corrupted cache file", function()
+      local confs = require("colorbox.configs").get()
+      local cache_file = confs.previous_track_cache
+      -- flush the writes queued by the previous cases before touching the file
+      vim.wait(300, function()
+        return false
+      end)
+      -- The very content a pair of overlapping writes used to produce.
+      write_file(cache_file, '{"color_name":"ayu","color_number":2}ber":1}')
+
+      assert_eq(track.previous_track(), nil)
+      assert_eq(read_file(cache_file), "")
+
+      -- A second read on the already removed file is still nil, not an error.
+      assert_eq(track.previous_track(), nil)
+    end)
+    it("save_track survives overlapping writes", function()
+      local confs = require("colorbox.configs").get()
+      local cache_file = confs.previous_track_cache
+      local color_names = runtime.color_names()
+      if #color_names < 2 then
+        return
+      end
+      vim.wait(300, function()
+        return false
+      end)
+      write_file(cache_file, "")
+
+      -- Two `save_track` calls on one path is what a single `loader.load()` produces:
+      -- `loader.load` saves the track, then the `ColorScheme` autocmd saves it again.
+      -- The two writes overlap, so the file holds whichever one landed last. What it
+      -- must never hold is a mix of both.
+      track.save_track(color_names[1])
+      track.save_track(color_names[2])
+
+      local function is_whole()
+        local tck = track.previous_track()
+        if tck == nil then
+          return false
+        end
+        return (tck.color_name == color_names[1] and tck.color_number == 1)
+          or (tck.color_name == color_names[2] and tck.color_number == 2)
+      end
+      assert_true(vim.wait(1000, is_whole), "cache file is not a whole track record")
+      assert_true(is_whole(), "cache file has no clean record of either color")
+    end)
     it("next", function()
       local color_names = runtime.color_names()
       local n = #color_names
