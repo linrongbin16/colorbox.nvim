@@ -11,7 +11,7 @@ local M = {}
 --- `timing.filetype` listens to `BufEnter`, `WinEnter`, `FocusGained` and
 --- `TermEnter`, and one real switch fires several of them within a few
 --- milliseconds. Waiting lets them collapse into a single load.
-local Delay = 10
+local Delay = 20
 
 --- The pending load, and the generation it belongs to. A `vim.defer_fn` callback
 --- does not belong to an augroup, so a cancelled one must not run either, even if
