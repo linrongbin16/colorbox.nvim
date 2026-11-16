@@ -36,7 +36,6 @@ describe("colorbox.filter", function()
         file_log = true,
         filter = false,
       })
-      require("colorbox.configs").validate(confs)
       assert_eq(confs.filter, nil)
       local specs_by_color_name = db.get_specs_by_color_name()
       for color, spec in pairs(specs_by_color_name) do
@@ -49,7 +48,6 @@ describe("colorbox.filter", function()
         file_log = true,
         filter = "primary",
       })
-      require("colorbox.configs").validate(confs)
       assert_eq(confs.filter, nil)
       local specs_by_color_name = db.get_specs_by_color_name()
       for color, spec in pairs(specs_by_color_name) do

@@ -66,16 +66,9 @@ local Defaults = {
 --- @type colorbox.Options
 local Configs = {}
 
---- @param opts colorbox.Options?
---- @return colorbox.Options
-M.setup = function(opts)
-  Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
-  return Configs
-end
-
 --- Validate options, warn on invalid values instead of failing silently.
 --- @param opts colorbox.Options
-M.validate = function(opts)
+local validate = function(opts)
   local f = opts.filter
   -- `false` is the legacy way to say "enable all colors", treat it as nil.
   if f == false then
@@ -93,6 +86,23 @@ M.validate = function(opts)
     )
   )
   opts.filter = nil
+end
+
+--- Merge user options with the defaults, then apply the logging settings and
+--- validate them. Keeping this here means `cfg.debug`/`cfg.console_log`/
+--- `cfg.file_log` are always honored, whoever calls `setup`.
+--- @param opts colorbox.Options?
+--- @return colorbox.Options
+M.setup = function(opts)
+  Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
+  -- logging first, so warnings emitted by `validate` respect the new options
+  log.setup({
+    level = Configs.debug and vim.log.levels.DEBUG or vim.log.levels.INFO,
+    use_console = Configs.console_log,
+    use_file = Configs.file_log,
+  })
+  validate(Configs)
+  return Configs
 end
 
 --- @return colorbox.Options
