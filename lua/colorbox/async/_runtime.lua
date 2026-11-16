@@ -1,3 +1,4 @@
+---@diagnostic disable
 local validate = require('colorbox.async._compat').validate
 
 --- @class vim.async.Timer: vim.async.Closable

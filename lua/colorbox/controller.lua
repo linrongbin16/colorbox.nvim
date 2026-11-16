@@ -60,7 +60,7 @@ M.update = function()
         -- )
       else
         param = {
-          cmd = types.str_not_empty(spec.git_branch) and {
+          cmd = not types.str_empty(spec.git_branch) and {
             "git",
             "clone",
             "--branch",
@@ -96,11 +96,11 @@ M.update = function()
           --- @param completed vim.SystemCompleted
           function(completed)
             if type(completed) == "table" then
-              if types.str_not_blank(completed.stdout) then
-                log.info(string.format("%s: %s", handle, types.str_trim(completed.stdout)))
+              if not types.str_blank(completed.stdout) then
+                log.info(string.format("%s: %s", handle, vim.trim(completed.stdout)))
               end
-              if types.str_not_blank(completed.stderr) then
-                log.info(string.format("%s: %s", handle, types.str_trim(completed.stderr)))
+              if not types.str_blank(completed.stderr) then
+                log.info(string.format("%s: %s", handle, vim.trim(completed.stderr)))
               end
             end
             cb(completed)
@@ -121,11 +121,11 @@ end
 M._parse_args = function(args)
   local opts = nil
   log.debug(string.format("|_parse_args| args:%s", vim.inspect(args)))
-  if types.str_not_blank(args) then
-    local args_splits = types.str_split(vim.trim(args --[[@as string]]), " ", { trimempty = true })
+  if not types.str_blank(args) then
+    local args_splits = vim.split(vim.trim(args --[[@as string]]), " ", { trimempty = true })
     for _, arg_split in ipairs(args_splits) do
-      local item_splits = types.str_split(vim.trim(arg_split), "=", { trimempty = true })
-      if types.str_not_blank(item_splits[1]) then
+      local item_splits = vim.split(vim.trim(arg_split), "=", { trimempty = true })
+      if not types.str_blank(item_splits[1]) then
         if opts == nil then
           opts = {}
         end

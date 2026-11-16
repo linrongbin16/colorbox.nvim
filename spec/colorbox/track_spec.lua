@@ -50,7 +50,7 @@ describe("colorbox.track", function()
             vim.inspect(actual_idx)
           )
         )
-        if types.str_not_empty(actual) then
+        if not types.str_empty(actual) then
           assert_true(string.len(actual) > 0)
           if i < n then
             assert_eq(actual_idx, i + 1)
@@ -73,7 +73,7 @@ describe("colorbox.track", function()
             vim.inspect(actual_idx)
           )
         )
-        if types.str_not_empty(actual) then
+        if not types.str_empty(actual) then
           assert_true(string.len(actual) > 0)
           if i > 1 and i <= n then
             assert_eq(actual_idx, i - 1)

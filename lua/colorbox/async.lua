@@ -1,3 +1,4 @@
+---@diagnostic disable
 local core = require('colorbox.async._core')
 local compat = require('colorbox.async._compat')
 local new_queue = require('colorbox.async._queue')

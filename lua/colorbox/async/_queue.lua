@@ -1,3 +1,4 @@
+---@diagnostic disable
 local new_event = require('colorbox.async._event')
 
 --- An optionally bounded FIFO queue for passing values between async tasks.
