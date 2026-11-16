@@ -7,6 +7,7 @@ local track = require("colorbox.track")
 local runtime = require("colorbox.runtime")
 local controller = require("colorbox.controller")
 local loader = require("colorbox.loader")
+local augroup = require("colorbox.augroup")
 
 local uv = vim.uv
 
@@ -28,6 +29,11 @@ local function setup(opts)
   confs = configs.set(confs)
 
   runtime.setup()
+
+  -- `setup()` is not guarded against being called twice, so the group is cleared
+  -- here and every handler below is attached to it: one handler per event no matter
+  -- how many times this runs.
+  local group = augroup.reset()
 
   vim.api.nvim_create_user_command(confs.command.name, function(command_opts)
     -- logger.debug(
@@ -56,6 +62,7 @@ local function setup(opts)
     nargs = "*",
     range = false,
     bang = true,
+    force = true,
     desc = confs.command.desc,
     complete = function(ArgLead, CmdLine, CursorPos)
       local complete_args = {}
@@ -70,6 +77,7 @@ local function setup(opts)
   })
 
   vim.api.nvim_create_autocmd("ColorSchemePre", {
+    group = group,
     callback = function(event)
       log.debug(string.format("ColorSchemePre event:%s", vim.inspect(event)))
       -- A colorscheme applied by colorbox reaches this handler from inside
@@ -82,6 +90,7 @@ local function setup(opts)
   })
 
   vim.api.nvim_create_autocmd("ColorScheme", {
+    group = group,
     callback = function(event)
       log.debug(string.format("ColorScheme event:%s", vim.inspect(event)))
       -- `loader.load` saves the track right after applying the colorscheme, so this

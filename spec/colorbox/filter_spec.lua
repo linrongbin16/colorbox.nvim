@@ -30,7 +30,7 @@ describe("colorbox.filter", function()
         assert_true(actual)
       end
     end)
-    it("legacy false filter is treated as nil", function()
+    it("a false filter is treated like any other invalid value", function()
       local confs = require("colorbox.configs").setup({
         debug = true,
         file_log = true,

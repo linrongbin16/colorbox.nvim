@@ -46,6 +46,12 @@ local Defaults = {
     desc = "Colorschemes player controller",
   },
 
+  -- name of the autocmd group colorbox attaches its autocmds to. `setup()` clears
+  -- this group on every call, which is what keeps repeated `setup()` from stacking
+  -- one more handler per event.
+  --- @type string
+  augroup = "Colorbox",
+
   -- (Optional) hook lua function after colorscheme is been choose.
   --- @type function(color_name: string, color_spec: colorbox.ColorSpec):nil|nil
   post_hook = nil,
@@ -69,23 +75,34 @@ local Configs = {}
 --- Validate options, warn on invalid values instead of failing silently.
 --- @param opts colorbox.Options
 local validate = function(opts)
+  -- `filter`: nil, a function, or a list of functions, anything else enables every
+  -- color.
   local f = opts.filter
-  -- `false` is the legacy way to say "enable all colors", treat it as nil.
-  if f == false then
-    opts.filter = nil
-    return
-  end
-  if f == nil or type(f) == "function" or type(f) == "table" then
-    return
-  end
-  log.warn(
-    string.format(
-      "'filter' option expects a function, a list of functions or nil, got: %s, "
-        .. "it will be ignored and all colors will be enabled.",
-      vim.inspect(f)
+  if f ~= nil and type(f) ~= "function" and type(f) ~= "table" then
+    log.warn(
+      string.format(
+        "'filter' option expects a function, a list of functions or nil, got: %s, "
+          .. "it will be ignored and all colors will be enabled.",
+        vim.inspect(f)
+      )
     )
-  )
-  opts.filter = nil
+    opts.filter = nil
+  end
+
+  -- `augroup`: the name handed to `nvim_create_augroup`, so a value that is not a
+  -- non-empty string would make every autocmd creation fail. `nil` means "use the
+  -- default", which `Defaults` already fills in.
+  local augroup = opts.augroup
+  if augroup ~= nil and (type(augroup) ~= "string" or vim.trim(augroup) == "") then
+    log.warn(
+      string.format(
+        "'augroup' option expects a non-empty string, got: %s, it will be ignored "
+          .. "and the default group name will be used.",
+        vim.inspect(augroup)
+      )
+    )
+    opts.augroup = Defaults.augroup
+  end
 end
 
 --- Merge user options with the defaults, then apply the logging settings and
