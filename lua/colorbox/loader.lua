@@ -26,7 +26,7 @@ end
 
 --- @param color_name string?
 --- @param execute boolean?
-local function load(color_name, execute)
+local function _load(color_name, execute)
   -- by default 'execute' is true
   if type(execute) ~= "boolean" then
     execute = true
@@ -102,7 +102,7 @@ M.load = function(color_name, execute)
   Loading = true
   -- load() raises on a failed per-handle setup; reset the guard before the error
   -- escapes, otherwise the next load would be skipped for the rest of the session.
-  local ok, err = pcall(load, color_name, execute)
+  local ok, err = pcall(_load, color_name, execute)
   Loading = false
   if not ok then
     error(err, 0)
