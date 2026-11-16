@@ -276,6 +276,8 @@ The `policy` of the `filetype` timing is a lua table, see [Choose color by file 
 | `empty`    | `string?`               | The color name when the file type is an empty lua string, `nil` falls through to `fallback`.               |
 | `fallback` | `string?`               | The color name when the file type is not found in `mapping` field, `nil` does nothing.                     |
 
+One buffer switch fires several of `BufEnter`/`WinEnter`/`FocusGained`/`TermEnter` within a few milliseconds. Those events are collapsed into a single load, and a buffer whose file type maps to the colorscheme that is already applied does not reload it.
+
 ### Background
 
 The `background` option runs `set background=dark/light` every time before running the `colorscheme` command (to change a colorscheme):
