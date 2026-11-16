@@ -59,14 +59,15 @@ And multiple trigger timings:
 - [How it Works](#-how-it-works)
 - [Usage](#-usage)
 - [Configuration](#-configuration)
+  - [Options](#options)
   - [Filter](#filter)
-  - [Timing](#timing)
-  - [Policy](#policy)
+  - [Timing and Policy](#timing-and-policy)
   - [Background](#background)
   - [Hook](#hook)
+  - [Setup](#setup)
 - [Receipts](#-receipts)
   - [Choose fixed color on nvim start](#choose-fixed-color-on-nvim-start)
-  - [Choose random color on nvim start](#choose-fixed-color-on-nvim-start)
+  - [Choose random color on nvim start](#choose-random-color-on-nvim-start)
   - [Change random color per second](#change-random-color-per-second)
   - [Choose color by file type](#choose-color-by-file-type)
   - [Disable by name](#disable-by-name)
@@ -150,11 +151,11 @@ require('pckr').add({
 When loading this plugin, it does below steps:
 
 1. Runs the filters, only enables the colors you choose from the dataset (see [Filter](#filter)).
-2. Registers the triggers to invoke related policies at a proper timing (see [Timing](#timing)).
+2. Registers the triggers to invoke related policies at a proper timing (see [Timing and Policy](#timing-and-policy)).
 
 When a timing is triggered, it does below steps:
 
-1. Runs the registered policy and pick a colorscheme (see [Policy](#policy)).
+1. Runs the registered policy and pick a colorscheme (see [Timing and Policy](#timing-and-policy)).
 2. Refreshes the `background` option (see [Background](#background)).
 3. Runs the `colorscheme` command to actually apply the colorscheme.
 
@@ -181,76 +182,109 @@ To configure options, please use:
 require("colorbox").setup(opts)
 ```
 
-The `opts` is an optional lua table that override the default options. Here we only introduce some of the most options.
+The `opts` is an optional lua table merged on top of the defaults. For the annotated source, please see [configs.lua](https://github.com/linrongbin16/colorbox.nvim/blob/main/lua/colorbox/configs.lua).
 
-For complete default options, please see [configs.lua](https://github.com/linrongbin16/colorbox.nvim/blob/main/lua/colorbox/configs.lua).
+### Options
+
+| Option        | Type                                | Default                             | Description                                                                                          |
+| ------------- | ----------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `policy`      | `string` \| `table`                 | `"shuffle"`                         | How to pick the next colorscheme, see [Timing and Policy](#timing-and-policy).                       |
+| `timing`      | `string`                            | `"startup"`                         | When to pick the next colorscheme, see [Timing and Policy](#timing-and-policy).                      |
+| `filter`      | `function` \| `function[]` \| `nil` | `nil`                               | Enables only the colors you choose, see [Filter](#filter).                                           |
+| `background`  | `"dark"` \| `"light"` \| `nil`      | `nil`                               | Forces the `background` option before applying a colorscheme, see [Background](#background).         |
+| `post_hook`   | `function` \| `nil`                 | `nil`                               | Runs after a colorscheme is applied, see [Hook](#hook).                                              |
+| `setup`       | `table<string, function>`           | `{}`                                | Per colorscheme hook keyed by git handle, see [Setup](#setup).                                       |
+| `command`     | `table`                             | `{ name = "Colorbox", desc = ... }` | The `:Colorbox` command's name and description.                                                      |
+| `augroup`     | `string`                            | `"Colorbox"`                        | The autocmd group that colorbox attaches its autocmds to.                                            |
+| `cache_dir`   | `string`                            | `stdpath("data")/colorbox.nvim`     | Where the previous colorscheme track is cached.                                                      |
+| `debug`       | `boolean`                           | `false`                             | Raises the log level from `INFO` to `DEBUG`.                                                         |
+| `console_log` | `boolean`                           | `true`                              | Notifies logs on the command line.                                                                   |
+| `file_log`    | `boolean`                           | `false`                             | Appends logs to `stdpath("data")/colorbox.log`.                                                      |
+
+> [!NOTE]
+>
+> An invalid `filter` or `augroup` value is reported with a warning, and replaced by its default. An invalid `timing`/`policy` pair is reported with an error and nothing is scheduled, see [Timing and Policy](#timing-and-policy).
 
 ### Filter
 
 The `filter` option is to help user filter some colorschemes from the dataset, thus they will never show up.
 
-It defaults to `nil`, which enables all colors in the dataset.
+It defaults to `nil`, which enables all colors in the dataset. There're 2 kinds of filters:
 
-There're 2 kinds of filters:
+| Kind            | Type                                                           | A color is enabled when                        |
+| --------------- | -------------------------------------------------------------- | ---------------------------------------------- |
+| Function filter | `function(color_name:string, spec:colorbox.ColorSpec):boolean` | The function returns `true`.                   |
+| List filter     | `function[]`                                                   | All the functions in the list return `true`.   |
 
-- Function filter: A lua function that decides whether to enable/disable a color. It uses the function signature:
+The function filter has two parameters:
 
-  ```lua
-  function(color_name:string, spec:colorbox.ColorSpec):boolean
-  ```
+| Parameter    | Type                 | Description                                       |
+| ------------ | -------------------- | ------------------------------------------------- |
+| `color_name` | `string`             | The colorscheme name.                             |
+| `spec`       | `colorbox.ColorSpec` | The colorscheme's meta info, see the table below. |
 
-  The function has two parameters:
-  - `color_name`: The colorscheme name.
-  - `spec`: The colorscheme's meta info, please see [`@class colorbox.ColorSpec`](https://github.com/linrongbin16/colorbox.nvim/blob/ef4223bd217d47c87b923dd51e9b9daf7b296f30/lua/colorbox/db.lua?plain=1#L1-L7) for more details.
+The `spec` parameter is a `colorbox.ColorSpec`, it is also passed to `post_hook` and `setup`, see [`@class colorbox.ColorSpec`](https://github.com/linrongbin16/colorbox.nvim/blob/main/lua/colorbox/db.lua?plain=1#L1-L7):
 
-  It returns `true` to enable a color, `false` to disable a color.
+| Field          | Type      | Description                                                 |
+| -------------- | --------- | ----------------------------------------------------------- |
+| `handle`       | `string`  | The git handle, i.e. `folke/tokyonight.nvim`.               |
+| `color_name`   | `string`  | The colorscheme name, i.e. `tokyonight`.                    |
+| `plugin_name`  | `string`  | The plugin name, i.e. `tokyonight`.                         |
+| `url`          | `string`  | The plugin's homepage URL.                                  |
+| `install_path` | `string`  | The installed directory name, i.e. `folke-tokyonight.nvim`. |
+| `git_branch`   | `string?` | The git branch to clone, `nil` means the default branch.    |
 
-- List filter: A lua list that contains multiple function filters. A colorscheme will only be enabled if _**all**_ these filters returns `true`.
+### Timing and Policy
 
-### Timing
+The `timing` and `policy` options are configured together: `timing` decides **when** to pick the next colorscheme, `policy` decides **which** one to pick. Each `timing` drives exactly one kind of `policy`, so the only pairs that work are:
 
-The `timing` option is to configure when to change to next colorscheme.
+| `timing`   | Trigger                                                                                                                | `policy`                                                                                   | Behavior                                                                                                             |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| `startup`  | Neovim starts (`VimEnter`).                                                                                            | A builtin policy: a lua string, see [Builtin policy](#builtin-policy).                     | Changes to the next colorscheme once, it works exactly like manually adding `colorscheme xxx` in nvim's init config. |
+| `interval` | A timer fires every `policy.seconds` seconds.                                                                          | A fixed interval policy: a lua table, see [Fixed interval policy](#fixed-interval-policy). | Changes to the next colorscheme on every timeout, the timer reschedules itself.                                      |
+| `filetype` | A buffer or window becomes current, or the terminal gains focus (`BufEnter`, `WinEnter`, `TermEnter`, `FocusGained`).  | A file type policy: a lua table, see [File type policy](#file-type-policy).                | Changes to the colorscheme mapped by the current buffer's file type.                                                 |
 
-There're 3 kinds of timings:
+Any other pair (i.e. `timing = "startup"` with a file type policy) is rejected with an error message naming both options, and nothing is scheduled. An unknown `timing` or `policy` is rejected the same way. The `bufferchanged` timing was renamed to `filetype` in colorbox `1.13.9`, it is rejected with a message pointing at the new name.
 
-- `startup`: On nvim start. It works exactly like manually adding the script `colorscheme xxx` in nvim's init config file.
-- `interval`: On fixed interval timeout. It registers a background job to schedule on a fixed interval timeout (i.e. every X seconds), and triggers the next colorscheme.
-- `filetype`: On file type change. It listens to current buffer's file type, and triggers the next colorscheme if the file type changed.
+#### Builtin policy
 
-### Policy
+The `policy` of the `startup` timing is a lua string that presents the name of a builtin policy, see [Choose random color on nvim start](#choose-random-color-on-nvim-start):
 
-The `policy` option is to configure how to pick the next colorscheme.
+| Value           | Picks                                                                      |
+| --------------- | -------------------------------------------------------------------------- |
+| `shuffle`       | A random color.                                                            |
+| `in_order`      | The next color in order, color names are ordered from 'A' to 'Z'.          |
+| `reverse_order` | The next color in reversed order, color names are ordered from 'Z' to 'A'. |
+| `single`        | Always the same color, i.e. the next color is still the current color.     |
 
-There're 3 kinds of policies (they work with the corresponding timings):
+#### Fixed interval policy
 
-- Builtin policy: A lua string that presents the name of a builtin policy. For now we have 4 builtin policies (see below). It can works directly with the `startup` timing (see: [Choose random color on nvim start](#choose-fixed-color-on-nvim-start)).
-  - `shuffle`: Pick a random color.
-  - `in_order`: Pick next color in order, color names are ordered from 'A' to 'Z'.
-  - `reverse_order`: Pick next color in reversed order, color names are ordered from 'Z' to 'A'.
-  - `single`: Always pick the same color, i.e. next color is still the current color.
+The `policy` of the `interval` timing is a lua table, see [Change random color per second](#change-random-color-per-second):
 
-- Fixed interval timeout policy: A lua table that contains `seconds` and `implement` fields. It works with the `interval` timing (see: [Change random color per second](#change-random-color-per-second)).
-  - `seconds`: Choose next colorscheme on every X seconds.
-  - `implement`: The name of the builtin policy that choose how to pick the next colorscheme.
+| Field       | Type                           | Description                                                       |
+| ----------- | ------------------------------ | ----------------------------------------------------------------- |
+| `seconds`   | `integer`, must be `> 0`       | Choose next colorscheme on every X seconds.                       |
+| `implement` | `colorbox.BuiltinPolicyConfig` | The builtin policy that chooses how to pick the next colorscheme. |
 
-- File type policy: A lua table that contains `mapping` and (optional) `empty` and (optional) `fallback` fields. It works with the `filetype` timing (see: [Choose color by file type](#choose-color-by-file-type)).
-  - `mapping`: A lua table that maps from file type to color name. When current buffer's file type is hitted, it changes to the mapped color.
-  - (Optional) `empty`: The color name when the file type is empty lua string. When set to `nil`, it does nothing.
-  - (Optional) `fallback`: The color name when the file type is not found in `mapping` field. When set to `nil`, it does nothing.
+#### File type policy
 
-Each timing drives exactly one kind of policy, the combinations below are the only ones that work:
+The `policy` of the `filetype` timing is a lua table, see [Choose color by file type](#choose-color-by-file-type):
 
-| `timing`   | `policy`                      | Behavior                                                            |
-| ---------- | ----------------------------- | ------------------------------------------------------------------- |
-| `startup`  | builtin policy (lua string)   | Change to the next colorscheme on nvim start.                       |
-| `interval` | fixed interval timeout policy | Change to the next colorscheme every `seconds`.                     |
-| `filetype` | file type policy (lua table)  | Change to the colorscheme mapped by the current buffer's file type. |
-
-Any other pair (i.e. `timing = "startup"` with a file type policy) is rejected with an error message naming both options, nothing is scheduled. An unknown `timing` or `policy` is rejected the same way.
+| Field      | Type                    | Description                                                                                                |
+| ---------- | ----------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `mapping`  | `table<string, string>` | Maps from file type to color name. When current buffer's file type is hit, it changes to the mapped color. |
+| `empty`    | `string?`               | The color name when the file type is an empty lua string, `nil` falls through to `fallback`.               |
+| `fallback` | `string?`               | The color name when the file type is not found in `mapping` field, `nil` does nothing.                     |
 
 ### Background
 
-The `background` option runs `set background=dark/light` every time before running the `colorscheme` command (to change a colorscheme).
+The `background` option runs `set background=dark/light` every time before running the `colorscheme` command (to change a colorscheme):
+
+| Value           | Behavior                                              |
+| --------------- | ----------------------------------------------------- |
+| `"dark"`        | Sets `background=dark` before every colorscheme.      |
+| `"light"`       | Sets `background=light` before every colorscheme.     |
+| `nil` (default) | Leaves `background` to whatever the colorscheme sets. |
 
 ```lua
 require("colorbox").setup({
@@ -264,7 +298,12 @@ This is no problem, except some user may want all those following colorschemes (
 
 ### Hook
 
-To execute a hook function after policy is triggered and new colorscheme is applied, please use:
+The `post_hook` option runs a lua function once per colorscheme load, after the new colorscheme is applied and its track is saved:
+
+| Parameter | Type                 | Description                                         |
+| --------- | -------------------- | --------------------------------------------------- |
+| `color`   | `string`             | The colorscheme name that was just applied.         |
+| `spec`    | `colorbox.ColorSpec` | The colorscheme's meta info, see [Filter](#filter). |
 
 ```lua
 require("colorbox").setup({
@@ -274,10 +313,23 @@ require("colorbox").setup({
 })
 ```
 
-The hook accepts a lua function with below signature:
+### Setup
+
+The `setup` option is a lua table that maps a colorscheme's git handle to a function. It runs after colorbox `packadd`-s that colorscheme and before the `colorscheme` command applies it, so the function can prepare the plugin's global variables:
+
+| Parameter  | Type                 | Description                                                         |
+| ---------- | -------------------- | ------------------------------------------------------------------- |
+| `home_dir` | `string`             | The colorbox.nvim directory, where all the colorschemes are stored. |
+| `spec`     | `colorbox.ColorSpec` | The colorscheme's meta info, see [Filter](#filter).                 |
 
 ```lua
-function(color:string, spec:colorbox.ColorSpec):nil
+require("colorbox").setup({
+  setup = {
+    ["catppuccin/nvim"] = function(home_dir, spec)
+      vim.g.catppuccin_flavour = "mocha"
+    end,
+  },
+})
 ```
 
 ## 📝 Receipts
