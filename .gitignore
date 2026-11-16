@@ -142,3 +142,6 @@ dmypy.json
 
 # logs
 *.log
+
+# Temporary files
+.tmp

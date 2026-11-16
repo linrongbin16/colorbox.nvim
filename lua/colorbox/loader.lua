@@ -8,15 +8,31 @@ local db = require("colorbox.db")
 
 local M = {}
 
+-- Re-entrancy guard.
+--
+-- `vim.cmd("color ...")` fires `ColorSchemePre`, and the handler in `colorbox.lua`
+-- calls `M.load()` again. That nested call has nothing left to do: the outer call
+-- already ran `packadd` and the per-handle setup, and it is the outer call that
+-- saves the track. Letting the nested one through means every `load()` runs the
+-- setup twice and writes the cache twice.
+local Loading = false
+
+--- Whether `M.load` is currently running. When it is, the colorscheme being applied
+--- was requested by colorbox itself, so the events it fires are not user actions.
+--- @return boolean
+M.loading = function()
+  return Loading
+end
+
 --- @param color_name string?
 --- @param execute boolean?
-M.load = function(color_name, execute)
+local function _load(color_name, execute)
   -- by default 'execute' is true
   if type(execute) ~= "boolean" then
     execute = true
   end
 
-  local specs_by_color_name = require("colorbox.db").get_specs_by_color_name()
+  local specs_by_color_name = db.get_specs_by_color_name()
 
   if types.str_empty(color_name) then
     return
@@ -67,6 +83,29 @@ M.load = function(color_name, execute)
     log.debug(string.format("|load| execute color:%s", vim.inspect(color_name)))
     vim.cmd(string.format("color %s", color_name))
     track.save_track(color_name)
+  end
+end
+
+--- Load a colorscheme and, unless `execute` is false, apply it.
+---
+--- Re-entrant calls are ignored: while a load is running, the colorscheme events it
+--- fires are its own side effects, not user actions. The track is saved by the
+--- top-level call only, so `post_hook` runs once per `load()`.
+--- @param color_name string?
+--- @param execute boolean?
+M.load = function(color_name, execute)
+  if Loading then
+    log.debug(string.format("|load| skip re-entrant load for color:%s", vim.inspect(color_name)))
+    return
+  end
+
+  Loading = true
+  -- load() raises on a failed per-handle setup; reset the guard before the error
+  -- escapes, otherwise the next load would be skipped for the rest of the session.
+  local ok, err = pcall(_load, color_name, execute)
+  Loading = false
+  if not ok then
+    error(err, 0)
   end
 end
 

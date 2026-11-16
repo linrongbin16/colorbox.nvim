@@ -72,6 +72,11 @@ local function setup(opts)
   vim.api.nvim_create_autocmd("ColorSchemePre", {
     callback = function(event)
       log.debug(string.format("ColorSchemePre event:%s", vim.inspect(event)))
+      -- A colorscheme applied by colorbox reaches this handler from inside
+      -- `loader.load`: its pack is already added and its setup already ran.
+      if loader.loading() then
+        return
+      end
       loader.load(vim.tbl_get(event, "match"), false)
     end,
   })
@@ -79,6 +84,12 @@ local function setup(opts)
   vim.api.nvim_create_autocmd("ColorScheme", {
     callback = function(event)
       log.debug(string.format("ColorScheme event:%s", vim.inspect(event)))
+      -- `loader.load` saves the track right after applying the colorscheme, so this
+      -- event is a duplicate when colorbox itself triggered it. Saving twice would
+      -- also run `post_hook` twice for one load.
+      if loader.loading() then
+        return
+      end
       vim.schedule(function()
         track.save_track(vim.g.colors_name)
       end)
