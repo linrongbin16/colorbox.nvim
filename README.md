@@ -270,6 +270,20 @@ The hook accepts a lua function with below signature:
 function(color:string, spec:colorbox.ColorSpec):nil
 ```
 
+### Autocmd group
+
+Colorbox attaches its autocmds to one augroup, and every `setup()` call clears that group before recreating them. This is what makes `setup()` idempotent: calling it twice (a plugin manager reload, a `config` function that runs more than once) does not stack a second set of handlers, so the `setup` functions and the `post_hook` still run once per colorscheme.
+
+The group is named `Colorbox` by default. Give it another name if several configurations need to live side by side:
+
+```lua
+require("colorbox").setup({
+  augroup = "ColorboxCustom",
+})
+```
+
+Renaming it empties the previously used group, so no handler is left running from the old name.
+
 ## 📝 Receipts
 
 ### Choose fixed color on nvim start

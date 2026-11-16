@@ -1,10 +1,12 @@
 local configs = require("colorbox.configs")
 local policy = require("colorbox.policy")
+local augroup = require("colorbox.augroup")
 
 local M = {}
 
 M.startup = function()
   vim.api.nvim_create_autocmd({ "VimEnter" }, {
+    group = augroup.get(),
     callback = policy.run,
   })
 end
@@ -16,6 +18,7 @@ M.filetype = function()
     "WinEnter",
     "TermEnter",
   }, {
+    group = augroup.get(),
     callback = policy.run,
   })
 end
