@@ -13,11 +13,6 @@ local uv = vim.uv
 --- @param opts colorbox.Options?
 local function setup(opts)
   local confs = configs.setup(opts)
-  log.setup({
-    level = confs.debug and vim.log.levels.DEBUG or vim.log.levels.INFO,
-    use_console = confs.console_log,
-    use_file = confs.file_log,
-  })
 
   -- cache
   local cache_dir_stat = uv.fs_stat(confs.cache_dir)

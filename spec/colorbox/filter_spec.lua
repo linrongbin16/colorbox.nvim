@@ -17,15 +17,61 @@ describe("colorbox.filter", function()
   })
 
   describe("filter", function()
-    it("run builtin primary", function()
+    it("run default (no filter)", function()
+      local confs = require("colorbox.configs").setup({
+        debug = true,
+        file_log = true,
+      })
+      assert_eq(confs.filter, nil)
+      local specs_by_color_name = db.get_specs_by_color_name()
+      for color, spec in pairs(specs_by_color_name) do
+        local actual = filter.run(color, spec)
+        assert_eq(type(actual), "boolean")
+        assert_true(actual)
+      end
+    end)
+    it("legacy false filter is treated as nil", function()
+      local confs = require("colorbox.configs").setup({
+        debug = true,
+        file_log = true,
+        filter = false,
+      })
+      assert_eq(confs.filter, nil)
+      local specs_by_color_name = db.get_specs_by_color_name()
+      for color, spec in pairs(specs_by_color_name) do
+        assert_true(filter.run(color, spec))
+      end
+    end)
+    it("invalid filter is warned and ignored", function()
+      local confs = require("colorbox.configs").setup({
+        debug = true,
+        file_log = true,
+        filter = "primary",
+      })
+      assert_eq(confs.filter, nil)
+      local specs_by_color_name = db.get_specs_by_color_name()
+      for color, spec in pairs(specs_by_color_name) do
+        assert_true(filter.run(color, spec))
+      end
+    end)
+    it("run list filter", function()
       require("colorbox").setup({
         debug = true,
         file_log = true,
+        filter = {
+          function(color)
+            return color ~= "ayu"
+          end,
+          function(color)
+            return color ~= "edge"
+          end,
+        },
       })
       local specs_by_color_name = db.get_specs_by_color_name()
       for color, spec in pairs(specs_by_color_name) do
         local actual = filter.run(color, spec)
         assert_eq(type(actual), "boolean")
+        assert_eq(actual, color ~= "ayu" and color ~= "edge")
       end
     end)
     it("run lua function", function()

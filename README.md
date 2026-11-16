@@ -69,7 +69,6 @@ And multiple trigger timings:
   - [Choose random color on nvim start](#choose-fixed-color-on-nvim-start)
   - [Change random color per second](#change-random-color-per-second)
   - [Choose color by file type](#choose-color-by-file-type)
-  - [Enable all colors](#enable-all-colors)
   - [Disable by name](#disable-by-name)
   - [Disable by plugin](#disable-by-plugin)
 - [Development](#%EF%B8%8F-development)
@@ -189,6 +188,8 @@ For complete default options, please see [configs.lua](https://github.com/linron
 ### Filter
 
 The `filter` option is to help user filter some colorschemes from the dataset, thus they will never show up.
+
+It defaults to `nil`, which enables all colors in the dataset.
 
 There're 2 kinds of filters:
 
@@ -313,14 +314,6 @@ require("colorbox").setup({
     empty = "tokyonight",
     fallback = "solarized8",
   },
-})
-```
-
-### Enable all colors
-
-```lua
-require("colorbox").setup({
-  filter = false,
 })
 ```
 

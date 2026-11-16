@@ -1,3 +1,5 @@
+local log = require("colorbox.log")
+
 local M = {}
 
 --- @alias colorbox.Options table<any, any>
@@ -21,18 +23,16 @@ local Defaults = {
 
   -- (Optional) filters that disable some colors that you don't want.
   --
-  -- builtin filter
-  --- @alias colorbox.BuiltinFilterConfig "primary"
-  ---
   -- function-based filter, enabled if function returns true.
+  -- (default to nil, which enables all colors)
   --- @alias colorbox.FunctionFilterConfig fun(color:string, spec:colorbox.ColorSpec):boolean
   ---
   -- list-based all of filter, a color is enabled if all of inside filters returns true.
-  --- @alias colorbox.AllFilterConfig (colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig)[]
+  --- @alias colorbox.AllFilterConfig colorbox.FunctionFilterConfig[]
   ---
-  --- @alias colorbox.FilterConfig colorbox.BuiltinFilterConfig|colorbox.FunctionFilterConfig|colorbox.AllFilterConfig
+  --- @alias colorbox.FilterConfig colorbox.FunctionFilterConfig|colorbox.AllFilterConfig
   --- @type colorbox.FilterConfig?
-  filter = "primary",
+  filter = nil,
 
   --- @type table<string, function>
   setup = {},
@@ -66,10 +66,42 @@ local Defaults = {
 --- @type colorbox.Options
 local Configs = {}
 
+--- Validate options, warn on invalid values instead of failing silently.
+--- @param opts colorbox.Options
+local validate = function(opts)
+  local f = opts.filter
+  -- `false` is the legacy way to say "enable all colors", treat it as nil.
+  if f == false then
+    opts.filter = nil
+    return
+  end
+  if f == nil or type(f) == "function" or type(f) == "table" then
+    return
+  end
+  log.warn(
+    string.format(
+      "'filter' option expects a function, a list of functions or nil, got: %s, "
+        .. "it will be ignored and all colors will be enabled.",
+      vim.inspect(f)
+    )
+  )
+  opts.filter = nil
+end
+
+--- Merge user options with the defaults, then apply the logging settings and
+--- validate them. Keeping this here means `cfg.debug`/`cfg.console_log`/
+--- `cfg.file_log` are always honored, whoever calls `setup`.
 --- @param opts colorbox.Options?
 --- @return colorbox.Options
 M.setup = function(opts)
   Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
+  -- logging first, so warnings emitted by `validate` respect the new options
+  log.setup({
+    level = Configs.debug and vim.log.levels.DEBUG or vim.log.levels.INFO,
+    use_console = Configs.console_log,
+    use_file = Configs.file_log,
+  })
+  validate(Configs)
   return Configs
 end
 

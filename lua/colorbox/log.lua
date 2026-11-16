@@ -111,8 +111,14 @@ local function ensure(cond, s)
   end
 end
 
+--- @return {level: integer, use_console: boolean, use_file: boolean}
+local function get()
+  return LogConfigs
+end
+
 local M = {
   setup = setup,
+  get = get,
   debug = debug,
   info = info,
   warn = warn,
