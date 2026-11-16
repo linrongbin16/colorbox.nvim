@@ -81,6 +81,10 @@ local function _load(color_name, execute)
 
   if execute then
     log.debug(string.format("|load| execute color:%s", vim.inspect(color_name)))
+    -- A colorscheme is arbitrary Vimscript: an old theme can reference an option
+    -- this Neovim no longer accepts (`ctermul=`, say) and raise from its own
+    -- `colors/*.vim`. That is the colorscheme failing, not colorbox, so it must not
+    -- escape and take the caller -- `setup()` among them -- down with it.
     vim.cmd(string.format("color %s", color_name))
     track.save_track(color_name)
   end
@@ -91,22 +95,35 @@ end
 --- Re-entrant calls are ignored: while a load is running, the colorscheme events it
 --- fires are its own side effects, not user actions. The track is saved by the
 --- top-level call only, so `post_hook` runs once per `load()`.
+---
+--- A colorscheme that cannot be loaded is reported, never raised: the caller is
+--- usually an autocmd or a timer, where an error only kills what scheduled it.
 --- @param color_name string?
 --- @param execute boolean?
+--- @return boolean ok
+--- @return string? err
 M.load = function(color_name, execute)
   if Loading then
     log.debug(string.format("|load| skip re-entrant load for color:%s", vim.inspect(color_name)))
-    return
+    return true
   end
 
   Loading = true
-  -- load() raises on a failed per-handle setup; reset the guard before the error
-  -- escapes, otherwise the next load would be skipped for the rest of the session.
+  -- Reset the guard before anything else, otherwise a failed load would skip every
+  -- later one for the rest of the session.
   local ok, err = pcall(_load, color_name, execute)
   Loading = false
   if not ok then
-    error(err, 0)
+    log.err(
+      string.format(
+        "failed to load colorscheme:%s, error:%s",
+        vim.inspect(color_name),
+        vim.inspect(err)
+      )
+    )
+    return false, tostring(err)
   end
+  return true
 end
 
 return M
