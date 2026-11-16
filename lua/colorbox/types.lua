@@ -11,6 +11,9 @@ local M = {}
 -- 0o666, the default permission of a newly created file.
 local FILE_MODE = 438
 
+-- Monotonic counter that keeps the staging files of this instance apart.
+local tmp_seq = 0
+
 --- @param filename string
 --- @return string? content
 --- @return string? err
@@ -38,6 +41,16 @@ M.read_file = function(filename)
   return content --[[@as string]]
 end
 
+--- A unique sibling name of `filename`, used as the staging file for the atomic replace.
+--- The pid keeps two Neovim instances from staging into the very same file, the counter
+--- keeps two writes of the very same instance apart.
+--- @param filename string
+--- @return string
+local function tmp_file(filename)
+  tmp_seq = tmp_seq + 1
+  return string.format("%s.tmp.%d.%d", filename, uv.os_getpid(), tmp_seq)
+end
+
 --- @alias colorbox.AsyncWriteFileOnComplete fun(bytes:integer?):any
 --- @alias colorbox.AsyncWriteFileOnError fun(step:string?,err:string?):any
 --- @param filename string                              file name.
@@ -63,26 +76,70 @@ M.write_file_async = function(filename, content, opts)
     end
   end
 
-  local fd, open_err = uv.fs_open(filename, "w", FILE_MODE)
+  -- The content is written into a private staging file and then renamed over the
+  -- destination. The rename is atomic, so whatever another writer does meanwhile, a
+  -- reader only ever observes a whole file: never a truncated one, never a mix of two
+  -- writes. Opening the destination with "w" and writing into it directly cannot give
+  -- that guarantee, because opening truncates a file that a previous write is still
+  -- filling.
+  local tmpname = tmp_file(filename)
+  local fd, open_err = uv.fs_open(tmpname, "w", FILE_MODE)
   if open_err ~= nil or fd == nil then
-    return false, open_err or "failed to open file"
+    -- Report the destination the caller asked for, not the staging file name.
+    local msg = open_err or "failed to open file"
+    if msg:find(tmpname, 1, true) ~= nil then
+      msg = msg:gsub(vim.pesc(tmpname), (filename:gsub("%%", "%%%%")))
+    end
+    return false, msg
   end
 
-  ---@diagnostic disable-next-line: param-type-mismatch
-  uv.fs_write(fd, content, nil, function(on_write_err, bytes)
-    if on_write_err then
-      on_error("fs_write", on_write_err)
-      return
-    end
+  local function fail(step, err)
+    uv.fs_unlink(tmpname)
+    on_error(step, err)
+  end
+
+  local function commit(bytes)
     ---@diagnostic disable-next-line: param-type-mismatch
     uv.fs_close(fd, function(on_close_err)
-      if on_close_err then
-        on_error("fs_close", on_close_err)
-        return
+      if on_close_err ~= nil then
+        return fail("fs_close", on_close_err)
       end
-      opts.on_complete(bytes)
+      uv.fs_rename(tmpname, filename, function(on_rename_err)
+        if on_rename_err ~= nil then
+          return fail("fs_rename", on_rename_err)
+        end
+        opts.on_complete(bytes)
+      end)
     end)
-  end)
+  end
+
+  if #content == 0 then
+    commit(0)
+    return true
+  end
+
+  -- `fs_write` is allowed to write less than asked for, so loop until the whole
+  -- content lands in the staging file.
+  local written = 0
+  local function write_more()
+    ---@diagnostic disable-next-line: param-type-mismatch
+    uv.fs_write(fd, content:sub(written + 1), written, function(on_write_err, bytes)
+      if on_write_err ~= nil then
+        uv.fs_close(fd)
+        return fail("fs_write", on_write_err)
+      end
+      if bytes == nil or bytes <= 0 then
+        uv.fs_close(fd)
+        return fail("fs_write", "wrote 0 bytes")
+      end
+      written = written + bytes
+      if written < #content then
+        return write_more()
+      end
+      commit(written)
+    end)
+  end
+  write_more()
 
   return true
 end

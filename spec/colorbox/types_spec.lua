@@ -74,6 +74,67 @@ describe("colorbox.types", function()
       assert_eq(type(err), "string")
       assert_true(string.len(err) > 0)
     end)
+
+    it("write_file_async overwrites an existing file", function()
+      local function write(content)
+        local completed = false
+        assert_true(types.write_file_async(tmpfile, content, {
+          on_complete = function()
+            completed = true
+          end,
+        }))
+        assert_true(vim.wait(1000, function()
+          return completed
+        end))
+      end
+
+      write("first")
+      write("second")
+      assert_eq(types.read_file(tmpfile), "second")
+    end)
+
+    it("write_file_async leaves no staging file behind", function()
+      local completed = false
+      assert_true(types.write_file_async(tmpfile, "hello", {
+        on_complete = function()
+          completed = true
+        end,
+      }))
+      assert_true(vim.wait(1000, function()
+        return completed
+      end))
+
+      local name = vim.fs.basename(tmpfile)
+      local names = {}
+      for entry, _ in vim.fs.dir(tmpdir) do
+        table.insert(names, entry)
+      end
+      table.sort(names)
+      assert.same({ name }, names)
+    end)
+
+    it("write_file_async never mixes two concurrent writes", function()
+      -- Two writes of the same file overlap. Reading the file at any point must yield
+      -- one of the two contents, never a truncated file and never a mix of both.
+      local payloads = {
+        '{"color_name":"apprentice","color_number":1}',
+        '{"color_name":"ayu","color_number":2}',
+      }
+      local pending = #payloads
+      for _, payload in ipairs(payloads) do
+        assert_true(types.write_file_async(tmpfile, payload, {
+          on_complete = function()
+            pending = pending - 1
+          end,
+        }))
+      end
+      assert_true(vim.wait(1000, function()
+        return pending == 0
+      end))
+
+      local content = types.read_file(tmpfile)
+      assert_true(content == payloads[1] or content == payloads[2], content)
+    end)
   end)
 
   describe("[string]", function()

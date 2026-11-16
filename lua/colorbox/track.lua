@@ -138,7 +138,8 @@ end
 
 --- @return colorbox.PreviousTrack?
 M.previous_track = function()
-  local content, err = types.read_file(cache_file())
+  local filename = cache_file()
+  local content, err = types.read_file(filename)
   if err ~= nil then
     log.debug(
       string.format("|previous_track| failed to read track cache, error:%s", vim.inspect(err))
@@ -148,9 +149,31 @@ M.previous_track = function()
   if types.str_empty(content) then
     return nil
   end
-  return normalize_track(
-    vim.json.decode(content --[[@as string]]) --[[@as colorbox.PreviousTrack?]]
-  )
+
+  -- A cache file written by an older version, or by a version that was killed while
+  -- writing, can hold a truncated record. That is not worth an error: drop the file and
+  -- let the caller start from its own default.
+  local ok, track = pcall(vim.json.decode, content --[[@as string]])
+  if not ok then
+    log.warn(
+      string.format(
+        "|previous_track| failed to decode track cache, remove it, content:%s, error:%s",
+        vim.inspect(content),
+        vim.inspect(track)
+      )
+    )
+    local _, unlink_err = vim.uv.fs_unlink(filename)
+    if unlink_err ~= nil then
+      log.debug(
+        string.format(
+          "|previous_track| failed to remove track cache, error:%s",
+          vim.inspect(unlink_err)
+        )
+      )
+    end
+    return nil
+  end
+  return normalize_track(track --[[@as colorbox.PreviousTrack?]])
 end
 
 -- Navigation.
