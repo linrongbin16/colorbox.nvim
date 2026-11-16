@@ -12,7 +12,7 @@ local M = {}
 M.is_fixed_interval_policy = function(po)
   return type(po) == "table"
     and types.greater_than(po.seconds, 0)
-    and types.str_not_empty(po.implement)
+    and not types.str_empty(po.implement)
 end
 
 M.run = function()

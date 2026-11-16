@@ -156,20 +156,8 @@ end
 
 --- @param s any
 --- @return boolean
-M.str_not_empty = function(s)
-  return type(s) == "string" and string_len(s) > 0
-end
-
---- @param s any
---- @return boolean
 M.str_blank = function(s)
   return type(s) ~= "string" or string_len(vim.trim(s)) == 0
-end
-
---- @param s any
---- @return boolean
-M.str_not_blank = function(s)
-  return type(s) == "string" and string_len(vim.trim(s)) > 0
 end
 
 --- @param s string
@@ -197,31 +185,6 @@ M.str_rtrim = function(s, t)
 end
 
 --- @param s string
---- @param t string?  by default is whitespace
---- @return string
-M.str_trim = function(s, t)
-  assert(type(s) == "string")
-  assert(type(t) == "string" or t == nil)
-  return M.str_rtrim(M.str_ltrim(s, t), t)
-end
-
---- @param s string
---- @param sep string
---- @param opts {plain:boolean?,trimempty:boolean?}?  by default opts={plain=true,trimempty=false}
---- @return string[]
-M.str_split = function(s, sep, opts)
-  assert(type(s) == "string")
-  assert(type(sep) == "string")
-  opts = opts or {
-    plain = true,
-    trimempty = false,
-  }
-  opts.plain = type(opts.plain) == "boolean" and opts.plain or true
-  opts.trimempty = type(opts.trimempty) == "boolean" and opts.trimempty or false
-  return vim.split(s, sep, opts)
-end
-
---- @param s string
 --- @param t string
 --- @param opts {ignorecase:boolean?}?
 --- @return boolean
@@ -244,7 +207,7 @@ end
 --- @param t any?
 --- @return boolean
 M.tbl_empty = function(t)
-  return type(t) ~= "table" or next(t) == nil
+  return type(t) ~= "table" or vim.tbl_isempty(t)
 end
 
 return M

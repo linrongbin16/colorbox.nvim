@@ -10,8 +10,8 @@ local M = {}
 M.is_filetype_policy = function(po)
   return type(po) == "table"
     and type(po.mapping) == "table"
-    and (types.str_not_empty(po.empty) or po.empty == nil)
-    and (types.str_not_empty(po.fallback) or po.fallback == nil)
+    and (not types.str_empty(po.empty) or po.empty == nil)
+    and (not types.str_empty(po.fallback) or po.fallback == nil)
 end
 
 M.run = function()
@@ -25,13 +25,13 @@ M.run = function()
     local confs = configs.get()
     local ft = vim.bo.filetype or ""
 
-    if types.str_not_empty(confs.policy.mapping[ft]) then
+    if not types.str_empty(confs.policy.mapping[ft]) then
       loader.load(confs.policy.mapping[ft])
       track.sync_syntax()
-    elseif types.str_empty(ft) and types.str_not_empty(confs.policy.empty) then
+    elseif types.str_empty(ft) and not types.str_empty(confs.policy.empty) then
       loader.load(confs.policy.empty)
       track.sync_syntax()
-    elseif types.str_not_empty(confs.policy.fallback) then
+    elseif not types.str_empty(confs.policy.fallback) then
       loader.load(confs.policy.fallback)
       track.sync_syntax()
     end
