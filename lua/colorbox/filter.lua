@@ -25,14 +25,9 @@ end
 --- @param spec colorbox.ColorSpec
 --- @return boolean
 M._all_filter = function(f, color_name, spec)
-  if type(f) == "table" then
-    for _, f1 in ipairs(f) do
-      if type(f1) == "function" then
-        local result = M._function_filter(f1, color_name, spec)
-        if not result then
-          return result
-        end
-      end
+  for _, f1 in ipairs(f) do
+    if not M._function_filter(f1, color_name, spec) then
+      return false
     end
   end
   return true
@@ -42,11 +37,12 @@ end
 --- @param spec colorbox.ColorSpec
 --- @return boolean
 M.run = function(color_name, spec)
-  local confs = configs.get()
-  if type(confs.filter) == "function" then
-    return M._function_filter(confs.filter, color_name, spec)
-  elseif type(confs.filter) == "table" then
-    return M._all_filter(confs.filter, color_name, spec)
+  -- invalid values are warned once in `configs.validate` and normalized to nil.
+  local f = configs.get().filter
+  if type(f) == "function" then
+    return M._function_filter(f, color_name, spec)
+  elseif type(f) == "table" then
+    return M._all_filter(f, color_name, spec)
   end
   return true
 end

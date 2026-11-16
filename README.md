@@ -190,6 +190,8 @@ For complete default options, please see [configs.lua](https://github.com/linron
 
 The `filter` option is to help user filter some colorschemes from the dataset, thus they will never show up.
 
+It defaults to `nil`, which enables all colors in the dataset.
+
 There're 2 kinds of filters:
 
 - Function filter: A lua function that decides whether to enable/disable a color. It uses the function signature:
@@ -318,11 +320,13 @@ require("colorbox").setup({
 
 ### Enable all colors
 
+All colors are enabled by default, i.e. `filter` defaults to `nil`, so nothing needs to be configured:
+
 ```lua
-require("colorbox").setup({
-  filter = false,
-})
+require("colorbox").setup()
 ```
+
+Note: the `"primary"` builtin filter is no longer supported, passing it now logs a warning and enables all colors.
 
 ### Disable by name
 

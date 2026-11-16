@@ -18,6 +18,7 @@ local function setup(opts)
     use_console = confs.console_log,
     use_file = confs.file_log,
   })
+  configs.validate(confs)
 
   -- cache
   local cache_dir_stat = uv.fs_stat(confs.cache_dir)
