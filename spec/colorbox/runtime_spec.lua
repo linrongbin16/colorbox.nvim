@@ -39,14 +39,38 @@ describe("colorbox.runtime", function()
       local db = require("colorbox.db")
       runtime.setup()
       local color_names = runtime.color_names()
+      -- `pack/` is gitignored, so CI has no colorscheme installed and both
+      -- sides are empty. Locally this really checks the default `nil` filter.
       local installed = {}
       for _, color in ipairs(db.get_color_names()) do
         if runtime.is_package_available(db.get_specs_by_color_name()[color]) then
           table.insert(installed, color)
         end
       end
-      assert_true(#installed > 0)
       assert_eq(#color_names, #installed)
+      for i, color in ipairs(installed) do
+        assert_eq(color_names[i], color)
+      end
+    end)
+    it("filter is applied to available colors", function()
+      -- `pack/` is gitignored, so CI may have no colorscheme installed. A filter
+      -- that rejects everything still proves `runtime.setup` honors `filter`.
+      require("colorbox").setup({
+        debug = true,
+        file_log = true,
+        filter = function()
+          return false
+        end,
+      })
+      runtime.setup()
+      assert_eq(#runtime.color_names(), 0)
+      assert_eq(next(runtime.color_indexes()), nil)
+
+      require("colorbox").setup({
+        debug = true,
+        file_log = true,
+      })
+      runtime.setup()
     end)
   end)
 end)
