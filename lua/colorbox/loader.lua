@@ -75,12 +75,14 @@ local function _load(color_name, execute)
       )
     )
   end
-  if confs.background == "dark" or confs.background == "light" then
-    vim.opt.background = confs.background
-  end
-
   if execute then
     log.debug(string.format("|load| execute color:%s", vim.inspect(color_name)))
+    -- Only touch the global `background` option on the path that actually applies
+    -- the colorscheme: `execute == false` is the `ColorSchemePre` re-entry probe,
+    -- which must not set global options as a side effect.
+    if confs.background == "dark" or confs.background == "light" then
+      vim.opt.background = confs.background
+    end
     -- A colorscheme is arbitrary Vimscript: an old theme can reference an option
     -- this Neovim no longer accepts (`ctermul=`, say) and raise from its own
     -- `colors/*.vim`. That is the colorscheme failing, not colorbox, so it must not
