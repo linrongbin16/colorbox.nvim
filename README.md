@@ -298,7 +298,7 @@ This is no problem, except some user may want all those following colorschemes (
 
 ### Hook
 
-The `post_hook` option runs a lua function once per colorscheme load, after the new colorscheme is applied and its track is saved:
+The `post_hook` option runs a lua function once per colorscheme load, after the new colorscheme is applied. It fires whether or not the track cache could be written:
 
 | Parameter | Type                 | Description                                         |
 | --------- | -------------------- | --------------------------------------------------- |

@@ -100,7 +100,6 @@ local function write_track(track)
           vim.inspect(track.color_number)
         )
       )
-      run_post_hook(track.color_name)
     end,
   })
   if not ok then
@@ -112,6 +111,12 @@ local function write_track(track)
       )
     )
   end
+  -- `post_hook` reports the colorscheme change to the user, the cache only carries
+  -- that fact over to the next session. Running the hook from `on_complete` coupled
+  -- the two, so a cache that could not be written silently swallowed the
+  -- notification. Keep them apart: the hook runs here on the synchronous path,
+  -- whatever the write did.
+  run_post_hook(track.color_name)
 end
 
 --- @param color_name string
