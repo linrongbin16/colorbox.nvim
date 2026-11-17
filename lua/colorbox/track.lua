@@ -91,17 +91,7 @@ end
 --- @param track colorbox.PreviousTrack
 local function write_track(track)
   local content = vim.json.encode(track) --[[@as string]]
-  local ok, err = types.write_file_async(cache_file(), content, {
-    on_complete = function()
-      log.debug(
-        string.format(
-          "|save_track| finished save track for color_name:%s, color_number:%s",
-          vim.inspect(track.color_name),
-          vim.inspect(track.color_number)
-        )
-      )
-    end,
-  })
+  local ok, err = types.write_file(cache_file(), content)
   if not ok then
     log.warn(
       string.format(
@@ -110,11 +100,19 @@ local function write_track(track)
         vim.inspect(err)
       )
     )
+  else
+    log.debug(
+      string.format(
+        "|save_track| finished save track for color_name:%s, color_number:%s",
+        vim.inspect(track.color_name),
+        vim.inspect(track.color_number)
+      )
+    )
   end
   -- `post_hook` reports the colorscheme change to the user, the cache only carries
-  -- that fact over to the next session. Running the hook from `on_complete` coupled
-  -- the two, so a cache that could not be written silently swallowed the
-  -- notification. Keep them apart: the hook runs here on the synchronous path,
+  -- that fact over to the next session. Running the hook from the write's completion
+  -- callback coupled the two, so a cache that could not be written silently swallowed
+  -- the notification. Keep them apart: the hook runs here on the synchronous path,
   -- whatever the write did.
   run_post_hook(track.color_name)
 end
