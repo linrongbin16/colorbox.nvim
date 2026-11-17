@@ -51,37 +51,18 @@ local function tmp_file(filename)
   return string.format("%s.tmp.%d.%d", filename, uv.os_getpid(), tmp_seq)
 end
 
---- @alias colorbox.AsyncWriteFileOnComplete fun(bytes:integer?):any
---- @alias colorbox.AsyncWriteFileOnError fun(step:string?,err:string?):any
---- @param filename string                              file name.
---- @param content string                               file content.
---- @param opts {on_complete:colorbox.AsyncWriteFileOnComplete,on_error:colorbox.AsyncWriteFileOnError?}
---- @return boolean ok    false when the file cannot be opened, i.e. the async write never starts.
---- @return string? err   error message when `ok` is false.
-M.write_file_async = function(filename, content, opts)
-  assert(type(opts) == "table")
-  assert(type(opts.on_complete) == "function")
-
-  local on_error = opts.on_error
-  if type(on_error) ~= "function" then
-    on_error = function(step, err)
-      error(
-        string.format(
-          "failed to write file(%s), filename:%s, error:%s",
-          vim.inspect(step),
-          vim.inspect(filename),
-          vim.inspect(err)
-        )
-      )
-    end
-  end
-
-  -- The content is written into a private staging file and then renamed over the
-  -- destination. The rename is atomic, so whatever another writer does meanwhile, a
-  -- reader only ever observes a whole file: never a truncated one, never a mix of two
-  -- writes. Opening the destination with "w" and writing into it directly cannot give
-  -- that guarantee, because opening truncates a file that a previous write is still
-  -- filling.
+--- Write `content` into `filename`, replacing it as a whole.
+---
+--- The content goes into a private staging file that is then renamed over the
+--- destination. The rename is atomic, so a reader only ever observes a whole file:
+--- never a truncated one, never a mix of two writes. Opening the destination with "w"
+--- and writing into it directly cannot give that guarantee, because opening truncates
+--- a file, and a reader that arrives in between sees the truncation.
+--- @param filename string  file name.
+--- @param content string   file content.
+--- @return boolean ok
+--- @return string? err     error message when `ok` is false.
+M.write_file = function(filename, content)
   local tmpname = tmp_file(filename)
   local fd, open_err = uv.fs_open(tmpname, "w", FILE_MODE)
   if open_err ~= nil or fd == nil then
@@ -93,54 +74,46 @@ M.write_file_async = function(filename, content, opts)
     return false, msg
   end
 
+  --- @param step string
+  --- @param err string?
+  --- @return false
+  --- @return string
   local function fail(step, err)
     uv.fs_unlink(tmpname)
-    on_error(step, err)
-  end
-
-  local function commit(bytes)
-    ---@diagnostic disable-next-line: param-type-mismatch
-    uv.fs_close(fd, function(on_close_err)
-      if on_close_err ~= nil then
-        return fail("fs_close", on_close_err)
-      end
-      uv.fs_rename(tmpname, filename, function(on_rename_err)
-        if on_rename_err ~= nil then
-          return fail("fs_rename", on_rename_err)
-        end
-        opts.on_complete(bytes)
-      end)
-    end)
-  end
-
-  if #content == 0 then
-    commit(0)
-    return true
+    return false,
+      string.format(
+        "failed to write file(%s), filename:%s, error:%s",
+        vim.inspect(step),
+        vim.inspect(filename),
+        vim.inspect(err)
+      )
   end
 
   -- `fs_write` is allowed to write less than asked for, so loop until the whole
   -- content lands in the staging file.
   local written = 0
-  local function write_more()
-    ---@diagnostic disable-next-line: param-type-mismatch
-    uv.fs_write(fd, content:sub(written + 1), written, function(on_write_err, bytes)
-      if on_write_err ~= nil then
-        uv.fs_close(fd)
-        return fail("fs_write", on_write_err)
-      end
-      if bytes == nil or bytes <= 0 then
-        uv.fs_close(fd)
-        return fail("fs_write", "wrote 0 bytes")
-      end
-      written = written + bytes
-      if written < #content then
-        return write_more()
-      end
-      commit(written)
-    end)
+  while written < #content do
+    local bytes, write_err = uv.fs_write(fd, content:sub(written + 1), written)
+    if write_err ~= nil then
+      uv.fs_close(fd)
+      return fail("fs_write", write_err)
+    end
+    if bytes == nil or bytes <= 0 then
+      uv.fs_close(fd)
+      return fail("fs_write", "wrote 0 bytes")
+    end
+    written = written + bytes
   end
-  write_more()
 
+  local _, close_err = uv.fs_close(fd)
+  if close_err ~= nil then
+    return fail("fs_close", close_err)
+  end
+
+  local _, rename_err = uv.fs_rename(tmpname, filename)
+  if rename_err ~= nil then
+    return fail("fs_rename", rename_err)
+  end
   return true
 end
 
