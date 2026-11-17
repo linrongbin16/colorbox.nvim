@@ -178,7 +178,7 @@ M.info = function(args)
   vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = bufnr })
   vim.api.nvim_set_option_value("buflisted", false, { buf = bufnr })
   vim.api.nvim_set_option_value("filetype", "markdown", { buf = bufnr })
-  vim.keymap.set({ "n" }, "q", ":\\<C-U>quit<CR>", { silent = true, buffer = bufnr })
+  vim.keymap.set({ "n" }, "q", "<cmd>quit<CR>", { silent = true, buffer = bufnr })
 
   local row = get_shift(total_height, height, 0)
   local col = get_shift(total_width, width, 0)
