@@ -8,9 +8,6 @@ local M = {}
 
 -- File I/O.
 
--- 0o666, the default permission of a newly created file.
-local FILE_MODE = 438
-
 -- Monotonic counter that keeps the staging files of this instance apart.
 local tmp_seq = 0
 
@@ -18,25 +15,9 @@ local tmp_seq = 0
 --- @return string? content
 --- @return string? err
 M.read_file = function(filename)
-  local fd, open_err = uv.fs_open(filename, "r", FILE_MODE)
-  if open_err ~= nil or fd == nil then
-    return nil, open_err or "failed to open file"
-  end
-
-  local stat, stat_err = uv.fs_fstat(fd)
-  if stat_err ~= nil or stat == nil then
-    uv.fs_close(fd)
-    return nil, stat_err or "failed to stat file"
-  end
-
-  local content, read_err = uv.fs_read(fd, stat.size, 0)
-  local _, close_err = uv.fs_close(fd)
-
-  if read_err ~= nil then
-    return nil, read_err
-  end
-  if close_err ~= nil then
-    return nil, close_err
+  local ok, content = pcall(vim.fn.readblob, filename)
+  if not ok then
+    return nil, tostring(content)
   end
   return content --[[@as string]]
 end
@@ -64,57 +45,32 @@ end
 --- @return string? err     error message when `ok` is false.
 M.write_file = function(filename, content)
   local tmpname = tmp_file(filename)
-  local fd, open_err = uv.fs_open(tmpname, "w", FILE_MODE)
-  if open_err ~= nil or fd == nil then
-    -- Report the destination the caller asked for, not the staging file name.
-    local msg = open_err or "failed to open file"
-    if msg:find(tmpname, 1, true) ~= nil then
-      msg = msg:gsub(vim.pesc(tmpname), (filename:gsub("%%", "%%%%")))
-    end
-    return false, msg
-  end
 
-  --- @param step string
-  --- @param err string?
-  --- @return false
+  --- Report the destination the caller asked for, not the staging file name.
+  --- @param msg string
   --- @return string
-  local function fail(step, err)
-    uv.fs_unlink(tmpname)
-    return false,
-      string.format(
-        "failed to write file(%s), filename:%s, error:%s",
-        vim.inspect(step),
-        vim.inspect(filename),
-        vim.inspect(err)
-      )
+  local function report(msg)
+    return (msg:gsub(vim.pesc(tmpname), function()
+      return filename
+    end))
   end
 
-  -- `fs_write` is allowed to write less than asked for, so loop until the whole
-  -- content lands in the staging file.
-  local written = 0
-  while written < #content do
-    local bytes, write_err = uv.fs_write(fd, content:sub(written + 1), written)
-    if write_err ~= nil then
-      uv.fs_close(fd)
-      return fail("fs_write", write_err)
+  -- A string is written as the exact bytes it holds, NUL bytes included; the `b` flag
+  -- only matters for a line list, where it drops the newline after the last line.
+  local ok, err = pcall(vim.fn.writefile, content, tmpname, "b")
+  if ok and err ~= 0 then
+    ok, err = false, string.format("writefile returned %s", vim.inspect(err))
+  end
+  if ok then
+    local _, rename_err = uv.fs_rename(tmpname, filename)
+    if rename_err == nil then
+      return true
     end
-    if bytes == nil or bytes <= 0 then
-      uv.fs_close(fd)
-      return fail("fs_write", "wrote 0 bytes")
-    end
-    written = written + bytes
+    ok, err = false, rename_err
   end
 
-  local _, close_err = uv.fs_close(fd)
-  if close_err ~= nil then
-    return fail("fs_close", close_err)
-  end
-
-  local _, rename_err = uv.fs_rename(tmpname, filename)
-  if rename_err ~= nil then
-    return fail("fs_rename", rename_err)
-  end
-  return true
+  uv.fs_unlink(tmpname)
+  return false, report(tostring(err))
 end
 
 -- Number.
